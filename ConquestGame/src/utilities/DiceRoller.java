@@ -1,6 +1,10 @@
 package utilities;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
+import java.util.stream.IntStream;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * <p>This class is used to create a single-ton object that is used
@@ -43,13 +47,15 @@ public class DiceRoller {
 	public int[] roll(int number_dices) {
 		int[] rolls = new int[number_dices];
 		
-		for(int i = 0; i<= number_dices; i++) {
+		for(int i = 0; i< number_dices; i++) {
 			rolls[i] = 1 + rand.nextInt(6 -1 + 1);
 		}
 		
 		Arrays.sort(rolls);
+		ArrayUtils.reverse(rolls);
 		return rolls;
 	}
+	
 	
 	
 }
