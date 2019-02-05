@@ -1,4 +1,5 @@
 package utilities;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -46,6 +47,7 @@ public class DiceRoller {
 			rolls[i] = 1 + rand.nextInt(6 -1 + 1);
 		}
 		
+		Arrays.sort(rolls);
 		return rolls;
 	}
 	
