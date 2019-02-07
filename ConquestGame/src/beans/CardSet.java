@@ -15,10 +15,11 @@ public enum CardSet {
 	ONE_EACH(4);
 	
 	private final int inputValue;
+	
 	CardSet(int input){
 		this.inputValue = input;
 	}
-	public CardSet convertInputToType(int input) {
+	public static CardSet convertInputToType(int input) {
 		for(CardSet c : CardSet.values()) {
 			if(c.getInputValue() == input) {
 				return c;
