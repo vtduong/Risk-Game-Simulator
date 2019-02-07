@@ -10,5 +10,10 @@ import controller.GameController;
  */
 public interface TurnPhase {
 	
+	/**
+	 * abstract method. Implementing classes have to define what to do before going to next phase
+	 * @param controller the Game Controller instance.
+	 * @return true if conditions to go to the next phase is met
+	 */
 	public boolean nextPhase(GameController controller);
 }
