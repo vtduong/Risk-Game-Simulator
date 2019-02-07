@@ -7,7 +7,7 @@ import controller.GameController;
  * Re-enforcement phase
  * @author vanduong
  *
- */
+ *
 public class ReEnforcement implements TurnPhase{
 	
 	private GameController controller = null;
@@ -65,3 +65,4 @@ public class ReEnforcement implements TurnPhase{
 	public int 
 
 }
+**/
