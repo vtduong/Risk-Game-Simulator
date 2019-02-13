@@ -1,47 +1,92 @@
 package phases;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import beans.CardSet;
 import beans.CardType;
 import beans.Player;
 import controller.GameController;
 import beans.Continent;
+import beans.Country;
 
+// TODO: Auto-generated Javadoc
 /**
- * Re-enforcement phase
+ * Re-enforcement phase.
+ *
  * @author vanduong
- *
- *
+ */
 public class ReEnforcement implements TurnPhase{
 	
+	/** The controller. */
 	private GameController controller = null;
+	
+	/** The current player. */
 	private Player curPlayer = null;
+	
+	/** The minimum new armies each user gets in ReEnforcement phase */
 	private final int MIN_NEW_ARMIES = 3;
 	
+	/** The card set choice. */
+	private int cardSetChoice = 0;
 	
+	
+	
+	
+	/* (non-Javadoc)
+	 * @see phases.TurnPhase#nextPhase(controller.GameController)
+	 */
 	public boolean nextPhase(GameController controller) {
 		this.controller = controller;
 		curPlayer = controller.getCurrentPlayer();
-		int numArmie = obtainNewArmies();
+		int numArmies = obtainNewArmies();
+		
+		//request player for army distribution through controller
+		Map<Country, Integer> list = controller.distributeArmies();
+		distributeArmies(list);
 		
 		return false;
 	}
 
-	public int obtainNewArmies(int cardSetChoice) {
+	/**
+	 * distribute number of armies to countries occupied by current player.
+	 *
+	 * @param list the list containing current player's occupied countries along with number of armies to be distributed 
+	 * 
+	 */
+	private void distributeArmies(Map<Country, Integer> list) {
+		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
+			Country country = entry.getKey();
+			int numArmies = entry.getValue();
+			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);;
+		}
+	}
+	
+	
+	
+
+	/**
+	 * Obtain new armies.
+	 *
+	 * @return total new armies current player is granted to be added to existing armies.
+	 */
+	public int obtainNewArmies() {
 		
-		//player's set of cards to be traded (1,2), default 0
-		int setChoice = (cardSetChoice > 0) ? cardSetChoice : 0;
+		//player's choice of set of cards to be traded
+		int setChoice = (cardSetChoice > 1) ? cardSetChoice : 1;
 		//redeem armies by cards
-		int armiesByCards = redeemCards(setChoice);
+		// TODO
+//		int armiesByCards = redeemCards(setChoice);
 		
 		//obtain armies by number of territories occupied
-		int numCountries = controller.getContriesByPlayer(curPlayer).size();
+		int numCountries = curPlayer.getPlayerCountries().size();
 		int numArmies = numCountries / 3;
 		int armiesByCountries = ((numArmies > 3)) ? numArmies : 3;
 		
-		//obtain armies by number of continents controllered
-		List<Continent> continents= controller.getContinentByPlayer(curPlayer);
+		//obtain armies by number of continents controlled
+		List<Continent> continents= curPlayer.getPlayerContinents();
 		int armiesByContinents = 0;
 		for(Continent c : continents) {
 			armiesByContinents += c.getMaxArmies();
@@ -49,11 +94,13 @@ public class ReEnforcement implements TurnPhase{
 		
 		//obtain armies by The specific territory pictured on a traded-in card
 		//NOT APPLICABLE
-		int totalNewArmies = armiesByCards + armiesByCountries + armiesByContinents;
-		curPlayer.setNumArmies(curPlayer.getNumArmies() + totalNewArmies);
+		//TODO add armiesByCards later
+		int totalNewArmies = armiesByCountries + armiesByContinents;
+		curPlayer.increaseArmies(totalNewArmies);
 		return totalNewArmies;
 	}
-
+	// TODO redeemCards
+/**
 	public int redeemCards(int setChoice) throws IllegalArgumentException{
 		CardSet set = CardSet.convertInputToType(setChoice);
 		int numCards = curPlayer.getNumCards();
@@ -111,10 +158,8 @@ public class ReEnforcement implements TurnPhase{
 		int numArmies = convertCards
 		return 0;
 	}
+	**/
 	
 	
-	
-	public int 
 
 }
-**/

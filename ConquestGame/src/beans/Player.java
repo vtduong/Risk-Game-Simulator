@@ -131,7 +131,7 @@ public class Player {
 		
 		this.occupiedCountries.put(country_name, country);
 	}
-	
+		
 	
 	/**
 	 * @param countries_name The names of the countries that needs to
@@ -191,6 +191,16 @@ public class Player {
 				this.occupiedCountries.values());
 		
 		return countries;
+	}
+	
+	/**
+	 * Gets the country by name.
+	 *
+	 * @param name the name
+	 * @return the country by name
+	 */
+	public Country getCountryByName(String name) {
+		return occupiedCountries.get(name);
 	}
 	
 	/**
