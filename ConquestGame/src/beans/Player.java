@@ -113,7 +113,7 @@ public class Player {
 		
 		this.occupied_countries.put(country_name, country);
 	}
-	
+		
 	
 	/**
 	 * @param countries_name The names of the countries that needs to
@@ -202,9 +202,19 @@ public class Player {
 	}
 	
 	/**
+	 * Gets the country by name.
+	 *
+	 * @param name the name
+	 * @return the country by name
+	 */
+	public Country getCountryByName(String name) {
+		return occupied_countries.get(name);
+	}
+	
+	/**
 	 * @return The list of continents that the player occupied.
 	 */
-	public List<Continent> getPlayerContinent() {
+	public List<Continent> getPlayerContinents() {
 		List<Continent> continents = new ArrayList<Continent>(
 				this.occupied_continents.values());
 		

@@ -2,6 +2,7 @@ package phases;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import beans.CardSet;
@@ -24,45 +25,36 @@ public class ReEnforcement implements TurnPhase{
 	private int cardSetChoice = 0;
 	
 	
+	
 	public boolean nextPhase(GameController controller) {
 		this.controller = controller;
 		curPlayer = controller.getCurrentPlayer();
 		int numArmies = obtainNewArmies();
-		HashMap<String, Integer> distributionList = distributeArmies();
+		
+//		HashMap<String, Integer> distributionList = distributeArmies();
 		
 		return false;
 	}
 
 	/**
+	 * distribute number of armies to countries occupied by current player
 	 * @return
 	 */
-	private HashMap<String, Integer> distributeArmies() {
-		HashMap <String, Integer> distributionList = new HashMap();
-		List<Country> countries = curPlayer.getPlayerCountries();
-		int numArmies = curPlayer.getArmies();
-		
-		return null;
+	private void distributeArmies(Map<Country, Integer> list) {
+		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
+			Country country = entry.getKey();
+			int numArmies = entry.getValue();
+			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);;
+		}
 	}
 	
-	public void randomizeCountryDistribution(List<Country> countries, List<Player> players) {
-	    Random rand = new Random();
-	 
-	    int numberOfElements = 1;
-	    
-	    for(int j = 0; j < players.size(); j++) {
-	    	for (int i = 0; i < numberOfElements; i++) {
-		        int randomIndex = rand.nextInt(countries.size());
-		        Country randomElement = countries.get(randomIndex);
-		        countries.remove(randomIndex);
-		    }
-	    }
-	    
-	}
+	
+	
 
 	public int obtainNewArmies() {
 		
-		//player's set of cards to be traded (1,2), default 0
-		int setChoice = (cardSetChoice > 0) ? cardSetChoice : 0;
+		//player's choice of set of cards to be traded
+		int setChoice = (cardSetChoice > 1) ? cardSetChoice : 1;
 		//redeem armies by cards
 		// TODO
 //		int armiesByCards = redeemCards(setChoice);
