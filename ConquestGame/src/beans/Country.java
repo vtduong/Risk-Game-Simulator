@@ -1,15 +1,25 @@
 package beans;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Country.
+ */
 public class Country {
+	
+	/** The name. */
 	private String name = null;
+	
+	/** The number of armies currently occupied in this country. */
 	private int numArmies;
+	
+	/** The owner. */
 	private Player owner = null;
 	
 	
 	/**
-	 * @param name
-	 * @param numArmies
-	 * @param owner
+	 * Instantiates a new country.
+	 *
+	 * @param name the country name
 	 */
 	public Country(String name) {
 		super();
@@ -19,6 +29,8 @@ public class Country {
 
 
 	/**
+	 * Gets the name.
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -27,6 +39,8 @@ public class Country {
 
 
 	/**
+	 * Sets the name.
+	 *
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
@@ -35,6 +49,8 @@ public class Country {
 
 
 	/**
+	 * Gets the number of armies.
+	 *
 	 * @return the numArmies
 	 */
 	public int getNumArmies() {
@@ -43,6 +59,8 @@ public class Country {
 
 
 	/**
+	 * Sets the number armies.
+	 *
 	 * @param numArmies the numArmies to set
 	 */
 	public void setNumArmies(int numArmies) {
@@ -51,6 +69,8 @@ public class Country {
 
 
 	/**
+	 * Gets the owner.
+	 *
 	 * @return the owner
 	 */
 	public Player getOwner() {
@@ -59,6 +79,8 @@ public class Country {
 
 
 	/**
+	 * Sets the owner.
+	 *
 	 * @param owner the owner to set
 	 */
 	public void setOwner(Player owner) {

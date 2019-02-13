@@ -200,7 +200,7 @@ public class Player {
 	 * @return the country by name
 	 */
 	public Country getCountryByName(String name) {
-		return occupied_countries.get(name);
+		return occupiedCountries.get(name);
 	}
 	
 	/**

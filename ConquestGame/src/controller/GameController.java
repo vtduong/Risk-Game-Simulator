@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import beans.*;
 import phases.TurnPhase;
+import utilities.DiceRoller;
 
 /*
  * @description :
@@ -16,6 +17,8 @@ import phases.TurnPhase;
  */
 public class GameController {
 	
+	
+	private static GameController controller= null;
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	int numberOfPlayers;
 	Map<Player, ArrayList<Country>> countryOwnership = null;
@@ -23,6 +26,15 @@ public class GameController {
 	GameController(){
 		countryOwnership = new HashMap();
 	}
+	
+	
+	public static GameController getInstance() {
+		if(controller == null) {
+			return new GameController();
+		}
+		return controller;
+	}
+	
 	/*
 	 * @description :
 	 * @author
@@ -98,5 +110,14 @@ public class GameController {
 	    }
 	    
 	    
+	}
+	/**
+	 * Asks GUI to create a window for user to input number of armies to be distributed to each occupied countries
+	 * @return
+	 */
+	public Map<Country, Integer> distributeArmies() {
+		
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

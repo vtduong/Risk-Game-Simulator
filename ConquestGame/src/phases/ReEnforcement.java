@@ -12,33 +12,49 @@ import controller.GameController;
 import beans.Continent;
 import beans.Country;
 
+// TODO: Auto-generated Javadoc
 /**
- * Re-enforcement phase
- * @author vanduong
+ * Re-enforcement phase.
  *
+ * @author vanduong
  */
 public class ReEnforcement implements TurnPhase{
 	
+	/** The controller. */
 	private GameController controller = null;
+	
+	/** The current player. */
 	private Player curPlayer = null;
+	
+	/** The minimum new armies each user gets in ReEnforcement phase */
 	private final int MIN_NEW_ARMIES = 3;
+	
+	/** The card set choice. */
 	private int cardSetChoice = 0;
 	
 	
 	
+	
+	/* (non-Javadoc)
+	 * @see phases.TurnPhase#nextPhase(controller.GameController)
+	 */
 	public boolean nextPhase(GameController controller) {
 		this.controller = controller;
 		curPlayer = controller.getCurrentPlayer();
 		int numArmies = obtainNewArmies();
 		
-//		HashMap<String, Integer> distributionList = distributeArmies();
+		//request player for army distribution through controller
+		Map<Country, Integer> list = controller.distributeArmies();
+		distributeArmies(list);
 		
 		return false;
 	}
 
 	/**
-	 * distribute number of armies to countries occupied by current player
-	 * @return
+	 * distribute number of armies to countries occupied by current player.
+	 *
+	 * @param list the list containing current player's occupied countries along with number of armies to be distributed 
+	 * 
 	 */
 	private void distributeArmies(Map<Country, Integer> list) {
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
@@ -51,6 +67,11 @@ public class ReEnforcement implements TurnPhase{
 	
 	
 
+	/**
+	 * Obtain new armies.
+	 *
+	 * @return total new armies current player is granted to be added to existing armies.
+	 */
 	public int obtainNewArmies() {
 		
 		//player's choice of set of cards to be traded
