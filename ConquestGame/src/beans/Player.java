@@ -2,7 +2,6 @@ package beans;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -17,9 +16,28 @@ public class Player {
 	private int armies;
 	private HashMap<String, Country> occupied_countries;
 	private HashMap<String, Continent> occupied_continents;
-	private HashSet<Object> cards;
+	private CardType cards;
 	
 	
+	
+	/**
+	 * @return The CardType object.
+	 */
+	public CardType getCards() {
+		return cards;
+	}
+
+
+
+	/**
+	 * @param cards The CardType object
+	 */
+	public void setCards(CardType cards) {
+		this.cards = cards;
+	}
+
+
+
 	/**
 	 * @param player_name This is the player's name.
 	 * @param is_human true if the player is human, otherwise false.
@@ -162,32 +180,6 @@ public class Player {
 	}
 	
 	
-	/**
-	 * @param card Give a card to the player if he/she wins
-	 * the battle.
-	 */
-	public void addCard(Object card) {
-		
-		this.cards.add(card);
-	}
-	
-	
-	/**
-	 * @param card This is used to remove the card from the player.
-	 */
-	public void removeCard(Object card) {
-		
-		this.cards.remove(card);
-	}
-	
-	
-	/**
-	 * This method is used to remove all the cards of the player.
-	 */
-	public void removeAllCards() {
-		
-		this.cards.clear();
-	}
 	
 	
 	/**
