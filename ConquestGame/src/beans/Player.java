@@ -11,11 +11,11 @@ import java.util.List;
 public class Player {
 	
 
-	private final String player_name;
-	private final boolean is_human;
+	private final String playerName;
+	private final boolean isHuman;
 	private int armies;
-	private HashMap<String, Country> occupied_countries;
-	private HashMap<String, Continent> occupied_continents;
+	private HashMap<String, Country> occupiedCountries;
+	private HashMap<String, Continent> occupiedContinents;
 	private CardType cards;
 	
 	
@@ -39,18 +39,18 @@ public class Player {
 
 
 	/**
-	 * @param player_name This is the player's name.
-	 * @param is_human true if the player is human, otherwise false.
+	 * @param playerName This is the player's name.
+	 * @param isHuman true if the player is human, otherwise false.
 	 * @param armies The number of armies player holds.
 	 */
-	public Player(String player_name, boolean is_human, int armies) {
+	public Player(String playerName, boolean isHuman, int armies) {
 		
 		super();
-		this.player_name = player_name;
-		this.is_human = is_human;
+		this.playerName = playerName;
+		this.isHuman = isHuman;
 		this.armies = armies;
-		this.occupied_continents = new HashMap<String, Continent>();
-		this.occupied_countries = new HashMap<String, Country>();
+		this.occupiedContinents = new HashMap<String, Continent>();
+		this.occupiedCountries = new HashMap<String, Country>();
 	}
 	
 	
@@ -59,7 +59,7 @@ public class Player {
 	 * @return The name of the player.
 	 */
 	public String getPlayerName() {
-		return player_name;
+		return playerName;
 	}
 	
 	
@@ -68,7 +68,7 @@ public class Player {
 	 * @return true if the player is human, otherwise returns false.
 	 */
 	public boolean isHuman() {
-		return is_human;
+		return isHuman;
 	}
 	
 	
@@ -117,7 +117,7 @@ public class Player {
 	 */
 	public void addContinent(String continent_name, Continent continent) {
 		
-		this.occupied_continents.put(continent_name, continent);
+		this.occupiedContinents.put(continent_name, continent);
 	}
 	
 	
@@ -129,7 +129,7 @@ public class Player {
 	 */
 	public void addCountry(String country_name, Country country) {
 		
-		this.occupied_countries.put(country_name, country);
+		this.occupiedCountries.put(country_name, country);
 	}
 		
 	
@@ -141,7 +141,7 @@ public class Player {
 	public void addCountries(String[] countries_name, Country[] countries) {
 		
 		for(int i = 0; i < countries.length ; i++)
-			this.occupied_countries.put(countries_name[i],
+			this.occupiedCountries.put(countries_name[i],
 					countries[i]);
 	}
 	
@@ -154,7 +154,7 @@ public class Player {
 	public void addContinents(String[] continents_name, Continent[] continents) {
 		
 		for(int i = 0; i <continents.length; i++)
-			this.occupied_continents.put(continents_name[i],
+			this.occupiedContinents.put(continents_name[i],
 					continents[i]);
 	}
 	
@@ -165,7 +165,7 @@ public class Player {
 	 */
 	public void removeCountry(String country) {
 		
-		this.occupied_countries.remove(country);
+		this.occupiedCountries.remove(country);
 	}
 	
 	
@@ -176,7 +176,7 @@ public class Player {
 	 */
 	public void removeContinent(String continent) {
 		
-		this.occupied_continents.remove(continent);
+		this.occupiedContinents.remove(continent);
 	}
 	
 	
@@ -188,7 +188,7 @@ public class Player {
 	public List<Country> getPlayerCountries() {
 		
 		List<Country> countries = new ArrayList<Country>(
-				this.occupied_countries.values());
+				this.occupiedCountries.values());
 		
 		return countries;
 	}
@@ -208,7 +208,7 @@ public class Player {
 	 */
 	public List<Continent> getPlayerContinents() {
 		List<Continent> continents = new ArrayList<Continent>(
-				this.occupied_continents.values());
+				this.occupiedContinents.values());
 		
 		return continents;
 	}
