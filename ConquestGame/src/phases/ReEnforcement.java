@@ -35,19 +35,20 @@ public class ReEnforcement implements TurnPhase{
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see phases.TurnPhase#nextPhase(controller.GameController)
+	/**
+	 * This methods calls 2 other private methods to 1) obtain new armies and 2) distribute armies among occupied countries 
 	 */
-	public boolean nextPhase(GameController controller) {
+	public void nextPhase(GameController controller) {
 		this.controller = controller;
 		curPlayer = controller.getCurrentPlayer();
 		int numArmies = obtainNewArmies();
 		
-		//request player for army distribution through controller
+		//ask controller to request user input for army distribution
 		Map<Country, Integer> list = controller.distributeArmies();
 		distributeArmies(list);
 		
-		return false;
+		//go to next phase
+		controller.setPhase(new Attack());
 	}
 
 	/**
@@ -66,13 +67,15 @@ public class ReEnforcement implements TurnPhase{
 	
 	
 	
+	
+	
 
 	/**
 	 * Obtain new armies.
 	 *
 	 * @return total new armies current player is granted to be added to existing armies.
 	 */
-	public int obtainNewArmies() {
+	private int obtainNewArmies() {
 		
 		//player's choice of set of cards to be traded
 		int setChoice = (cardSetChoice > 1) ? cardSetChoice : 1;

@@ -8,8 +8,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 import beans.*;
+import phases.ReEnforcement;
 import phases.TurnPhase;
 import utilities.DiceRoller;
+import utilities.Tuple;
 
 /*
  * @description :
@@ -22,6 +24,7 @@ public class GameController {
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	int numberOfPlayers;
 	Map<Player, ArrayList<Country>> countryOwnership = null;
+	TurnPhase currentPhase = null;
 	
 	GameController(){
 		countryOwnership = new HashMap();
@@ -60,16 +63,15 @@ public class GameController {
 	 * @description :
 	 * @author
 	 */
-	public boolean setPhase(TurnPhase turnPhase) {
-		return false;
+	public void setPhase(TurnPhase turnPhase) {
+		currentPhase = turnPhase;
 	}
     
-	/*
-	 * @description :
-	 * @author
-	 */
-	public boolean nextPhase() {
-		return false;
+	public void takeTurns() {
+		currentPhase = new ReEnforcement();
+		while(currentPhase != null) {
+			currentPhase.nextPhase(this);
+		}
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class GameController {
 	    
 	}
 	/**
-	 * Asks GUI to create a window for user to input number of armies to be distributed to each occupied countries
+	 * Asks GUI to ask user to input number of armies to be distributed to each occupied countries
 	 * @return
 	 */
 	public Map<Country, Integer> distributeArmies() {
@@ -120,4 +122,24 @@ public class GameController {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	/**
+	 * Ask GUI to ask user for permission to continue fortifying countries
+	 */
+	public void askToFortify() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
+	 * @return a set of 3 objects: country to move armies from, country to move armies to, and number of armies
+	 * 
+	 */
+//	public Tuple getParamsForMoving() {
+//		return 
+//		
+//	}
+	// TODO implement the method
 }
