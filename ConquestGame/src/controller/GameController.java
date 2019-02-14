@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import beans.*;
+import gui.GUI;
 import phases.ReEnforcement;
 import phases.TurnPhase;
 import utilities.DiceRoller;
@@ -127,8 +128,8 @@ public class GameController {
 	/**
 	 * Ask GUI to ask user for permission to continue fortifying countries
 	 */
-	public void askToFortify() {
-		// TODO Auto-generated method stub
+	public boolean isDoneFortification() {
+		return GUI.isDoneFortification();
 		
 	}
 
@@ -137,9 +138,9 @@ public class GameController {
 	 * @return a set of 3 objects: country to move armies from, country to move armies to, and number of armies
 	 * 
 	 */
-//	public Tuple getParamsForMoving() {
-//		return 
-//		
-//	}
+	public Tuple getParamsForFortification() {
+		return GUI.getFortificationInfo();
+		
+	}
 	// TODO implement the method
 }
