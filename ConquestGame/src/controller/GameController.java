@@ -71,7 +71,12 @@ public class GameController {
 	public void takeTurns() {
 		currentPhase = new ReEnforcement();
 		while(currentPhase != null) {
-			currentPhase.nextPhase(this);
+			try {
+				currentPhase.nextPhase(this);
+			}catch(IllegalArgumentException e) {
+				GUI.handleExceptions(e.getMessage());
+			}
+			
 		}
 	}
 

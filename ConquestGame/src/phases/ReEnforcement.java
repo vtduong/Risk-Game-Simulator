@@ -18,7 +18,7 @@ import beans.Country;
  *
  * @author vanduong
  */
-public class ReEnforcement implements TurnPhase{
+public class ReEnforcement implements TurnPhase {
 	
 	/** The controller. */
 	private GameController controller = null;
