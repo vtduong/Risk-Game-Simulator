@@ -3,6 +3,7 @@
  */
 package gui;
 
+import beans.Observable;
 import utilities.Tuple;
 
 /**
@@ -10,7 +11,7 @@ import utilities.Tuple;
  * @author vanduong
  *
  */
-public class GUI {
+public class GUI implements Observer{
 
 	/**
 	 * @return a tuple containing: country to move armies from, country to move armies to, and number of armies
@@ -33,6 +34,15 @@ public class GUI {
 	 * @param message
 	 */
 	public static void handleExceptions(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see gui.Observer#update(beans.Observable)
+	 */
+	@Override
+	public void update(Observable sub) {
 		// TODO Auto-generated method stub
 		
 	}

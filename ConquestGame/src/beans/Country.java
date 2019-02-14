@@ -1,10 +1,15 @@
 package beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import gui.Observer;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Country.
  */
-public class Country {
+public class Country implements Observable{
 	
 	/** The name. */
 	private String name = null;
@@ -15,6 +20,9 @@ public class Country {
 	/** The owner. */
 	private Player owner = null;
 	
+	/** The observer list. */
+	private List<Observer> obList = null;
+	
 	
 	/**
 	 * Instantiates a new country.
@@ -24,6 +32,7 @@ public class Country {
 	public Country(String name) {
 		super();
 		this.name = name;
+		obList = new ArrayList<Observer>();
 	}
 	
 
@@ -85,6 +94,41 @@ public class Country {
 	 */
 	public void setOwner(Player owner) {
 		this.owner = owner;
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see beans.Observable#attach(gui.Observer)
+	 */
+	@Override
+	public void attach(Observer ob) {
+		obList.add(ob);
+		
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see beans.Observable#detach(gui.Observer)
+	 */
+	@Override
+	public void detach(Observer ob) {
+		obList.remove(ob);
+		
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see beans.Observable#notifyChanges()
+	 */
+	@Override
+	public void notifyChanges() {
+		for(Observer o : obList) {
+			o.update(this);
+		}
+		
 	}
 	
 	
