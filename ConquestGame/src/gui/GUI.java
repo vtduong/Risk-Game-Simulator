@@ -28,5 +28,14 @@ public class GUI {
 		return false;
 	}
 
+	/**
+	 * display error messages
+	 * @param message
+	 */
+	public static void handleExceptions(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

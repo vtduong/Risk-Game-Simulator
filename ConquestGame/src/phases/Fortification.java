@@ -22,7 +22,7 @@ public class Fortification implements TurnPhase{
 	/* (non-Javadoc)
 	 * @see phases.TurnPhase#nextPhase(controller.GameController)
 	 */
-	public void nextPhase(GameController controller) {
+	public void nextPhase(GameController controller) throws IllegalArgumentException {
 		curPlayer = controller.getCurrentPlayer();
 		//move armies from one (and only one) country to another neighboring country
 		do {
