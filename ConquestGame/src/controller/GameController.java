@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import beans.*;
 import gui.GUI;
+import phases.Attack;
 import phases.ReEnforcement;
 import phases.TurnPhase;
 import utilities.DiceRoller;
@@ -26,6 +27,7 @@ public class GameController {
 	int numberOfPlayers;
 	Map<Player, ArrayList<Country>> countryOwnership = null;
 	TurnPhase currentPhase = null;
+	private boolean readyForNextPhase = false;
 	
 	GameController(){
 		countryOwnership = new HashMap();
@@ -71,14 +73,32 @@ public class GameController {
 	public void takeTurns() {
 		currentPhase = new ReEnforcement();
 		while(currentPhase != null) {
-			try {
-				currentPhase.nextPhase(this);
-			}catch(IllegalArgumentException e) {
-				GUI.handleExceptions(e.getMessage());
+			while(!readyForNextPhase) {
+				try {
+					if(currentPhase instanceof Attack) {
+						if(!isWar()) {
+							break;
+						}
+					}
+					currentPhase.takePhase(this);
+					readyForNextPhase = readyForNextPhase();
+				}catch(IllegalArgumentException e) {
+					GUI.handleExceptions(e.getMessage());
+				}
 			}
-			
+			currentPhase.setNextPhase(controller);
 		}
 	}
+
+	/**
+	 * Request GUI to ask if user wants to go to war
+	 * @return true if user wants to go to war
+	 */
+	private boolean isWar() {
+		return GUI.isWar();
+		
+	}
+
 
 	/**
 	 * @return current player
@@ -131,10 +151,10 @@ public class GameController {
 
 
 	/**
-	 * Ask GUI to ask user for permission to continue fortifying countries
+	 * Ask GUI to ask if user is ready for next phase
 	 */
-	public boolean isDoneFortification() {
-		return GUI.isDoneFortification();
+	public boolean readyForNextPhase() {
+		return GUI.readyForNextPhase();
 		
 	}
 

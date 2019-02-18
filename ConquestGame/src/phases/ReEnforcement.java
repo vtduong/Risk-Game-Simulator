@@ -38,17 +38,13 @@ public class ReEnforcement implements TurnPhase {
 	/**
 	 * This methods calls 2 other private methods to 1) obtain new armies and 2) distribute armies among occupied countries 
 	 */
-	public void nextPhase(GameController controller) {
+	public void takePhase(GameController controller) {
 		this.controller = controller;
 		curPlayer = controller.getCurrentPlayer();
 		int numArmies = obtainNewArmies();
 		
 		//ask controller to request user input for army distribution
-		Map<Country, Integer> list = controller.distributeArmies();
-		distributeArmies(list);
-		
-		//go to next phase
-		controller.setPhase(new Attack());
+		distributeArmies();
 	}
 
 	/**
@@ -57,7 +53,8 @@ public class ReEnforcement implements TurnPhase {
 	 * @param list the list containing current player's occupied countries along with number of armies to be distributed 
 	 * 
 	 */
-	private void distributeArmies(Map<Country, Integer> list) {
+	private void distributeArmies() {
+		Map<Country, Integer> list = controller.distributeArmies();
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
 			Country country = entry.getKey();
 			int numArmies = entry.getValue();
@@ -86,7 +83,7 @@ public class ReEnforcement implements TurnPhase {
 		//obtain armies by number of territories occupied
 		int numCountries = curPlayer.getPlayerCountries().size();
 		int numArmies = numCountries / 3;
-		int armiesByCountries = ((numArmies > 3)) ? numArmies : 3;
+		int armiesByCountries = ((numArmies > MIN_NEW_ARMIES)) ? numArmies : MIN_NEW_ARMIES;
 		
 		//obtain armies by number of continents controlled
 		List<Continent> continents= curPlayer.getPlayerContinents();
@@ -162,6 +159,15 @@ public class ReEnforcement implements TurnPhase {
 		return 0;
 	}
 	**/
+
+	/* (non-Javadoc)
+	 * @see phases.TurnPhase#setNextPhase(controller.GameController)
+	 */
+	@Override
+	public void setNextPhase(GameController controller) {
+		controller.setPhase(new Attack());
+		
+	}
 	
 	
 
