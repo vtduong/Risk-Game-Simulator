@@ -13,8 +13,7 @@ import utilities.Tuple;
  */
 public class Fortification implements TurnPhase{
 
-	/** The is done moving. false if user is not done with fortification*/
-	private boolean isDoneMoving = false;
+	
 	
 	/** The current player. */
 	private Player curPlayer = null;
@@ -22,18 +21,12 @@ public class Fortification implements TurnPhase{
 	/* (non-Javadoc)
 	 * @see phases.TurnPhase#nextPhase(controller.GameController)
 	 */
-	public void nextPhase(GameController controller) throws IllegalArgumentException {
+	public void takePhase(GameController controller) throws IllegalArgumentException {
 		curPlayer = controller.getCurrentPlayer();
 		//move armies from one (and only one) country to another neighboring country
-		do {
 			Tuple tuple = controller.getParamsForFortification();
 			moveArmies(tuple.getFromCountry(), tuple.getToCountry(), tuple.getNumArmies());
-			//ask controller to ask user for permission to continue fortifying
-			isDoneMoving = controller.isDoneFortification();
-		}while(!isDoneMoving);
 		
-		//set phase back to before re-enforcement
-		controller.setPhase(null);
 	}
 
 	/**
@@ -53,6 +46,15 @@ public class Fortification implements TurnPhase{
 		}
 		from.setNumArmies(from.getNumArmies() - numArmies);
 		to.setNumArmies(to.getNumArmies() + numArmies);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see phases.TurnPhase#setNextPhase()
+	 */
+	@Override
+	public void setNextPhase(GameController controller) {
+		controller.setPhase(null);
 		
 	}
 
