@@ -28,9 +28,12 @@ public class GameController {
 	Map<Player, ArrayList<Country>> countryOwnership = null;
 	TurnPhase currentPhase = null;
 	private boolean readyForNextPhase = false;
+	private Player currentPlayer;
+	private ArrayList<Player> playerList;
 	
 	GameController(){
 		countryOwnership = new HashMap();
+		playerList = new ArrayList<Player>();
 	}
 	
 	
@@ -52,6 +55,10 @@ public class GameController {
 		
 	}
 	
+	public void addPlayer(Player player) {
+		
+	}
+	
 	/*
 	 * @description :
 	 * @author
@@ -70,7 +77,7 @@ public class GameController {
 		currentPhase = turnPhase;
 	}
     
-	public void takeTurns() {
+	public void takePhases() {
 		currentPhase = new ReEnforcement();
 		while(currentPhase != null) {
 			while(!readyForNextPhase) {
@@ -105,8 +112,11 @@ public class GameController {
 	 * @author Van
 	 */
 	public Player getCurrentPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return currentPlayer;
+	}
+	
+	public void setCurrentPlayer(Player player) {
+		currentPlayer = player;
 	}
 	
 	public void initGame() {
@@ -144,9 +154,7 @@ public class GameController {
 	 * @return
 	 */
 	public Map<Country, Integer> distributeArmies() {
-		
-		// TODO Auto-generated method stub
-		return null;
+		return GUI.distributeArmies();
 	}
 
 
