@@ -77,6 +77,15 @@ public class Player implements Observable {
 		obList = new ArrayList<Observer>();
 	}
 	
+	/**
+	 * Instantiates a new player.
+	 *
+	 * @param name the name
+	 */
+	public Player(String name) {
+		this(name, true, 0);
+	}
+	
 	
 	
 	/**
