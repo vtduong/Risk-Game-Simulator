@@ -53,7 +53,7 @@ public class ReEnforcement implements TurnPhase {
 	 * @param list the list containing current player's occupied countries along with number of armies to be distributed 
 	 * 
 	 */
-	private void distributeArmies() {
+	public void distributeArmies() {
 		Map<Country, Integer> list = controller.distributeArmies();
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
 			Country country = entry.getKey();
@@ -72,7 +72,7 @@ public class ReEnforcement implements TurnPhase {
 	 *
 	 * @return total new armies current player is granted to be added to existing armies.
 	 */
-	private int obtainNewArmies() {
+	public int obtainNewArmies() {
 		
 		//player's choice of set of cards to be traded
 		int setChoice = (cardSetChoice > 1) ? cardSetChoice : 1;
