@@ -20,11 +20,9 @@ import beans.Country;
  */
 public class ReEnforcement implements TurnPhase {
 	
-	/** The controller. */
-	private GameController controller = null;
-	
+	GameController controller = GameController.getInstance();
 	/** The current player. */
-	private Player curPlayer = null;
+	private Player curPlayer = controller.getCurrentPlayer();
 	
 	/** The minimum new armies each user gets in ReEnforcement phase */
 	private final int MIN_NEW_ARMIES = 3;
@@ -33,15 +31,11 @@ public class ReEnforcement implements TurnPhase {
 	private int cardSetChoice = 0;
 	
 	
-	
-	
 	/**
 	 * This methods calls 2 other private methods to 1) obtain new armies and 2) distribute armies among occupied countries 
 	 */
-	public void takePhase(GameController controller) {
-		this.controller = controller;
-		curPlayer = controller.getCurrentPlayer();
-		int numArmies = obtainNewArmies();
+	public void takePhase() {
+		obtainNewArmies();
 		
 		//ask controller to request user input for army distribution
 		distributeArmies();
@@ -164,7 +158,7 @@ public class ReEnforcement implements TurnPhase {
 	 * @see phases.TurnPhase#setNextPhase(controller.GameController)
 	 */
 	@Override
-	public void setNextPhase(GameController controller) {
+	public void setNextPhase() {
 		controller.setPhase(new Attack());
 		
 	}

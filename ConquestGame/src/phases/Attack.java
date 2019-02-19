@@ -1,5 +1,6 @@
 package phases;
 
+import beans.Player;
 import controller.GameController;
 
 /**
@@ -8,8 +9,12 @@ import controller.GameController;
  *
  */
 public class Attack implements TurnPhase{
+	
+	GameController controller = GameController.getInstance();
+	private Player curPlayer = controller.getCurrentPlayer();
+	
 
-	public void takePhase(GameController controller) {
+	public void takePhase() {
 		// TODO Auto-generated method stub
 	}
 
@@ -17,7 +22,7 @@ public class Attack implements TurnPhase{
 	 * @see phases.TurnPhase#setNextPhase(controller.GameController)
 	 */
 	@Override
-	public void setNextPhase(GameController controller) {
+	public void setNextPhase() {
 		controller.setPhase(new Fortification());
 		
 	}

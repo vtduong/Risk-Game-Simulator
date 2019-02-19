@@ -14,14 +14,14 @@ public interface TurnPhase {
 	
 	/**
 	 * abstract method. Implementing classes have to define what to do before going to next phase
-	 * @param controller the Game Controller instance.
+	 * 
 	 */
-	public void takePhase(GameController controller);
+	public void takePhase();
 	
 	/**
 	 * Sets the next phase.
 	 *
-	 * @param controller the Game Controller instance
+	 *
 	 */
-	public void setNextPhase(GameController controller);
+	public void setNextPhase();
 }
