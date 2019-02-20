@@ -77,8 +77,9 @@ public class ReEnforcementTest {
 		String [] moreCountryNames = {mex.getName(), eng.getName(), ger.getName(), rus.getName()};
 		Country [] moreCountries = {mex, eng, ger, rus};
 		gamer1.addCountries(moreCountryNames, moreCountries);
-		assertEquals(7, gamer1.getPlayerCountries().size());
-//		assertEquals(7, gamer1.getArmies());
+		assertEquals(8, gamer1.getPlayerCountries().size());
+		phase.obtainNewArmies();
+		assertEquals(8, gamer1.getArmies());
 	}
 
 }
