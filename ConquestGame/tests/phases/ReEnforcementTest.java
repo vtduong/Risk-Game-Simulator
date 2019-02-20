@@ -31,6 +31,8 @@ public class ReEnforcementTest {
 	Country france = new Country("France");
 	Country rus	= new Country("Russia");
 	Country china = new Country("China");
+	Country congo = new Country("Congo");
+	Country ugan = new Country("Uganda");
 	
 	Continent america = new Continent("Ameria", 3);
 	Continent europe = new Continent("Europe", 2);
@@ -80,6 +82,18 @@ public class ReEnforcementTest {
 		assertEquals(8, gamer1.getPlayerCountries().size());
 		phase.obtainNewArmies();
 		assertEquals(8, gamer1.getArmies());
+		String [] names = {france.getName(), china.getName(), ugan.getName(), congo.getName()};
+		Country [] Additionalcountries = {france, china, ugan, congo};
+		gamer1.addCountries(names, Additionalcountries);
+		assertEquals(12, gamer1.getPlayerCountries().size());
+		phase.obtainNewArmies();
+		assertEquals(13, gamer1.getArmies());
+		
+	}
+	
+	@Test
+	public void testDistributeArmies() {
+		
 	}
 
 }
