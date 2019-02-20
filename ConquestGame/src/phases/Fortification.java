@@ -12,16 +12,15 @@ import utilities.Tuple;
  * @author vanduong
  */
 public class Fortification implements TurnPhase{
-
 	
-	
+	GameController controller = GameController.getInstance();
 	/** The current player. */
-	private Player curPlayer = null;
+	private Player curPlayer = controller.getCurrentPlayer();
 	
 	/* (non-Javadoc)
 	 * @see phases.TurnPhase#nextPhase(controller.GameController)
 	 */
-	public void takePhase(GameController controller) throws IllegalArgumentException {
+	public void takePhase() throws IllegalArgumentException {
 		curPlayer = controller.getCurrentPlayer();
 		//move armies from one (and only one) country to another neighboring country
 			Tuple tuple = controller.getParamsForFortification();
@@ -53,7 +52,7 @@ public class Fortification implements TurnPhase{
 	 * @see phases.TurnPhase#setNextPhase()
 	 */
 	@Override
-	public void setNextPhase(GameController controller) {
+	public void setNextPhase() {
 		controller.setPhase(null);
 		
 	}

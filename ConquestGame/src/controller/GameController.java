@@ -36,13 +36,19 @@ public class GameController {
 		playerList = new ArrayList<Player>();
 	}
 	
+
+	public static GameController getInstance(){
+	    if(controller == null){
+	        synchronized (GameController.class) {
+	            if(controller == null){
+	                controller = new GameController();
+	            }
+	        }
+    }
+    return controller;
+}
+
 	
-	public static GameController getInstance() {
-		if(controller == null) {
-			return new GameController();
-		}
-		return controller;
-	}
 	
 	/*
 	 * @description :
@@ -51,12 +57,16 @@ public class GameController {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		GameController controller = new GameController();
-	    //TODO  
+	    //TODO  we need more than this
 		
 	}
 	
 	public void addPlayer(Player player) {
-		
+		playerList.add(player);
+	}
+	
+	public Player getPlayer(int idx) {
+		return playerList.get(idx);
 	}
 	
 	/*
@@ -87,13 +97,13 @@ public class GameController {
 							break;
 						}
 					}
-					currentPhase.takePhase(this);
+					currentPhase.takePhase();
 					readyForNextPhase = readyForNextPhase();
 				}catch(IllegalArgumentException e) {
 					GUI.handleExceptions(e.getMessage());
 				}
 			}
-			currentPhase.setNextPhase(controller);
+			currentPhase.setNextPhase();
 		}
 	}
 
