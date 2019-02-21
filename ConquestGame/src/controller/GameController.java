@@ -83,7 +83,7 @@ public class GameController {
 	 * @description :
 	 * @author
 	 */
-	public boolean loadMap(){
+	public static boolean loadMap(){
 		//TODO this method should belong to GUI
 		return false;
 		
