@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,26 +39,30 @@ public class GameController {
 	
 
 	public static GameController getInstance(){
-	    if(controller == null){
-	        synchronized (GameController.class) {
-	            if(controller == null){
-	                controller = new GameController();
-	            }
-	        }
-    }
-    return controller;
-}
-
-	
+		    if(controller == null){
+		        synchronized (GameController.class) {
+		            if(controller == null){
+		                controller = new GameController();
+		            }
+		        }
+	    }
+	    return controller;
+	}
 	
 	/*
 	 * @description :
 	 * @author
 	 */
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		File inFile = null;
+		if (0 < args.length) {
+		   inFile = new File(args[0]);
+		} else {
+		   System.err.println("Invalid arguments count:" + args.length);
+		   System.exit(1);
+		} 
 		GameController controller = new GameController();
-	    //TODO  we need more than this
+	    //TODO  add create map
 		
 	}
 	
@@ -78,7 +83,7 @@ public class GameController {
 	 * @description :
 	 * @author
 	 */
-	public boolean loadMap(){
+	public static boolean loadMap(){
 		//TODO this method should belong to GUI
 		return false;
 		
@@ -135,7 +140,9 @@ public class GameController {
 	}
 	
 	public void initGame() {
-		// TODO 
+		//TODO	get number of players in from user
+		//TODO	assign each player an initial number of armies (based on risk rule)
+		//each player take turn to play
 	}
 	
 	
