@@ -22,6 +22,8 @@ public class Continent implements Observable {
 	/** The owner. */
 	private Player owner = null;
 	
+	private int controlValue;
+	
 	/** The observer list. */
 	private List<Observer> obList = null;
 	
@@ -116,6 +118,14 @@ public class Continent implements Observable {
 			o.update(this);
 		}
 		
+	}
+
+	public int getControlValue() {
+		return controlValue;
+	}
+
+	public void setControlValue(int controlValue) {
+		this.controlValue = controlValue;
 	}
 	
 	
