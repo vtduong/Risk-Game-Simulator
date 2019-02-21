@@ -52,8 +52,25 @@ public class ReEnforcement implements TurnPhase {
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
 			Country country = entry.getKey();
 			int numArmies = entry.getValue();
-			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);;
+			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);
 		}
+		
+	}
+	
+	
+	/**
+	 * Distribute armies. For testing purpose only
+	 * @VisibleForTesting
+	 * @param list the list of countries with corresponding armies.
+	 */
+	public void distributeArmies(Map<Country, Integer> list) {
+		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
+			Country country = entry.getKey();
+			int numArmies = entry.getValue();
+			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);
+		}
+		
+		
 	}
 	
 	

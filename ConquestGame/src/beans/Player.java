@@ -164,6 +164,7 @@ public class Player implements Observable {
 	public void addContinent(String continent_name, Continent continent) {
 		
 		this.occupiedContinents.put(continent_name, continent);
+		continent.setOwner(this);
 	}
 	
 	
@@ -176,6 +177,7 @@ public class Player implements Observable {
 	public void addCountry(String country_name, Country country) {
 		
 		this.occupiedCountries.put(country_name, country);
+		country.setOwner(this);
 	}
 		
 	
@@ -187,9 +189,12 @@ public class Player implements Observable {
 	 */
 	public void addCountries(String[] countries_name, Country[] countries) {
 		
-		for(int i = 0; i < countries.length ; i++)
+		for(int i = 0; i < countries.length ; i++) {
 			this.occupiedCountries.put(countries_name[i],
 					countries[i]);
+			countries[i].setOwner(this);
+		}
+			
 	}
 	
 	
@@ -201,9 +206,12 @@ public class Player implements Observable {
 	 */
 	public void addContinents(String[] continents_name, Continent[] continents) {
 		
-		for(int i = 0; i <continents.length; i++)
+		for(int i = 0; i <continents.length; i++) {
 			this.occupiedContinents.put(continents_name[i],
 					continents[i]);
+			continents[i].setOwner(this);
+		}
+			
 	}
 	
 	

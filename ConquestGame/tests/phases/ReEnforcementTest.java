@@ -5,6 +5,9 @@ package phases;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,10 +51,10 @@ public class ReEnforcementTest {
 	public void setUp() throws Exception {
 		//add 3 players to system
 		controller = GameController.getInstance();
-		controller.addPlayer(new Player("gamer1"));
-		controller.addPlayer(new Player("gamer2"));
-		controller.addPlayer(new Player("gamer3"));
-
+		gamer1 = new Player("gamer1");
+		controller.addPlayer(gamer1);
+		controller.setCurrentPlayer(gamer1);
+		phase = new ReEnforcement();
 	}
 
 	/**
@@ -59,21 +62,23 @@ public class ReEnforcementTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		gamer1 = null;
+		controller = null;
+		phase = null;
 	}
 
 	@Test
 	public void testObtainArmies() {
-		Player gamer1 = controller.getPlayer(0);
 		//add 1 continent to gamer1
+//		gamer1 = new Player("gamer1");
+		controller.setCurrentPlayer(gamer1);
 		gamer1.addContinent(africa.getName(), africa);
 		String [] countryNames = {vn.getName(), indi.getName(), usa.getName(), can.getName()};
 		Country [] countries = {vn, indi, usa, can};
 		//add 4 countries to gamer1
 		gamer1.addCountries(countryNames, countries );
-		//set current player
-		controller.setCurrentPlayer(gamer1);
-		phase = new ReEnforcement();
 		//create phase
+//		phase = new ReEnforcement();
 		phase.obtainNewArmies();
 		assertEquals(4, gamer1.getArmies());
 		String [] moreCountryNames = {mex.getName(), eng.getName(), ger.getName(), rus.getName()};
@@ -93,7 +98,29 @@ public class ReEnforcementTest {
 	
 	@Test
 	public void testDistributeArmies() {
-		
+		Map<Country, Integer> list = new HashMap<Country, Integer>();
+		String [] countryNames = {vn.getName(), indi.getName(), usa.getName(), can.getName()};
+		Country [] countries = {vn, indi, usa, can};
+		//add countries to player
+//		gamer1 = new Player("gamer1");
+		controller.setCurrentPlayer(gamer1);
+		gamer1.addCountries(countryNames, countries);
+		assertEquals(gamer1, vn.getOwner());
+		//start with some armies
+		assertEquals(4, gamer1.getPlayerCountries().size());
+		gamer1.setArmies(9);
+//		phase = new ReEnforcement();
+		phase.obtainNewArmies();
+		assertEquals(12, gamer1.getArmies());
+		for(int i = 0; i < countries.length; i++) {
+			list.put(countries[i], 4);
+		}
+		//distribute armies to countries
+		phase.distributeArmies(list);
+		assertEquals(4, (int)list.get(vn));
+		assertEquals(4, (int)list.get(indi));
+		assertEquals(4, (int)list.get(usa));
+		assertEquals(4, (int)list.get(can));
 	}
 
 }
