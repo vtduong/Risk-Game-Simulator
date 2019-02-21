@@ -63,6 +63,11 @@ public class GameController {
 	
 	public void addPlayer(Player player) {
 		playerList.add(player);
+		numberOfPlayers++;
+	}
+	
+	public int getNumPlayers() {
+		return numberOfPlayers;
 	}
 	
 	public Player getPlayer(int idx) {
@@ -74,7 +79,7 @@ public class GameController {
 	 * @author
 	 */
 	public boolean loadMap(){
-		//TODO
+		//TODO this method should belong to GUI
 		return false;
 		
 	}
@@ -161,10 +166,12 @@ public class GameController {
 	}
 	/**
 	 * Asks GUI to ask user to input number of armies to be distributed to each occupied countries
+	 * @param list. List of countries 
 	 * @return
 	 */
 	public Map<Country, Integer> distributeArmies() {
-		return GUI.distributeArmies();
+		 
+		return GUI.distributeArmies(currentPlayer.getPlayerCountries(), currentPlayer.getArmies());
 	}
 
 

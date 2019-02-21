@@ -3,6 +3,8 @@
  */
 package gui;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import beans.Country;
@@ -61,10 +63,15 @@ public class GUI implements Observer{
 
 	/**
 	 * Ask user to select number of armies to be distributed for each country
-	 * @return
+	 * @param list List of countries owned by current player
+	 * @param i number of armies owned by this player
+	 * @return list of countries and their assigned armies
 	 */
-	public static Map<Country, Integer> distributeArmies() {
-		// TODO Auto-generated method stub
+	public static Map<Country, Integer> distributeArmies(List<Country> list, int numArmies) {
+		while(numArmies > 0)
+			for(Country c : list) {
+				//TODO ask user to input number of army for each country in the list
+			}
 		return null;
 	}
 
