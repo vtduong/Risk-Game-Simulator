@@ -23,6 +23,11 @@ public class Country implements Observable{
 	/** The observer list. */
 	private List<Observer> obList = null;
 	
+	private List<String> adjacentCountries;
+	private String continent;
+	private int longitude;
+	private int latitude;
+	
 	
 	/**
 	 * Instantiates a new country.
@@ -129,6 +134,54 @@ public class Country implements Observable{
 			o.update(this);
 		}
 		
+	}
+
+
+
+	public List<String> getAdjacentCountries() {
+		return adjacentCountries;
+	}
+
+
+
+	public void setAdjacentCountries(List<String> adjacentCountries) {
+		this.adjacentCountries = adjacentCountries;
+	}
+
+
+
+	public String getContinent() {
+		return continent;
+	}
+
+
+
+	public void setContinent(String continent) {
+		this.continent = continent;
+	}
+
+
+
+	public int getlongitude() {
+		return longitude;
+	}
+
+
+
+	public void setlongitude(int langitude) {
+		this.longitude = langitude;
+	}
+
+
+
+	public int getLatitude() {
+		return latitude;
+	}
+
+
+
+	public void setLatitude(int latitude) {
+		this.latitude = latitude;
 	}
 	
 	
