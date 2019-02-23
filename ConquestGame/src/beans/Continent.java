@@ -22,7 +22,7 @@ public class Continent implements Observable {
 	/** The owner. */
 	private Player owner = null;
 	
-	private int controlValue;
+	private String controlValue;
 	
 	/** The observer list. */
 	private List<Observer> obList = null;
@@ -40,6 +40,17 @@ public class Continent implements Observable {
 		obList = new ArrayList<Observer>();
 	}
 	
+	public Continent(String name, String controlValue) {
+		super();
+		this.name = name;
+		this.controlValue = controlValue;
+	}
+	
+
+	public Continent() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Gets the name.
 	 *
@@ -120,11 +131,11 @@ public class Continent implements Observable {
 		
 	}
 
-	public int getControlValue() {
+	public String getControlValue() {
 		return controlValue;
 	}
 
-	public void setControlValue(int controlValue) {
+	public void setControlValue(String controlValue) {
 		this.controlValue = controlValue;
 	}
 	
