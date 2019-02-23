@@ -2,6 +2,9 @@ package phases;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,12 +16,12 @@ import controller.GameController;
 
 public class FortificationTest {
 	
-	GameController controller = null;
-	Fortification phase = null;
-	Country vn = new Country("Vietnam");
-	Country indi = new Country("India");
+	private GameController controller = null;
+	private Fortification phase = null;
+	private Country vn = null;
+	private Country indi = null;
 	
-	Continent asia = new Continent("Asia", 3);
+	Continent asia = null;
 	
 	
 	/**
@@ -28,6 +31,11 @@ public class FortificationTest {
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
 		controller.addPlayer(new Player("gamer1"));
+		asia = new Continent("Asia", 5);
+		vn = new Country("Vietnam");
+		vn.setNumArmies(4);
+		indi = new Country("India");
+		indi.setNumArmies(1);
 	}
 	
 	
@@ -40,12 +48,14 @@ public class FortificationTest {
 	}
 	
 	@Test
-	public void testMoveArmies() {
+	public void testMoveArmies() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Player gamer1 = controller.getPlayer(0);
+		String countryOne = vn.getName();
+		String countryTwo = indi.getName();
 		
 		//add one continent to the player
 		gamer1.addContinent(asia.getName(), asia);
-		String[] countryNames = {vn.getName(), indi.getName()};
+		String[] countryNames = {countryOne, countryTwo};
 		Country[] countries = {vn, indi};
 		//add 2 countries to gamer1
 		gamer1.addCountries(countryNames, countries);
@@ -55,7 +65,18 @@ public class FortificationTest {
 		assertEquals(2, gamer1.getPlayerCountries().size());
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
-		// TO-DO. Still working on it.
+		//Using reflection API to call private methods
+		Class reflectPhase = phase.getClass();
+		Method reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
+				String.class, String.class, int.class);
+		
+		reflectMethodCall.setAccessible(true);
+		
+		int testValue = 2;
+		reflectMethodCall.invoke(phase, countryOne, countryTwo, testValue);
+		
+		assertEquals(2, vn.getNumArmies());
+		assertEquals(3, indi.getNumArmies());
 	}
 	
 }
