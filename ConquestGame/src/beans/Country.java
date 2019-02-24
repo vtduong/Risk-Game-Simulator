@@ -42,6 +42,12 @@ public class Country implements Observable{
 	
 
 
+	public Country() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	/**
 	 * Gets the name.
 	 *

@@ -31,6 +31,7 @@ public class GameController {
 	private boolean readyForNextPhase = false;
 	private Player currentPlayer;
 	private ArrayList<Player> playerList;
+	private final static int MIN_ARGS = 1;
 	
 	GameController(){
 		countryOwnership = new HashMap();
@@ -54,18 +55,32 @@ public class GameController {
 	 * @author
 	 */
 	public static void main(String[] args) {
-		File inFile = null;
+		/*File inFile = null;
 		if (0 < args.length) {
 		   inFile = new File(args[0]);
 		} else {
 		   System.err.println("Invalid arguments count:" + args.length);
 		   System.exit(1);
-		} 
+		} */
+		
+		/*Added to parse the default file.
+		 * To provide input file use src/resources/World.map as argument
+		 * 
+		 */
+		if (args == null || args.length < MIN_ARGS) {
+            showHelp();
+            return;
+        }
+		String inputFile = args[0];
+        new utilities.MapParser(inputFile).readFile();
 		GameController controller = new GameController();
 	    //TODO  add create map
 		
 	}
 	
+	public static void showHelp() {
+		//TODO
+	}
 	public void addPlayer(Player player) {
 		playerList.add(player);
 		numberOfPlayers++;
