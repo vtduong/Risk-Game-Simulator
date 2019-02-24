@@ -40,12 +40,6 @@ public class Continent implements Observable {
 		obList = new ArrayList<Observer>();
 	}
 	
-	public Continent(String name, String controlValue) {
-		super();
-		this.name = name;
-		this.controlValue = controlValue;
-	}
-	
 
 	public Continent() {
 		// TODO Auto-generated constructor stub
@@ -129,14 +123,6 @@ public class Continent implements Observable {
 			o.update(this);
 		}
 		
-	}
-
-	public String getControlValue() {
-		return controlValue;
-	}
-
-	public void setControlValue(String controlValue) {
-		this.controlValue = controlValue;
 	}
 	
 	

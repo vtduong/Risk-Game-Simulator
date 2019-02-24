@@ -66,7 +66,7 @@ public class MapParser {
 				if(!continent[i].equalsIgnoreCase("[Continents]") && continent[i]!=null) {
 					String[] temp = continent[i].trim().split("=");
 					Continent con = new Continent();
-					con.setControlValue(temp[1].trim());
+					con.setMaxArmies(Integer.parseInt((temp[1].trim())));
 					con.setName(temp[0].trim());
 					continentList.add(con);
 				}
