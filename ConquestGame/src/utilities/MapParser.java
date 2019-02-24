@@ -15,26 +15,29 @@ import beans.Country;;
 public class MapParser {
 	private String inputFile;
 	private Scanner sc;
-	/*MapParser(String inputFile){
+	public MapParser(String inputFile){
 		this.inputFile = inputFile;
-	}*/
+	}
 	private static String buildMapFile;
 	public static ArrayList<Country> countriesList =new ArrayList<Country>();
 	public static ArrayList<Continent> continentsList =new ArrayList<Continent>();
 	
-	public static void main(String argv[]) {
+	/*public static void main(String argv[]) {
 		
 		readFile();
-	}
+	}*/
 	
 	/**
 	 * 
 	 * 
 	 */
-	public static void readFile() {
+	public void readFile() {
 		try {
-			System.out.println(System.getProperty("user.dir"));
-			Scanner sc = new Scanner(new File("/Users/apoorvasharma/git/SOEN_6441/ConquestGame/src/resources/World.map"));
+			//System.out.println(System.getProperty("user.dir"));
+			
+			//Scanner sc = new Scanner(new File("/Users/apoorvasharma/git/SOEN_6441/ConquestGame/src/resources/World.map"));
+			Scanner sc = new Scanner(new File(inputFile));
+
 			String tempStr = null;
 			buildMapFile = "";
 			while(sc.hasNext()) {
@@ -59,7 +62,7 @@ public class MapParser {
 	 */
 	private static ArrayList<Continent> parseContinents(String continents){
 		ArrayList<Continent> continentList = new ArrayList<Continent>();
-		System.out.println("Parsing Continents!!"+continents);
+		//System.out.println("Parsing Continents!!"+continents);
 		String continent[] = continents.split("\n");
 		try {
 			for(int i=1;i<continent.length;i++){
@@ -87,9 +90,9 @@ public class MapParser {
 	 */
 	private static ArrayList<Country>  parseCountries(String countries) {
 		ArrayList<Country> countryList =new ArrayList<Country>();
-		System.out.println("Parsing Countries!!");
+		//System.out.println("Parsing Countries!!");
 		String country[] = countries.split("\n");
-		System.out.println(country.length);
+		//System.out.println(country.length);
 		try {
 		 for(int i =1;i<country.length;i++) {
 			if(!country[i].isEmpty() && !country[i].equalsIgnoreCase("[Territories]")) {
@@ -106,9 +109,9 @@ public class MapParser {
 			}
 		}
 		addAdjacentCountries(country,countryList);
-		Country recToReturn = new Country();
-		recToReturn =getCountry("Alaska",countryList);
-		System.out.println(recToReturn.getAdjacentCountries());
+		//Country recToReturn = new Country();
+		//recToReturn =getCountry("Alaska",countryList);
+		//System.out.println(recToReturn.getAdjacentCountries());
 		
 		}catch(Exception e) {
 			System.out.println("Exception :"+ e.getStackTrace());
