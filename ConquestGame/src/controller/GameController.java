@@ -72,7 +72,7 @@ public class GameController {
             return;
         }
 		String inputFile = args[0];
-        new utilities.MapParser(inputFile).readFile();
+		new utilities.MapValidator(inputFile).createCountryGraph();
 		GameController controller = new GameController();
 	    //TODO  add create map
 		
