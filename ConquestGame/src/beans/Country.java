@@ -9,26 +9,25 @@ import gui.Observer;
 /**
  * The Class Country.
  */
-public class Country implements Observable{
-	
+public class Country implements Observable {
+
 	/** The name. */
 	private String name = null;
-	
+
 	/** The number of armies currently occupied in this country. */
 	private int numArmies;
-	
+
 	/** The owner. */
 	private Player owner = null;
-	
+
 	/** The observer list. */
 	private List<Observer> obList = null;
-	
+
 	private List<String> adjacentCountries;
 	private String continent;
 	private int longitude;
 	private int latitude;
-	
-	
+
 	/**
 	 * Instantiates a new country.
 	 *
@@ -39,14 +38,10 @@ public class Country implements Observable{
 		this.name = name;
 		obList = new ArrayList<Observer>();
 	}
-	
-
 
 	public Country() {
 		// TODO Auto-generated constructor stub
 	}
-
-
 
 	/**
 	 * Gets the name.
@@ -57,7 +52,6 @@ public class Country implements Observable{
 		return name;
 	}
 
-
 	/**
 	 * Sets the name.
 	 *
@@ -66,7 +60,6 @@ public class Country implements Observable{
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	/**
 	 * Gets the number of armies.
@@ -77,7 +70,6 @@ public class Country implements Observable{
 		return numArmies;
 	}
 
-
 	/**
 	 * Sets the number armies.
 	 *
@@ -86,7 +78,6 @@ public class Country implements Observable{
 	public void setNumArmies(int numArmies) {
 		this.numArmies = numArmies;
 	}
-
 
 	/**
 	 * Gets the owner.
@@ -97,7 +88,6 @@ public class Country implements Observable{
 		return owner;
 	}
 
-
 	/**
 	 * Sets the owner.
 	 *
@@ -107,88 +97,71 @@ public class Country implements Observable{
 		this.owner = owner;
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see beans.Observable#attach(gui.Observer)
 	 */
 	@Override
 	public void attach(Observer ob) {
 		obList.add(ob);
-		
+
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see beans.Observable#detach(gui.Observer)
 	 */
 	@Override
 	public void detach(Observer ob) {
 		obList.remove(ob);
-		
+
 	}
 
-
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see beans.Observable#notifyChanges()
 	 */
 	@Override
 	public void notifyChanges() {
-		for(Observer o : obList) {
+		for (Observer o : obList) {
 			o.update(this);
 		}
-		
+
 	}
-
-
 
 	public List<String> getAdjacentCountries() {
 		return adjacentCountries;
 	}
 
-
-
 	public void setAdjacentCountries(List<String> adjacentCountries) {
 		this.adjacentCountries = adjacentCountries;
 	}
-
-
 
 	public String getContinent() {
 		return continent;
 	}
 
-
-
 	public void setContinent(String continent) {
 		this.continent = continent;
 	}
-
-
 
 	public int getlongitude() {
 		return longitude;
 	}
 
-
-
 	public void setlongitude(int langitude) {
 		this.longitude = langitude;
 	}
-
-
 
 	public int getLatitude() {
 		return latitude;
 	}
 
-
-
 	public void setLatitude(int latitude) {
 		this.latitude = latitude;
 	}
-	
-	
+
 }

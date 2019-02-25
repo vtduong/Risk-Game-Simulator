@@ -12,21 +12,21 @@ import gui.Observer;
  * @author vanduong
  */
 public class Continent implements Observable {
-	
+
 	/** The name. */
 	private String name;
-	
+
 	/** The max armies. */
 	private int maxArmies;
-	
+
 	/** The owner. */
 	private Player owner = null;
-	
-	private String controlValue;
-	
+
+	private List<Country> countries;
+
 	/** The observer list. */
 	private List<Observer> obList = null;
-	
+
 	/**
 	 * Instantiates a new continent.
 	 *
@@ -39,7 +39,6 @@ public class Continent implements Observable {
 		this.maxArmies = maxArmies;
 		obList = new ArrayList<Observer>();
 	}
-	
 
 	public Continent() {
 		// TODO Auto-generated constructor stub
@@ -53,7 +52,7 @@ public class Continent implements Observable {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Sets the name.
 	 *
@@ -62,7 +61,7 @@ public class Continent implements Observable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the max armies.
 	 *
@@ -71,7 +70,7 @@ public class Continent implements Observable {
 	public int getMaxArmies() {
 		return maxArmies;
 	}
-	
+
 	/**
 	 * Sets the max armies.
 	 *
@@ -80,7 +79,7 @@ public class Continent implements Observable {
 	public void setMaxArmies(int maxArmies) {
 		this.maxArmies = maxArmies;
 	}
-	
+
 	/**
 	 * Gets the owner.
 	 *
@@ -89,7 +88,7 @@ public class Continent implements Observable {
 	public Player getOwner() {
 		return owner;
 	}
-	
+
 	/**
 	 * Sets the owner.
 	 *
@@ -98,32 +97,48 @@ public class Continent implements Observable {
 	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
-	/* (non-Javadoc)
+
+	public List<Country> getCountries() {
+		return countries;
+	}
+
+	public void setCountries(List<Country> countries) {
+		this.countries = countries;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see beans.Observable#attach(gui.Observer)
 	 */
 	@Override
 	public void attach(Observer ob) {
 		obList.add(ob);
-		
+
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see beans.Observable#detach(gui.Observer)
 	 */
 	@Override
 	public void detach(Observer ob) {
 		obList.remove(ob);
-		
+
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see beans.Observable#notifyChanges()
 	 */
 	@Override
 	public void notifyChanges() {
-		for(Observer o : obList) {
+		for (Observer o : obList) {
 			o.update(this);
 		}
-		
+
 	}
-	
-	
+
 }
