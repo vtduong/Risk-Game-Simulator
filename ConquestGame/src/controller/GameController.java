@@ -14,6 +14,7 @@ import phases.Attack;
 import phases.ReEnforcement;
 import phases.TurnPhase;
 import utilities.DiceRoller;
+import utilities.MapValidator;
 import utilities.Tuple;
 
 /*
@@ -25,15 +26,16 @@ public class GameController {
 	
 	private static GameController controller= null;
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
-	int numberOfPlayers;
+	private int numberOfPlayers;
 	Map<Player, ArrayList<Country>> countryOwnership = null;
 	TurnPhase currentPhase = null;
 	private boolean readyForNextPhase = false;
 	private Player currentPlayer;
 	private ArrayList<Player> playerList;
 	private final static int MIN_ARGS = 1;
+	private Player winner = null;
 	
-	GameController(){
+	private GameController(){
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
 	}
@@ -73,7 +75,7 @@ public class GameController {
         }
 		String inputFile = args[0];
 		new utilities.MapValidator(inputFile).createCountryGraph();
-		GameController controller = new GameController();
+		GameController controller = GameController.getInstance();
 	    //TODO  add create map
 		
 	}
@@ -94,6 +96,12 @@ public class GameController {
 		return playerList.get(idx);
 	}
 	
+	
+
+	public Player getWinner() {
+		return winner;
+	}
+
 	/*
 	 * @description :
 	 * @author
@@ -111,18 +119,34 @@ public class GameController {
 	public void setPhase(TurnPhase turnPhase) {
 		currentPhase = turnPhase;
 	}
+	
+	public void takeTurns() {
+		int i = 0;
+		while (winner == null) {
+			currentPlayer = playerList.get(i);
+			takePhases();
+			// check if current player has won the game
+			if(countryOwnership.size() == MapValidator.countriesList.size()) {
+				winner = currentPlayer;
+			}
+			i++;
+		}
+		
+	}
     
 	public void takePhases() {
 		currentPhase = new ReEnforcement();
 		while(currentPhase != null) {
 			while(!readyForNextPhase) {
 				try {
+					//ask user if wants to init an attack
 					if(currentPhase instanceof Attack) {
 						if(!isWar()) {
 							break;
 						}
 					}
 					currentPhase.takePhase();
+					//ask user if ready for next phase
 					readyForNextPhase = readyForNextPhase();
 				}catch(IllegalArgumentException e) {
 					GUI.handleExceptions(e.getMessage());
@@ -214,5 +238,4 @@ public class GameController {
 		return GUI.getFortificationInfo();
 		
 	}
-	// TODO implement the method
 }
