@@ -9,17 +9,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import beans.Continent;
+import beans.Country;
+import beans.Player;
+import controller.GameController;
+import phases.ReEnforcement;
+
 /**
  * @author vanduong
  *
  */
 public class GUITest {
-
+	
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		
 	}
 
 	/**

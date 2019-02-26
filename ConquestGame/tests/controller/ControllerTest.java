@@ -9,17 +9,53 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import beans.Continent;
+import beans.Country;
+import beans.Player;
+import phases.ReEnforcement;
+
 /**
  * @author vanduong
  *
  */
 public class ControllerTest {
 
+	GameController controller = null;
+	ReEnforcement phase = null;
+	Country vn = new Country("Vietnam");
+	Country indi = new Country("India");
+	Country usa = new Country("USA");
+	Country can = new Country("Canada");
+	Country mex = new Country("Mexico");
+	Country eng = new Country("England");
+	Country ger = new Country("Germany");
+	Country france = new Country("France");
+	Country rus	= new Country("Russia");
+	Country china = new Country("China");
+	Country congo = new Country("Congo");
+	Country ugan = new Country("Uganda");
+	
+	Continent america = new Continent("Ameria", 3);
+	Continent europe = new Continent("Europe", 2);
+	Continent asia = new Continent("Asia", 3);
+	Continent africa = new Continent("Africa", 1);
+	
+	Player gamer1 = null;
+	Player gamer2 = null;
+	Player gamer3 = null;
+
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		controller = GameController.getInstance();
+		gamer1 = new Player("gamer1");
+		controller.addPlayer(gamer1);
+		gamer2 = new Player("gamer2");
+		controller.addPlayer(gamer2);
+		gamer3 = new Player("gamer3");
+		controller.addPlayer(gamer3);
 	}
 
 	/**
@@ -30,8 +66,9 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testTakeTurns() {
+		controller.takeTurns();
+		
 	}
 
 }

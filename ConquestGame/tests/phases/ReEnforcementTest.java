@@ -49,7 +49,7 @@ public class ReEnforcementTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		//add 3 players to system
+		//add one player to system
 		controller = GameController.getInstance();
 		gamer1 = new Player("gamer1");
 		controller.addPlayer(gamer1);
@@ -70,8 +70,7 @@ public class ReEnforcementTest {
 	@Test
 	public void testObtainArmies() {
 		//add 1 continent to gamer1
-//		gamer1 = new Player("gamer1");
-		controller.setCurrentPlayer(gamer1);
+//		controller.setCurrentPlayer(gamer1);
 		gamer1.addContinent(africa.getName(), africa);
 		String [] countryNames = {vn.getName(), indi.getName(), usa.getName(), can.getName()};
 		Country [] countries = {vn, indi, usa, can};
