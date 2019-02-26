@@ -23,9 +23,16 @@ public class Country implements Observable {
 	/** The observer list. */
 	private List<Observer> obList = null;
 
+	/** The adjacent countries. */
 	private List<String> adjacentCountries;
+	
+	/** The continent. */
 	private String continent;
+	
+	/** The longitude. */
 	private int longitude;
+	
+	/** The latitude. */
 	private int latitude;
 
 	/**
@@ -39,6 +46,9 @@ public class Country implements Observable {
 		obList = new ArrayList<Observer>();
 	}
 
+	/**
+	 * Instantiates a new country.
+	 */
 	public Country() {
 		// TODO Auto-generated constructor stub
 	}
@@ -132,34 +142,74 @@ public class Country implements Observable {
 
 	}
 
+	/**
+	 * Gets the adjacent countries.
+	 *
+	 * @return the adjacent countries
+	 */
 	public List<String> getAdjacentCountries() {
 		return adjacentCountries;
 	}
 
+	/**
+	 * Sets the adjacent countries.
+	 *
+	 * @param adjacentCountries the new adjacent countries
+	 */
 	public void setAdjacentCountries(List<String> adjacentCountries) {
 		this.adjacentCountries = adjacentCountries;
 	}
 
+	/**
+	 * Gets the continent.
+	 *
+	 * @return the continent
+	 */
 	public String getContinent() {
 		return continent;
 	}
 
+	/**
+	 * Sets the continent.
+	 *
+	 * @param continent the new continent
+	 */
 	public void setContinent(String continent) {
 		this.continent = continent;
 	}
 
+	/**
+	 * Gets the longitude.
+	 *
+	 * @return the longitude
+	 */
 	public int getlongitude() {
 		return longitude;
 	}
 
+	/**
+	 * Sets the longitude.
+	 *
+	 * @param langitude the new longitude
+	 */
 	public void setlongitude(int langitude) {
 		this.longitude = langitude;
 	}
 
+	/**
+	 * Gets the latitude.
+	 *
+	 * @return the latitude
+	 */
 	public int getLatitude() {
 		return latitude;
 	}
 
+	/**
+	 * Sets the latitude.
+	 *
+	 * @param latitude the new latitude
+	 */
 	public void setLatitude(int latitude) {
 		this.latitude = latitude;
 	}

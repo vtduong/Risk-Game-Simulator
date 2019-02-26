@@ -15,6 +15,7 @@ import utilities.Tuple;
  */
 public class Fortification implements TurnPhase{
 	
+	/** The controller. */
 	GameController controller = GameController.getInstance();
 	/** The current player. */
 	private Player curPlayer = controller.getCurrentPlayer();
