@@ -1,15 +1,26 @@
 package utilities;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import org.jgrapht.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.AsSubgraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+
+import com.mxgraph.layout.mxCircleLayout;
+import com.mxgraph.layout.mxIGraphLayout;
+import com.mxgraph.util.mxCellRenderer;
 
 import beans.Continent;
 import beans.Country;
@@ -24,11 +35,11 @@ public class MapValidator {
 	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
 	public static Graph<Country, DefaultEdge> countryGraph = new SimpleGraph<>(DefaultEdge.class);
 	public static ArrayList<Graph<List<Country>, DefaultEdge>> subGraphsList = new ArrayList<Graph<List<Country>, DefaultEdge>>();
-
+	
 	public MapValidator(String inputFile) {
 		this.inputFile = inputFile;
 	}
-
+	
 	public void createCountryGraph() {
 		new utilities.MapParser(inputFile).readFile();
 		countriesList = utilities.MapParser.countriesList;
@@ -72,6 +83,31 @@ public class MapValidator {
 		 */
 
 	}
+	
+	//For Map Visualization
+	public void mapVisual() throws IOException {
+		
+		File imgFile = new File("src/resources/Worldmap.png");
+	    imgFile.createNewFile();
+		JGraphXAdapter<Country, DefaultEdge> graphAdapter = 
+			      new JGraphXAdapter<Country, DefaultEdge>(countryGraph);
+			    mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+			    layout.execute(graphAdapter.getDefaultParent());
+			     
+			    BufferedImage image = 
+			      mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
+			    ImageIO.write(image, "PNG", imgFile);
+	    
+	}
+	//To check if the graph created is correct or not
+	public void mapCorrectness() {
+		if(new ConnectivityInspector<>(countryGraph).isConnected()) {
+	    	System.out.println("Graph is connected");
+	    }
+	    else {
+	    	System.out.println("Graph is not connected");
+	    }
+	}
 
 	/**
 	 * 
@@ -85,5 +121,6 @@ public class MapValidator {
 		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(countryGraph, countrySet);
 		return subGraph;
 	}
+	
 
 }
