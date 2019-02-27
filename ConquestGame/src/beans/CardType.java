@@ -3,11 +3,18 @@
  */
 package beans;
 
+// TODO: Auto-generated Javadoc
 /**
- * enum for card types: Infantry, Cavalry, and Artillery
- * @author vanduong
+ * enum for card types: Infantry, Cavalry, and Artillery.
  *
+ * @author vanduong
  */
 public enum CardType {
-	INFANTRY, CAVALRY, ARTILLERY;
+	
+	/** The infantry. */
+	INFANTRY, 
+ /** The cavalry. */
+ CAVALRY, 
+ /** The artillery. */
+ ARTILLERY;
 }
