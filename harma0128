@@ -1,0 +1,116 @@
+[33mcommit 85bbe3cedf33f0118f65cb69d3384e8ada2610bc[m[33m ([m[1;33mtag: v1[m[33m)[m
+Merge: 45ee02e 06ac095
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Sun Feb 24 22:10:33 2019 -0500
+
+    Merge pull request #18 from code-asc/branch_appy
+    
+    JGraphT Related Changes.
+
+[33mcommit 06ac095b62830b241f061674a23d34f2b0782532[m[33m ([m[1;31morigin/branch_appy[m[33m)[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Sun Feb 24 22:06:37 2019 -0500
+
+    JGraphT Related Changes.
+
+ ConquestGame/src/beans/Continent.java           |  59 [32m+++++[m[31m---[m
+ ConquestGame/src/beans/Country.java             |  69 [32m+++[m[31m-------[m
+ ConquestGame/src/controller/GameController.java |   2 [32m+[m[31m-[m
+ ConquestGame/src/utilities/MapParser.java       | 172 [32m+++++++++++++[m[31m-----------[m
+ ConquestGame/src/utilities/MapValidator.java    |  89 [32m++++++++++++[m
+ 5 files changed, 245 insertions(+), 146 deletions(-)
+
+[33mcommit 45ee02e167e84e12d24dfd299cb11e341f6e40d2[m
+Merge: d094cf0 afef70b
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Sat Feb 23 20:42:22 2019 -0500
+
+    Merge pull request #17 from code-asc/branch_appy
+    
+    Changes Related to Map Parser
+
+[33mcommit afef70b14fab84d674538dea3176b01ccd207624[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Sat Feb 23 20:40:09 2019 -0500
+
+    Map File Parser Changes
+
+ ConquestGame/src/controller/GameController.java | 19 [32m++++++++++++++[m[31m--[m
+ ConquestGame/src/utilities/MapParser.java       | 29 [32m++++++++++++++[m[31m-----------[m
+ 2 files changed, 33 insertions(+), 15 deletions(-)
+
+[33mcommit ea49d0c038125fd789cd412d44df9ef367f94e73[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Sat Feb 23 20:03:19 2019 -0500
+
+    Parser Changes:Removed control Value attribute. Same as set armies.
+
+ ConquestGame/src/beans/Continent.java     | 14 [31m--------------[m
+ ConquestGame/src/utilities/MapParser.java |  2 [32m+[m[31m-[m
+ 2 files changed, 1 insertion(+), 15 deletions(-)
+
+[33mcommit 503f93568789f10cbf9a680d276a2e24da765783[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Sat Feb 23 19:55:24 2019 -0500
+
+    Parser Charges : Added function for ajd countries
+
+ ConquestGame/src/utilities/MapParser.java | 75 [32m+++++++++++++++++++++++++[m[31m------[m
+ 1 file changed, 61 insertions(+), 14 deletions(-)
+
+[33mcommit 7b3b89a93b1a9da1e953055fb9ec28de54cc76cf[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Sat Feb 23 18:50:28 2019 -0500
+
+    Parser Update
+
+ ConquestGame/src/beans/Continent.java            | 17 [32m++++[m[31m-[m
+ ConquestGame/src/beans/Country.java              |  6 [32m++[m
+ ConquestGame/src/utilities/MapParser.java        | 90 [32m+++++++++++++++++++++[m[31m---[m
+ ConquestGame/src/utilities/UtilityConstants.java |  5 [32m++[m
+ 4 files changed, 105 insertions(+), 13 deletions(-)
+
+[33mcommit 2d7122154fa6443beea016f708973622a27d9ba6[m
+Merge: 32fabae 0c54e1c
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Thu Feb 21 17:35:48 2019 -0500
+
+    Merge pull request #15 from code-asc/branch_appy
+    
+    Branch appy
+
+[33mcommit 0c54e1cc0ff9cf00d98e73cec8eb390a028da18d[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Thu Feb 21 17:19:39 2019 -0500
+
+    map parser
+
+ ConquestGame/src/utilities/MapParser.java | 35 [32m+++++++++++++++++++++++++++++++[m
+ 1 file changed, 35 insertions(+)
+
+[33mcommit 45b0f84cb461a52a8c9b782ccf71e7bca60fbfd2[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Thu Feb 21 16:55:18 2019 -0500
+
+    Continent Attributes
+
+ ConquestGame/src/beans/Continent.java | 10 [32m++++++++++[m
+ 1 file changed, 10 insertions(+)
+
+[33mcommit 8604a0adbabee43397a6b932e8b867c3a883701a[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Thu Feb 21 16:50:41 2019 -0500
+
+    County and Continent Attributes
+
+ ConquestGame/src/beans/Country.java | 53 [32m+++++++++++++++++++++++++++++++++++++[m
+ 1 file changed, 53 insertions(+)
+
+[33mcommit 5d38d6661b56021b29329dd18a55c10f9d14e0dd[m
+Author: apoorvasharma0128 <apoorvasharma0128@gmail.com>
+Date:   Wed Feb 6 20:52:15 2019 -0500
+
+    Skeleton class
+
+ ConquestGame/src/controller/GameController.java | 50 [32m++++++++++++++++++++++++[m[31m-[m
+ 1 file changed, 49 insertions(+), 1 deletion(-)
