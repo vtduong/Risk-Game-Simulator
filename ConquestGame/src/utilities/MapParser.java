@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import beans.Continent;
-import beans.Country;;
+import beans.Country;
 
 /**
  * 
