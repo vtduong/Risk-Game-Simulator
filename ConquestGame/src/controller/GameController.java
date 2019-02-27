@@ -34,7 +34,9 @@ public class GameController {
 /** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
-	
+
+
+
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
 	
@@ -112,7 +114,24 @@ public class GameController {
 		GameController controller = GameController.getInstance();
 	    //TODO  add create map
 		
+		
+		
+		
+		//Getting Player Info
+		System.out.println("Please enter the number of players: ");
+		Scanner inputNumPlayers = new Scanner(System.in);	
+		
+		for(int i = 1; i <= inputNumPlayers.nextInt(); i++) {
+			String playerName = "Player " + i;
+			//TODO
+			//Need to change third parameter in player
+			//after map is implemented 
+			controller.addPlayer(new Player(playerName, true, 3));
+		}
+		
 	}
+	
+	
 	
 	/**
 	 * Show help.
