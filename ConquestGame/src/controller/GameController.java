@@ -214,7 +214,8 @@ public class GameController {
 	public void takeTurns() {
 		int i = 0;
 		while (winner == null) {
-			currentPlayer = playerList.get(i % playerList.size());
+			i = i % playerList.size();
+			currentPlayer = playerList.get(i);
 			takePhases();
 			// check if current player has won the game
 			if(countryOwnership.size() == MapValidator.countriesList.size()) {
