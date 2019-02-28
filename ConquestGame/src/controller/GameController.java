@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +93,7 @@ public class GameController {
 	 * @description :
 	 * @author
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		/*File inFile = null;
 		if (0 < args.length) {
 		   inFile = new File(args[0]);
