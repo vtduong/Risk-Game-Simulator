@@ -39,7 +39,7 @@ public class MapValidator {
 		this.inputFile = inputFile;
 	}
 
-	public void createCountryGraph() throws IOException,InvalidMapException {
+	public void createCountryGraph() throws IOException {
 		new utilities.MapParser(inputFile).readFile();
 		countriesList = utilities.MapParser.countriesList;
 		if (continentsList.size() <= 1 || countriesList.size() <= 1) {

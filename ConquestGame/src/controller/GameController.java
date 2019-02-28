@@ -15,7 +15,6 @@ import phases.Attack;
 import phases.ReEnforcement;
 import phases.TurnPhase;
 import utilities.DiceRoller;
-import utilities.InvalidMapException;
 import utilities.MapValidator;
 import utilities.Tuple;
 
@@ -96,7 +95,7 @@ public class GameController {
 	 * @description :
 	 * @author
 	 */
-	public static void main(String[] args) throws IOException, InvalidMapException {
+	public static void main(String[] args) throws IOException {
 		/*File inFile = null;
 		if (0 < args.length) {
 		   inFile = new File(args[0]);
