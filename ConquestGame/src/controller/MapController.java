@@ -59,7 +59,7 @@ public class MapController {
 	private void createMap() throws IOException {
 	}
 
-	private static void validateMap(String inputFile) {
+	private static void validateMap(String inputFile) throws IOException {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 	}
 
