@@ -7,7 +7,7 @@ import gui.Observer;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Continent represents a continent in the map
+ * The Class Continent represents a continent in the map.
  *
  * @author vanduong
  */
@@ -22,6 +22,7 @@ public class Continent implements Observable {
 	/** The owner. */
 	private Player owner = null;
 
+	/** The countries. */
 	private List<Country> countries;
 
 	/** The observer list. */
@@ -40,6 +41,9 @@ public class Continent implements Observable {
 		obList = new ArrayList<Observer>();
 	}
 
+	/**
+	 * Instantiates a new continent.
+	 */
 	public Continent() {
 		// TODO Auto-generated constructor stub
 	}
@@ -98,10 +102,20 @@ public class Continent implements Observable {
 		this.owner = owner;
 	}
 
+	/**
+	 * Gets the countries.
+	 *
+	 * @return the countries
+	 */
 	public List<Country> getCountries() {
 		return countries;
 	}
 
+	/**
+	 * Sets the countries.
+	 *
+	 * @param countries the new countries
+	 */
 	public void setCountries(List<Country> countries) {
 		this.countries = countries;
 	}

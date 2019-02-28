@@ -20,11 +20,12 @@ import beans.Country;
  */
 public class ReEnforcement implements TurnPhase {
 	
+	/** The controller. */
 	GameController controller = GameController.getInstance();
 	/** The current player. */
 	private Player curPlayer = controller.getCurrentPlayer();
 	
-	/** The minimum new armies each user gets in ReEnforcement phase */
+	/** The minimum new armies each user gets in ReEnforcement phase. */
 	private final int MIN_NEW_ARMIES = 3;
 	
 	/** The card set choice. */
@@ -32,7 +33,8 @@ public class ReEnforcement implements TurnPhase {
 	
 	
 	/**
-	 * This methods calls 2 other private methods to 1) obtain new armies and 2) distribute armies among occupied countries 
+	 * This methods calls 2 other private methods to 1) obtain new armies and 2)
+	 * distribute armies among occupied countries.
 	 */
 	public void takePhase() {
 		obtainNewArmies();
@@ -43,9 +45,6 @@ public class ReEnforcement implements TurnPhase {
 
 	/**
 	 * distribute number of armies to countries occupied by current player.
-	 *
-	 * @param list the list containing current player's occupied countries along with number of armies to be distributed 
-	 * 
 	 */
 	public void distributeArmies() {
 		Map<Country, Integer> list = controller.distributeArmies();
@@ -60,8 +59,9 @@ public class ReEnforcement implements TurnPhase {
 	
 	/**
 	 * Distribute armies. For testing purpose only
-	 * @VisibleForTesting
+	 *
 	 * @param list the list of countries with corresponding armies.
+	 * @VisibleForTesting
 	 */
 	public void distributeArmies(Map<Country, Integer> list) {
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
