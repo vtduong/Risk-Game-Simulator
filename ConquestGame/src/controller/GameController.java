@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import phases.Attack;
 import phases.ReEnforcement;
 import phases.TurnPhase;
 import utilities.DiceRoller;
+import utilities.InvalidMapException;
 import utilities.MapValidator;
 import utilities.Tuple;
 
@@ -87,12 +89,14 @@ public class GameController {
 	 * The main method.
 	 *
 	 * @param args the arguments
+	 * @throws InvalidMapException 
+	 * @throws IOException 
 	 */
 	/*
 	 * @description :
 	 * @author
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, InvalidMapException {
 		/*File inFile = null;
 		if (0 < args.length) {
 		   inFile = new File(args[0]);

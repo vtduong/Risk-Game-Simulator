@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -35,14 +34,17 @@ public class MapValidator {
 	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
 	public static Graph<Country, DefaultEdge> countryGraph = new SimpleGraph<>(DefaultEdge.class);
 	public static ArrayList<Graph<List<Country>, DefaultEdge>> subGraphsList = new ArrayList<Graph<List<Country>, DefaultEdge>>();
-	
+
 	public MapValidator(String inputFile) {
 		this.inputFile = inputFile;
 	}
-	
-	public void createCountryGraph() {
+
+	public void createCountryGraph() throws IOException,InvalidMapException {
 		new utilities.MapParser(inputFile).readFile();
 		countriesList = utilities.MapParser.countriesList;
+		if (continentsList.size() <= 1 || countriesList.size() <= 1) {
+			/// Throw Exception In valid map
+		}
 		try {
 			// adding the nodes to the graph
 			for (Country rec : countriesList) {
@@ -70,8 +72,13 @@ public class MapValidator {
 			subGraphsList.add(createCountrySubGraph(rec.getCountries(), countryGraph));
 
 		}
-		System.out.println(subGraphsList.size());
 
+		boolean isConnected = mapisConnected();
+		if (!isConnected) {
+			// throw Error
+		}
+		mapVisual();
+		System.out.println(subGraphsList.size());
 		/***
 		 * Check if edge exists!!! Country recToReturn = new Country(); recToReturn
 		 * =utilities.MapParser.getCountry("Alaska",countriesList); Country recToReturn1
@@ -83,30 +90,31 @@ public class MapValidator {
 		 */
 
 	}
-	
-	//For Map Visualization
+
+	// For Map Visualization
 	public void mapVisual() throws IOException {
-		
+
 		File imgFile = new File("src/resources/Worldmap.png");
-	    imgFile.createNewFile();
-		JGraphXAdapter<Country, DefaultEdge> graphAdapter = 
-			      new JGraphXAdapter<Country, DefaultEdge>(countryGraph);
-			    mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
-			    layout.execute(graphAdapter.getDefaultParent());
-			     
-			    BufferedImage image = 
-			      mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
-			    ImageIO.write(image, "PNG", imgFile);
-	    
+		imgFile.createNewFile();
+		JGraphXAdapter<Country, DefaultEdge> graphAdapter = new JGraphXAdapter<Country, DefaultEdge>(countryGraph);
+		mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+		layout.execute(graphAdapter.getDefaultParent());
+
+		BufferedImage image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
+		ImageIO.write(image, "PNG", imgFile);
+
 	}
-	//To check if the graph created is correct or not
-	public void mapCorrectness() {
-		if(new ConnectivityInspector<>(countryGraph).isConnected()) {
-	    	System.out.println("Graph is connected");
-	    }
-	    else {
-	    	System.out.println("Graph is not connected");
-	    }
+
+	public boolean mapisConnected() {
+
+		boolean isConnected = false;
+		if (new ConnectivityInspector<>(countryGraph).isConnected()) {
+			isConnected = true;
+		} else {
+			isConnected = false;
+		}
+		return false;
+
 	}
 
 	/**
@@ -121,6 +129,5 @@ public class MapValidator {
 		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(countryGraph, countrySet);
 		return subGraph;
 	}
-	
 
 }
