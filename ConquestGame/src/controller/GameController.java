@@ -88,8 +88,6 @@ public class GameController {
 	 * The main method.
 	 *
 	 * @param args the arguments
-	 * @throws InvalidMapException 
-	 * @throws IOException 
 	 */
 	/*
 	 * @description :
