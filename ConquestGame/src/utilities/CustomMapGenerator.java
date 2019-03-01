@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import controller.MapController;
+
+/**
+ * @author ankit
+ * This class is used to take user input for creating a custom map
+ * or load an existing map.
+ */
 public class CustomMapGenerator {
 	private static CustomMapGenerator customMap = null;
 	private String FILEPATH = "src/resources/usermap.map";
@@ -14,6 +21,11 @@ public class CustomMapGenerator {
 		
 	}
 
+	/**
+	 * This is used to create a singleton object of 
+	 * CustomMapGenerator class.
+	 * @return CustomMapGenerator
+	 */
 	public static CustomMapGenerator getInstance() {
 		if(customMap == null) {
 			customMap = new CustomMapGenerator();
@@ -21,7 +33,12 @@ public class CustomMapGenerator {
 		return customMap;
 	}
 	
+	/**
+	 * This is used to create a custom map and validate the same.
+	 * @throws IOException
+	 */
 	public void createCustomMap() throws IOException {
+		MapController mapcontroller = new MapController();
 		BufferedWriter writeMap = new BufferedWriter(new FileWriter(FILEPATH, false));
 		Map<String, Integer> continentMap = new HashMap<String, Integer>();
 		Scanner getMapInt = new Scanner(System.in);
@@ -82,6 +99,7 @@ public class CustomMapGenerator {
 			writeMap.write(countryList[i] + "\n");
 		}
 		
+		mapcontroller.validateMap(FILEPATH);
 		writeMap.close();
 	}
 }
