@@ -160,6 +160,7 @@ public class MapController {
 				}
 			}else {
 				// throw error "str Country does not exist.Add the country again. "
+				
 			}
 			
 		}
