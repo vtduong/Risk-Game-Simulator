@@ -106,6 +106,7 @@ public class GameController {
 		 * To provide input file use src/resources/World.map as argument
 		 * 
 		 */
+		MapController mapController = new MapController();
 		if (args == null || args.length < MIN_ARGS) {
             showHelp();
             return;
@@ -114,9 +115,16 @@ public class GameController {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 		GameController controller = GameController.getInstance();
 	    //TODO  add create map
-		
-		
-		
+		System.out.println("----------Welcome----------");
+		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map");
+		Scanner mapOption = new Scanner(System.in);
+		int selectedMapOption = mapOption.nextInt();
+		if(selectedMapOption == 1) {
+			mapController.validateMap("/src/resources/World.map");
+		}
+		else {
+			mapController.createMap();
+		}
 		
 		//Getting Player Info
 		System.out.println("Please enter the number of players: ");
@@ -129,6 +137,12 @@ public class GameController {
 			//after map is implemented 
 			controller.addPlayer(new Player(playerName, true, 3));
 		}
+		
+		
+
+			
+				
+		
 		
 	}
 	
