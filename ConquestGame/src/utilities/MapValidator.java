@@ -1,15 +1,25 @@
 package utilities;
 
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import org.jgrapht.*;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.AsSubgraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+
+import com.mxgraph.layout.mxCircleLayout;
+import com.mxgraph.layout.mxIGraphLayout;
+import com.mxgraph.util.mxCellRenderer;
 
 import beans.Continent;
 import beans.Country;
@@ -29,9 +39,12 @@ public class MapValidator {
 		this.inputFile = inputFile;
 	}
 
-	public void createCountryGraph() {
+	public void createCountryGraph() throws IOException {
 		new utilities.MapParser(inputFile).readFile();
 		countriesList = utilities.MapParser.countriesList;
+		if (continentsList.size() <= 1 || countriesList.size() <= 1) {
+			/// Throw Exception In valid map
+		}
 		try {
 			// adding the nodes to the graph
 			for (Country rec : countriesList) {
@@ -59,8 +72,13 @@ public class MapValidator {
 			subGraphsList.add(createCountrySubGraph(rec.getCountries(), countryGraph));
 
 		}
-		System.out.println(subGraphsList.size());
 
+		boolean isConnected = mapisConnected();
+		if (!isConnected) {
+			// throw Error
+		}
+		mapVisual();
+		System.out.println(subGraphsList.size());
 		/***
 		 * Check if edge exists!!! Country recToReturn = new Country(); recToReturn
 		 * =utilities.MapParser.getCountry("Alaska",countriesList); Country recToReturn1
@@ -70,6 +88,32 @@ public class MapValidator {
 		 * //System.out.println(recToReturn.getAdjacentCountries());
 		 * //System.out.println(countryGraph.getEdge(recToReturn, recToReturn1));
 		 */
+
+	}
+
+	// For Map Visualization
+	public void mapVisual() throws IOException {
+
+		File imgFile = new File("src/resources/Worldmap.png");
+		imgFile.createNewFile();
+		JGraphXAdapter<Country, DefaultEdge> graphAdapter = new JGraphXAdapter<Country, DefaultEdge>(countryGraph);
+		mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+		layout.execute(graphAdapter.getDefaultParent());
+
+		BufferedImage image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
+		ImageIO.write(image, "PNG", imgFile);
+
+	}
+
+	public boolean mapisConnected() {
+
+		boolean isConnected = false;
+		if (new ConnectivityInspector<>(countryGraph).isConnected()) {
+			isConnected = true;
+		} else {
+			isConnected = false;
+		}
+		return false;
 
 	}
 
