@@ -129,6 +129,28 @@ public class GameController {
 			controller.addPlayer(new Player(playerName, true, 3));
 		}
 		
+		while(true) {
+			controller.takeTurns();
+			while(true) {
+				controller.currentPlayer.getPlayerCountries().keySet();
+				//for(String country : controller.currentPlayer.getPlayerCountries().keySet())
+				System.out.println("Do you want to start Fortification(Y/N): ");
+				Scanner startFortication = new Scanner(System.in);
+				System.out.println();
+				if(startFortication.nextLine().toUpperCase() == "Y")
+					break;
+				
+			}
+			
+			System.out.println("Do you want to continue(Y/N): ");
+			Scanner cotinueGame = new Scanner(System.in);
+			
+			if(cotinueGame.nextLine().toUpperCase() == "N")
+				break;
+			
+				
+		}
+		
 	}
 	
 	
