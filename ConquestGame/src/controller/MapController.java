@@ -7,9 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import beans.Continent;
 import beans.Country;
@@ -120,6 +123,49 @@ public class MapController {
 		}
 
 	}
+	
+	private static void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException {
+		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
+		if (countriesDefault.size() == 0) {
+			mpsr.readFile();
+			countriesDefault = mpsr.countriesList;
+			
+		}
+		Set<String> countryname =new HashSet<String>();
+		if(countriesDefault.isEmpty()) {
+			for(Country rec:countriesDefault) {
+				countryname.add(rec.getName());
+			}
+		}
+		
+		for(String str:adjCountryMap.keySet()) {
+			if(countryname.contains(str)) {
+				List<String> adjStr = adjCountryMap.get(countryname);
+				for(String arr:adjStr) {
+					if(countryname.contains(arr)) {
+						Country rec =mpsr.getCountry(str,countriesDefault);
+						if(!rec.getAdjacentCountries().contains(arr)) {
+							rec.getAdjacentCountries().add(arr);
+						}
+					}else {
+						/// throw error "Adjacent country does not Exist.
+					}
+				}
+			}else {
+				// throw error "str Country does not exist.Add the country again. "
+			}
+			
+		}
+		
+		if (continentsDefault.size() == 0) {
+			mpsr.readFile();
+			continentsDefault = mpsr.continentsList;
+		}
+		
+		MapFileWriter mfw = new MapFileWriter();
+		mfw.writeFile(continentsDefault, countriesDefault, inputFile);
+
+	}
 
 	/**
 	 * @param continentName
@@ -130,8 +176,6 @@ public class MapController {
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
 		continentsDefault = mpsr.continentsList;
-		ArrayList<Continent> continentsDefault1 = new ArrayList<Continent>();
-		continentsDefault1 = continentsDefault;
 		worldMap = mpsr.worldMap;
 		Iterator<Continent> iter = continentsDefault.iterator();
 		while (iter.hasNext()) {
@@ -201,7 +245,6 @@ public class MapController {
 			for (String str : countries) {
 				if (conrec.getAdjacentCountries().contains(str)) {
 					conrec.getAdjacentCountries().remove(str);
-					// iter.remove();
 
 				}
 			}
