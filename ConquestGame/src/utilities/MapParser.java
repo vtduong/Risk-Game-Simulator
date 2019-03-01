@@ -26,7 +26,7 @@ public class MapParser {
 	private static String buildMapFile;
 	public static ArrayList<Country> countriesList = new ArrayList<Country>();
 	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
-	private static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
+	public static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
 
 	/**
 	 * 
