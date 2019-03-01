@@ -33,6 +33,7 @@ public class MapValidator {
 	public static ArrayList<Country> countriesList = new ArrayList<Country>();
 	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
 	public static Graph<Country, DefaultEdge> countryGraph = new SimpleGraph<>(DefaultEdge.class);
+	public static Graph<String, DefaultEdge> mapGraph = new SimpleGraph<>(DefaultEdge.class);
 	public static ArrayList<Graph<List<Country>, DefaultEdge>> subGraphsList = new ArrayList<Graph<List<Country>, DefaultEdge>>();
 
 	public MapValidator(String inputFile) {
@@ -49,6 +50,7 @@ public class MapValidator {
 			// adding the nodes to the graph
 			for (Country rec : countriesList) {
 				countryGraph.addVertex(rec);
+				mapGraph.addVertex(rec.getName());
 			}
 
 			// adding the edges to the graph
@@ -60,6 +62,16 @@ public class MapValidator {
 					countryGraph.addEdge(conRec, countryRec);
 				}
 			}
+			
+			for (Country conRec : countriesList) {
+				ArrayList<String> adjCountry = new ArrayList<String>();
+				adjCountry.addAll(conRec.getAdjacentCountries());
+				for (String str : adjCountry) {
+					Country countryRec = utilities.MapParser.getCountry(str, countriesList);
+					mapGraph.addEdge(conRec.getName(), str);
+				}
+			}
+			
 		} catch (Exception e) {
 			System.out.println("Exception :" + e.getStackTrace());
 			System.out.println("Exception :" + e.getMessage());
@@ -69,7 +81,7 @@ public class MapValidator {
 		System.out.println("createCountrySubGraoh");
 		continentsList = utilities.MapParser.continentsList;
 		for (Continent rec : continentsList) {
-			subGraphsList.add(createCountrySubGraph(rec.getCountries(), countryGraph));
+			subGraphsList.add(createCountrySubGraph(rec.getCountries(), mapGraph));
 
 		}
 
@@ -79,15 +91,6 @@ public class MapValidator {
 		}
 		mapVisual();
 		System.out.println(subGraphsList.size());
-		/***
-		 * Check if edge exists!!! Country recToReturn = new Country(); recToReturn
-		 * =utilities.MapParser.getCountry("Alaska",countriesList); Country recToReturn1
-		 * = new Country(); recToReturn1
-		 * =utilities.MapParser.getCountry("Alberta",countriesList);
-		 * 
-		 * //System.out.println(recToReturn.getAdjacentCountries());
-		 * //System.out.println(countryGraph.getEdge(recToReturn, recToReturn1));
-		 */
 
 	}
 
@@ -95,8 +98,9 @@ public class MapValidator {
 	public void mapVisual() throws IOException {
 
 		File imgFile = new File("src/resources/Worldmap.png");
-		imgFile.createNewFile();
-		JGraphXAdapter<Country, DefaultEdge> graphAdapter = new JGraphXAdapter<Country, DefaultEdge>(countryGraph);
+		imgFile.createNewFile();//
+		//JGraphXAdapter<Country, DefaultEdge> graphAdapter = new JGraphXAdapter<Country, DefaultEdge>(countryGraph);
+		JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<String, DefaultEdge>(mapGraph);
 		mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
 		layout.execute(graphAdapter.getDefaultParent());
 
@@ -124,9 +128,12 @@ public class MapValidator {
 	 * @return
 	 */
 	private Graph<List<Country>, DefaultEdge> createCountrySubGraph(List<Country> countryList,
-			Graph<Country, DefaultEdge> countryGraph) {
-		Set<Country> countrySet = new HashSet<Country>(countryList);
-		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(countryGraph, countrySet);
+			Graph<String, DefaultEdge> mapGraph) {
+		Set<String> countrySet = new HashSet<String>();
+		for(Country con :countryList) {
+			countrySet.add(con.getName());
+		}
+		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(mapGraph, countrySet);
 		return subGraph;
 	}
 
