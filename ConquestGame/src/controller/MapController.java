@@ -13,53 +13,10 @@ import java.util.Scanner;
 
 public class MapController {
 
-	public static void main(String argv[]) throws IOException {
-		String filepath = "src/resources/results.map";
-		BufferedWriter bw = new BufferedWriter(new FileWriter(filepath, false));
-		Scanner scan = new Scanner(System.in);
-		setMapDetails(bw);
-		Map<String, Integer> continentMap = new HashMap<String, Integer>();
-		System.out.println("Please Enter Map Details");
-		System.out.println(
-				"Please input the numbers of continet you wish to add." + "The value should be grater than 1.");
-		int continentNumber = scan.nextInt();
-		scan.nextLine();
-		String tempname, controlValue;
-		for (int i = 0; i < continentNumber; i++) {
-
-			System.out.println("Enter Continent Name");
-			tempname = scan.nextLine();
-			System.out.println("Enter Continent value");
-			controlValue = scan.nextLine();
-			continentMap.put(tempname, Integer.parseInt(controlValue));
-		}
-		// Call add continent Method
-		addContinent(continentMap, bw);
-
-		// adding Countries
-		System.out.println(
-				"Please input the numbers of countries you wish to add." + "The value should be grater than 1.");
-
-		int countryNo = scan.nextInt();
-		scan.nextLine();
-		String tempStr;
-		String [] countryList = new String[countryNo];
-		System.out.println("Enter Country Details in Order specified!!");
-		for (int i = 0; i < countryNo; i++) {
-			tempStr = scan.nextLine();
-			countryList[i] =(tempStr);
-		}
-		addCountry(countryList,bw);
-		
-		bw.close();
-		scan.close();
-		validateMap(filepath);
+	public void createMap() throws IOException {
 	}
 
-	private void createMap() throws IOException {
-	}
-
-	private static void validateMap(String inputFile) throws IOException {
+	public void validateMap(String inputFile) throws IOException {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 	}
 

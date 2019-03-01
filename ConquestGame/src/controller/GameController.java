@@ -106,6 +106,7 @@ public class GameController {
 		 * To provide input file use src/resources/World.map as argument
 		 * 
 		 */
+		MapController mapController = new MapController();
 		if (args == null || args.length < MIN_ARGS) {
             showHelp();
             return;
@@ -114,9 +115,16 @@ public class GameController {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 		GameController controller = GameController.getInstance();
 	    //TODO  add create map
-		
-		
-		
+		System.out.println("----------Welcome----------");
+		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map");
+		Scanner mapOption = new Scanner(System.in);
+		int selectedMapOption = mapOption.nextInt();
+		if(selectedMapOption == 1) {
+			mapController.validateMap("/src/resources/World.map");
+		}
+		else {
+			mapController.createMap();
+		}
 		
 		//Getting Player Info
 		System.out.println("Please enter the number of players: ");
@@ -130,27 +138,11 @@ public class GameController {
 			controller.addPlayer(new Player(playerName, true, 3));
 		}
 		
-		while(true) {
-			controller.takeTurns();
-			while(true) {
-				controller.currentPlayer.getPlayerCountries().keySet();
-				//for(String country : controller.currentPlayer.getPlayerCountries().keySet())
-				System.out.println("Do you want to start Fortification(Y/N): ");
-				Scanner startFortication = new Scanner(System.in);
-				System.out.println();
-				if(startFortication.nextLine().toUpperCase() == "Y")
-					break;
-				
-			}
-			
-			System.out.println("Do you want to continue(Y/N): ");
-			Scanner cotinueGame = new Scanner(System.in);
-			
-			if(cotinueGame.nextLine().toUpperCase() == "N")
-				break;
+		
+
 			
 				
-		}
+		
 		
 	}
 	
