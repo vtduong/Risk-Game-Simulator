@@ -124,6 +124,12 @@ public class MapController {
 
 	}
 	
+	
+	/**
+	 * @param adjCountryMap
+	 * @param inputFile
+	 * @throws IOException
+	 */
 	private static void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException {
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		if (countriesDefault.size() == 0) {
