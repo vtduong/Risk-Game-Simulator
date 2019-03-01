@@ -129,7 +129,7 @@ public class MapParser {
 
 	}
 
-	static Country getCountry(String name, ArrayList<Country> countryList) {
+	public static Country getCountry(String name, ArrayList<Country> countryList) {
 		Country recToReturn = new Country();
 		for (Country rec : countryList) {
 			if (rec.getName().equals(name)) {
