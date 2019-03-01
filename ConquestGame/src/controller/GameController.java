@@ -14,6 +14,7 @@ import gui.GUI;
 import phases.Attack;
 import phases.ReEnforcement;
 import phases.TurnPhase;
+import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 import utilities.MapValidator;
 import utilities.Tuple;
@@ -114,7 +115,10 @@ public class GameController {
 		String inputFile = args[0];
 		new utilities.MapValidator(inputFile).createCountryGraph();
 		GameController controller = GameController.getInstance();
-	    //TODO  add create map
+		
+		// Here we are asking user to select the map existing map
+		// or to create a custom map.
+		
 		System.out.println("----------Welcome----------");
 		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map");
 		Scanner mapOption = new Scanner(System.in);
@@ -123,14 +127,19 @@ public class GameController {
 			mapController.validateMap("/src/resources/World.map");
 		}
 		else {
-			mapController.createMap();
+			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
+			customMap.createCustomMap();
 		}
 		
 		//Getting Player Info
-		System.out.println("Please enter the number of players: ");
+		System.out.println("Please enter the number of players between 2 and 6: ");
 		Scanner inputNumPlayers = new Scanner(System.in);	
-		
-		for(int i = 1; i <= inputNumPlayers.nextInt(); i++) {
+		int numberOfPlayers = inputNumPlayers.nextInt();
+		//if user inputs number of players less than 2 or greater than 6 then exit the game
+		if (!(numberOfPlayers >= 2 && numberOfPlayers <= 6)) {
+			System.exit(0);
+			}
+		for(int i = 1; i <=numberOfPlayers ; i++) {
 			String playerName = "Player " + i;
 			//TODO
 			//Need to change third parameter in player
@@ -138,7 +147,7 @@ public class GameController {
 			controller.addPlayer(new Player(playerName, true, 3));
 		}
 		
-		
+		//TODO
 
 			
 				
