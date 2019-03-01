@@ -143,6 +143,7 @@ public class MapController {
 			for(Country rec:countriesDefault) {
 				countryname.add(rec.getName());
 			}
+			
 		}
 		
 		for(String str:adjCountryMap.keySet()) {
