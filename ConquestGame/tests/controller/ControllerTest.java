@@ -5,6 +5,9 @@ package controller;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,8 +69,31 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testTakeTurns() {
-		controller.takeTurns();
+	public void testRandomizeCountryDistribution() {
+		List<Player> players = new ArrayList<Player>();
+		players.add(gamer1);
+		players.add(gamer2);
+		players.add(gamer3);
+		
+		List<Country> countries = new ArrayList<Country>();
+		countries.add(eng);
+		countries.add(vn);
+		countries.add(indi);
+		countries.add(can);
+		countries.add(usa);
+		countries.add(mex);
+		countries.add(ger);
+		countries.add(france);
+		countries.add(rus);
+		countries.add(china);
+		countries.add(congo);
+		countries.add(ugan);
+		
+		controller.randomizeCountryDistribution(countries, players);
+		
+		assertNotNull(gamer1.getPlayerCountries());
+		assertNotNull(gamer2.getPlayerCountries());
+		assertNotNull(gamer3.getPlayerCountries());
 		
 	}
 

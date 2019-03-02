@@ -324,11 +324,10 @@ public class GameController {
 	 */
 	public void randomizeCountryDistribution(List<Country> countries, List<Player> players) {
 	    Random rand = new Random();
-	    int numCountriesPerPick = 1;
 	    int playerIdx = 0;
-	    Map<String, ArrayList<String>> list = new HashMap();
+	    
 	    //players take turn to add a country to their occupied_list until the unoccupied country list is empty
-	    while(countries.size() >= 0) {
+	    while(countries.size() > 0) {
 	    	//if playerIdx >= playerList size, reset playerIdx
 	    	playerIdx = playerIdx % players.size();
 	    	Player player = players.get(playerIdx);

@@ -109,7 +109,7 @@ public class BeansTest {
 	}
 	
 	@Test
-	public void countryTest() {
+	public void testCountry() {
 		eng.setOwner(player);
 		
 		List<String> adjacentCountries = new ArrayList<String>();
@@ -127,7 +127,7 @@ public class BeansTest {
 	}
 	
 	@Test
-	public void continentTest() {
+	public void testContinent() {
 		america.setOwner(player);
 		
 		List<Country> country = new ArrayList<Country>();
