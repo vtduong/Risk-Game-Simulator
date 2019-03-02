@@ -120,15 +120,18 @@ public class GameController {
 		// or to create a custom map.
 		
 		System.out.println("----------Welcome----------");
-		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map");
+		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
 		Scanner mapOption = new Scanner(System.in);
 		int selectedMapOption = mapOption.nextInt();
 		if(selectedMapOption == 1) {
 			mapController.validateMap("/src/resources/World.map");
 		}
-		else {
+		else if(selectedMapOption == 2) {
 			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
 			customMap.createCustomMap();
+		}
+		else {
+			
 		}
 		
 		//Getting Player Info

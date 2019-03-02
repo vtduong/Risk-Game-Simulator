@@ -41,8 +41,10 @@ public class MapValidator {
 	}
 
 	public void createCountryGraph() throws IOException {
-		new utilities.MapParser(inputFile).readFile();
-		countriesList = utilities.MapParser.countriesList;
+		MapParser mapParser = new MapParser(inputFile);
+		//new utilities.MapParser(inputFile).readFile();
+		mapParser.readFile();
+		countriesList = mapParser.countriesList;
 		if (continentsList.size() <= 1 || countriesList.size() <= 1) {
 			/// Throw Exception In valid map
 		}
@@ -79,7 +81,7 @@ public class MapValidator {
 		}
 		// get subgraph
 		System.out.println("createCountrySubGraoh");
-		continentsList = utilities.MapParser.continentsList;
+		continentsList = mapParser.continentsList;
 		for (Continent rec : continentsList) {
 			subGraphsList.add(createCountrySubGraph(rec.getCountries(), mapGraph));
 

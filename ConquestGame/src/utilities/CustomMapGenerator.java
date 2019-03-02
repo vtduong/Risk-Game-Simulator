@@ -16,7 +16,7 @@ import controller.MapController;
  */
 public class CustomMapGenerator {
 	private static CustomMapGenerator customMap = null;
-	private String FILEPATH = "src/resources/usermap.map";
+	private final String FILEPATH = "src/resources/usermap.map";
 	private CustomMapGenerator() {
 		
 	}
@@ -47,7 +47,8 @@ public class CustomMapGenerator {
 
 		int numberOfContinent = 0;
 		int numberOfCountries = 0;
-		String tempContinentName, controlValue;
+		String tempContinentName;
+		int controlValue;
 		
 		
 		writeMap.write("[Map]\n");
@@ -64,8 +65,8 @@ public class CustomMapGenerator {
 			System.out.println("Enter Continent Name");
 			tempContinentName = getMapStr.nextLine();
 			System.out.println("Enter Continent value");
-			controlValue = getMapInt.nextLine();
-			continentMap.put(tempContinentName, Integer.parseInt(controlValue));
+			controlValue = getMapInt.nextInt();
+			continentMap.put(tempContinentName, controlValue);
 		}
 		
 		writeMap.write("[Continents]\n");
@@ -83,7 +84,7 @@ public class CustomMapGenerator {
 		System.out.println("Example: \n Country_name,latitude,longitude,continent,adjacent_countries1,adjacent_countries2.... ");
 		System.out.println("c - Change continent\nq - quit\n");
 		for (int i = 0; i < numberOfCountries; i++) {
-			System.out.print("Enter the country's name: ");
+			System.out.print("Enter the option: ");
 			String temp = getMapStr.nextLine();
 			if(temp == "c")
 				countryList[i] = "\n";
@@ -101,5 +102,9 @@ public class CustomMapGenerator {
 		
 		mapcontroller.validateMap(FILEPATH);
 		writeMap.close();
+	}
+	public static void main(String[] args) throws IOException {
+		CustomMapGenerator cust = CustomMapGenerator.getInstance();
+		cust.createCustomMap();
 	}
 }

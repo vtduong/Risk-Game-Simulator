@@ -23,10 +23,10 @@ public class MapParser {
 		this.inputFile = inputFile;
 	}
 
-	private static String buildMapFile;
-	public static ArrayList<Country> countriesList = new ArrayList<Country>();
-	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
-	public static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
+	private String buildMapFile;
+	public  ArrayList<Country> countriesList = new ArrayList<Country>();
+	public  ArrayList<Continent> continentsList = new ArrayList<Continent>();
+	public static  Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
 
 	/**
 	 * 

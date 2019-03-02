@@ -39,7 +39,7 @@ public class MapController {
 	 * @param inputFile
 	 * @throws IOException
 	 */
-	private static void validateMap(String inputFile) throws IOException {
+	public void validateMap(String inputFile) throws IOException {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 	}
 
@@ -54,7 +54,7 @@ public class MapController {
 	 * @param inputFile
 	 * @throws IOException
 	 */
-	private static void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
+	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
 			String inputFile) throws IOException {
 
 		if (!isEdit) {
