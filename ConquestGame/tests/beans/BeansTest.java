@@ -108,6 +108,37 @@ public class BeansTest {
 		
 	}
 	
+	@Test
+	public void countryTest() {
+		eng.setOwner(player);
+		
+		List<String> adjacentCountries = new ArrayList<String>();
+		adjacentCountries.add(indi.getName());
+		adjacentCountries.add(china.getName());
+		
+		assertEquals(eng.getNumArmies(), 0);
+		assertEquals(eng.getOwner(), player);
+		eng.setAdjacentCountries(adjacentCountries);
+		
+		assertSame(adjacentCountries, eng.getAdjacentCountries());
+		assertNotNull(eng.getlongitude());
+		assertNotNull(eng.getLatitude());
+		
+	}
 	
+	@Test
+	public void continentTest() {
+		america.setOwner(player);
+		
+		List<Country> country = new ArrayList<Country>();
+		country.add(mex);
+		
+		assertNotEquals(america.getMaxArmies(), 0);
+		assertEquals(america.getOwner(), player);
+		america.setCountries(country);
+		
+		assertNotNull(america.getCountries());
+		
+	}
 
 }
