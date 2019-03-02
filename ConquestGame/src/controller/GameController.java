@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import beans.*;
+import exception.MapInvalidException;
 import gui.GUI;
 import phases.Attack;
 import phases.ReEnforcement;
@@ -89,12 +90,13 @@ public class GameController {
 	 * The main method.
 	 *
 	 * @param args the arguments
+	 * @throws MapInvalidException 
 	 */
 	/*
 	 * @description :
 	 * @author
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, MapInvalidException {
 		/*File inFile = null;
 		if (0 < args.length) {
 		   inFile = new File(args[0]);

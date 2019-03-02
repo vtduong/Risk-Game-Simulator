@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import controller.MapController;
+import exception.MapInvalidException;
 
 /**
  * @author ankit
@@ -36,8 +37,9 @@ public class CustomMapGenerator {
 	/**
 	 * This is used to create a custom map and validate the same.
 	 * @throws IOException
+	 * @throws MapInvalidException 
 	 */
-	public void createCustomMap() throws IOException {
+	public void createCustomMap() throws IOException, MapInvalidException {
 		MapController mapcontroller = new MapController();
 		BufferedWriter writeMap = new BufferedWriter(new FileWriter(FILEPATH, false));
 		Map<String, Integer> continentMap = new HashMap<String, Integer>();
