@@ -46,6 +46,7 @@ public class MapValidator {
 		MapParser mapParser = new MapParser(inputFile);
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
+	
 		if (continentsList.size() <= 1) {
 			throw new MapInvalidException("There should be atleast one continent");
 			/// Throw Exception In valid map
@@ -117,7 +118,7 @@ public class MapValidator {
 		}
 		return false;
 
-	}
+	}				
 
 	/**
 	 * 
@@ -135,4 +136,4 @@ public class MapValidator {
 		return subGraph;
 	}
 
-}
+}		
