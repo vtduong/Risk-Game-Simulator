@@ -8,19 +8,31 @@ import java.util.Scanner;
 
 import beans.Continent;
 import beans.Country;
+import exception.MapInvalidException;
 
 /**
- * 
+ * This class is used to handle the parsing of map files
  * @author apoorvasharma
- *
+ * @version 1.0.0
  */
 
 public class MapParser {
-	private String inputFile;
+	
+	/**
+	 * @param inputFile the input map file
+	 */
+	private String inputFile= "src/resources/Duplicate_Territory.map";
 	private Scanner sc;
 
 	public MapParser(String inputFile) {
 		this.inputFile = inputFile;
+	}
+	public MapParser() {
+		
+	}
+	public static void main(String args[]) {
+		MapParser mp= new MapParser();
+		mp.readFile();
 	}
 
 	private static String buildMapFile;
@@ -29,7 +41,7 @@ public class MapParser {
 	public static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
 
 	/**
-	 * 
+	 * This method reads the input file for parsing
 	 * 
 	 */
 	public void readFile() {
@@ -52,19 +64,19 @@ public class MapParser {
 			countriesList = parseCountries(buildMapFile.substring(buildMapFile.indexOf("[Territories]")));
 			continentsList = parseContinents(buildMapFile.substring(buildMapFile.indexOf("[Continents]"),
 					buildMapFile.indexOf("[Territories]")));
-
 		} catch (Exception e) {
-			System.out.println("Exception :" + e.getStackTrace());
-			System.out.println("Exception :" + e.getMessage());
-			System.out.println("Exception :" + e.getClass());
+			System.out.println("Map file does not exist");
+			//System.out.println("Exception :" + e.getStackTrace());
+			//System.out.println("Exception :" + e.getMessage());
+			//System.out.println("Exception :" + e.getClass());
 		}
 
 	}
 
 	/**
 	 * 
-	 * @param continents
-	 * @return
+	 * @param continents list of continents in input Map
+	 * @return list of continents parsed in input Map
 	 */
 	private static ArrayList<Continent> parseContinents(String continents) {
 		ArrayList<Continent> continentList = new ArrayList<Continent>();
@@ -91,8 +103,8 @@ public class MapParser {
 	}
 
 	/**
-	 * 
-	 * @param sc
+	 * This method parse all the countries in input Map
+	 * @param country list of countries 
 	 * @return
 	 */
 	private static ArrayList<Country> parseCountries(String countries) {
@@ -111,10 +123,9 @@ public class MapParser {
 						con.setlongitude(Integer.parseInt(temp[2].trim()));
 						con.setContinent(temp[3].trim());
 						countryList.add(con);
-
+						}
 					}
 				}
-			}
 			addAdjacentCountries(country, countryList);
 			// Country recToReturn = new Country();
 			// recToReturn =getCountry("Alaska",countryList);
