@@ -28,13 +28,13 @@ public class MapController {
 	public static ArrayList<Country> countriesDefault = new ArrayList<Country>();
 	public static ArrayList<Continent> continentsDefault = new ArrayList<Continent>();
 	private static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
-	private static String filepath = "src/resources/results.map";
+	private static String filepath = "src/resources/usermap.map";
 
-//	public static void main(String argv[]) throws IOException {
-//		ArrayList<String> continentName = new ArrayList<String>();
-//		continentName.add("Asia");
-//		removeContinent(continentName, filepath);
-//	}
+ /*public static void main(String argv[]) throws IOException {
+	ArrayList<String> continentName = new ArrayList<String>();
+	continentName.add("Asia");		
+	removeContinent(continentName, filepath);
+	}*/
 
 	/**
 	 * @param inputFile
@@ -45,7 +45,7 @@ public class MapController {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 	}
 
-	private static void setMapDetails(BufferedWriter bw) throws IOException {
+	private void setMapDetails(BufferedWriter bw) throws IOException {
 		bw.write("[Map]");
 	}
 
@@ -56,7 +56,7 @@ public class MapController {
 	 * @param inputFile
 	 * @throws IOException
 	 */
-	public static void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
+	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
 			String inputFile) throws IOException {
 
 		if (!isEdit) {
@@ -116,11 +116,8 @@ public class MapController {
 			for (int k = 0; k < arrayList.length; k++) {
 				temp = (String)arrayList[k] + "\n";
 			}
-			System.out.println(buildMapFile.substring(buildMapFile.indexOf("[Territories]")));
-			System.out.println(temp);
 			updatedStr = buildMapFile.substring(0, buildMapFile.indexOf("[Territories]"))
 					+ buildMapFile.substring(buildMapFile.indexOf("[Territories]")) + temp;
-			System.out.println(updatedStr);
 			FileWriter writer = new FileWriter(inputFile);
 			writer.write(updatedStr);
 			writer.close();
@@ -193,6 +190,7 @@ public class MapController {
 		while (iter.hasNext()) {
 			Continent conrec = iter.next();
 			if (continentName.contains(conrec.getName())) {
+				System.out.print("continentName size!!!"+conrec.getName());
 				iter.remove();
 			}
 		}
@@ -211,6 +209,8 @@ public class MapController {
 		if (countriesToDelete.size() != 0) {
 			removeCountry(countriesToDelete, inputFile);
 		}
+		
+		
 	}
 
 	/**
@@ -219,7 +219,6 @@ public class MapController {
 	 * @throws IOException
 	 */
 	public void removeCountry(ArrayList<String> countries, String inputFile) throws IOException {
-
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
 		countriesDefault = mpsr.countriesList;

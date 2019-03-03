@@ -12,6 +12,7 @@ import java.util.Scanner;
 import beans.Continent;
 import beans.Country;
 import controller.MapController;
+import exception.MapInvalidException;
 public class EditMap {
 	private Map<String, Integer> continents = null;
 	private ArrayList<String> countries = null;
@@ -48,11 +49,12 @@ public class EditMap {
 		return editMap;
 	}
 	
-	public void editExistingMap() throws IOException {
+	public void editExistingMap() throws IOException, MapInvalidException {
 		MapParser mapParser = new MapParser(EDITEDMAP);
 		mapParser.readFile();
 		ReplicateMap replicateMap = ReplicateMap.getInstance();
 		replicateMap.cloneMap();
+		mapController = new MapController();
 		System.out.println("----------Continent----------");
 		for(Continent continent : mapParser.continentsList)
 			System.out.println(continent.getName());
@@ -162,12 +164,17 @@ public class EditMap {
 		
 		if(adjCountryMap.size() > 0)
 			mapController.addAdjCountry(adjCountryMap, EDITEDMAP);
-		
-		
+		    
+		mapController.validateMap(EDITEDMAP);
 	}
 		
 	public static void main(String[] args) throws IOException {
 		EditMap em = EditMap.getInstance();
-		em.editExistingMap();
+		try {
+			em.editExistingMap();
+		} catch (MapInvalidException e) {
+			// TODO Auto-generated catch block
+		    System.out.println(e.getMessage());
+		}
 	}
 }
