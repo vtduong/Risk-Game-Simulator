@@ -105,8 +105,8 @@ public class CustomMapGenerator {
 		mapcontroller.validateMap(FILEPATH);
 		writeMap.close();
 	}
-	public static void main(String[] args) throws IOException {
-		CustomMapGenerator cust = CustomMapGenerator.getInstance();
-		cust.createCustomMap();
-	}
+//	public static void main(String[] args) throws IOException, MapInvalidException {
+//		CustomMapGenerator cust = CustomMapGenerator.getInstance();
+//		cust.createCustomMap();
+//	}
 }
