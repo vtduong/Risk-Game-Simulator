@@ -94,7 +94,7 @@ public class EditMap {
 			
 		}
 		System.out.println(continents.size());
-		mapController.addContinent(continents, new BufferedWriter(new FileWriter((EDITEDMAP))), true, EDITEDMAP);
+		mapController.addContinent(continents,null, true, EDITEDMAP);
 		
 		}
 		
