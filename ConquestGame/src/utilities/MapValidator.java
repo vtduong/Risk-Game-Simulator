@@ -46,13 +46,13 @@ public class MapValidator {
 		MapParser mapParser = new MapParser(inputFile);
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
-	
+
 		if (continentsList.size() <= 1) {
 			throw new MapInvalidException("There should be atleast one continent");
-			/// Throw Exception In valid map
 		}
 		Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
-		worldMap =utilities.MapParser.worldMap;
+		worldMap = utilities.MapParser.worldMap;
+
 		try {
 			// adding the nodes to the graph
 			for (Country rec : countriesList) {
@@ -60,7 +60,7 @@ public class MapValidator {
 			}
 
 			// adding the edges to the graph
-			
+
 			for (Country conRec : countriesList) {
 				ArrayList<String> adjCountry = new ArrayList<String>();
 				adjCountry.addAll(conRec.getAdjacentCountries());
@@ -69,14 +69,13 @@ public class MapValidator {
 					mapGraph.addEdge(conRec.getName(), str);
 				}
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Exception :" + e.getStackTrace());
 			System.out.println("Exception :" + e.getMessage());
 			System.out.println("Exception :" + e.getClass());
 		}
-		// get subgraph
-		System.out.println("createCountrySubGraoh");
+
 		continentsList = mapParser.continentsList;
 		for (Continent rec : continentsList) {
 			subGraphsList.add(createCountrySubGraph(rec.getCountries(), mapGraph));
@@ -98,7 +97,6 @@ public class MapValidator {
 
 		File imgFile = new File("src/resources/Worldmap.png");
 		imgFile.createNewFile();//
-		//JGraphXAdapter<Country, DefaultEdge> graphAdapter = new JGraphXAdapter<Country, DefaultEdge>(countryGraph);
 		JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<String, DefaultEdge>(mapGraph);
 		mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
 		layout.execute(graphAdapter.getDefaultParent());
@@ -118,7 +116,23 @@ public class MapValidator {
 		}
 		return false;
 
-	}				
+	}
+
+	/**
+	 * @param defaultCountryList : List of countries in the map
+	 * @throws MapInvalidException
+	 */
+	private void duplicateCountries(ArrayList<Country> defaultCountryList) throws MapInvalidException {
+		HashMap<String, Country> duplicateCheckMap = new HashMap<String, Country>();
+		for (Country rec : defaultCountryList) {
+			if (duplicateCheckMap.get(rec.getName()) != null) {
+				throw new MapInvalidException(
+						"Invalid Map.Country " + rec.getName() + " is associated with more than 1 continent.");
+			} else {
+				duplicateCheckMap.put(rec.getName(), rec);
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -129,11 +143,11 @@ public class MapValidator {
 	private Graph<List<Country>, DefaultEdge> createCountrySubGraph(List<Country> countryList,
 			Graph<String, DefaultEdge> mapGraph) {
 		Set<String> countrySet = new HashSet<String>();
-		for(Country con :countryList) {
+		for (Country con : countryList) {
 			countrySet.add(con.getName());
 		}
 		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(mapGraph, countrySet);
 		return subGraph;
 	}
 
-}		
+}

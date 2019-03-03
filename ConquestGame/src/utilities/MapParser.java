@@ -12,33 +12,36 @@ import exception.MapInvalidException;
 
 /**
  * This class is used to handle the parsing of map files
+ * 
  * @author apoorvasharma
  * @version 1.0.0
  */
 
 public class MapParser {
-	
+
 	/**
 	 * @param inputFile the input map file
 	 */
-	private String inputFile= "src/resources/Duplicate_Territory.map";
+	private String inputFile = "src/resources/Duplicate_Territory.map";
 	private Scanner sc;
 
 	public MapParser(String inputFile) {
 		this.inputFile = inputFile;
 	}
+
 	public MapParser() {
-		
+
 	}
+
 	public static void main(String args[]) {
-		MapParser mp= new MapParser();
+		MapParser mp = new MapParser();
 		mp.readFile();
 	}
 
 	private String buildMapFile;
-	public  ArrayList<Country> countriesList = new ArrayList<Country>();
-	public  ArrayList<Continent> continentsList = new ArrayList<Continent>();
-	public static  Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
+	public ArrayList<Country> countriesList = new ArrayList<Country>();
+	public ArrayList<Continent> continentsList = new ArrayList<Continent>();
+	public static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
 
 	/**
 	 * This method reads the input file for parsing
@@ -46,12 +49,8 @@ public class MapParser {
 	 */
 	public void readFile() {
 		try {
-			// System.out.println(System.getProperty("user.dir"));
 
-			// Scanner sc = new Scanner(new
-			// File("/Users/apoorvasharma/git/SOEN_6441/ConquestGame/src/resources/World.map"));
 			Scanner sc = new Scanner(new File(inputFile));
-
 			String tempStr = null;
 			buildMapFile = "";
 			while (sc.hasNext()) {
@@ -59,23 +58,18 @@ public class MapParser {
 				buildMapFile = buildMapFile + "" + tempStr + "\n";
 			}
 
-			// continentsList=parseContinents(buildMapFile.substring(buildMapFile.indexOf("[Continents]"),
-			// buildMapFile.indexOf("[Territories]")));
 			countriesList = parseCountries(buildMapFile.substring(buildMapFile.indexOf("[Territories]")));
 			continentsList = parseContinents(buildMapFile.substring(buildMapFile.indexOf("[Continents]"),
 					buildMapFile.indexOf("[Territories]")));
 		} catch (Exception e) {
 			System.out.println("Map file does not exist");
-			//System.out.println("Exception :" + e.getStackTrace());
-			//System.out.println("Exception :" + e.getMessage());
-			//System.out.println("Exception :" + e.getClass());
 		}
 
 	}
 
 	/**
 	 * 
-	 * @param continents list of continents in input Map
+	 * @param continents substring of the map file containing continents
 	 * @return list of continents parsed in input Map
 	 */
 	private static ArrayList<Continent> parseContinents(String continents) {
@@ -104,7 +98,8 @@ public class MapParser {
 
 	/**
 	 * This method parse all the countries in input Map
-	 * @param country list of countries 
+	 * 
+	 * @param country list of countries
 	 * @return
 	 */
 	private static ArrayList<Country> parseCountries(String countries) {
@@ -123,13 +118,10 @@ public class MapParser {
 						con.setlongitude(Integer.parseInt(temp[2].trim()));
 						con.setContinent(temp[3].trim());
 						countryList.add(con);
-						}
 					}
 				}
+			}
 			addAdjacentCountries(country, countryList);
-			// Country recToReturn = new Country();
-			// recToReturn =getCountry("Alaska",countryList);
-			// System.out.println(recToReturn.getAdjacentCountries());
 
 		} catch (Exception e) {
 			System.out.println("Exception :" + e.getStackTrace());
@@ -167,8 +159,6 @@ public class MapParser {
 				}
 			}
 			rec.setAdjacentCountries(adjCountry);
-
-			// continent-country
 
 			if (worldMap.get(rec.getContinent()) != null) {
 				ArrayList<Country> tempList = new ArrayList<Country>();
