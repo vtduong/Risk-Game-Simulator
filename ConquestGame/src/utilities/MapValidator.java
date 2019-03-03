@@ -5,8 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -23,6 +25,7 @@ import com.mxgraph.util.mxCellRenderer;
 
 import beans.Continent;
 import beans.Country;
+import exception.MapInvalidException;
 
 /**
  * @author apoorvasharma
@@ -32,7 +35,6 @@ public class MapValidator {
 	private String inputFile;
 	public static ArrayList<Country> countriesList = new ArrayList<Country>();
 	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
-	public static Graph<Country, DefaultEdge> countryGraph = new SimpleGraph<>(DefaultEdge.class);
 	public static Graph<String, DefaultEdge> mapGraph = new SimpleGraph<>(DefaultEdge.class);
 	public static ArrayList<Graph<List<Country>, DefaultEdge>> subGraphsList = new ArrayList<Graph<List<Country>, DefaultEdge>>();
 
@@ -40,30 +42,23 @@ public class MapValidator {
 		this.inputFile = inputFile;
 	}
 
-	public void createCountryGraph() throws IOException {
+	public void createCountryGraph() throws IOException, MapInvalidException {
 		MapParser mapParser = new MapParser(inputFile);
-		//new utilities.MapParser(inputFile).readFile();
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
-		if (continentsList.size() <= 1 || countriesList.size() <= 1) {
+		if (continentsList.size() <= 1) {
+			throw new MapInvalidException("There should be atleast one continent");
 			/// Throw Exception In valid map
 		}
+		Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
+		worldMap =utilities.MapParser.worldMap;
 		try {
 			// adding the nodes to the graph
 			for (Country rec : countriesList) {
-				countryGraph.addVertex(rec);
 				mapGraph.addVertex(rec.getName());
 			}
 
 			// adding the edges to the graph
-			for (Country conRec : countryGraph.vertexSet()) {
-				ArrayList<String> adjCountry = new ArrayList<String>();
-				adjCountry.addAll(conRec.getAdjacentCountries());
-				for (String str : adjCountry) {
-					Country countryRec = utilities.MapParser.getCountry(str, countriesList);
-					countryGraph.addEdge(conRec, countryRec);
-				}
-			}
 			
 			for (Country conRec : countriesList) {
 				ArrayList<String> adjCountry = new ArrayList<String>();
@@ -89,6 +84,7 @@ public class MapValidator {
 
 		boolean isConnected = mapisConnected();
 		if (!isConnected) {
+			throw new MapInvalidException("Map is not connected");
 			// throw Error
 		}
 		mapVisual();
@@ -114,7 +110,7 @@ public class MapValidator {
 	public boolean mapisConnected() {
 
 		boolean isConnected = false;
-		if (new ConnectivityInspector<>(countryGraph).isConnected()) {
+		if (new ConnectivityInspector<>(mapGraph).isConnected()) {
 			isConnected = true;
 		} else {
 			isConnected = false;

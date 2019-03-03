@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import beans.*;
+import exception.MapInvalidException;
 import gui.GUI;
 import phases.Attack;
 import phases.ReEnforcement;
@@ -89,12 +90,13 @@ public class GameController {
 	 * The main method.
 	 *
 	 * @param args the arguments
+	 * @throws MapInvalidException 
 	 */
 	/*
 	 * @description :
 	 * @author
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, MapInvalidException {
 		/*File inFile = null;
 		if (0 < args.length) {
 		   inFile = new File(args[0]);
@@ -327,11 +329,10 @@ public class GameController {
 	 */
 	public void randomizeCountryDistribution(List<Country> countries, List<Player> players) {
 	    Random rand = new Random();
-	    int numCountriesPerPick = 1;
 	    int playerIdx = 0;
-	    Map<String, ArrayList<String>> list = new HashMap();
+	    
 	    //players take turn to add a country to their occupied_list until the unoccupied country list is empty
-	    while(countries.size() >= 0) {
+	    while(countries.size() > 0) {
 	    	//if playerIdx >= playerList size, reset playerIdx
 	    	playerIdx = playerIdx % players.size();
 	    	Player player = players.get(playerIdx);

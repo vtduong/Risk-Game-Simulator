@@ -41,6 +41,7 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
+
 	public void validateMap(String inputFile) throws IOException, MapInvalidException {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 	}
@@ -56,7 +57,7 @@ public class MapController {
 	 * @param inputFile
 	 * @throws IOException
 	 */
-	private static void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
+	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
 			String inputFile) throws IOException {
 
 		if (!isEdit) {
@@ -263,4 +264,5 @@ public class MapController {
 		MapFileWriter mfw = new MapFileWriter();
 		mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 	}
+
 }

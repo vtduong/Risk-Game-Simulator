@@ -16,7 +16,6 @@ import java.util.Set;
 
 import beans.Continent;
 import beans.Country;
-import exception.MapInvalidException;
 import utilities.MapFileWriter;
 
 /**
@@ -39,9 +38,8 @@ public class MapController {
 	/**
 	 * @param inputFile
 	 * @throws IOException
-	 * @throws MapInvalidException 
 	 */
-	public void validateMap(String inputFile) throws IOException, MapInvalidException {
+	private static void validateMap(String inputFile) throws IOException {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 	}
 
@@ -263,4 +261,5 @@ public class MapController {
 		MapFileWriter mfw = new MapFileWriter();
 		mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 	}
+
 }

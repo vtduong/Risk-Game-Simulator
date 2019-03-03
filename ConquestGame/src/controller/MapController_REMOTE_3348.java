@@ -263,4 +263,5 @@ public class MapController {
 		MapFileWriter mfw = new MapFileWriter();
 		mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 	}
+
 }
