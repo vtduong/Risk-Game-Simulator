@@ -19,6 +19,7 @@ public class EditMap {
 	private ArrayList<String> removeContinents = null;
 	private ArrayList<String> removeCountries = null;
 	private ArrayList<String> removeAdjacentCountries = null;
+	private Map<String,List<String>> adjMap =null;
 	
 	
 	private Map<String,List<String>> adjCountryMap = null;
@@ -35,6 +36,7 @@ public class EditMap {
 		removeCountries = new ArrayList<String>();
 		continents = new HashMap<String, Integer>();
 		countries = new ArrayList<String>();
+		adjMap     = new HashMap<String,List<String>>();
 	}
 
 	/**
@@ -134,10 +136,31 @@ public class EditMap {
 			}
 			
 			else if(option == 6) {
+				adjMap = new HashMap<String,List<String>>();
 				System.out.println("Enter the Country Name: ");
 				String countryName = getUserInputStr.nextLine();
 				System.out.println();
-				removeAdjacentCountries.add(countryName);
+				System.out.println("Enter the number of adjacent Countries to be removed: ");
+				int conNo =getUserInputInt.nextInt();
+				System.out.println("Enter the name of adjacent Countries to be removed: ");
+				for(int i=0;i<conNo;i++) {
+					String adjCountryName = getUserInputStr.nextLine();
+					if(adjMap.containsKey(countryName)){
+						adjMap.get(countryName).add(adjCountryName);
+					}else {
+						List<String> tempList =new ArrayList<String>();
+						tempList.add(adjCountryName);
+						adjMap.put(countryName,tempList);
+					}
+					if(adjMap.containsKey(adjCountryName)) {
+						adjMap.get(adjCountryName).add(countryName);
+					}else {
+						List<String> tempList =new ArrayList<String>();
+						tempList.add(countryName);
+						adjMap.put(adjCountryName,tempList);
+					}
+				}
+				
 			}
 			
 			else 
@@ -148,7 +171,7 @@ public class EditMap {
 		
 			
 		if(removeCountries.size() > 0)
-			mapController.removeCountry(removeCountries, EDITEDMAP);
+			mapController.removeCountry(removeCountries, EDITEDMAP,false);
 		
 		if(removeContinents.size() > 0)
 			mapController.removeContinent(removeContinents, EDITEDMAP);
@@ -159,8 +182,9 @@ public class EditMap {
 		if(countries.size() > 0)
 			mapController.addCountry(countries.toArray(), null, true, EDITEDMAP);
 		
-		if(removeAdjacentCountries.size() > 0)
-			mapController.removeAdjCountry(removeAdjacentCountries, EDITEDMAP);
+		if(adjMap.size() > 0)
+			System.out.print(adjMap.size());
+			mapController.removeAdjCountry(null, EDITEDMAP,adjMap,false);
 		
 		if(adjCountryMap.size() > 0)
 			mapController.addAdjCountry(adjCountryMap, EDITEDMAP);
@@ -173,7 +197,6 @@ public class EditMap {
 		try {
 			em.editExistingMap();
 		} catch (MapInvalidException e) {
-			// TODO Auto-generated catch block
 		    System.out.println(e.getMessage());
 		}
 	}
