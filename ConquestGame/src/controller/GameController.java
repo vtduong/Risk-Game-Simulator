@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import beans.*;
 import exception.MapInvalidException;
-import gui.GUI;
+import gui.UI;
 import phases.Attack;
 import phases.ReEnforcement;
 import phases.TurnPhase;
@@ -105,18 +105,22 @@ public class GameController {
 		   System.exit(1);
 		} */
 		
+		GameController controller = GameController.getInstance();
+		UI ui = new UI();
+		
+		
 		/*Added to parse the default file.
 		 * To provide input file use src/resources/World.map as argument
 		 * 
 		 */
 		MapController mapController = new MapController();
 		if (args == null || args.length < MIN_ARGS) {
-            showHelp();
+            controller.showHelp();
             return;
         }
 		String inputFile = args[0];
-		new utilities.MapValidator(inputFile).createCountryGraph();
-		GameController controller = GameController.getInstance();
+		MapValidator mapValidator = new MapValidator(inputFile);
+		mapValidator.createCountryGraph();
 		
 		// Here we are asking user to select the map existing map
 		// or to create a custom map.
@@ -143,29 +147,55 @@ public class GameController {
 		//if user inputs number of players less than 2 or greater than 6 then exit the game
 		if (!(numberOfPlayers >= 2 && numberOfPlayers <= 6)) {
 			System.exit(0);
-			}
-		for(int i = 1; i <=numberOfPlayers ; i++) {
-			String playerName = "Player " + i;
-			//TODO
-			//Need to change third parameter in player
-			//after map is implemented 
-			controller.addPlayer(new Player(playerName, true, 3));
 		}
 		
-		//TODO
-
-			
+		int initialArmies = 0;
+		switch(numberOfPlayers) {
+		//TODO	not so sure about case 2
+			case 2:
+				initialArmies = 40;
+			case 3:
+				initialArmies = 35;
+			break;
+			case 4:
+				initialArmies = 30;
+			break;
+			case 5:
+				initialArmies = 25;
+			break;
+			case 6:
+				initialArmies = 20;
+			break;	
+		}
+		for(int i = 1; i <=numberOfPlayers ; i++) {
+			String playerName = "Player " + i;
+			Player player = new Player(playerName, true, initialArmies);
+			controller.addPlayer(player);
+			//register UI as observer for this player
+			player.attach(ui);
+		}
+		
+		//TODO MOVE CODE TO UI CLASS UNDER APPROPRIATE METHODS
+		System.out.println("evenly distributing countries among players in random fashion...");
+		controller.randomizeCountryDistribution(MapValidator.countriesList, controller.getPlayerList());
+		
+		controller.takeTurns();	
 				
 		
 		
 	}
 	
-	
+	/**
+	 * @return the list of players
+	 */
+	public List<Player> getPlayerList() {
+		return this.playerList;
+	} 	
 	
 	/**
 	 * Show help.
 	 */
-	public static void showHelp() {
+	public void showHelp() {
 		//TODO
 	}
 	
@@ -245,6 +275,7 @@ public class GameController {
 		while (winner == null) {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
+			System.out.println("-----------PLAYER "+ i+1 + "'S TURN---------");
 			takePhases();
 			// check if current player has won the game
 			if(countryOwnership.size() == MapValidator.countriesList.size()) {
@@ -273,7 +304,7 @@ public class GameController {
 					//ask user if ready for next phase
 					readyForNextPhase = readyForNextPhase();
 				}catch(IllegalArgumentException e) {
-					GUI.handleExceptions(e.getMessage());
+					UI.handleExceptions(e.getMessage());
 				}
 			}
 			currentPhase.setNextPhase();
@@ -286,7 +317,7 @@ public class GameController {
 	 * @return true if user wants to go to war
 	 */
 	private boolean isWar() {
-		return GUI.isWar();
+		return UI.isWar();
 		
 	}
 
@@ -354,7 +385,7 @@ public class GameController {
 	 */
 	public Map<Country, Integer> distributeArmies() {
 		 
-		return GUI.distributeArmies(currentPlayer.getPlayerCountries(), currentPlayer.getArmies());
+		return UI.distributeArmies(currentPlayer.getPlayerCountries(), currentPlayer.getArmies());
 	}
 
 
@@ -364,7 +395,7 @@ public class GameController {
 	 * @return true, if successful
 	 */
 	public boolean readyForNextPhase() {
-		return GUI.readyForNextPhase();
+		return UI.readyForNextPhase();
 		
 	}
 
@@ -376,7 +407,7 @@ public class GameController {
 	 *         armies to, and number of armies
 	 */
 	public Tuple getParamsForFortification() {
-		return GUI.getFortificationInfo();
+		return UI.getFortificationInfo();
 		
 	}
 }
