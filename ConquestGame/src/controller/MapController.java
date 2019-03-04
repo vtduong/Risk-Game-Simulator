@@ -137,7 +137,7 @@ public class MapController {
 			
 		}
 		Set<String> countryname =new HashSet<String>();
-		if(countriesDefault.isEmpty()) {
+		if(!countriesDefault.isEmpty()) {
 			for(Country rec:countriesDefault) {
 				countryname.add(rec.getName());
 			}
@@ -192,7 +192,6 @@ public class MapController {
 		while (iter.hasNext()) {
 			Continent conrec = iter.next();
 			if (continentName.contains(conrec.getName())) {
-				System.out.print("continentName size!!!"+conrec.getName());
 				iter.remove();
 			}
 		}
@@ -209,7 +208,7 @@ public class MapController {
 		}
 
 		if (countriesToDelete.size() != 0) {
-			removeCountry(countriesToDelete, inputFile);
+			removeCountry(countriesToDelete, inputFile,false);
 		}
 		
 		
@@ -222,20 +221,23 @@ public class MapController {
 	 * @throws MapInvalidException 
 	 */
 
-	private void removeCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
-
+	public void removeCountry(ArrayList<String> countries, String inputFile,boolean isRecursion) throws IOException, MapInvalidException {
+    
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
 		countriesDefault = mpsr.countriesList;
-
+	    if(worldMap.size()==0) {
+	    	worldMap = mpsr.worldMap;
+	    }
 		Iterator<Country> iter = countriesDefault.iterator();
 		while (iter.hasNext()) {
 			Country conrec = iter.next();
 			if (countries.contains(conrec.getName())) {
+				worldMap.get(conrec.getContinent()).remove(conrec.getName());
 				iter.remove();
 			}
 		}
-		removeAdjCountry(countries, inputFile);
+		removeAdjCountry(countries, inputFile,null,true);
 
 	}
 
@@ -246,29 +248,63 @@ public class MapController {
 	 * @throws MapInvalidException 
 	 */
 
-	private void removeAdjCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
+	public void removeAdjCountry(ArrayList<String> countries, String inputFile,Map<String,List<String>> adjMap,boolean isFunCall) throws IOException, MapInvalidException {
 
 		if (countriesDefault.size() == 0) {
 			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 			mpsr.readFile();
 			countriesDefault = mpsr.countriesList;
+			worldMap = mpsr.worldMap;
 		}
+		
 		if (continentsDefault.size() == 0) {
 			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 			mpsr.readFile();
 			continentsDefault = mpsr.continentsList;
 		}
 		Iterator<Country> iter = countriesDefault.iterator();
-		while (iter.hasNext()) {
-			Country conrec = iter.next();
-			for (String str : countries) {
-				if (conrec.getAdjacentCountries().contains(str)) {
-					conrec.getAdjacentCountries().remove(str);
-
+		if(isFunCall) {
+			while (iter.hasNext()) {
+				Country conrec = iter.next();
+				for (String str : countries) {
+					if (conrec.getAdjacentCountries().contains(str)) {
+						conrec.getAdjacentCountries().remove(str);
+	
+					}
+				}
+			}
+		}else {
+			while (iter.hasNext()) {
+				Country conrec = iter.next();
+				if(adjMap.containsKey(conrec.getName())) {
+					for (String str : adjMap.get(conrec.getName())) {
+						System.out.println("Ie"+conrec.getName()+"  "+adjMap.get(conrec.getName()));
+						conrec.getAdjacentCountries().remove(str);
+					}
 				}
 			}
 		}
-
+		
+		//check for countries without any adjacent countries and remove them if they exist
+		Iterator<Country> iter1 = countriesDefault.iterator();
+		while (iter1.hasNext()) {
+			Country conrec = iter1.next();
+			if (conrec.getAdjacentCountries().size()==0) {
+				System.out.print(conrec.getName());
+				worldMap.get(conrec.getContinent()).remove(conrec.getName());
+				iter1.remove();
+			}
+		}
+	    // remove continents if no country is associated with the continent
+		if(!worldMap.isEmpty()) {
+			Iterator<Continent> iterCon = continentsDefault.iterator();
+			while (iterCon.hasNext()) {
+				Continent conrec = iterCon.next();
+				if(worldMap.get(conrec.getName())==null) {
+					iterCon.remove();
+				}
+			}
+		}
 		MapFileWriter mfw = new MapFileWriter();
 		mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 	}

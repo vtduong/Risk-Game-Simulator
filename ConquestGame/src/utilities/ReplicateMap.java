@@ -3,6 +3,12 @@ package utilities;
 import java.io.*;
 import java.util.*;
 
+/**
+ * This class is used to clone the original map so that the original map
+ *  is not affected by the changes made by user
+ * @author ankit
+ *
+ */
 public class ReplicateMap {
 	private final String INPUTFILE = "src/resources/World.map";
 	private final String OUTPUTFILE = "src/resources/usermap.map";
