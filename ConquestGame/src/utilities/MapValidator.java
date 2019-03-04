@@ -47,7 +47,7 @@ public class MapValidator {
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
 		continentsList =mapParser.continentsList;
-		if (continentsList.size() < 1) {
+		if (continentsList.size() <= 1) {
 			throw new MapInvalidException("There should be atleast one continent");
 		}
 		duplicateCountries(countriesList);

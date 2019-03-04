@@ -30,11 +30,11 @@ public class MapController {
 	private static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
 	private static String filepath = "src/resources/results.map";
 
-	public static void main(String argv[]) throws IOException, MapInvalidException {
+	/*public static void main(String argv[]) throws IOException, MapInvalidException {
 		ArrayList<String> continentName = new ArrayList<String>();
 		continentName.add("Asia");
 		removeContinent(continentName, filepath);
-	}
+	}*/
 
 	/**
 	 * @param inputFile
@@ -133,7 +133,7 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
-	private static void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException, MapInvalidException {
+	private void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException, MapInvalidException {
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		if (countriesDefault.size() == 0) {
 			mpsr.readFile();
@@ -186,7 +186,7 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
-	private static void removeContinent(ArrayList<String> continentName, String inputFile) throws IOException, MapInvalidException {
+	private void removeContinent(ArrayList<String> continentName, String inputFile) throws IOException, MapInvalidException {
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
 		continentsDefault = mpsr.continentsList;
@@ -221,7 +221,7 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
-	private static void removeCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
+	private void removeCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
 
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
@@ -244,7 +244,7 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
-	private static void removeAdjCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
+	private void removeAdjCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
 		if (countriesDefault.size() == 0) {
 			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 			mpsr.readFile();
