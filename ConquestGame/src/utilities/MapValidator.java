@@ -46,13 +46,11 @@ public class MapValidator {
 		MapParser mapParser = new MapParser(inputFile);
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
-
-		if (continentsList.size() <= 1) {
+		continentsList =mapParser.continentsList;
+		if (continentsList.size() < 1) {
 			throw new MapInvalidException("There should be atleast one continent");
 		}
-		Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
-		worldMap = utilities.MapParser.worldMap;
-
+		duplicateCountries(countriesList);
 		try {
 			// adding the nodes to the graph
 			for (Country rec : countriesList) {
@@ -71,9 +69,7 @@ public class MapValidator {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Exception :" + e.getStackTrace());
-			System.out.println("Exception :" + e.getMessage());
-			System.out.println("Exception :" + e.getClass());
+			throw new MapInvalidException("Abandoned Territory Detected");
 		}
 
 		continentsList = mapParser.continentsList;
@@ -84,8 +80,7 @@ public class MapValidator {
 
 		boolean isConnected = mapisConnected();
 		if (!isConnected) {
-			throw new MapInvalidException("Map is not connected");
-			// throw Error
+			throw new MapInvalidException("Map is not connected. Provide a valid map input");
 		}
 		mapVisual();
 		System.out.println(subGraphsList.size());
@@ -114,7 +109,7 @@ public class MapValidator {
 		} else {
 			isConnected = false;
 		}
-		return false;
+		return isConnected;
 
 	}
 
@@ -139,14 +134,18 @@ public class MapValidator {
 	 * @param countryList
 	 * @param countryGraph
 	 * @return
+	 * @throws MapInvalidException 
 	 */
 	private Graph<List<Country>, DefaultEdge> createCountrySubGraph(List<Country> countryList,
-			Graph<String, DefaultEdge> mapGraph) {
+			Graph<String, DefaultEdge> mapGraph) throws MapInvalidException {
 		Set<String> countrySet = new HashSet<String>();
 		for (Country con : countryList) {
 			countrySet.add(con.getName());
 		}
 		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(mapGraph, countrySet);
+		/*if(!new ConnectivityInspector<>(subGraph).isConnected()) {
+			throw new MapInvalidException("Subgraph is not connected");
+		}*/
 		return subGraph;
 	}
 

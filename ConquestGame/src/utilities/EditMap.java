@@ -10,6 +10,7 @@ import java.util.Scanner;
 import beans.Continent;
 import beans.Country;
 import controller.MapController;
+import exception.MapInvalidException;
 public class EditMap {
 	private Map<String, Integer> continents = null;
 	private static EditMap editMap = null;
@@ -34,7 +35,7 @@ public class EditMap {
 		return editMap;
 	}
 	
-	public void editExistingMap() throws IOException {
+	public void editExistingMap() throws IOException, MapInvalidException {
 		MapParser mapParser = new MapParser(EDITEDMAP);
 		mapParser.readFile();
 		ReplicateMap replicateMap = ReplicateMap.getInstance();
@@ -98,7 +99,7 @@ public class EditMap {
 		
 		}
 		
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, MapInvalidException {
 		EditMap em = EditMap.getInstance();
 		em.editExistingMap();
 	}

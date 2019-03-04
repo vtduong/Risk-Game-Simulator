@@ -22,22 +22,12 @@ public class MapParser {
 	/**
 	 * @param inputFile the input map file
 	 */
-	private String inputFile = "src/resources/Duplicate_Territory.map";
+	private String inputFile;
 	private Scanner sc;
 
 	public MapParser(String inputFile) {
 		this.inputFile = inputFile;
 	}
-
-	public MapParser() {
-
-	}
-
-	public static void main(String args[]) {
-		MapParser mp = new MapParser();
-		mp.readFile();
-	}
-
 	private String buildMapFile;
 	public ArrayList<Country> countriesList = new ArrayList<Country>();
 	public ArrayList<Continent> continentsList = new ArrayList<Continent>();
@@ -45,9 +35,10 @@ public class MapParser {
 
 	/**
 	 * This method reads the input file for parsing
+	 * @throws MapInvalidException 
 	 * 
 	 */
-	public void readFile() {
+	public void readFile() throws MapInvalidException {
 		try {
 
 			Scanner sc = new Scanner(new File(inputFile));
@@ -62,7 +53,7 @@ public class MapParser {
 			continentsList = parseContinents(buildMapFile.substring(buildMapFile.indexOf("[Continents]"),
 					buildMapFile.indexOf("[Territories]")));
 		} catch (Exception e) {
-			System.out.println("Map file does not exist");
+			throw new MapInvalidException("Map file does not exist");
 		}
 
 	}
@@ -71,8 +62,9 @@ public class MapParser {
 	 * 
 	 * @param continents substring of the map file containing continents
 	 * @return list of continents parsed in input Map
+	 * @throws MapInvalidException 
 	 */
-	private static ArrayList<Continent> parseContinents(String continents) {
+	private static ArrayList<Continent> parseContinents(String continents) throws MapInvalidException {
 		ArrayList<Continent> continentList = new ArrayList<Continent>();
 		// System.out.println("Parsing Continents!!"+continents);
 		String continent[] = continents.split("\n");
@@ -88,10 +80,7 @@ public class MapParser {
 				}
 			}
 		} catch (Exception e) {
-			// TODO
-			System.out.println("Exception :" + e.getStackTrace());
-			System.out.println("Exception :" + e.getMessage());
-			System.out.println("Exception :" + e.getClass());
+			throw new MapInvalidException("Error in parsing of Continents. Provide a valid map file");
 		}
 		return continentList;
 	}
@@ -101,8 +90,9 @@ public class MapParser {
 	 * 
 	 * @param country list of countries
 	 * @return
+	 * @throws MapInvalidException 
 	 */
-	private static ArrayList<Country> parseCountries(String countries) {
+	private static ArrayList<Country> parseCountries(String countries) throws MapInvalidException {
 		ArrayList<Country> countryList = new ArrayList<Country>();
 		// System.out.println("Parsing Countries!!");
 		String country[] = countries.split("\n");
@@ -124,9 +114,7 @@ public class MapParser {
 			addAdjacentCountries(country, countryList);
 
 		} catch (Exception e) {
-			System.out.println("Exception :" + e.getStackTrace());
-			System.out.println("Exception :" + e.getMessage());
-			System.out.println("Exception :" + e.getClass());
+			throw new MapInvalidException("Error in parsing of countries. Provide a valid map file");
 		}
 		return countryList;
 
