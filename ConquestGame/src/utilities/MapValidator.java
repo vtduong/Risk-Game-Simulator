@@ -41,13 +41,19 @@ public class MapValidator {
 	public MapValidator(String inputFile) {
 		this.inputFile = inputFile;
 	}
+	
+	/*
+	 * public static void main(String argv[]) throws IOException,
+	 * MapInvalidException { MapValidator mr=new
+	 * MapValidator("src/resources/usermap.map"); mr.createCountryGraph(); }
+	 */
 
 	public void createCountryGraph() throws IOException, MapInvalidException {
 		MapParser mapParser = new MapParser(inputFile);
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
 		continentsList =mapParser.continentsList;
-		if (continentsList.size() <= 1) {
+		if (continentsList.size() < 1) {
 			throw new MapInvalidException("There should be atleast one continent");
 		}
 		Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
@@ -88,7 +94,7 @@ public class MapValidator {
 			// throw Error
 		}
 		mapVisual();
-		System.out.println(subGraphsList.size());
+		//System.out.println(subGraphsList.size());
 
 	}
 
@@ -114,7 +120,7 @@ public class MapValidator {
 		} else {
 			isConnected = false;
 		}
-		return false;
+		return isConnected;
 
 	}
 
