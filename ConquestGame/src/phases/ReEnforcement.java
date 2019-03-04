@@ -31,6 +31,9 @@ public class ReEnforcement implements TurnPhase {
 	/** The card set choice. */
 	private int cardSetChoice = 0;
 	
+	public ReEnforcement() {
+		System.out.println("-----------Re-EnfForcement Phase-----------");
+	}
 	
 	/**
 	 * This methods calls 2 other private methods to 1) obtain new armies and 2)
@@ -41,16 +44,22 @@ public class ReEnforcement implements TurnPhase {
 		
 		//ask controller to request user input for army distribution
 		distributeArmies();
+		
+		//update info about this player to user
+		curPlayer.notifyChanges();
 	}
 
 	/**
 	 * distribute number of armies to countries occupied by current player.
 	 */
-	public void distributeArmies() {
+	public void distributeArmies() throws IllegalArgumentException {
 		Map<Country, Integer> list = controller.distributeArmies();
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
 			Country country = entry.getKey();
 			int numArmies = entry.getValue();
+			if(numArmies < 1) {
+				throw new IllegalArgumentException("Number of Armies per country must be at least one!");
+			}
 			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);
 		}
 		
