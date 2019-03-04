@@ -25,7 +25,7 @@ public class FortificationTest {
 	private Country usa = null;
 	
 	Continent asia = null;
-	
+	Player gamer1 = null;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -33,7 +33,7 @@ public class FortificationTest {
 	@Before
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
-		controller.addPlayer(new Player("gamer1"));
+		gamer1 = new Player("gamer1");
 		asia = new Continent("Asia", 5);
 		vn = new Country("Vietnam");
 		vn.setNumArmies(4);
@@ -50,11 +50,12 @@ public class FortificationTest {
 	 */
 	@After
 	public void tearDown() throws Exception {	
+		gamer1 = null;
 	}
 	
 	@Test
 	public void testMoveArmies() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Player gamer1 = controller.getPlayer(0);
+		//Player gamer1 = controller.getPlayer(0);
 		String countryOne = vn.getName();
 		String countryTwo = indi.getName();
 		
@@ -74,7 +75,7 @@ public class FortificationTest {
 		controller.setCurrentPlayer(gamer1);
 		//create phase
 		phase = new Fortification();
-		assertEquals(3, gamer1.getPlayerCountries().size());
+		assertEquals(2, gamer1.getPlayerCountries().size());
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
 		//Using reflection API to call private methods
@@ -93,7 +94,7 @@ public class FortificationTest {
 	
 	@Test
 	public void testInvalidMove() throws NoSuchMethodException, SecurityException {
-		Player gamer1 = controller.getPlayer(0);
+		//Player gamer1 = controller.getPlayer(0);
 		String countryOne = vn.getName();
 		String countryTwo = indi.getName();
 		
@@ -140,7 +141,7 @@ public class FortificationTest {
 	
 	@Test
 	public void testInvalidCountries() throws NoSuchMethodException, SecurityException {
-		Player gamer1 = controller.getPlayer(0);
+		//Player gamer1 = controller.getPlayer(0);
 		String countryOne = vn.getName();
 		String countryTwo = indi.getName();
 		String country3 = usa.getName();
@@ -182,7 +183,6 @@ public class FortificationTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			System.out.println(e.getClass().getName());
 			assertTrue(e.getCause() instanceof IllegalArgumentException );
 		}
 	}

@@ -95,6 +95,10 @@ public class ControllerTest {
 		assertNotNull(gamer2.getPlayerCountries());
 		assertNotNull(gamer3.getPlayerCountries());
 		
+		assertEquals(4, gamer1.getPlayerCountries().size());
+		assertEquals(4, gamer2.getPlayerCountries().size());
+		assertEquals(4, gamer3.getPlayerCountries().size());
+
 	}
 
 }
