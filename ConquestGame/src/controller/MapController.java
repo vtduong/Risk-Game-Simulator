@@ -28,13 +28,7 @@ public class MapController {
 	public static ArrayList<Country> countriesDefault = new ArrayList<Country>();
 	public static ArrayList<Continent> continentsDefault = new ArrayList<Continent>();
 	private static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
-	private static String filepath = "src/resources/results.map";
-
-	/*public static void main(String argv[]) throws IOException, MapInvalidException {
-		ArrayList<String> continentName = new ArrayList<String>();
-		continentName.add("Asia");
-		removeContinent(continentName, filepath);
-	}*/
+	private static String filepath = "src/resources/usermap.map";
 
 	/**
 	 * @param inputFile
@@ -45,7 +39,7 @@ public class MapController {
 		new utilities.MapValidator(inputFile).createCountryGraph();
 	}
 
-	private static void setMapDetails(BufferedWriter bw) throws IOException {
+	private void setMapDetails(BufferedWriter bw) throws IOException {
 		bw.write("[Map]");
 	}
 
@@ -56,13 +50,15 @@ public class MapController {
 	 * @param inputFile
 	 * @throws IOException
 	 */
-	public static void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
+	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
 			String inputFile) throws IOException {
 
 		if (!isEdit) {
-			bw.write("[Continents]" + "\n");
+			bw.write("[Continents]");
+			bw.newLine();
 			for (String key : continentMap.keySet()) {
-				bw.write(key + "=" + continentMap.get(key) + "\n");
+				bw.write(key + "=" + continentMap.get(key));
+				bw.newLine();
 			}
 		} else {
 			FileReader editFile = new FileReader(inputFile);
@@ -94,12 +90,12 @@ public class MapController {
 	 * @param inputFile
 	 * @throws IOException
 	 */
-	private static void addCountry(String[] arrayList, BufferedWriter bw, boolean isEdit, String inputFile)
+	public void addCountry(Object[] arrayList, BufferedWriter bw, boolean isEdit, String inputFile)
 			throws IOException {
 		if (!isEdit) {
 			bw.write("[Territories]" + "\n");
 			for (int k = 0; k < arrayList.length; k++) {
-				bw.write(arrayList[k] + "\n");
+				bw.write((String)arrayList[k] + "\n");
 			}
 		} else {
 			FileReader editFile = new FileReader(inputFile);
@@ -112,13 +108,10 @@ public class MapController {
 			}
 			String temp = null, updatedStr = null;
 			for (int k = 0; k < arrayList.length; k++) {
-				temp = arrayList[k] + "\n";
+				temp = (String)arrayList[k] + "\n";
 			}
-			System.out.println(buildMapFile.substring(buildMapFile.indexOf("[Territories]")));
-			System.out.println(temp);
 			updatedStr = buildMapFile.substring(0, buildMapFile.indexOf("[Territories]"))
 					+ buildMapFile.substring(buildMapFile.indexOf("[Territories]")) + temp;
-			System.out.println(updatedStr);
 			FileWriter writer = new FileWriter(inputFile);
 			writer.write(updatedStr);
 			writer.close();
@@ -133,7 +126,9 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
+
 	private void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException, MapInvalidException {
+  
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		if (countriesDefault.size() == 0) {
 			mpsr.readFile();
@@ -186,7 +181,9 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
+
 	private void removeContinent(ArrayList<String> continentName, String inputFile) throws IOException, MapInvalidException {
+
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
 		continentsDefault = mpsr.continentsList;
@@ -195,6 +192,7 @@ public class MapController {
 		while (iter.hasNext()) {
 			Continent conrec = iter.next();
 			if (continentName.contains(conrec.getName())) {
+				System.out.print("continentName size!!!"+conrec.getName());
 				iter.remove();
 			}
 		}
@@ -213,6 +211,8 @@ public class MapController {
 		if (countriesToDelete.size() != 0) {
 			removeCountry(countriesToDelete, inputFile);
 		}
+		
+		
 	}
 
 	/**
@@ -221,6 +221,7 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
+
 	private void removeCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
 
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
@@ -244,7 +245,9 @@ public class MapController {
 	 * @throws IOException
 	 * @throws MapInvalidException 
 	 */
+
 	private void removeAdjCountry(ArrayList<String> countries, String inputFile) throws IOException, MapInvalidException {
+
 		if (countriesDefault.size() == 0) {
 			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 			mpsr.readFile();
