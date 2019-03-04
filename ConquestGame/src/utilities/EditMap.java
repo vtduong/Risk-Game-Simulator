@@ -13,6 +13,11 @@ import beans.Continent;
 import beans.Country;
 import controller.MapController;
 import exception.MapInvalidException;
+/**
+ * This class is used to Edit an existing Map by taking user input
+ * @author ankit
+ *
+ */
 public class EditMap {
 	private Map<String, Integer> continents = null;
 	private ArrayList<String> countries = null;
