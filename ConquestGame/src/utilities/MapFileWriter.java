@@ -20,7 +20,11 @@ public class MapFileWriter {
  * @throws IOException
  */
 public void writeFile(ArrayList<Continent> continentsDefault,ArrayList<Country> countriesDefault,String inputfile) throws IOException {
-	   BufferedWriter bw = new BufferedWriter(new FileWriter(inputfile, false));
+	   
+	
+	  BufferedWriter bw = new BufferedWriter(new FileWriter(inputfile, false));
+	   bw.write("[Map]"+ "\n");
+	   bw.write("author"+"="+"userdefiend map \n");
 	   bw.write("[Continents]" + "\n");
 	   for(Continent conRec:continentsDefault) {
 		   bw.write(conRec.getName() + "=" + conRec.getMaxArmies() + "\n");
