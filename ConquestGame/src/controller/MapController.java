@@ -127,7 +127,7 @@ public class MapController {
 	 * @throws MapInvalidException 
 	 */
 
-	private void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException, MapInvalidException {
+	public void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException, MapInvalidException {
   
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		if (countriesDefault.size() == 0) {
@@ -182,7 +182,7 @@ public class MapController {
 	 * @throws MapInvalidException 
 	 */
 
-	private void removeContinent(ArrayList<String> continentName, String inputFile) throws IOException, MapInvalidException {
+	public void removeContinent(ArrayList<String> continentName, String inputFile) throws IOException, MapInvalidException {
 
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
