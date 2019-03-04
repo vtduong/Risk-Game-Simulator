@@ -30,12 +30,6 @@ public class MapController {
 	private static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
 	private static String filepath = "src/resources/usermap.map";
 
- /*public static void main(String argv[]) throws IOException {
-	ArrayList<String> continentName = new ArrayList<String>();
-	continentName.add("Asia");		
-	removeContinent(continentName, filepath);
-	}*/
-
 	/**
 	 * @param inputFile
 	 * @throws IOException
@@ -130,8 +124,11 @@ public class MapController {
 	 * @param adjCountryMap
 	 * @param inputFile
 	 * @throws IOException
+	 * @throws MapInvalidException 
 	 */
-	public void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException {
+
+	private void addAdjCountry(Map<String,List<String>> adjCountryMap,String inputFile) throws IOException, MapInvalidException {
+  
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		if (countriesDefault.size() == 0) {
 			mpsr.readFile();
@@ -156,10 +153,12 @@ public class MapController {
 							rec.getAdjacentCountries().add(arr);
 						}
 					}else {
+						throw new MapInvalidException("Adjacent country does not exist");
 						/// throw error "Adjacent country does not Exist.
 					}
 				}
 			}else {
+				throw new MapInvalidException(str+ "Country does not exist. Add the country again");
 				// throw error "str Country does not exist.Add the country again. "
 				
 			}
@@ -180,8 +179,11 @@ public class MapController {
 	 * @param continentName
 	 * @param inputFile
 	 * @throws IOException
+	 * @throws MapInvalidException 
 	 */
-	public void removeContinent(ArrayList<String> continentName, String inputFile) throws IOException {
+
+	private void removeContinent(ArrayList<String> continentName, String inputFile) throws IOException, MapInvalidException {
+
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
 		continentsDefault = mpsr.continentsList;
@@ -216,8 +218,11 @@ public class MapController {
 	 * @param countries
 	 * @param inputFile
 	 * @throws IOException
+	 * @throws MapInvalidException 
 	 */
-	public void removeCountry(ArrayList<String> countries, String inputFile,boolean isRecursion) throws IOException {
+
+	public void removeCountry(ArrayList<String> countries, String inputFile,boolean isRecursion) throws IOException, MapInvalidException {
+    
 		utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 		mpsr.readFile();
 		countriesDefault = mpsr.countriesList;
@@ -240,8 +245,11 @@ public class MapController {
 	 * @param countries
 	 * @param inputFile
 	 * @throws IOException
+	 * @throws MapInvalidException 
 	 */
-	public void removeAdjCountry(ArrayList<String> countries, String inputFile,Map<String,List<String>> adjMap,boolean isFunCall) throws IOException {
+
+	public void removeAdjCountry(ArrayList<String> countries, String inputFile,Map<String,List<String>> adjMap,boolean isFunCall) throws IOException, MapInvalidException {
+
 		if (countriesDefault.size() == 0) {
 			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 			mpsr.readFile();

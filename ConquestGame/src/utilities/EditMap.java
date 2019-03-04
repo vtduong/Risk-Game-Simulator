@@ -197,7 +197,7 @@ public class EditMap {
 		mapController.validateMap(EDITEDMAP);
 	}
 		
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, MapInvalidException {
 		EditMap em = EditMap.getInstance();
 		try {
 			em.editExistingMap();
