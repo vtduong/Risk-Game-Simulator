@@ -21,6 +21,10 @@ public class ReplicateMap {
 		return replicateMap;
 	}
 	
+	/**
+	 * Clones the existing map so the original map is not changed by the user
+	 * @throws IOException
+	 */
 	public void cloneMap() throws IOException {
 		FileReader reader = new FileReader(INPUTFILE);
 		FileWriter writer = new FileWriter(OUTPUTFILE);
@@ -36,8 +40,4 @@ public class ReplicateMap {
 		wrapReader.close();
 		wrapWriter.close();
 	}
-	public static void main(String[] args) throws IOException {
-		ReplicateMap rp= ReplicateMap.getInstance();
-		rp.cloneMap();
-	}
-	}
+}
