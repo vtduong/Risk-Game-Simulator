@@ -17,6 +17,7 @@ import phases.ReEnforcement;
 import phases.TurnPhase;
 import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
+import utilities.EditMap;
 import utilities.MapValidator;
 import utilities.Tuple;
 
@@ -30,7 +31,7 @@ import utilities.Tuple;
  */
 public class GameController {
 	
-	
+	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
 	private static GameController controller= null;
 
@@ -68,28 +69,7 @@ public class GameController {
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
 	}
-	
-	/**
-	 * Enum for army count in setup phase
-	 * @author ankit
-	 *
-	 */
-	public enum noOfPlayers {
-		twoPlayers(40),
-		threePlayers(35),
-		fourPlayers(30),
-		fivePlayers(25),
-		sixPlayers(20);
-		private final int armyCount;
-		
-		noOfPlayers(int numberOfArmies)
-		{
-			armyCount = numberOfArmies;
-		}
-	public int getArmyCount() {
-		return armyCount;
-	}
-	}
+
 	/**
 	 * Gets the single instance of GameController.
 	 *
@@ -138,8 +118,7 @@ public class GameController {
             controller.showHelp();
             return;
         }
-		String inputFile = args[0];
-		MapValidator mapValidator = new MapValidator(inputFile);
+		MapValidator mapValidator = new MapValidator(INPUTFILE);
 		mapValidator.createCountryGraph();
 		
 		// Here we are asking user to select the map existing map
@@ -156,10 +135,13 @@ public class GameController {
 			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
 			customMap.createCustomMap();
 		}
-		else {
-			
+		else if(selectedMapOption == 3) {
+			EditMap editMap = EditMap.getInstance();
+			editMap.editExistingMap();
 		}
-		
+		else {
+			System.exit(0);
+		}
 		//Getting Player Info
 		System.out.println("Please enter the number of players between 2 and 6: ");
 		Scanner inputNumPlayers = new Scanner(System.in);	
