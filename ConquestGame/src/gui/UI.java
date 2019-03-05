@@ -60,7 +60,16 @@ public class UI implements Observer{
 	 * @return true if user wants to go to war
 	 */
 	public static boolean isWar() {
-		// TODO Auto-generated method stub
+		System.out.println("Would you like to go to war with another player?(Y/N):");
+		Scanner scan = new Scanner(System.in);
+		String input = scan.nextLine();
+		input = input.toLowerCase();
+		switch(input) {
+			case "y":
+				return true;
+			case "n":
+				return false;
+		}
 		return false;
 	}
 

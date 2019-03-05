@@ -90,7 +90,8 @@ public class GameController {
 	 * The main method.
 	 *
 	 * @param args the arguments
-	 * @throws MapInvalidException 
+	 * @throws IOException         Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	/*
 	 * @description :
@@ -188,6 +189,8 @@ public class GameController {
 	}
 	
 	/**
+	 * Gets the player list.
+	 *
 	 * @return the list of players
 	 */
 	public List<Player> getPlayerList() {
@@ -282,6 +285,8 @@ public class GameController {
 			// check if current player has won the game
 			if(countryOwnership.size() == MapValidator.countriesList.size()) {
 				winner = currentPlayer;
+				System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
+				break;
 			}
 			i++;
 		}
@@ -293,22 +298,22 @@ public class GameController {
 	 */
 	public void takePhases() {
 		currentPhase = new ReEnforcement();
+		
 		while(currentPhase != null) {
-			while(!readyForNextPhase) {
-				try {
-					//ask user if wants to init an attack
-					if(currentPhase instanceof Attack) {
-						if(!isWar()) {
-							break;
-						}
+			try {
+				//ask user if wants to init an attack
+				if(currentPhase instanceof Attack) {
+					if(!isWar()) {
+						break;
 					}
-					currentPhase.takePhase();
-					//ask user if ready for next phase
-					readyForNextPhase = readyForNextPhase();
-				}catch(IllegalArgumentException e) {
-					UI.handleExceptions(e.getMessage());
 				}
+				currentPhase.takePhase();
+				//ask user if ready for next phase
+				//readyForNextPhase = readyForNextPhase();
+			}catch(IllegalArgumentException e) {
+				UI.handleExceptions(e.getMessage());
 			}
+		
 			currentPhase.setNextPhase();
 		}
 	}
