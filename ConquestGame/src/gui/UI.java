@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import beans.Continent;
 import beans.Country;
 import beans.Observable;
+import beans.Player;
 import utilities.Tuple;
 
 /**
@@ -49,9 +51,26 @@ public class UI implements Observer{
 	 */
 	@Override
 	public void update(Observable sub) {
-		//TODO display number of countries occupied
+		// display number of countries occupied
+		System.out.println("Player's total number of armies: " + ((Player)sub).getArmies());
+		List<Country> countries = ((Player)sub).getPlayerCountries();
+		System.out.println("Player's occupied countries: " + countries.toString());
+		System.out.println("Number of armies in each occupied country: ");
+		for(int i = 0; i < countries.size(); i++) {
+			Country c = countries.get(i);
+			System.out.println(c.getName() + ": " + c.getNumArmies());
+		}
 		//display number of continents occupied
-		
+		System.out.print("Player's occupied continents: ");
+		List<Continent> continents = ((Player)sub).getPlayerContinents();
+		if(continents == null || continents.size() == 0) {
+			System.out.println(0);
+		} else {
+			System.out.println();
+			for(int i = 0; i < continents.size(); i++) {
+				System.out.println(continents.get(i).getName());
+			}
+		}
 		
 	}
 
@@ -108,6 +127,10 @@ public class UI implements Observer{
 			}
 		
 		return armyInfo;
+	}
+	
+	public static void displayPlayerInfo() {
+		
 	}
 
 

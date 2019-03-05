@@ -62,6 +62,8 @@ public class GameController {
 	/** The winner. */
 	private Player winner = null;
 	
+	private UI ui = null;
+	
 	/**
 	 * Instantiates a new game controller.
 	 */
@@ -119,12 +121,12 @@ public class GameController {
 //            controller.showHelp();
 //            return;
 //        }
-		MapValidator mapValidator = new MapValidator(INPUTFILE);
-		mapValidator.createCountryGraph();
+//		MapValidator mapValidator = new MapValidator(INPUTFILE);
+//		mapValidator.createCountryGraph();
 		
 		// Here we are asking user to select the map existing map
 		// or to create a custom map.
-		
+		//System.out.println(System.getProperty("user.dir"));
 		System.out.println("----------Welcome----------");
 		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
 		Scanner mapOption = new Scanner(System.in);
@@ -281,6 +283,7 @@ public class GameController {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
 			System.out.println("-----------PLAYER "+ i+1 + "'S TURN---------");
+			ui.update(currentPlayer);
 			takePhases();
 			// check if current player has won the game
 			if(countryOwnership.size() == MapValidator.countriesList.size()) {
@@ -308,6 +311,7 @@ public class GameController {
 					}
 				}
 				currentPhase.takePhase();
+				ui.update(currentPlayer);
 				//ask user if ready for next phase
 				//readyForNextPhase = readyForNextPhase();
 			}catch(IllegalArgumentException e) {
