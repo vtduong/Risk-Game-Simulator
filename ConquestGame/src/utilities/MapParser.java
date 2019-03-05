@@ -41,7 +41,6 @@ public class MapParser {
 	 */
 	public void readFile() throws MapInvalidException, FileNotFoundException {
 		try {
-
 			Scanner sc = new Scanner(new File(inputFile));
 			String tempStr = null;
 			buildMapFile = "";
@@ -49,7 +48,6 @@ public class MapParser {
 				tempStr = sc.nextLine();
 				buildMapFile = buildMapFile + "" + tempStr + "\n";
 			}
-
 			countriesList = parseCountries(buildMapFile.substring(buildMapFile.indexOf("[Territories]")));
 			continentsList = parseContinents(buildMapFile.substring(buildMapFile.indexOf("[Continents]"),
 					buildMapFile.indexOf("[Territories]")));
@@ -57,6 +55,8 @@ public class MapParser {
 			throw new MapInvalidException(e.getMessage());
 		} catch(FileNotFoundException ex) {
 			throw new MapInvalidException("Map file does not exist.");
+		} catch(Exception e) {
+			throw new MapInvalidException("Issue parsing the input file.Ensure correct input is fed.");
 		}
 
 	}
