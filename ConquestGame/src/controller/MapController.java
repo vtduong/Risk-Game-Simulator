@@ -159,12 +159,14 @@ public class MapController {
 
 			for (String str : adjCountryMap.keySet()) {
 				if (countryname.contains(str)) {
-					List<String> adjStr = adjCountryMap.get(countryname);
+					List<String> adjStr = adjCountryMap.get(str);
 					for (String arr : adjStr) {
 						if (countryname.contains(arr)) {
 							Country rec = mpsr.getCountry(str, countriesDefault);
 							if (!rec.getAdjacentCountries().contains(arr)) {
 								rec.getAdjacentCountries().add(arr);
+								rec = mpsr.getCountry(arr, countriesDefault);
+								rec.getAdjacentCountries().add(str);
 							}
 						} else {
 							throw new MapInvalidException("Adjacent country does not exist");
@@ -299,7 +301,6 @@ public class MapController {
 					Country conrec = iter.next();
 					if (adjMap.containsKey(conrec.getName())) {
 						for (String str : adjMap.get(conrec.getName())) {
-							System.out.println("Ie" + conrec.getName() + "  " + adjMap.get(conrec.getName()));
 							conrec.getAdjacentCountries().remove(str);
 						}
 					}
@@ -312,7 +313,6 @@ public class MapController {
 			while (iter1.hasNext()) {
 				Country conrec = iter1.next();
 				if (conrec.getAdjacentCountries().size() == 0) {
-					System.out.print(conrec.getName());
 					worldMap.get(conrec.getContinent()).remove(conrec.getName());
 					iter1.remove();
 				}

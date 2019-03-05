@@ -80,22 +80,26 @@ public class UI implements Observer{
 	 * @return list of countries and their assigned armies
 	 */
 	public static Map<Country, Integer> distributeArmies(List<Country> list, int numArmies) {
+		Map<Country, Integer> armyInfo = new HashMap<Country, Integer>();
 		Scanner userInput = new Scanner(System.in);
 		int temp = 0;
 		//while(numArmies > 0)
-			
+			for(Country c : list) {
+				System.out.println(c.getName());
+			}
 			for(Country c : list) {
 				while(true) {
 					System.out.print("PLease assign army for " + c.getName() + ": ");
 					temp = userInput.nextInt();
 					System.out.println();
-					if(temp < numArmies) {
+					if(temp <= numArmies) {
 						numArmies = numArmies - temp;
 						break;
 					}
 					System.out.println("Invalid Entry!!");
 				}
 				c.setNumArmies(temp);
+				armyInfo.put(c, temp);
 				if(numArmies == 0)
 				{
 					break;
@@ -103,7 +107,7 @@ public class UI implements Observer{
 				//TODO ask user to input number of army for each country in the list
 			}
 		
-		return null;
+		return armyInfo;
 	}
 
 
