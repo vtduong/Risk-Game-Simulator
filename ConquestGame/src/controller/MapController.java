@@ -20,7 +20,9 @@ import exception.MapInvalidException;
 import utilities.MapFileWriter;
 
 /**
- * This class handles addition, insertion, removal of new continents, countries or adjacent countries
+ * This class handles addition, insertion, removal of new continents, countries
+ * or adjacent countries
+ * 
  * @author apoorvasharma
  * @version 1.0.0
  */
@@ -57,33 +59,34 @@ public class MapController {
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
-	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
-			String inputFile) throws IOException, MapInvalidException {
-try{
-		if (!isEdit) {
-			bw.write("[Continents]");
-			bw.newLine();
-			for (String key : continentMap.keySet()) {
-				bw.write(key + "=" + continentMap.get(key));
+	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit, String inputFile)
+			throws IOException, MapInvalidException {
+		try {
+			if (!isEdit) {
+				bw.write("[Continents]");
 				bw.newLine();
-			}
-		} else {
-			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
-			mpsr.readFile();
-			countriesDefault = mpsr.countriesList;
-			continentsDefault=mpsr.continentsList;
-			for(String rec:continentMap.keySet()) {
-				if(!continentsDefault.contains(rec)) {
-					Continent crec =new Continent();
-					crec.setName(rec);
-					crec.setMaxArmies(continentMap.get(rec));
-					continentsDefault.add(crec);
+				for (String key : continentMap.keySet()) {
+					bw.write(key + "=" + continentMap.get(key));
+					bw.newLine();
 				}
-				
+			} else {
+				utilities.MapParser mpsr = new utilities.MapParser(inputFile);
+				mpsr.readFile();
+				countriesDefault = mpsr.countriesList;
+				continentsDefault = mpsr.continentsList;
+				for (String rec : continentMap.keySet()) {
+					if (!continentsDefault.contains(rec)) {
+						Continent crec = new Continent();
+						crec.setName(rec);
+						crec.setMaxArmies(continentMap.get(rec));
+						continentsDefault.add(crec);
+					}
+
+				}
+				MapFileWriter mfw = new MapFileWriter();
+				mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 			}
-			MapFileWriter mfw = new MapFileWriter();
-			mfw.writeFile(continentsDefault, countriesDefault, inputFile);
-    }catch (Exception e) {
+		} catch (Exception e) {
 			throw new MapInvalidException("Error while adding new continent. Provide a valid input.");
 		}
 	}
