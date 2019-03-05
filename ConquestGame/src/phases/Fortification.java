@@ -1,5 +1,6 @@
 package phases;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import beans.Country;
@@ -30,20 +31,34 @@ public class Fortification implements TurnPhase{
 	public void takePhase() throws IllegalArgumentException {
 		curPlayer = controller.getCurrentPlayer();
 		//move armies from one (and only one) country to another neighboring country
-		Tuple tuple = controller.getParamsForFortification();
-		moveArmies(tuple.getFromCountry(), tuple.getToCountry(), tuple.getNumArmies());
-		curPlayer.notifyChanges();
+		String fromName = controller.selectCountryToTransferFrom(curPlayer.getPlayerCountries());
+		Country fromCountry = curPlayer.getCountryByName(fromName);
+		List<String> adjCountries = fromCountry.getAdjacentCountries();
+		//get the names of countries occupied by this player among adjacent countries
+		List<String> occupiedCountries = new ArrayList<String>();
+		for(int i = 0; i < adjCountries.size(); i++) {
+			Country country = curPlayer.getCountryByName(adjCountries.get(i));
+			if(country != null) {
+				occupiedCountries.add(adjCountries.get(i));
+			}
+		}
+		String toName = controller.selectCountryToTransferTo(occupiedCountries);
+		int numArmies = controller.getParamsForFortification(fromCountry);
+		Country toCountry = curPlayer.getCountryByName(toName);
+//		fromCountry.setNumArmies(fromCountry.getNumArmies() - numArmies);
+//		toCountry.setNumArmies(toCountry.getNumArmies() + numArmies);
+		moveArmies(fromName, toName, numArmies);
 	}
 
-	/**
-	 * Move armies.
-	 *
-	 * @param fromCountry the country from which armies are transfered
-	 * @param toCountry   the country to which armies are transfered
-	 * @param numArmies   number of armies transfered
-	 * @exception IllegalArgumentException There must be at least one army in one
-	 *                                     country
-	 */
+//	/**
+//	 * Move armies.
+//	 *
+//	 * @param fromCountry the country from which armies are transfered
+//	 * @param toCountry   the country to which armies are transfered
+//	 * @param numArmies   number of armies transfered
+//	 * @exception IllegalArgumentException There must be at least one army in one
+//	 *                                     country
+//	 */
 	private void moveArmies(String fromCountry, String toCountry, int numArmies) throws IllegalArgumentException {
 		Country from = curPlayer.getCountryByName(fromCountry);
 		Country to = curPlayer.getCountryByName(toCountry);
