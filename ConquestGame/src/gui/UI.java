@@ -54,7 +54,7 @@ public class UI implements Observer{
 		// display number of countries occupied
 		System.out.println("Player's total number of armies: " + ((Player)sub).getArmies());
 		List<Country> countries = ((Player)sub).getPlayerCountries();
-		System.out.println("Player's occupied countries: " + countries.toString());
+		//1System.out.println("Player's occupied countries: " + countries.toString());
 		System.out.println("Number of armies in each occupied country: ");
 		for(int i = 0; i < countries.size(); i++) {
 			Country c = countries.get(i);
@@ -103,15 +103,17 @@ public class UI implements Observer{
 		Scanner userInput = new Scanner(System.in);
 		int temp = 0;
 		//while(numArmies > 0)
-			for(Country c : list) {
-				System.out.println(c.getName());
-			}
+//			for(Country c : list) {
+//				System.out.println(c.getName());
+//			}
 			for(Country c : list) {
 				while(true) {
+					System.out.println("Remaining number of armies to be deployed: " + numArmies);
 					System.out.print("PLease assign army for " + c.getName() + ": ");
 					temp = userInput.nextInt();
 					System.out.println();
-					if(temp <= numArmies) {
+					//each country must have at least one army
+					if(temp <= numArmies && temp > 0) {
 						numArmies = numArmies - temp;
 						break;
 					}

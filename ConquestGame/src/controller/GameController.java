@@ -109,7 +109,6 @@ public class GameController {
 		} */
 		
 		GameController controller = GameController.getInstance();
-		UI ui = new UI();
 		
 		
 		/*Added to parse the default file.
@@ -159,6 +158,7 @@ public class GameController {
 		//TODO	not so sure about case 2
 			case 2:
 				initialArmies = 40;
+			break;
 			case 3:
 				initialArmies = 35;
 			break;
@@ -176,20 +176,38 @@ public class GameController {
 			String playerName = "Player " + i;
 			Player player = new Player(playerName, true, initialArmies);
 			controller.addPlayer(player);
-			//register UI as observer for this player
-			player.attach(ui);
 		}
+		
+		controller.createUI();
 		
 		//TODO MOVE CODE TO UI CLASS UNDER APPROPRIATE METHODS
 		System.out.println("evenly distributing countries among players in random fashion...");
 		controller.randomizeCountryDistribution(MapValidator.countriesList, controller.getPlayerList());
-		
+		controller.placeInitialArmies();
 		controller.takeTurns();	
 				
 		
 		
 	}
 	
+	/**
+	 * place one army on each and every country occupied by players
+	 */
+	private void placeInitialArmies() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * register a UI interface as observer to player1
+	 */
+	private void createUI() {
+		ui = new UI();
+		for(int i = 0; i < numberOfPlayers; i++) {
+			controller.playerList.get(i).attach(ui);
+		}
+	}
+
 	/**
 	 * Gets the player list.
 	 *
