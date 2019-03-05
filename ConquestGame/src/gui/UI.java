@@ -14,6 +14,7 @@ import beans.Observable;
 import beans.Player;
 import utilities.Tuple;
 
+// TODO: Auto-generated Javadoc
 /**
  * The user interface of the application. 
  * @author vanduong
@@ -22,8 +23,11 @@ import utilities.Tuple;
 public class UI implements Observer{
 
 	/**
-	 * @param currentPlayer 
-	 * @return a tuple containing: country to move armies from, country to move armies to, and number of armies
+	 * Gets the fortification info.
+	 *
+	 * @param country the country
+	 * @return a tuple containing: country to move armies from, country to move
+	 *         armies to, and number of armies
 	 */
 	public int getFortificationInfo(Country country) {
 		Scanner scan = new Scanner(System.in);
@@ -51,9 +55,10 @@ public class UI implements Observer{
 //	}
 
 	/**
-	 * display error messages
-	 * @param message
-	 */
+ * display error messages.
+ *
+ * @param message the message
+ */
 	public  void handleExceptions(String message) {
 		System.out.println("ERROR: "+ message);
 		
@@ -91,7 +96,8 @@ public class UI implements Observer{
 	}
 
 	/**
-	 *Ask if user wants to go to war
+	 * Ask if user wants to go to war.
+	 *
 	 * @return true if user wants to go to war
 	 */
 	public static boolean isWar() {
@@ -109,9 +115,10 @@ public class UI implements Observer{
 	}
 
 	/**
-	 * Ask user to select number of armies to be distributed for each country
-	 * @param list List of countries owned by current player
-	 * @param i number of armies owned by this player
+	 * Ask user to select number of armies to be distributed for each country.
+	 *
+	 * @param list      List of countries owned by current player
+	 * @param numArmies the num armies
 	 * @return list of countries and their assigned armies
 	 */
 	public Map<Country, Integer> distributeArmies(List<Country> list, int numArmies) {
@@ -147,8 +154,10 @@ public class UI implements Observer{
 	}
 
 	/**
-	 * @param playerCountries
-	 * @return
+	 * Select country to transfer from.
+	 *
+	 * @param playerCountries the player countries
+	 * @return the string
 	 */
 	public String selectCountryToTransferFrom(List<Country> playerCountries) {
 		Scanner scan = new Scanner(System.in);
@@ -163,8 +172,10 @@ public class UI implements Observer{
 	}
 
 	/**
-	 * @param adjCountries
-	 * @return
+	 * Select country to transfer to.
+	 *
+	 * @param adjCountries the adj countries
+	 * @return the string
 	 */
 	public String selectCountryToTransferTo(List<String> adjCountries) {
 		System.out.println("Below is a list of your countries adjacent to the selected country:" );
