@@ -20,7 +20,9 @@ import exception.MapInvalidException;
 import utilities.MapFileWriter;
 
 /**
- * This class handles addition, insertion, removal of new continents, countries or adjacent countries
+ * This class handles addition, insertion, removal of new continents, countries
+ * or adjacent countries
+ * 
  * @author apoorvasharma
  * @version 1.0.0
  */
@@ -68,24 +70,21 @@ public class MapController {
 					bw.newLine();
 				}
 			} else {
-				FileReader editFile = new FileReader(inputFile);
-				Scanner sc = new Scanner(new File(inputFile));
-				String tempStr = null;
-				String buildMapFile = "";
-				while (sc.hasNext()) {
-					tempStr = sc.nextLine();
-					buildMapFile = buildMapFile + "" + tempStr + "\n";
-				}
-				String temp = null, updatedStr = null;
-				for (String key : continentMap.keySet()) {
-					temp = (key + "=" + continentMap.get(key) + "\n");
-				}
-				updatedStr = buildMapFile.substring(0, buildMapFile.indexOf("[Territories]")) + temp
-						+ buildMapFile.substring(buildMapFile.indexOf("[Territories]"));
-				FileWriter writer = new FileWriter(inputFile);
+				utilities.MapParser mpsr = new utilities.MapParser(inputFile);
+				mpsr.readFile();
+				countriesDefault = mpsr.countriesList;
+				continentsDefault = mpsr.continentsList;
+				for (String rec : continentMap.keySet()) {
+					if (!continentsDefault.contains(rec)) {
+						Continent crec = new Continent();
+						crec.setName(rec);
+						crec.setMaxArmies(continentMap.get(rec));
+						continentsDefault.add(crec);
+					}
 
-				writer.write(updatedStr);
-				writer.close();
+				}
+				MapFileWriter mfw = new MapFileWriter();
+				mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 			}
 		} catch (Exception e) {
 			throw new MapInvalidException("Error while adding new continent. Provide a valid input.");

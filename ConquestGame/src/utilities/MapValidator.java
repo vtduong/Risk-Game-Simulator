@@ -86,7 +86,12 @@ public class MapValidator {
 
 		continentsList = mapParser.continentsList;
 		for (Continent rec : continentsList) {
+			if(rec.getCountries()!=null) {
 			subGraphsList.add(createCountrySubGraph(rec.getCountries(), mapGraph));
+			}else {
+				throw new MapInvalidException(
+				"Invalid Map. Continent " + rec.getName() + " is not associated with any Country.");
+			}
 
 		}
 
@@ -161,7 +166,7 @@ public class MapValidator {
 			Graph<String, DefaultEdge> mapGraph) throws MapInvalidException {
 		Set<String> countrySet = new HashSet<String>();
 		for (Country con : countryList) {
-			countrySet.add(con.getName());
+				countrySet.add(con.getName());
 		}
 		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(mapGraph, countrySet);
 		/*
