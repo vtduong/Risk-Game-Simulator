@@ -69,7 +69,27 @@ public class GameController {
 		playerList = new ArrayList<Player>();
 	}
 	
-
+	/**
+	 * Enum for army count in setup phase
+	 * @author ankit
+	 *
+	 */
+	public enum noOfPlayers {
+		twoPlayers(40),
+		threePlayers(35),
+		fourPlayers(30),
+		fivePlayers(25),
+		sixPlayers(20);
+		private final int armyCount;
+		
+		noOfPlayers(int numberOfArmies)
+		{
+			armyCount = numberOfArmies;
+		}
+	public int getArmyCount() {
+		return armyCount;
+	}
+	}
 	/**
 	 * Gets the single instance of GameController.
 	 *
