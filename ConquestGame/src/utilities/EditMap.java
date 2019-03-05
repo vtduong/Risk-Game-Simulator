@@ -18,26 +18,53 @@ import controller.MapController;
 import exception.MapInvalidException;
 
 /**
- * This class is used to Edit an existing Map by taking user input
- * 
- * @author ankit
+ * This class is used to Edit an existing Map by taking user input.
  *
+ * @author ankit
  */
 public class EditMap {
+	
+	/** The continents. */
 	private Map<String, Integer> continents = null;
+	
+	/** The countries. */
 	private ArrayList<String> countries = null;
+	
+	/** The remove continents. */
 	private ArrayList<String> removeContinents = null;
+	
+	/** The remove countries. */
 	private ArrayList<String> removeCountries = null;
+	
+	/** The remove adjacent countries. */
 	private ArrayList<String> removeAdjacentCountries = null;
-	private Map<String, List<String>> adjMap = null;
-	public List<Country> countryDefault = null;
-
-	private Map<String, List<String>> adjCountryMap = null;
+	
+	/** The adj map. */
+	private Map<String,List<String>> adjMap =null;
+	
+	/** The country default. */
+	public List<Country> countryDefault =null;
+	
+	
+	/** The adj country map. */
+	private Map<String,List<String>> adjCountryMap = null;
+	
+	/** The edit map. */
 	private static EditMap editMap = null;
+	
+	/** The editedmap. */
 	private String EDITEDMAP = "src/resources/usermap.map";
+	
+	/** The existingmap. */
 	private String EXISTINGMAP = "src/resources/World.map";
+	
+	/** The map controller. */
 	private MapController mapController;
-
+	
+	
+	/**
+	 * Instantiates a new edits the map.
+	 */
 	private EditMap() {
 		adjCountryMap = new HashMap<String, List<String>>();
 		removeContinents = new ArrayList<String>();
@@ -63,10 +90,10 @@ public class EditMap {
 
 	/**
 	 * This method is used to clone the existing map and then edit the new map by
-	 * taking user input
-	 * 
-	 * @throws IOException
-	 * @throws MapInvalidException
+	 * taking user input .
+	 *
+	 * @throws IOException         Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	public void editExistingMap() throws IOException, MapInvalidException {
 		ReplicateMap replicateMap = ReplicateMap.getInstance();

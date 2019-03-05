@@ -18,10 +18,10 @@ import phases.TurnPhase;
 import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 import utilities.EditMap;
+import utilities.MapParser;
 import utilities.MapValidator;
 import utilities.Tuple;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GameController.
  */
@@ -35,6 +35,7 @@ public class GameController {
 	/** The controller. */
 	private static GameController controller= null;
 	private static List<Country> countryList  = new ArrayList<Country>();
+	private static MapController mapController;
 
 /** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
@@ -64,6 +65,8 @@ public class GameController {
 	private Player winner = null;
 	
 	private UI ui = null;
+	
+	
 	
 	/**
 	 * Instantiates a new game controller.
@@ -101,54 +104,12 @@ public class GameController {
 	 * @author
 	 */
 	public static void main(String[] args) throws IOException, MapInvalidException {
-		/*File inFile = null;
-		if (0 < args.length) {
-		   inFile = new File(args[0]);
-		} else {
-		   System.err.println("Invalid arguments count:" + args.length);
-		   System.exit(1);
-		} */
-		
 		GameController controller = GameController.getInstance();
-		
-		
-		/*Added to parse the default file.
-		 * To provide input file use src/resources/World.map as argument
-		 * 
-		 */
-		MapController mapController = new MapController();
-//		if (args == null || args.length < MIN_ARGS) {
-//            controller.showHelp();
-//            return;
-//        }
-//		MapValidator mapValidator = new MapValidator(INPUTFILE);
-//		mapValidator.createCountryGraph();
-		
-		// Here we are asking user to select the map existing map
-		// or to create a custom map.
-		//System.out.println(System.getProperty("user.dir"));
-		System.out.println("----------Welcome----------");
-		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
-		Scanner mapOption = new Scanner(System.in);
-		int selectedMapOption = mapOption.nextInt();
-		if(selectedMapOption == 1) {
-			mapController.validateMap("src/resources/World.map");
-			countryList = mapController.countriesDefault;
-		}
-		else if(selectedMapOption == 2) {
-			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
-			customMap.createCustomMap();
-			countryList = customMap.countryDefault;
-		}
-		else if(selectedMapOption == 3) {
-			EditMap editMap = EditMap.getInstance();
-			countryList =editMap.countryDefault;
-			editMap.editExistingMap();
-		}
-		else {
-			System.exit(0);
-		}
-		//countryList
+		controller.createUI();
+		mapController = new MapController();
+
+		controller.loadMap();
+				
 		//Getting Player Info
 		System.out.println("Please enter the number of players between 2 and 6: ");
 		Scanner inputNumPlayers = new Scanner(System.in);	
@@ -182,11 +143,10 @@ public class GameController {
 			controller.addPlayer(player);
 		}
 		
-		controller.createUI();
-		
+		controller.registerObserver();
 		//TODO MOVE CODE TO UI CLASS UNDER APPROPRIATE METHODS
 		System.out.println("evenly distributing countries among players in random fashion...");
-		controller.randomizeCountryDistribution(MapValidator.countriesList, controller.getPlayerList());
+		controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
 		controller.placeInitialArmies();
 		controller.takeTurns();	
 				
@@ -195,21 +155,35 @@ public class GameController {
 	}
 	
 	/**
+	 * 
+	 */
+	private void registerObserver() {
+		for(int i = 0; i < numberOfPlayers; i++) {
+			controller.playerList.get(i).attach(ui);
+		}
+	}
+
+	/**
 	 * place one army on each and every country occupied by players
 	 */
 	private void placeInitialArmies() {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < controller.playerList.size(); i++) {
+			Player player = controller.getPlayer(i);
+			for(int j = 0; j < player.getPlayerCountries().size(); j++) {
+				Country c = player.getPlayerCountries().get(j);
+				c.setNumArmies(1);
+				c.setOwner(player);
+				player.setNumArmiesDispatched(j+1);
+			}
+		}
 		
 	}
 
 	/**
-	 * register a UI interface as observer to player1
+	 * create and register a UI interface as observer to player1
 	 */
 	private void createUI() {
 		ui = new UI();
-		for(int i = 0; i < numberOfPlayers; i++) {
-			controller.playerList.get(i).attach(ui);
-		}
 	}
 
 	/**
@@ -277,9 +251,43 @@ public class GameController {
 	 * @description :
 	 * @author
 	 */
-	public static boolean loadMap(){
-		//TODO this method should belong to GUI
-		return false;
+	public void loadMap(){
+		System.out.println("----------Welcome----------");
+		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
+		Scanner mapOption = new Scanner(System.in);
+		int selectedMapOption = mapOption.nextInt();
+		if(selectedMapOption == 1) {
+			try {
+				mapController.validateMap("src/resources/World.map");
+			} catch (IOException | MapInvalidException e) {
+				ui.handleExceptions(e.getMessage());
+				System.exit(1);
+			}
+			countryList = mapController.countriesDefault;
+		}
+		else if(selectedMapOption == 2) {
+			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
+			try {
+				customMap.createCustomMap();
+			} catch (IOException | MapInvalidException e) {
+				ui.handleExceptions(e.getMessage());
+				System.exit(1);
+			}
+			countryList = customMap.countryDefault;
+		}
+		else if(selectedMapOption == 3) {
+			EditMap editMap = EditMap.getInstance();
+			countryList =editMap.countryDefault;
+			try {
+				editMap.editExistingMap();
+			} catch (IOException | MapInvalidException e) {
+				ui.handleExceptions(e.getMessage());
+				System.exit(1);
+			}
+		}
+		else {
+			System.exit(1);
+		}
 		
 	}
 	
@@ -304,11 +312,11 @@ public class GameController {
 		while (winner == null) {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
-			System.out.println("-----------PLAYER "+ i+1 + "'S TURN---------");
-			ui.update(currentPlayer);
+			System.out.println("==============PLAYER "+ (i+1) + "'S TURN==================");
+			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			takePhases();
 			// check if current player has won the game
-			if(countryOwnership.size() == MapValidator.countriesList.size()) {
+			if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
 				winner = currentPlayer;
 				System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
 				break;
@@ -323,23 +331,25 @@ public class GameController {
 	 */
 	public void takePhases() {
 		currentPhase = new ReEnforcement();
-		
 		while(currentPhase != null) {
-			try {
-				//ask user if wants to init an attack
-				if(currentPhase instanceof Attack) {
-					if(!isWar()) {
-						break;
+			while(true) {
+				try {
+					//ask user if wants to init an attack
+					if(currentPhase instanceof Attack) {
+						if(!isWar()) {
+							break;
+						}
 					}
+					currentPhase.takePhase();
+					ui.update(currentPlayer);
+					break;
+					//ask user if ready for next phase
+					//readyForNextPhase = readyForNextPhase();
+				}catch(IllegalArgumentException e) {
+					ui.handleExceptions(e.getMessage());
 				}
-				currentPhase.takePhase();
-				ui.update(currentPlayer);
-				//ask user if ready for next phase
-				//readyForNextPhase = readyForNextPhase();
-			}catch(IllegalArgumentException e) {
-				UI.handleExceptions(e.getMessage());
 			}
-		
+			
 			currentPhase.setNextPhase();
 		}
 	}
@@ -417,20 +427,20 @@ public class GameController {
 	 * @return the map
 	 */
 	public Map<Country, Integer> distributeArmies() {
-		 
-		return UI.distributeArmies(currentPlayer.getPlayerCountries(), currentPlayer.getArmies());
+		int numArmiesToDispatch = currentPlayer.getArmies() - currentPlayer.getNumArmiesDispatched();
+		return ui.distributeArmies(currentPlayer.getPlayerCountries(), numArmiesToDispatch);
 	}
 
 
-	/**
-	 * Ask GUI to ask if user is ready for next phase.
-	 *
-	 * @return true, if successful
-	 */
-	public boolean readyForNextPhase() {
-		return UI.readyForNextPhase();
-		
-	}
+//	/**
+//	 * Ask GUI to ask if user is ready for next phase.
+//	 *
+//	 * @return true, if successful
+//	 */
+//	public boolean readyForNextPhase() {
+//		return UI.readyForNextPhase();
+//		
+//	}
 
 
 	/**
@@ -439,8 +449,24 @@ public class GameController {
 	 * @return a set of 3 objects: country to move armies from, country to move
 	 *         armies to, and number of armies
 	 */
-	public Tuple getParamsForFortification() {
-		return UI.getFortificationInfo();
+	public int getParamsForFortification(Country countryFrom) {
+		return ui.getFortificationInfo(countryFrom);
 		
+	}
+
+	/**
+	 * @param playerCountries
+	 * @return
+	 */
+	public String selectCountryToTransferFrom(List<Country> playerCountries) {
+		return ui.selectCountryToTransferFrom(playerCountries);
+	}
+
+	/**
+	 * @param adjCountries
+	 * @return
+	 */
+	public String selectCountryToTransferTo(List<String> adjCountries) {
+		return ui.selectCountryToTransferTo(adjCountries);
 	}
 }

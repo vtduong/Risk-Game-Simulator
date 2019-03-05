@@ -43,7 +43,7 @@ public class MapParserTest {
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
-	@Test(expected = NullPointerException.class)
+	@Test(expected = MapInvalidException.class)
 	public void checkForDuplicateTerritory() throws IOException, MapInvalidException {
 		mapParser = new MapParser(null);
 		mapParser.readFile();

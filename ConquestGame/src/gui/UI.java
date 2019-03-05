@@ -14,6 +14,7 @@ import beans.Observable;
 import beans.Player;
 import utilities.Tuple;
 
+// TODO: Auto-generated Javadoc
 /**
  * The user interface of the application. 
  * @author vanduong
@@ -22,27 +23,44 @@ import utilities.Tuple;
 public class UI implements Observer{
 
 	/**
-	 * @return a tuple containing: country to move armies from, country to move armies to, and number of armies
+	 * Gets the fortification info.
+	 *
+	 * @param country the country
+	 * @return a tuple containing: country to move armies from, country to move
+	 *         armies to, and number of armies
 	 */
-	public static Tuple getFortificationInfo() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getFortificationInfo(Country country) {
+		Scanner scan = new Scanner(System.in);
+		int numArmies = 0;
+		
+		while(true) {
+			System.out.print("Please enter number of armies being transferred: ");
+			int input2 = scan.nextInt();
+			System.out.println();
+			//make sure there is at least one army left in a country
+			if(input2 <= country.getNumArmies() -1) {
+				numArmies = input2;
+				break;
+			}
+		}
+		
+		return numArmies;
 	}
 
-	/**
-	 * @return true of user is ready for next phase
-	 */
-	public static boolean readyForNextPhase() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	/**
+//	 * @return true of user is ready for next phase
+//	 */
+//	public static boolean readyForNextPhase() {
+//		return false;
+//	}
 
 	/**
-	 * display error messages
-	 * @param message
-	 */
-	public static void handleExceptions(String message) {
-		// TODO Auto-generated method stub
+ * display error messages.
+ *
+ * @param message the message
+ */
+	public  void handleExceptions(String message) {
+		System.out.println("ERROR: "+ message);
 		
 	}
 
@@ -51,9 +69,12 @@ public class UI implements Observer{
 	 */
 	@Override
 	public void update(Observable sub) {
+		Player player = (Player)sub;
 		// display number of countries occupied
-		System.out.println("Player's total number of armies: " + ((Player)sub).getArmies());
-		List<Country> countries = ((Player)sub).getPlayerCountries();
+		System.out.println("Player's total number of armies: " + player.getArmies());
+		System.out.println("Player's total number of dispatched armies: " + player.getNumArmiesDispatched());
+		List<Country> countries = player.getPlayerCountries();
+		System.out.println("Player's total number of occupied countries: " + countries.size());
 		//1System.out.println("Player's occupied countries: " + countries.toString());
 		System.out.println("Number of armies in each occupied country: ");
 		for(int i = 0; i < countries.size(); i++) {
@@ -62,7 +83,7 @@ public class UI implements Observer{
 		}
 		//display number of continents occupied
 		System.out.print("Player's occupied continents: ");
-		List<Continent> continents = ((Player)sub).getPlayerContinents();
+		List<Continent> continents = player.getPlayerContinents();
 		if(continents == null || continents.size() == 0) {
 			System.out.println(0);
 		} else {
@@ -75,7 +96,8 @@ public class UI implements Observer{
 	}
 
 	/**
-	 *Ask if user wants to go to war
+	 * Ask if user wants to go to war.
+	 *
 	 * @return true if user wants to go to war
 	 */
 	public static boolean isWar() {
@@ -93,12 +115,13 @@ public class UI implements Observer{
 	}
 
 	/**
-	 * Ask user to select number of armies to be distributed for each country
-	 * @param list List of countries owned by current player
-	 * @param i number of armies owned by this player
+	 * Ask user to select number of armies to be distributed for each country.
+	 *
+	 * @param list      List of countries owned by current player
+	 * @param numArmies the num armies
 	 * @return list of countries and their assigned armies
 	 */
-	public static Map<Country, Integer> distributeArmies(List<Country> list, int numArmies) {
+	public Map<Country, Integer> distributeArmies(List<Country> list, int numArmies) {
 		Map<Country, Integer> armyInfo = new HashMap<Country, Integer>();
 		Scanner userInput = new Scanner(System.in);
 		int temp = 0;
@@ -113,27 +136,56 @@ public class UI implements Observer{
 					temp = userInput.nextInt();
 					System.out.println();
 					//each country must have at least one army
-					if(temp <= numArmies && temp > 0) {
+					if(temp <= numArmies) {
 						numArmies = numArmies - temp;
 						break;
 					}
-					System.out.println("Invalid Entry!!");
+					this.handleExceptions("Invalid number!");
 				}
-				c.setNumArmies(temp);
+				//c.setNumArmies(temp);
 				armyInfo.put(c, temp);
 				if(numArmies == 0)
 				{
 					break;
 				}
-				//TODO ask user to input number of army for each country in the list
 			}
 		
 		return armyInfo;
 	}
-	
-	public static void displayPlayerInfo() {
+
+	/**
+	 * Select country to transfer from.
+	 *
+	 * @param playerCountries the player countries
+	 * @return the string
+	 */
+	public String selectCountryToTransferFrom(List<Country> playerCountries) {
+		Scanner scan = new Scanner(System.in);
+		String fromCountry = null;
+		 
+		System.out.print("Please enter a country name to move armies From:");
+		fromCountry = scan.nextLine();
+		System.out.println();
+			
 		
+		return fromCountry;
 	}
 
+	/**
+	 * Select country to transfer to.
+	 *
+	 * @param adjCountries the adj countries
+	 * @return the string
+	 */
+	public String selectCountryToTransferTo(List<String> adjCountries) {
+		System.out.println("Below is a list of your countries adjacent to the selected country:" );
+		for(int i = 0; i < adjCountries.size(); i++) {
+			System.out.println(adjCountries.get(i));
+		}
+		System.out.println("Please enter a country name shown above to transfer to:");
+		Scanner scan = new Scanner(System.in);
+		return scan.nextLine();
+	}
+	
 
 }

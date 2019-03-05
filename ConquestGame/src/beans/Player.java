@@ -35,8 +35,28 @@ public class Player implements Observable {
 	/** The observer list. */
 	private List<Observer> obList = null;
 	
+	private int numArmiesDispatched = 0;
 	
 	
+	
+	/**
+	 * @return the number of armies has been dispatched to occupied countries
+	 */
+	public int getNumArmiesDispatched() {
+		return numArmiesDispatched;
+	}
+
+
+
+	/**set number of armies dispatched to occupied countries
+	 * @param numArmiesDispatched the numArmiesDispatched to set
+	 */
+	public void setNumArmiesDispatched(int numArmiesDispatched) {
+		this.numArmiesDispatched = numArmiesDispatched;
+	}
+
+
+
 	/**
 	 * Gets the cards.
 	 *
