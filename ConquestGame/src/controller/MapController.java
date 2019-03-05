@@ -268,6 +268,7 @@ public class MapController {
 
 	public void removeCountry(ArrayList<String> countries, String inputFile, boolean isRecursion)
 			throws IOException, MapInvalidException {
+		int countrytoRemove =0;
 		try {
 			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 			mpsr.readFile();
@@ -281,11 +282,17 @@ public class MapController {
 				if (countries.contains(conrec.getName())) {
 					worldMap.get(conrec.getContinent()).remove(conrec.getName());
 					iter.remove();
+					countrytoRemove++;
 				}
 			}
+			if(countrytoRemove==0) {
+				throw new MapInvalidException("The country does not exist. Provide a valid input to remove.");
+			}
 			removeAdjCountry(countries, inputFile, null, true);
-		} catch (Exception e) {
-			throw new MapInvalidException("Error while removing country. Provide a valid input to remove");
+		} catch (MapInvalidException e) {
+			throw new MapInvalidException(e.getMessage());
+		}catch(Exception e) {
+			throw new MapInvalidException("Error while removing country. Provide a valid input to remove.");
 		}
 
 	}

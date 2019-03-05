@@ -118,7 +118,6 @@ public class GameController {
 		if (!(numberOfPlayers >= 2 && numberOfPlayers <= 6)) {
 			System.exit(0);
 		}
-		
 		int initialArmies = 0;
 		switch(numberOfPlayers) {
 		//TODO	not so sure about case 2

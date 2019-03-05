@@ -111,7 +111,7 @@ public class MapValidator {
 	public void mapVisual() throws IOException {
 
 		File imgFile = new File("src/resources/Worldmap.png");
-		imgFile.createNewFile();//
+		imgFile.createNewFile();
 		JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<String, DefaultEdge>(mapGraph);
 		mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
 		layout.execute(graphAdapter.getDefaultParent());
