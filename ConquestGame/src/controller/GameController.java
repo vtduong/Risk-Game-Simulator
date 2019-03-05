@@ -62,6 +62,8 @@ public class GameController {
 	/** The winner. */
 	private Player winner = null;
 	
+	private UI ui = null;
+	
 	/**
 	 * Instantiates a new game controller.
 	 */
@@ -90,7 +92,8 @@ public class GameController {
 	 * The main method.
 	 *
 	 * @param args the arguments
-	 * @throws MapInvalidException 
+	 * @throws IOException         Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	/*
 	 * @description :
@@ -106,7 +109,6 @@ public class GameController {
 		} */
 		
 		GameController controller = GameController.getInstance();
-		UI ui = new UI();
 		
 		
 		/*Added to parse the default file.
@@ -118,12 +120,12 @@ public class GameController {
 //            controller.showHelp();
 //            return;
 //        }
-		MapValidator mapValidator = new MapValidator(INPUTFILE);
-		mapValidator.createCountryGraph();
+//		MapValidator mapValidator = new MapValidator(INPUTFILE);
+//		mapValidator.createCountryGraph();
 		
 		// Here we are asking user to select the map existing map
 		// or to create a custom map.
-		
+		//System.out.println(System.getProperty("user.dir"));
 		System.out.println("----------Welcome----------");
 		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
 		Scanner mapOption = new Scanner(System.in);
@@ -156,6 +158,7 @@ public class GameController {
 		//TODO	not so sure about case 2
 			case 2:
 				initialArmies = 40;
+			break;
 			case 3:
 				initialArmies = 35;
 			break;
@@ -173,14 +176,14 @@ public class GameController {
 			String playerName = "Player " + i;
 			Player player = new Player(playerName, true, initialArmies);
 			controller.addPlayer(player);
-			//register UI as observer for this player
-			player.attach(ui);
 		}
+		
+		controller.createUI();
 		
 		//TODO MOVE CODE TO UI CLASS UNDER APPROPRIATE METHODS
 		System.out.println("evenly distributing countries among players in random fashion...");
 		controller.randomizeCountryDistribution(MapValidator.countriesList, controller.getPlayerList());
-		
+		controller.placeInitialArmies();
 		controller.takeTurns();	
 				
 		
@@ -188,6 +191,26 @@ public class GameController {
 	}
 	
 	/**
+	 * place one army on each and every country occupied by players
+	 */
+	private void placeInitialArmies() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * register a UI interface as observer to player1
+	 */
+	private void createUI() {
+		ui = new UI();
+		for(int i = 0; i < numberOfPlayers; i++) {
+			controller.playerList.get(i).attach(ui);
+		}
+	}
+
+	/**
+	 * Gets the player list.
+	 *
 	 * @return the list of players
 	 */
 	public List<Player> getPlayerList() {
@@ -278,10 +301,13 @@ public class GameController {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
 			System.out.println("-----------PLAYER "+ i+1 + "'S TURN---------");
+			ui.update(currentPlayer);
 			takePhases();
 			// check if current player has won the game
 			if(countryOwnership.size() == MapValidator.countriesList.size()) {
 				winner = currentPlayer;
+				System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
+				break;
 			}
 			i++;
 		}
@@ -293,22 +319,23 @@ public class GameController {
 	 */
 	public void takePhases() {
 		currentPhase = new ReEnforcement();
+		
 		while(currentPhase != null) {
-			while(!readyForNextPhase) {
-				try {
-					//ask user if wants to init an attack
-					if(currentPhase instanceof Attack) {
-						if(!isWar()) {
-							break;
-						}
+			try {
+				//ask user if wants to init an attack
+				if(currentPhase instanceof Attack) {
+					if(!isWar()) {
+						break;
 					}
-					currentPhase.takePhase();
-					//ask user if ready for next phase
-					readyForNextPhase = readyForNextPhase();
-				}catch(IllegalArgumentException e) {
-					UI.handleExceptions(e.getMessage());
 				}
+				currentPhase.takePhase();
+				ui.update(currentPlayer);
+				//ask user if ready for next phase
+				//readyForNextPhase = readyForNextPhase();
+			}catch(IllegalArgumentException e) {
+				UI.handleExceptions(e.getMessage());
 			}
+		
 			currentPhase.setNextPhase();
 		}
 	}

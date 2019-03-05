@@ -15,6 +15,7 @@ import org.junit.Test;
 import beans.Continent;
 import beans.Country;
 import beans.Player;
+import gui.UI;
 import phases.ReEnforcement;
 
 /**
@@ -25,6 +26,7 @@ public class ControllerTest {
 
 	GameController controller = null;
 	ReEnforcement phase = null;
+	UI ui = null;
 	Country vn = new Country("Vietnam");
 	Country indi = new Country("India");
 	Country usa = new Country("USA");
@@ -53,6 +55,7 @@ public class ControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
+		ui = new UI();
 		gamer1 = new Player("gamer1");
 		controller.addPlayer(gamer1);
 		gamer2 = new Player("gamer2");
@@ -100,5 +103,19 @@ public class ControllerTest {
 		assertEquals(4, gamer3.getPlayerCountries().size());
 
 	}
+	
+//	@Test
+//	public void testTakePhases() {
+//		controller.addPlayer(gamer1);
+//		controller.setCurrentPlayer(gamer1);
+//		controller.takePhases();
+//	}
+//	
+//	@Test
+//	public void testTakeTurns() {
+//		controller.addPlayer(gamer1);
+//		controller.setCurrentPlayer(gamer1);
+//		controller.takeTurns();
+//	}
 
 }
