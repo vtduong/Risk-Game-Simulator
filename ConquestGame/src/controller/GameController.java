@@ -34,6 +34,7 @@ public class GameController {
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
 	private static GameController controller= null;
+	private static List<Country> countryList  = new ArrayList<Country>();
 
 /** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
@@ -132,18 +133,22 @@ public class GameController {
 		int selectedMapOption = mapOption.nextInt();
 		if(selectedMapOption == 1) {
 			mapController.validateMap("src/resources/World.map");
+			countryList = mapController.countriesDefault;
 		}
 		else if(selectedMapOption == 2) {
 			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
 			customMap.createCustomMap();
+			countryList = customMap.countryDefault;
 		}
 		else if(selectedMapOption == 3) {
 			EditMap editMap = EditMap.getInstance();
+			countryList =editMap.countryDefault;
 			editMap.editExistingMap();
 		}
 		else {
 			System.exit(0);
 		}
+		//countryList
 		//Getting Player Info
 		System.out.println("Please enter the number of players between 2 and 6: ");
 		Scanner inputNumPlayers = new Scanner(System.in);	

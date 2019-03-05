@@ -3,10 +3,13 @@ package utilities;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import beans.Country;
 import controller.MapController;
 import exception.MapInvalidException;
 
@@ -18,6 +21,7 @@ import exception.MapInvalidException;
 public class CustomMapGenerator {
 	private static CustomMapGenerator customMap = null;
 	private final String FILEPATH = "src/resources/usermap.map";
+	public static List<Country> countryDefault =null;
 	private CustomMapGenerator() {
 		
 	}
@@ -30,6 +34,7 @@ public class CustomMapGenerator {
 	public static CustomMapGenerator getInstance() {
 		if(customMap == null) {
 			customMap = new CustomMapGenerator();
+			 countryDefault = new ArrayList<Country>();
 		}
 		return customMap;
 	}
@@ -104,5 +109,7 @@ public class CustomMapGenerator {
 		writeMap.flush();
 		writeMap.close();
 		mapcontroller.validateMap(FILEPATH);
+		countryDefault =mapcontroller.countriesDefault;
+		
 	}
 }

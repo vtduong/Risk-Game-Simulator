@@ -27,6 +27,7 @@ public class EditMap {
 	private ArrayList<String> removeCountries = null;
 	private ArrayList<String> removeAdjacentCountries = null;
 	private Map<String,List<String>> adjMap =null;
+	public List<Country> countryDefault =null;
 	
 	
 	private Map<String,List<String>> adjCountryMap = null;
@@ -44,6 +45,7 @@ public class EditMap {
 		continents = new HashMap<String, Integer>();
 		countries = new ArrayList<String>();
 		adjMap     = new HashMap<String,List<String>>();
+		countryDefault = new ArrayList<Country>();
 	}
 
 	/**
@@ -65,10 +67,11 @@ public class EditMap {
 	 * @throws MapInvalidException
 	 */
 	public void editExistingMap() throws IOException, MapInvalidException {
-		MapParser mapParser = new MapParser(EDITEDMAP);
-		mapParser.readFile();
 		ReplicateMap replicateMap = ReplicateMap.getInstance();
 		replicateMap.cloneMap();
+		MapParser mapParser = new MapParser(EDITEDMAP);
+		mapParser.readFile();
+		countryDefault = mapParser.countriesList;
 		mapController = new MapController();
 		System.out.println("----------Continent----------");
 		for(Continent continent : mapParser.continentsList)

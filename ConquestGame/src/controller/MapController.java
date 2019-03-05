@@ -39,7 +39,11 @@ public class MapController {
 	 * @throws MapInvalidException invalid map exception
 	 */
 	public void validateMap(String inputFile) throws IOException, MapInvalidException {
-		new utilities.MapValidator(inputFile).createCountryGraph();
+		utilities.MapValidator mpsr = new utilities.MapValidator(inputFile);
+		mpsr.createCountryGraph();
+		countriesDefault =mpsr.countriesList;
+		continentsDefault=mpsr.continentsList;
+		
 	}
 
 	/**
