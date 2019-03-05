@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.jheaps.annotations.VisibleForTesting;
+
 import beans.Continent;
 import beans.Country;
 import controller.MapController;

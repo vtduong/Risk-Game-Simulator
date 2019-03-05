@@ -16,7 +16,7 @@ import utilities.Tuple;
  * @author vanduong
  *
  */
-public class GUI implements Observer{
+public class UI implements Observer{
 
 	/**
 	 * @return a tuple containing: country to move armies from, country to move armies to, and number of armies
@@ -48,7 +48,9 @@ public class GUI implements Observer{
 	 */
 	@Override
 	public void update(Observable sub) {
-		// TODO Auto-generated method stub
+		//TODO display number of countries occupied
+		//display number of continents occupied
+		
 		
 	}
 
