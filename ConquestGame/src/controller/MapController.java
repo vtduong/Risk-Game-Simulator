@@ -49,9 +49,10 @@ public class MapController {
 	 * @param isEdit
 	 * @param inputFile
 	 * @throws IOException
+	 * @throws MapInvalidException 
 	 */
 	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit,
-			String inputFile) throws IOException {
+			String inputFile) throws IOException, MapInvalidException {
 
 		if (!isEdit) {
 			bw.write("[Continents]");
@@ -61,24 +62,22 @@ public class MapController {
 				bw.newLine();
 			}
 		} else {
-			FileReader editFile = new FileReader(inputFile);
-			Scanner sc = new Scanner(new File(inputFile));
-			String tempStr = null;
-			String buildMapFile = "";
-			while (sc.hasNext()) {
-				tempStr = sc.nextLine();
-				buildMapFile = buildMapFile + "" + tempStr + "\n";
+			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
+			mpsr.readFile();
+			countriesDefault = mpsr.countriesList;
+			continentsDefault=mpsr.continentsList;
+			for(String rec:continentMap.keySet()) {
+				if(!continentsDefault.contains(rec)) {
+					Continent crec =new Continent();
+					crec.setName(rec);
+					crec.setMaxArmies(continentMap.get(rec));
+					continentsDefault.add(crec);
+				}
+				
 			}
-			String temp = null, updatedStr = null;
-			for (String key : continentMap.keySet()) {
-				temp = (key + "=" + continentMap.get(key) + "\n");
-			}
-			updatedStr = buildMapFile.substring(0, buildMapFile.indexOf("[Territories]")) + temp
-					+ buildMapFile.substring(buildMapFile.indexOf("[Territories]"));
-			FileWriter writer = new FileWriter(inputFile);
-
-			writer.write(updatedStr);
-			writer.close();
+			MapFileWriter mfw = new MapFileWriter();
+			mfw.writeFile(continentsDefault, countriesDefault, inputFile);
+			
 		}
 
 	}

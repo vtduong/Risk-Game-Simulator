@@ -36,9 +36,10 @@ public class MapParser {
 	/**
 	 * This method reads the input file for parsing
 	 * @throws MapInvalidException 
+	 * @throws FileNotFoundException 
 	 * 
 	 */
-	public void readFile() throws MapInvalidException {
+	public void readFile() throws MapInvalidException, FileNotFoundException {
 		try {
 
 			Scanner sc = new Scanner(new File(inputFile));
@@ -52,8 +53,10 @@ public class MapParser {
 			countriesList = parseCountries(buildMapFile.substring(buildMapFile.indexOf("[Territories]")));
 			continentsList = parseContinents(buildMapFile.substring(buildMapFile.indexOf("[Continents]"),
 					buildMapFile.indexOf("[Territories]")));
-		} catch (Exception e) {
-			throw new MapInvalidException("Map file does not exist");
+		} catch (MapInvalidException e) {
+			throw new MapInvalidException(e.getMessage());
+		} catch(FileNotFoundException ex) {
+			throw new MapInvalidException("Map file does not exist.");
 		}
 
 	}
@@ -70,7 +73,7 @@ public class MapParser {
 		String continent[] = continents.split("\n");
 		try {
 			for (int i = 1; i < continent.length; i++) {
-				if (!continent[i].equalsIgnoreCase("[Continents]") && continent[i] != null) {
+				if (!continent[i].equalsIgnoreCase("[Continents]") && continent[i] != null && continent[i].contains("=")) {
 					String[] temp = continent[i].trim().split("=");
 					Continent con = new Continent();
 					con.setMaxArmies(Integer.parseInt((temp[1].trim())));
