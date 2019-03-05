@@ -56,7 +56,7 @@ public class CustomMapGenerator {
 		writeMap.write("[Map]\n");
 		System.out.println("Please Enter Map Details");
 		System.out.println("Please input the number of continents you wish to"
-				+ " add. The value should be grater than 1.");
+				+ " add. The value should be greater than 1.");
 		
 		numberOfContinent = getMapInt.nextInt();
 		
@@ -77,7 +77,7 @@ public class CustomMapGenerator {
 		}
 		
 		System.out.println("Please input the numbers of countries you wish to add."
-				+ " The value should be grater than 1.");
+				+ " The value should be greater than 1.");
 		
 		numberOfCountries = getMapInt.nextInt();
 		
