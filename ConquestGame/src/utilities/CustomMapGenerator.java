@@ -101,8 +101,8 @@ public class CustomMapGenerator {
 		for(int i = 0; i < countryList.length; i++) {
 			writeMap.write(countryList[i] + "\n");
 		}
-		
-		mapcontroller.validateMap(FILEPATH);
+		writeMap.flush();
 		writeMap.close();
+		mapcontroller.validateMap(FILEPATH);
 	}
 }
