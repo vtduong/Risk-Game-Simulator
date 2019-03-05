@@ -19,23 +19,14 @@ import exception.MapInvalidException;
 
 public class MapParser {
 
-	/**
-	 * @param inputFile the input map file
-	 */
-	private String inputFile = "src/resources/Duplicate_Territory.map";
+	private String inputFile;
 	private Scanner sc;
 
+	/**
+	 * @param inputFile input map file
+	 */
 	public MapParser(String inputFile) {
 		this.inputFile = inputFile;
-	}
-
-	public MapParser() {
-
-	}
-
-	public static void main(String args[]) {
-		MapParser mp = new MapParser();
-		mp.readFile();
 	}
 
 	private String buildMapFile;
@@ -46,8 +37,9 @@ public class MapParser {
 	/**
 	 * This method reads the input file for parsing
 	 * 
+	 * @throws MapInvalidException invalid map exception
 	 */
-	public void readFile() {
+	public void readFile() throws MapInvalidException {
 		try {
 
 			Scanner sc = new Scanner(new File(inputFile));
@@ -62,17 +54,19 @@ public class MapParser {
 			continentsList = parseContinents(buildMapFile.substring(buildMapFile.indexOf("[Continents]"),
 					buildMapFile.indexOf("[Territories]")));
 		} catch (Exception e) {
-			System.out.println("Map file does not exist");
+			throw new MapInvalidException("Map file does not exist");
 		}
 
 	}
 
 	/**
+	 * This method parse all the continents and store them in List
 	 * 
-	 * @param continents substring of the map file containing continents
-	 * @return list of continents parsed in input Map
+	 * @param continents String that contains all the continent information
+	 * @return list of continents
+	 * @throws MapInvalidException invalid map exception
 	 */
-	private static ArrayList<Continent> parseContinents(String continents) {
+	private static ArrayList<Continent> parseContinents(String continents) throws MapInvalidException {
 		ArrayList<Continent> continentList = new ArrayList<Continent>();
 		// System.out.println("Parsing Continents!!"+continents);
 		String continent[] = continents.split("\n");
@@ -88,21 +82,19 @@ public class MapParser {
 				}
 			}
 		} catch (Exception e) {
-			// TODO
-			System.out.println("Exception :" + e.getStackTrace());
-			System.out.println("Exception :" + e.getMessage());
-			System.out.println("Exception :" + e.getClass());
+			throw new MapInvalidException("Error in parsing of Continents. Provide a valid map file");
 		}
 		return continentList;
 	}
 
 	/**
-	 * This method parse all the countries in input Map
+	 * This method parse all the countries in input map and store them in list
 	 * 
-	 * @param country list of countries
-	 * @return
+	 * @param country String that contains all the country information
+	 * @return list of all the countries
+	 * @throws MapInvalidException invalid map exception
 	 */
-	private static ArrayList<Country> parseCountries(String countries) {
+	private static ArrayList<Country> parseCountries(String countries) throws MapInvalidException {
 		ArrayList<Country> countryList = new ArrayList<Country>();
 		// System.out.println("Parsing Countries!!");
 		String country[] = countries.split("\n");
@@ -124,14 +116,19 @@ public class MapParser {
 			addAdjacentCountries(country, countryList);
 
 		} catch (Exception e) {
-			System.out.println("Exception :" + e.getStackTrace());
-			System.out.println("Exception :" + e.getMessage());
-			System.out.println("Exception :" + e.getClass());
+			throw new MapInvalidException("Error in parsing of countries. Provide a valid map file");
 		}
 		return countryList;
 
 	}
 
+	/**
+	 * This method gets all the countries records
+	 * 
+	 * @param name        name of country to get
+	 * @param countryList list of all countries
+	 * @return country record
+	 */
 	public static Country getCountry(String name, ArrayList<Country> countryList) {
 		Country recToReturn = new Country();
 		for (Country rec : countryList) {
@@ -144,9 +141,11 @@ public class MapParser {
 	}
 
 	/**
+	 * This method parse the adjacent countries in input map file and store them in
+	 * a list
 	 * 
-	 * @param countries
-	 * @return
+	 * @param country     country whose adjacent country needs to be parsed
+	 * @param countryList list of all adjacent countries
 	 */
 	private static void addAdjacentCountries(String country[], ArrayList<Country> countryList) {
 		for (int i = 1; i < country.length; i++) {

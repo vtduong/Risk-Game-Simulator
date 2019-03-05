@@ -27,8 +27,8 @@ public class DiceRollerTest {
 		assertNotEquals(dices, dice.roll(5).length);
 		
 		//Check if the results is in decreasing order or not.
-		int[] diceResult = dice.roll(2);
-		assertTrue(diceResult.length == 2);
-		assertTrue(diceResult[0] > diceResult[1]);
+		int[] diceResult = dice.roll(5);
+		assertTrue(diceResult.length == 5);
+		assertTrue(diceResult[0] >= diceResult[4]);
 	}
 }

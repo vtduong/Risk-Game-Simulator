@@ -28,7 +28,10 @@ import beans.Country;
 import exception.MapInvalidException;
 
 /**
- * @author apoorvasharma
+ * This class creates the main graph of countries and subgraphs of continents.
+ * It also validates the input map file
+ * 
+ * @author apoorvasharma version 1.0.0
  *
  */
 public class MapValidator {
@@ -38,27 +41,28 @@ public class MapValidator {
 	public static Graph<String, DefaultEdge> mapGraph = new SimpleGraph<>(DefaultEdge.class);
 	public static ArrayList<Graph<List<Country>, DefaultEdge>> subGraphsList = new ArrayList<Graph<List<Country>, DefaultEdge>>();
 
+	/**
+	 * @param inputFile input map file
+	 */
 	public MapValidator(String inputFile) {
 		this.inputFile = inputFile;
 	}
-	
-	/*
-	 * public static void main(String argv[]) throws IOException,
-	 * MapInvalidException { MapValidator mr=new
-	 * MapValidator("src/resources/usermap.map"); mr.createCountryGraph(); }
-	 */
 
+	/**
+	 * This method creates the main graph of all countries
+	 * 
+	 * @throws IOException         file handling exception
+	 * @throws MapInvalidException invalid map exception
+	 */
 	public void createCountryGraph() throws IOException, MapInvalidException {
 		MapParser mapParser = new MapParser(inputFile);
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
-		continentsList =mapParser.continentsList;
+		continentsList = mapParser.continentsList;
 		if (continentsList.size() < 1) {
 			throw new MapInvalidException("There should be atleast one continent");
 		}
-		Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
-		worldMap = utilities.MapParser.worldMap;
-
+		duplicateCountries(countriesList);
 		try {
 			// adding the nodes to the graph
 			for (Country rec : countriesList) {
@@ -77,9 +81,7 @@ public class MapValidator {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Exception :" + e.getStackTrace());
-			System.out.println("Exception :" + e.getMessage());
-			System.out.println("Exception :" + e.getClass());
+			throw new MapInvalidException("Abandoned Territory Detected");
 		}
 
 		continentsList = mapParser.continentsList;
@@ -90,15 +92,17 @@ public class MapValidator {
 
 		boolean isConnected = mapisConnected();
 		if (!isConnected) {
-			throw new MapInvalidException("Map is not connected");
-			// throw Error
+			throw new MapInvalidException("Map is not connected. Provide a valid map input");
 		}
 		mapVisual();
-		//System.out.println(subGraphsList.size());
 
 	}
 
-	// For Map Visualization
+	/**
+	 * This method handles the visualization of map graph
+	 * 
+	 * @throws IOException file handling exception
+	 */
 	public void mapVisual() throws IOException {
 
 		File imgFile = new File("src/resources/Worldmap.png");
@@ -112,6 +116,9 @@ public class MapValidator {
 
 	}
 
+	/**
+	 * @return if input map is connected or not
+	 */
 	public boolean mapisConnected() {
 
 		boolean isConnected = false;
@@ -125,9 +132,13 @@ public class MapValidator {
 	}
 
 	/**
-	 * @param defaultCountryList : List of countries in the map
-	 * @throws MapInvalidException
+	 * This method handles if the input map file has any duplicate country or not
+	 * 
+	 * @param defaultCountryList list of countries which are parsed in map input
+	 *                           file
+	 * @throws MapInvalidException invalid map exception
 	 */
+
 	private void duplicateCountries(ArrayList<Country> defaultCountryList) throws MapInvalidException {
 		HashMap<String, Country> duplicateCheckMap = new HashMap<String, Country>();
 		for (Country rec : defaultCountryList) {
@@ -141,18 +152,22 @@ public class MapValidator {
 	}
 
 	/**
-	 * 
-	 * @param countryList
-	 * @param countryGraph
-	 * @return
+	 * @param countryList list of all countries in input map file
+	 * @param mapGraph    main graph of input map file
+	 * @return continent subgraphs
+	 * @throws MapInvalidException invalid map exception
 	 */
 	private Graph<List<Country>, DefaultEdge> createCountrySubGraph(List<Country> countryList,
-			Graph<String, DefaultEdge> mapGraph) {
+			Graph<String, DefaultEdge> mapGraph) throws MapInvalidException {
 		Set<String> countrySet = new HashSet<String>();
 		for (Country con : countryList) {
 			countrySet.add(con.getName());
 		}
 		Graph<List<Country>, DefaultEdge> subGraph = new AsSubgraph(mapGraph, countrySet);
+		/*
+		 * if(!new ConnectivityInspector<>(subGraph).isConnected()) { throw new
+		 * MapInvalidException("Subgraph is not connected"); }
+		 */
 		return subGraph;
 	}
 

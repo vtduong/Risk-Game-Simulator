@@ -20,15 +20,19 @@ public class Fortification implements TurnPhase{
 	/** The current player. */
 	private Player curPlayer = controller.getCurrentPlayer();
 	
+	
+	public Fortification() {
+		System.out.println("--------------Fortification Phase------------");
+	}
 	/* (non-Javadoc)
 	 * @see phases.TurnPhase#nextPhase(controller.GameController)
 	 */
 	public void takePhase() throws IllegalArgumentException {
 		curPlayer = controller.getCurrentPlayer();
 		//move armies from one (and only one) country to another neighboring country
-			Tuple tuple = controller.getParamsForFortification();
-			moveArmies(tuple.getFromCountry(), tuple.getToCountry(), tuple.getNumArmies());
-		
+		Tuple tuple = controller.getParamsForFortification();
+		moveArmies(tuple.getFromCountry(), tuple.getToCountry(), tuple.getNumArmies());
+		curPlayer.notifyChanges();
 	}
 
 	/**

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.jheaps.annotations.VisibleForTesting;
+
 import beans.Continent;
 import beans.Country;
 import controller.MapController;
@@ -197,7 +199,7 @@ public class EditMap {
 		mapController.validateMap(EDITEDMAP);
 	}
 		
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, MapInvalidException {
 		EditMap em = EditMap.getInstance();
 		try {
 			em.editExistingMap();
