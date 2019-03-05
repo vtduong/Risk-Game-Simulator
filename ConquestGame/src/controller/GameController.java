@@ -114,10 +114,10 @@ public class GameController {
 		 * 
 		 */
 		MapController mapController = new MapController();
-		if (args == null || args.length < MIN_ARGS) {
-            controller.showHelp();
-            return;
-        }
+//		if (args == null || args.length < MIN_ARGS) {
+//            controller.showHelp();
+//            return;
+//        }
 		MapValidator mapValidator = new MapValidator(INPUTFILE);
 		mapValidator.createCountryGraph();
 		

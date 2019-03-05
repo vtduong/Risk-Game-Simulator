@@ -87,7 +87,7 @@ public class EditMap {
 			Scanner getUserInputStr = new Scanner(System.in);
 			Scanner getUserInputInt = new Scanner(System.in);
 			
-			if(option < 1&& option > 5) {
+			if(option < 1 && option > 5) {
 				System.out.println("Invalid option!!!!");
 				System.exit(0);
 			}

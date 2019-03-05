@@ -59,7 +59,6 @@ public class MapController {
 	 */
 	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit, String inputFile)
 			throws IOException, MapInvalidException {
-
 		try {
 			if (!isEdit) {
 				bw.write("[Continents]");
