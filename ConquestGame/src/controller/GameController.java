@@ -129,7 +129,7 @@ public class GameController {
 		Scanner mapOption = new Scanner(System.in);
 		int selectedMapOption = mapOption.nextInt();
 		if(selectedMapOption == 1) {
-			mapController.validateMap("/src/resources/World.map");
+			mapController.validateMap("src/resources/World.map");
 		}
 		else if(selectedMapOption == 2) {
 			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
