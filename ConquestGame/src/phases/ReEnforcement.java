@@ -31,6 +31,9 @@ public class ReEnforcement implements TurnPhase {
 	/** The card set choice. */
 	private int cardSetChoice = 0;
 	
+	/**
+	 * Instantiates a new re enforcement.
+	 */
 	public ReEnforcement() {
 		System.out.println("-----------Re-EnForcement Phase-----------");
 	}

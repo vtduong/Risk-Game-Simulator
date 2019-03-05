@@ -13,15 +13,27 @@ import beans.Country;
 import controller.MapController;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author ankit
- * This class is used to take user input for creating a custom map
- * or load an existing map.
+ * The Class CustomMapGenerator.
+ *
+ * @author ankit This class is used to take user input for creating a custom map
+ *         or load an existing map.
  */
 public class CustomMapGenerator {
+	
+	/** The custom map. */
 	private static CustomMapGenerator customMap = null;
+	
+	/** The filepath. */
 	private final String FILEPATH = "src/resources/usermap.map";
+	
+	/** The country default. */
 	public static List<Country> countryDefault =null;
+	
+	/**
+	 * Instantiates a new custom map generator.
+	 */
 	private CustomMapGenerator() {
 		
 	}
@@ -41,8 +53,9 @@ public class CustomMapGenerator {
 	
 	/**
 	 * This is used to create a custom map and validate the same.
-	 * @throws IOException
-	 * @throws MapInvalidException 
+	 *
+	 * @throws IOException         Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	public void createCustomMap() throws IOException, MapInvalidException {
 		MapController mapcontroller = new MapController();
