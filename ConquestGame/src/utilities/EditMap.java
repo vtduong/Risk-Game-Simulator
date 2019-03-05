@@ -36,7 +36,7 @@ public class EditMap {
 	private MapController mapController;
 	
 	
-	private EditMap() {
+	public EditMap() {
 		adjCountryMap = new HashMap<String,List<String>>();
 		removeContinents = new ArrayList<String>();
 		removeAdjacentCountries = new ArrayList<String>();

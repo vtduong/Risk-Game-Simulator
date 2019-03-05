@@ -23,11 +23,11 @@ public class MapValidatorTest {
 	private MapValidator mapValidator;
 	String inputFile;
 	String validFile = "src/resources/world.map";
-	String invalidContinent = "src/resources/Invalid_Continent.map";
-	String abandonedCountry = "src/resources/Abandoned_Territory.map";
-	String duplicateCountry = "src/resources/Duplicate_Territory.map";
-	String noContinent = "src/resources/No_Continent.map";
-	String notConnected = "src/resources/Not_Connected.map";
+	String invalidContinent = "src/tests/resources/Invalid_Continent.map";
+	String abandonedCountry = "src/tests/resources/Abandoned_Territory.map";
+	String duplicateCountry = "src/tests/resources/Duplicate_Territory.map";
+	String noContinent = "src/tests/resources/No_Continent.map";
+	String notConnected = "src/tests/resources/Not_Connected.map";
 
 	/**
 	 * This method allocates resources before calling test methods
