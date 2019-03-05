@@ -58,6 +58,12 @@ public class EditMap {
 		return editMap;
 	}
 	
+	/**
+	 * This method is used to clone the existing map and then edit the new map 
+	 * by taking user input 
+	 * @throws IOException
+	 * @throws MapInvalidException
+	 */
 	public void editExistingMap() throws IOException, MapInvalidException {
 		MapParser mapParser = new MapParser(EDITEDMAP);
 		mapParser.readFile();
@@ -199,12 +205,4 @@ public class EditMap {
 		mapController.validateMap(EDITEDMAP);
 	}
 		
-	public static void main(String[] args) throws IOException, MapInvalidException {
-		EditMap em = EditMap.getInstance();
-		try {
-			em.editExistingMap();
-		} catch (MapInvalidException e) {
-		    System.out.println(e.getMessage());
-		}
-	}
 }
