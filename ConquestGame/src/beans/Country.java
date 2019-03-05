@@ -81,7 +81,7 @@ public class Country implements Observable {
 	}
 
 	/**
-	 * Sets the number armies.
+	 * Sets the number armies occupied in this country
 	 *
 	 * @param numArmies the numArmies to set
 	 */

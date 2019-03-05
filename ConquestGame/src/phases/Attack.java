@@ -15,7 +15,7 @@ public class Attack implements TurnPhase{
 	
 
 	public void takePhase() {
-		// TODO Auto-generated method stub
+		System.out.println("Attack phase is coming soon...");
 	}
 
 	/* (non-Javadoc)
