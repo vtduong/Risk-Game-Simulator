@@ -41,6 +41,8 @@ public class UI implements Observer{
 			if(input2 <= country.getNumArmies() -1) {
 				numArmies = input2;
 				break;
+			} else {
+				this.handleExceptions("There must be at least one army per country!");
 			}
 		}
 		
@@ -136,7 +138,7 @@ public class UI implements Observer{
 					temp = userInput.nextInt();
 					System.out.println();
 					//each country must have at least one army
-					if(temp <= numArmies) {
+					if(temp >= 0 && temp <= numArmies) {
 						numArmies = numArmies - temp;
 						break;
 					}

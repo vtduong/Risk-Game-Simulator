@@ -45,7 +45,6 @@ public class ReEnforcement implements TurnPhase {
 	public void takePhase() {
 		obtainNewArmies();
 		curPlayer.notifyChanges();
-		//ask controller to request user input for army distribution
 		distributeArmies();
 		
 	}

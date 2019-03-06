@@ -312,7 +312,7 @@ public class GameController {
 		while (winner == null) {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
-			System.out.println("==============PLAYER "+ (i+1) + "'S TURN==================");
+			System.out.println("=============="+ currentPlayer.getPlayerName() + "'S TURN==================");
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			takePhases();
 			// check if current player has won the game
@@ -343,8 +343,7 @@ public class GameController {
 					currentPhase.takePhase();
 					ui.update(currentPlayer);
 					break;
-					//ask user if ready for next phase
-					//readyForNextPhase = readyForNextPhase();
+					
 				}catch(IllegalArgumentException e) {
 					ui.handleExceptions(e.getMessage());
 				}
