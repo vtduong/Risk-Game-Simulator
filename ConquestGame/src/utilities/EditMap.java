@@ -166,7 +166,6 @@ public class EditMap {
 				ArrayList<String> addAdjacentCountries = new ArrayList<String>();
 				System.out.println("Enter the Country Name: ");
 				String countryName = getUserInputStr.nextLine();
-				System.out.println();
 				int adjLen = 0;
 				System.out.println("Enter number of adjacent list: ");
 				adjLen = getUserInputInt.nextInt();
@@ -184,6 +183,10 @@ public class EditMap {
 				System.out.println("Enter the Country Name: ");
 				String countryName = getUserInputStr.nextLine();
 				System.out.println();
+				System.out.println("Country/Countries Adjacent to the specified country aree listed below");
+				Country conrec = mapParser.getCountry(countryName, (ArrayList<Country>) countryDefault);
+				System.out.println(conrec.getAdjacentCountries());
+				
 				System.out.println("Enter the number of adjacent Countries to be removed: ");
 				int conNo = getUserInputInt.nextInt();
 				System.out.println("Enter the name of adjacent Countries to be removed: ");
@@ -228,7 +231,6 @@ public class EditMap {
 		}
 
 		if (adjMap.size() > 0) {
-			System.out.print(adjMap.size());
 			mapController.removeAdjCountry(null, EDITEDMAP, adjMap, false);
 		}
 
