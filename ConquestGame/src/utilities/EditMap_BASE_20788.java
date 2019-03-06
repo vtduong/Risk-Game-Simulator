@@ -147,9 +147,7 @@ public class EditMap {
 			}
 
 			else if (option == 3) {
-			
-				System.out.println("Example: \n Country_name,latitude,longitude,continent,adjacent_countries1,adjacent_countries2.... ");
-
+				System.out.print("Enter the Country Name: ");
 				String countryName = getUserInputStr.nextLine();
 				System.out.println();
 				countries.add(countryName);

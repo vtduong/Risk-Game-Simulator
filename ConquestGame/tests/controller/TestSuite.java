@@ -13,6 +13,7 @@ import phases.FortificationTest;
 import phases.ReEnforcementTest;
 import utilities.DiceRollerTest;
 import utilities.MapParserTest;
+import utilities.MapUpdateTest;
 
 /**
  * @author vanduong
@@ -25,7 +26,8 @@ import utilities.MapParserTest;
 				FortificationTest.class,
 				ReEnforcementTest.class,
 				DiceRollerTest.class,
-				MapParserTest.class})
+				MapParserTest.class,
+				MapUpdateTest.class})
 public class TestSuite {
 
 }

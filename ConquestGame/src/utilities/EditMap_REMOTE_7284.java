@@ -147,9 +147,8 @@ public class EditMap {
 			}
 
 			else if (option == 3) {
-			
+				System.out.println("Enter Country Details in Order specified!!");
 				System.out.println("Example: \n Country_name,latitude,longitude,continent,adjacent_countries1,adjacent_countries2.... ");
-
 				String countryName = getUserInputStr.nextLine();
 				System.out.println();
 				countries.add(countryName);
