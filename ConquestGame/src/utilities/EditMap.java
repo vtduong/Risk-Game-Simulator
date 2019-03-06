@@ -62,11 +62,10 @@ public class EditMap {
 	private MapController mapController;
 	
 	
-	/**
-	 * Instantiates a new edits the map.
-	 */
+
 	private EditMap() {
 		adjCountryMap = new HashMap<String, List<String>>();
+
 		removeContinents = new ArrayList<String>();
 		removeAdjacentCountries = new ArrayList<String>();
 		removeCountries = new ArrayList<String>();
