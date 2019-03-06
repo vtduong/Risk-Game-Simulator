@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="phases.ReEnforcement" project="ConquestGame" 
+    file="/ConquestGame/src/phases/ReEnforcement.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="214" width="282" x="3341" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="controller.GameController" project="ConquestGame" 
+    file="/ConquestGame/src/controller/GameController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="610" width="390" x="3582" y="479"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="utilities.UtilityConstants" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/UtilityConstants.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="88" width="136" x="297" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="beans.WorldMap" project="ConquestGame" 
+    file="/ConquestGame/src/beans/WorldMap.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="88" width="104" x="473" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="beans.Player" project="ConquestGame" file="/ConquestGame/src/beans/Player.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="574" width="252" x="3582" y="2387"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="6" language="java" name="phases.TurnPhase" project="ConquestGame" 
+    file="/ConquestGame/src/phases/TurnPhase.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="106" width="142" x="2991" y="1139"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="7" language="java" name="utilities.EditMap" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/EditMap.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="286" width="282" x="1734" y="479"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="8" language="java" name="beans.Observable" project="ConquestGame" 
+    file="/ConquestGame/src/beans/Observable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="124" width="150" x="3182" y="3001"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <package id="9" language="java" name="controller" project="ConquestGame" file="/ConquestGame/src/controller" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="55" width="122" x="617" y="207"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="10" language="java" name="controller.MapController" project="ConquestGame" 
+    file="/ConquestGame/src/controller/MapController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="268" width="508" x="2443" y="1139"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="11" language="java" name="exception" project="ConquestGame" file="/ConquestGame/src/exception" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="55" width="122" x="779" y="207"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="12" language="java" name="phases" project="ConquestGame" file="/ConquestGame/src/phases" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="55" width="122" x="941" y="207"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <enumeration id="13" language="java" name="beans.ArmyType" project="ConquestGame" 
+    file="/ConquestGame/src/beans/ArmyType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="160" width="159" x="1103" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="14" language="java" name="utilities.MapFileWriter" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/MapFileWriter.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="106" width="386" x="1302" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="gui.UI" project="ConquestGame" file="/ConquestGame/src/gui/UI.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="214" width="360" x="3664" y="1139"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="utilities.DiceRoller" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/DiceRoller.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="164" x="1728" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="17" language="java" name="beans.CardType" project="ConquestGame" 
+    file="/ConquestGame/src/beans/CardType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="156" x="3582" y="3001"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <package id="18" language="java" name="utilities" project="ConquestGame" file="/ConquestGame/src/utilities" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="55" width="122" x="1942" y="207"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <interface id="19" language="java" name="gui.Observer" project="ConquestGame" 
+    file="/ConquestGame/src/gui/Observer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="88" width="163" x="3372" y="3001"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="20" language="java" name="utilities.ReplicateMap" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/ReplicateMap.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="160" width="184" x="2104" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="exception.MapInvalidException" project="ConquestGame" 
+    file="/ConquestGame/src/exception/MapInvalidException.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="88" width="186" x="2338" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="utilities.CustomMapGenerator" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/CustomMapGenerator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="232" x="1471" y="1447"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="phases.Attack" project="ConquestGame" file="/ConquestGame/src/phases/Attack.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="124" width="142" x="3663" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="utilities.MapValidator" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/MapValidator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="232" width="629" x="1774" y="1139"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="25" language="java" name="beans.CardSet" project="ConquestGame" 
+    file="/ConquestGame/src/beans/CardSet.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="232" width="208" x="2564" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="26" language="java" name="utilities.MapParser" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/MapParser.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="250" width="346" x="3173" y="1139"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="27" language="java" name="resources" project="ConquestGame" file="/ConquestGame/src/resources" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="55" width="122" x="2812" y="207"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <class id="28" language="java" name="beans.Country" project="ConquestGame" file="/ConquestGame/src/beans/Country.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="520" width="255" x="3243" y="1827"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="phases.Fortification" project="ConquestGame" 
+    file="/ConquestGame/src/phases/Fortification.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="142" width="221" x="3845" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="beans.Continent" project="ConquestGame" 
+    file="/ConquestGame/src/beans/Continent.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="340" width="215" x="3007" y="1447"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="utilities.Tuple" project="ConquestGame" 
+    file="/ConquestGame/src/utilities/Tuple.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="196" width="165" x="2974" y="207"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <package id="32" language="java" name="gui" project="ConquestGame" file="/ConquestGame/src/gui" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="55" width="122" x="3179" y="207"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <association id="33">    
+    <bendpoint x="3612" y="1139"/>    
+    <bendpoint x="3612" y="1447"/>    
+    <bendpoint x="3612" y="1827"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="34" name="playerList"/>      
+      <multiplicity id="35" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="36">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="37" name="customMap"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="39">    
+    <bendpoint x="3252" y="1447"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="40" name="countriesDefault"/>      
+      <multiplicity id="41" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="43" name="obList"/>      
+      <multiplicity id="44" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="46" name="countryDefault"/>      
+      <multiplicity id="47" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="48">    
+    <bendpoint x="3336" y="479"/>    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <association id="49">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="50" name="editMap"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="53" name="continentsList"/>      
+      <multiplicity id="54" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="55">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="56" name="mapController"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="58">    
+    <bendpoint x="3549" y="479"/>    
+    <bendpoint x="3549" y="1139"/>    
+    <bendpoint x="3570" y="1447"/>    
+    <bendpoint x="3570" y="1827"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="59" name="curPlayer"/>      
+      <multiplicity id="60" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="61">    
+    <bendpoint x="3212" y="1827"/>    
+    <bendpoint x="3212" y="2387"/>    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="62" name="obList"/>      
+      <multiplicity id="63" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="64">    
+    <bendpoint x="1743" y="1139"/>    
+    <bendpoint x="1743" y="1447"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="65" name="countryDefault"/>      
+      <multiplicity id="66" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="67">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="68" name="controller"/>      
+      <multiplicity id="69" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="70">    
+    <bendpoint x="3528" y="1827"/>    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="71" name="owner"/>      
+      <multiplicity id="72" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="73">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="74" name="cards"/>      
+      <multiplicity id="75" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="76">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="77" name="dice_roller"/>      
+      <multiplicity id="78" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="79">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="80" name="countries"/>      
+      <multiplicity id="81" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="82">    
+    <bendpoint x="3570" y="1139"/>    
+    <bendpoint x="3549" y="1447"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="83" name="countryList"/>      
+      <multiplicity id="84" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="85">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="86">    
+    <bendpoint x="3191" y="2387"/>    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <association id="87">    
+    <bendpoint x="3633" y="1139"/>    
+    <bendpoint x="3633" y="1447"/>    
+    <bendpoint x="3633" y="1827"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="88" name="currentPlayer"/>      
+      <multiplicity id="89" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="90">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="91" name="currentPhase"/>      
+      <multiplicity id="92" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="93">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="94" name="owner"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="96">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="97" name="continentsDefault"/>      
+      <multiplicity id="98" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="99">    
+    <bendpoint x="3175" y="479"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <association id="100">    
+    <bendpoint x="4054" y="479"/>    
+    <bendpoint x="4054" y="1139"/>    
+    <bendpoint x="4033" y="1447"/>    
+    <bendpoint x="4033" y="1827"/>    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="101" name="curPlayer"/>      
+      <multiplicity id="102" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="103">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="104" name="ui"/>      
+      <multiplicity id="105" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="106">    
+    <bendpoint x="2517" y="1447"/>    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="107" name="countriesList"/>      
+      <multiplicity id="108" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="109">    
+    <end type="SOURCE" refId="23" navigable="false">      
+      <attribute id="110" name="controller"/>      
+      <multiplicity id="111" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="112">    
+    <bendpoint x="3591" y="1139"/>    
+    <bendpoint x="3591" y="1447"/>    
+    <bendpoint x="3591" y="1827"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="113" name="winner"/>      
+      <multiplicity id="114" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="115">    
+    <bendpoint x="4054" y="1447"/>    
+    <bendpoint x="4075" y="1827"/>    
+    <bendpoint x="4075" y="2387"/>    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="19"/>  
+  </realization>  
+  <realization id="116">    
+    <bendpoint x="3103" y="1827"/>    
+    <bendpoint x="3103" y="2387"/>    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="117">    
+    <bendpoint x="3427" y="479"/>    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <association id="118">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="119" name="continentsList"/>      
+      <multiplicity id="120" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="121">    
+    <bendpoint x="3273" y="1447"/>    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="122" name="countriesList"/>      
+      <multiplicity id="123" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="124">    
+    <bendpoint x="4075" y="479"/>    
+    <bendpoint x="4075" y="1139"/>    
+    <bendpoint x="4075" y="1447"/>    
+    <bendpoint x="4054" y="1827"/>    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="125" name="curPlayer"/>      
+      <multiplicity id="126" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="127">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="128" name="controller"/>      
+      <multiplicity id="129" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="130">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="131" name="controller"/>      
+      <multiplicity id="132" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="133">    
+    <bendpoint x="3549" y="1827"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="134" name="occupiedContinents"/>      
+      <multiplicity id="135" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="136">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="137" name="occupiedCountries"/>      
+      <multiplicity id="138" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="139">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="140" name="mapController"/>      
+      <multiplicity id="141" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="142">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="143" name="replicateMap"/>      
+      <multiplicity id="144" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="145">    
+    <bendpoint x="3316" y="2387"/>    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="146" name="obList"/>      
+      <multiplicity id="147" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
