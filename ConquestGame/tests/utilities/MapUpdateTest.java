@@ -24,7 +24,7 @@ public class MapUpdateTest {
 	@Before
 	public void setUp() throws Exception {
 		mapController= new MapController();
-		editMap= new EditMap();
+		editMap= EditMap.getInstance();
 		continents= new HashMap<String,Integer>();
 	}
 
