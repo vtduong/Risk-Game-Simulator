@@ -47,6 +47,7 @@ public class MapUpdateTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+
 		mapController = new MapController();
 		editMap = EditMap.getInstance();
 		addContinents = new HashMap<String, Integer>();
@@ -68,6 +69,7 @@ public class MapUpdateTest {
 		writer.close();
 		wrapReader.close();
 		wrapWriter.close();
+
 	}
 
 	/**
