@@ -19,30 +19,46 @@ import beans.Country;
 import exception.MapInvalidException;
 import utilities.MapFileWriter;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class handles addition, insertion, removal of new continents, countries
- * or adjacent countries
- * 
+ * or adjacent countries.
+ *
  * @author apoorvasharma
  * @version 1.0.0
  */
 public class MapController {
 
+	/** The countries default. */
 	public static ArrayList<Country> countriesDefault = new ArrayList<Country>();
+	
+	/** The continents default. */
 	public static ArrayList<Continent> continentsDefault = new ArrayList<Continent>();
+	
+	/** The world map. */
 	private static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
+	
+	/** The filepath. */
 	private static String filepath = "src/resources/usermap.map";
 
 	/**
+	 * Validate map.
+	 *
 	 * @param inputFile input map file
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
 	public void validateMap(String inputFile) throws IOException, MapInvalidException {
-		new utilities.MapValidator(inputFile).createCountryGraph();
+		utilities.MapValidator mpsr = new utilities.MapValidator(inputFile);
+		mpsr.createCountryGraph();
+		countriesDefault =mpsr.countriesList;
+		continentsDefault=mpsr.continentsList;
+		
 	}
 
 	/**
+	 * Sets the map details.
+	 *
 	 * @param bw instance of Buffered Writer
 	 * @throws IOException file handling exception
 	 */
@@ -51,6 +67,8 @@ public class MapController {
 	}
 
 	/**
+	 * Adds the continent.
+	 *
 	 * @param continentMap continent user wish to add in the input map file
 	 * @param bw           instance of Buffered Writer
 	 * @param isEdit       to decide if input file needs to be edited or newly
@@ -92,6 +110,8 @@ public class MapController {
 	}
 
 	/**
+	 * Adds the country.
+	 *
 	 * @param countryArrayList list of
 	 * @param bw               instance of Buffered Writer
 	 * @param isEdit           to decide if input file needs to be edited or newly
@@ -134,6 +154,8 @@ public class MapController {
 	}
 
 	/**
+	 * Adds the adj country.
+	 *
 	 * @param adjCountryMap list of adjacent countries of a particular country
 	 * @param inputFile     input map file
 	 * @throws IOException         file handling exception
@@ -191,6 +213,8 @@ public class MapController {
 	}
 
 	/**
+	 * Removes the continent.
+	 *
 	 * @param continentName continent name user wish to remove from map file
 	 * @param inputFile     input map file
 	 * @throws IOException         file handling exception
@@ -233,14 +257,18 @@ public class MapController {
 	}
 
 	/**
-	 * @param countries country user wish to remove from input map file
-	 * @param inputFile input map file
+	 * Removes the country.
+	 *
+	 * @param countries   country user wish to remove from input map file
+	 * @param inputFile   input map file
+	 * @param isRecursion the is recursion
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
 
 	public void removeCountry(ArrayList<String> countries, String inputFile, boolean isRecursion)
 			throws IOException, MapInvalidException {
+		int countrytoRemove =0;
 		try {
 			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
 			mpsr.readFile();
@@ -254,18 +282,28 @@ public class MapController {
 				if (countries.contains(conrec.getName())) {
 					worldMap.get(conrec.getContinent()).remove(conrec.getName());
 					iter.remove();
+					countrytoRemove++;
 				}
 			}
+			if(countrytoRemove==0) {
+				throw new MapInvalidException("The country does not exist. Provide a valid input to remove.");
+			}
 			removeAdjCountry(countries, inputFile, null, true);
-		} catch (Exception e) {
-			throw new MapInvalidException("Error while removing country. Provide a valid input to remove");
+		} catch (MapInvalidException e) {
+			throw new MapInvalidException(e.getMessage());
+		}catch(Exception e) {
+			throw new MapInvalidException("Error while removing country. Provide a valid input to remove.");
 		}
 
 	}
 
 	/**
+	 * Removes the adj country.
+	 *
 	 * @param countries adjacent country user wish to remove from input map file
 	 * @param inputFile input map file
+	 * @param adjMap    the adj map
+	 * @param isFunCall the is fun call
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */

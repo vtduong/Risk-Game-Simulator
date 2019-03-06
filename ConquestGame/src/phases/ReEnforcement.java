@@ -31,8 +31,11 @@ public class ReEnforcement implements TurnPhase {
 	/** The card set choice. */
 	private int cardSetChoice = 0;
 	
+	/**
+	 * Instantiates a new re enforcement.
+	 */
 	public ReEnforcement() {
-		System.out.println("-----------Re-EnfForcement Phase-----------");
+		System.out.println("-----------Re-EnForcement Phase-----------");
 	}
 	
 	/**
@@ -41,26 +44,22 @@ public class ReEnforcement implements TurnPhase {
 	 */
 	public void takePhase() {
 		obtainNewArmies();
-		
+		curPlayer.notifyChanges();
 		//ask controller to request user input for army distribution
 		distributeArmies();
 		
-		//update info about this player to user
-		curPlayer.notifyChanges();
 	}
 
 	/**
 	 * distribute number of armies to countries occupied by current player.
 	 */
-	public void distributeArmies() throws IllegalArgumentException {
+	public void distributeArmies() {
 		Map<Country, Integer> list = controller.distributeArmies();
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
 			Country country = entry.getKey();
 			int numArmies = entry.getValue();
-			if(numArmies < 1) {
-				throw new IllegalArgumentException("Number of Armies per country must be at least one!");
-			}
-			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);
+			int totalArmiesToSet = numArmies + country.getNumArmies();
+			curPlayer.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
 		}
 		
 	}
@@ -77,6 +76,8 @@ public class ReEnforcement implements TurnPhase {
 			Country country = entry.getKey();
 			int numArmies = entry.getValue();
 			curPlayer.getCountryByName(country.getName()).setNumArmies(numArmies);
+			int totalArmiesToSet = numArmies + country.getNumArmies();
+			curPlayer.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
 		}
 		
 		

@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+// TODO: Auto-generated Javadoc
 /**
  * <p>This class is used to create a single-ton object that is used
  * to generate a random number between range 1 to 6. </p>
@@ -14,12 +15,14 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class DiceRoller {
 
+	/** The dice roller. */
 	private static DiceRoller dice_roller = null;
+	
+	/** The rand. */
 	private Random rand;
 		
 	/**
-	 * This is a default constructor
-	 *
+	 * This is a default constructor.
 	 */
 	private DiceRoller() {
 		// Prevents others to directly create a object of this class
@@ -27,8 +30,10 @@ public class DiceRoller {
 	}
 	
 	/**
-	 * @return new instance of the DiceRoller if it not already
-	 * exist, otherwise return the existing instance of DiceRoller
+	 * Gets the single instance of DiceRoller.
+	 *
+	 * @return new instance of the DiceRoller if it not already exist, otherwise
+	 *         return the existing instance of DiceRoller
 	 */
 	public static DiceRoller getInstance() {
 		if(dice_roller == null) 
@@ -39,9 +44,9 @@ public class DiceRoller {
 	}
 	
 	/**
-	 * @param number_dices It is input for the number of dices we
-	 * want to roll.
-	 * 
+	 * Roll.
+	 *
+	 * @param number_dices It is input for the number of dices we want to roll.
 	 * @return The values of rolled dices.
 	 */
 	public int[] roll(int number_dices) {

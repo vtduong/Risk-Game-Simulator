@@ -5,6 +5,8 @@ package controller;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +104,38 @@ public class ControllerTest {
 		assertEquals(4, gamer2.getPlayerCountries().size());
 		assertEquals(4, gamer3.getPlayerCountries().size());
 
+	}
+	
+	@Test
+	public void testPlaceInitialNumArmies() throws NoSuchMethodException, SecurityException {
+		gamer1.setArmies(10);
+		gamer2.setArmies(10);
+		gamer3.setArmies(10);
+		
+		gamer1.addCountry(vn.getName(), vn);
+		gamer1.addCountry(ger.getName(), ger);
+		gamer2.addCountry(indi.getName(), indi);
+		gamer3.addCountry(usa.getName(), usa);
+		
+		Class reflectController = controller.getClass();
+		Method method;
+		
+		method = reflectController.getDeclaredMethod("placeInitialArmies");
+		method.setAccessible(true);
+		
+		try {
+			method.invoke(controller);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			fail();
+			e.printStackTrace();
+		}
+		assertEquals(2, gamer1.getNumArmiesDispatched());
+		
+	}
+	
+	@Test
+	public void testMain() {
+		
 	}
 	
 //	@Test
