@@ -101,7 +101,7 @@ public class CustomMapGenerator {
 		
 		String [] countryList = new String[numberOfCountries];
 		System.out.println("Enter Country Details in Order specified!!");
-		System.out.println("Example: \nCountry_name,latitude,longitude,continent,adjacent_countries1,adjacent_countries2.... ");
+		System.out.println("Example: \n Country_name,latitude,longitude,continent,adjacent_countries1,adjacent_countries2.... ");
 		for (int i = 0; i < numberOfCountries; i++) {
 			System.out.print("Enter the Country Details: ");
 			String temp = getMapStr.nextLine();
