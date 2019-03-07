@@ -37,9 +37,6 @@ public class Fortification implements TurnPhase{
 			throw new IllegalArgumentException(fromName + " is not a country you occupied!");
 		}
 		List<String> adjCountries = fromCountry.getAdjacentCountries();
-		if(adjCountries == null || adjCountries.size() == 0) {
-			throw new IllegalArgumentException("There is no adjacent countries occupied by you!");
-		}
 		//get the names of countries occupied by this player among adjacent countries
 		List<String> occupiedCountries = new ArrayList<String>();
 		for(int i = 0; i < adjCountries.size(); i++) {
@@ -47,6 +44,9 @@ public class Fortification implements TurnPhase{
 			if(country != null) {
 				occupiedCountries.add(adjCountries.get(i));
 			}
+		}
+		if( occupiedCountries.size() == 0) {
+			throw new IllegalArgumentException("There is no adjacent countries occupied by you!");
 		}
 		String toName = controller.selectCountryToTransferTo(occupiedCountries);
 		int numArmies = controller.getParamsForFortification(fromCountry);

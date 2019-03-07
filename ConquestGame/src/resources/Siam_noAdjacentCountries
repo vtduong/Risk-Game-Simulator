@@ -1,0 +1,6 @@
+India, 1, 1, Asia, China
+China, 1, 1, Asia, India, Egypt
+Egypt, 1, 1, Africa, China, Vietnam
+Vietnam, 1, 1, Asia, Egypt, Siam
+Siam, 1, 1, Europe, Vietnam, Canada
+Canada, 1, 1, Europe, Siam

@@ -1,0 +1,9 @@
+[Map]
+[Continents]
+Asia=1
+Africa=1
+[Territories]
+India,1,1,Asia,China,Pakistan
+China,1,2,Asia,India
+Pakistan,1,2,Africa,India
+Egypt,1,3,Africa
