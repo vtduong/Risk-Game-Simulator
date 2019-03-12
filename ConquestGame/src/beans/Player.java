@@ -342,12 +342,17 @@ public class Player implements Observable {
 		
 	}
 	
+	
+	/**
+	 * Attack phase
+	 */
 	public void attack() {
 		System.out.println("-----------Attack Phase-----------");
 		
 	}
 	
 	/**
+	 * ReEnforcement phase
 	 * This methods calls 2 other private methods to 1) obtain new armies and 2)
 	 * distribute armies among occupied countries.
 	 */

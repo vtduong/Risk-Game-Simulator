@@ -314,15 +314,8 @@ public class GameController {
 			System.out.println("=============="+ currentPlayer.getPlayerName() + "'S TURN==================");
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			takePhases();
-			// check if current player has won the game
-			if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
-				winner = currentPlayer;
-				System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
-				break;
-			}
 			i++;
 		}
-		
 	}
     
 	/**
@@ -338,6 +331,12 @@ public class GameController {
 				if(isWar()) {
 					currentPlayer.attack();
 					currentPlayer.notifyChanges();
+					// check if current player has won the game
+					if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
+						winner = currentPlayer;
+						System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
+						break;
+					}
 				}
 				currentPlayer.fortify();
 				currentPlayer.notifyChanges();
