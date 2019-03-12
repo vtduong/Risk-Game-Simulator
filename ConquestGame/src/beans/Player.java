@@ -3,7 +3,9 @@ package beans;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import controller.GameController;
 import gui.Observer;
 
 // TODO: Auto-generated Javadoc
@@ -37,6 +39,14 @@ public class Player implements Observable {
 	
 	private int numArmiesDispatched = 0;
 	
+	private static GameController controller = GameController.getInstance();
+	
+	
+	/** The minimum new armies each user gets in ReEnforcement phase. */
+	private final int MIN_NEW_ARMIES = 3;
+	
+	/** The card set choice. */
+	private int cardSetChoice = 0;
 	
 	
 	/**
@@ -330,6 +340,153 @@ public class Player implements Observable {
 			o.update(this);
 		}
 		
+	}
+	
+	public void attack() {
+		System.out.println("-----------Attack Phase-----------");
+		
+	}
+	
+	/**
+	 * This methods calls 2 other private methods to 1) obtain new armies and 2)
+	 * distribute armies among occupied countries.
+	 */
+	public void reEnforce() {
+		System.out.println("-----------Re-EnForcement Phase-----------");
+		obtainNewArmies();
+		this.notifyChanges();
+		distributeArmies();
+		
+	}
+
+	/**
+	 * distribute number of armies to countries occupied by current player.
+	 */
+	public void distributeArmies() {
+		Map<Country, Integer> list = controller.distributeArmies();
+		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
+			Country country = entry.getKey();
+			int numArmies = entry.getValue();
+			int totalArmiesToSet = numArmies + country.getNumArmies();
+			this.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
+		}
+		
+	}
+	
+	/**
+	 * Obtain new armies.
+	 *
+	 * @return total new armies current player is granted to be added to existing armies.
+	 */
+	public int obtainNewArmies() {
+		
+		//player's choice of set of cards to be traded
+		int setChoice = (cardSetChoice > 1) ? cardSetChoice : 1;
+		//redeem armies by cards
+		// TODO
+//		int armiesByCards = redeemCards(setChoice);
+		
+		//obtain armies by number of territories occupied
+		int numCountries = this.getPlayerCountries().size();
+		int numArmies = numCountries / 3;
+		int armiesByCountries = ((numArmies > MIN_NEW_ARMIES)) ? numArmies : MIN_NEW_ARMIES;
+		
+		//obtain armies by number of continents controlled
+		List<Continent> continents= this.getPlayerContinents();
+		int armiesByContinents = 0;
+		for(Continent c : continents) {
+			armiesByContinents += c.getMaxArmies();
+		}
+		
+		//obtain armies by The specific territory pictured on a traded-in card
+		//NOT APPLICABLE
+		//TODO add armiesByCards later
+		int totalNewArmies = armiesByCountries + armiesByContinents;
+		this.increaseArmies(totalNewArmies);
+		return totalNewArmies;
+	}
+	
+	
+	/**
+	 * Fortify player's countries in fortification phase
+	 *
+	 * @throws IllegalArgumentException if 2 countries given are not adjacent or if one of the countries is not owned by player
+	 */
+	public void fortify() throws IllegalArgumentException {
+		System.out.println("--------------Fortification Phase------------");
+		//move armies from one (and only one) country to another neighboring country
+		String fromName = controller.selectCountryToTransferFrom(this.getPlayerCountries());
+		Country fromCountry = this.getCountryByName(fromName);
+		if(fromCountry == null) {
+			throw new IllegalArgumentException(fromName + " is not a country you occupied!");
+		}
+		List<String> adjCountries = fromCountry.getAdjacentCountries();
+		//get the names of countries occupied by this player among adjacent countries
+		List<String> occupiedCountries = new ArrayList<String>();
+		for(int i = 0; i < adjCountries.size(); i++) {
+			Country country = this.getCountryByName(adjCountries.get(i));
+			if(country != null) {
+				occupiedCountries.add(adjCountries.get(i));
+			}
+		}
+		if( occupiedCountries.size() == 0) {
+			throw new IllegalArgumentException("There is no adjacent countries occupied by you!");
+		}
+		String toName = controller.selectCountryToTransferTo(occupiedCountries);
+		int numArmies = controller.getParamsForFortification(fromCountry);
+		Country toCountry = this.getCountryByName(toName);
+//		fromCountry.setNumArmies(fromCountry.getNumArmies() - numArmies);
+//		toCountry.setNumArmies(toCountry.getNumArmies() + numArmies);
+		moveArmies(fromName, toName, numArmies);
+	}
+
+	/**
+	 * Move armies.
+	 *
+	 * @param fromCountry the country from which armies are transfered
+	 * @param toCountry   the country to which armies are transfered
+	 * @param numArmies   number of armies transfered
+	 * @exception IllegalArgumentException There must be at least one army in one
+	 *                                     country
+	 */
+	private void moveArmies(String fromCountry, String toCountry, int numArmies) throws IllegalArgumentException {
+		Country from = this.getCountryByName(fromCountry);
+		Country to = this.getCountryByName(toCountry);
+		if( from == null || to == null) {
+			throw new IllegalArgumentException("The selected country is not occupied by you!");
+		}
+		List<String> adjFrom = from.getAdjacentCountries();
+		List<String> adjTo = to.getAdjacentCountries();
+		//check if 2 countries are adjacent
+		if(adjFrom == null || adjTo == null || !adjFrom.contains(to.getName()) || !adjTo.contains(from.getName())) {
+			throw new IllegalArgumentException("Two countries must be adjacent");
+		}
+		//check if number of armies move is valid
+		if(from.getNumArmies() - numArmies < 1) {
+			throw new IllegalArgumentException("there must be at least 1 army per country");
+		}
+		if(numArmies < 0) {
+			throw new IllegalArgumentException("Number of armies must be non-negative!");
+		}
+		from.setNumArmies(from.getNumArmies() - numArmies);
+		to.setNumArmies(to.getNumArmies() + numArmies);
+		
+	}
+	
+	/**
+	 * Distribute armies. For testing purpose only
+	 *
+	 * @param list the list of countries with corresponding armies.
+	 * @VisibleForTesting
+	 */
+	public void distributeArmies(Map<Country, Integer> list) {
+		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
+			Country country = entry.getKey();
+			int numArmies = entry.getValue();
+			this.getCountryByName(country.getName()).setNumArmies(numArmies);
+			int totalArmiesToSet = numArmies + country.getNumArmies();
+			this.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
+		}
 	}
 	
 }
