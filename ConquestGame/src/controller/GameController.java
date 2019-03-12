@@ -12,9 +12,8 @@ import java.util.Scanner;
 import beans.*;
 import exception.MapInvalidException;
 import gui.UI;
-import phases.Attack;
-import phases.ReEnforcement;
-import phases.TurnPhase;
+//import phases.Attack;
+
 import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 import utilities.EditMap;
@@ -46,8 +45,8 @@ public class GameController {
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
 	
-	/** The current phase. */
-	TurnPhase currentPhase = null;
+//	/** The current phase. */
+//	TurnPhase currentPhase = null;
 	
 	/** The ready for next phase. */
 	private boolean readyForNextPhase = false;
@@ -291,18 +290,18 @@ public class GameController {
 		
 	}
 	
-	/**
-	 * Sets the phase.
-	 *
-	 * @param turnPhase the new phase
-	 */
-	/*
-	 * @description :
-	 * @author
-	 */
-	public void setPhase(TurnPhase turnPhase) {
-		currentPhase = turnPhase;
-	}
+//	/**
+//	 * Sets the phase.
+//	 *
+//	 * @param turnPhase the new phase
+//	 */
+//	/*
+//	 * @description :
+//	 * @author
+//	 */
+//	public void setPhase(TurnPhase turnPhase) {
+//		currentPhase = turnPhase;
+//	}
 	
 	/**
 	 * Take turns.
@@ -330,27 +329,23 @@ public class GameController {
 	 * Take phases.
 	 */
 	public void takePhases() {
-		currentPhase = new ReEnforcement();
-		while(currentPhase != null) {
-			while(true) {
-				try {
-					//ask user if wants to init an attack
-					if(currentPhase instanceof Attack) {
-						if(!isWar()) {
-							break;
-						}
-					}
-					currentPhase.takePhase();
-					ui.update(currentPlayer);
-					break;
-					
-				}catch(IllegalArgumentException e) {
-					ui.handleExceptions(e.getMessage());
+//		currentPhase = new ReEnforcement();
+		currentPlayer.reEnforce();
+		currentPlayer.notifyChanges();
+		while(true) {
+			try {
+				//ask user if wants to init an attack
+				if(isWar()) {
+					currentPlayer.attack();
+					currentPlayer.notifyChanges();
 				}
+				currentPlayer.fortify();
+				currentPlayer.notifyChanges();
+				break;
+			}catch(IllegalArgumentException e) {
+				ui.handleExceptions(e.getMessage());
 			}
-			
-			currentPhase.setNextPhase();
-		}
+		}		
 	}
 
 	/**

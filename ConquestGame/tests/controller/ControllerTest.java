@@ -18,7 +18,6 @@ import beans.Continent;
 import beans.Country;
 import beans.Player;
 import gui.UI;
-import phases.ReEnforcement;
 
 /**
  * @author vanduong
@@ -27,7 +26,7 @@ import phases.ReEnforcement;
 public class ControllerTest {
 
 	GameController controller = null;
-	ReEnforcement phase = null;
+//	ReEnforcement phase = null;
 	UI ui = null;
 	Country vn = new Country("Vietnam");
 	Country indi = new Country("India");

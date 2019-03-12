@@ -19,7 +19,6 @@ import controller.GameController;
 public class FortificationTest {
 	
 	private GameController controller = null;
-	private Fortification phase = null;
 	private Country vn = null;
 	private Country indi = null;
 	private Country usa = null;
@@ -73,20 +72,19 @@ public class FortificationTest {
 		//add 2 countries to gamer1
 		gamer1.addCountries(countryNames, countries);
 		controller.setCurrentPlayer(gamer1);
-		//create phase
-		phase = new Fortification();
+		
 		assertEquals(2, gamer1.getPlayerCountries().size());
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
 		//Using reflection API to call private methods
-		Class reflectPhase = phase.getClass();
+		Class reflectPhase = controller.getCurrentPlayer().getClass();
 		Method reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
 				String.class, String.class, int.class);
 		
 		reflectMethodCall.setAccessible(true);
 		
 		int testValue = 2;
-		reflectMethodCall.invoke(phase, countryOne, countryTwo, testValue);
+		reflectMethodCall.invoke(controller.getCurrentPlayer(), countryOne, countryTwo, testValue);
 		
 		assertEquals(2, vn.getNumArmies());
 		assertEquals(3, indi.getNumArmies());
@@ -112,13 +110,12 @@ public class FortificationTest {
 		//add 2 countries to gamer1
 		gamer1.addCountries(countryNames, countries);
 		controller.setCurrentPlayer(gamer1);
-		//create phase
-		phase = new Fortification();
+		
 		assertEquals(2, gamer1.getPlayerCountries().size());
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
 		//Using reflection API to call private methods
-		Class reflectPhase = phase.getClass();
+		Class reflectPhase = controller.getCurrentPlayer().getClass();
 		Method reflectMethodCall;
 		
 			reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
@@ -130,7 +127,7 @@ public class FortificationTest {
 		
 		int testValue = 1;
 		try {
-			reflectMethodCall.invoke(phase, countryTwo, countryOne, testValue);
+			reflectMethodCall.invoke(controller.getCurrentPlayer(), countryTwo, countryOne, testValue);
 			fail();
 		} catch (IllegalAccessException e) {
 			fail();
@@ -160,13 +157,12 @@ public class FortificationTest {
 		//add 3 countries to gamer1
 		gamer1.addCountries(countryNames, countries);
 		controller.setCurrentPlayer(gamer1);
-		//create phase
-		phase = new Fortification();
+		
 		assertEquals(3, gamer1.getPlayerCountries().size());
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
 		//Using reflection API to call private methods
-		Class reflectPhase = phase.getClass();
+		Class reflectPhase = controller.getCurrentPlayer().getClass();
 		Method reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
 				String.class, String.class, int.class);
 		
@@ -174,7 +170,7 @@ public class FortificationTest {
 		
 		int testValue = 2;
 		try {
-			reflectMethodCall.invoke(phase, countryOne, country3, testValue);
+			reflectMethodCall.invoke(controller.getCurrentPlayer(), countryOne, country3, testValue);
 			fail();
 		} catch (IllegalAccessException e) {
 			fail();
