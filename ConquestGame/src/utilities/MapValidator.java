@@ -36,6 +36,7 @@ import exception.MapInvalidException;
  */
 public class MapValidator {
 	private String inputFile;
+	public Map<String, ArrayList<Country>> worldMap;
 	public static ArrayList<Country> countriesList = new ArrayList<Country>();
 	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
 	public static Graph<String, DefaultEdge> mapGraph = new SimpleGraph<>(DefaultEdge.class);
@@ -59,6 +60,7 @@ public class MapValidator {
 		mapParser.readFile();
 		countriesList = mapParser.countriesList;
 		continentsList = mapParser.continentsList;
+		worldMap =mapParser.worldMap;
 		if (continentsList.size() < 1) {
 			throw new MapInvalidException("There should be atleast one continent");
 		}
