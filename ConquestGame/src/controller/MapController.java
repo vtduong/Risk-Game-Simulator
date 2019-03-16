@@ -110,7 +110,7 @@ public class MapController {
 		} catch (Exception e) {
 			System.out.println("Exception:"+e.getCause());
 			throw new MapInvalidException("Error while adding new continent. Provide a valid input.");
-		}
+		} 
 	}
 
 	/**

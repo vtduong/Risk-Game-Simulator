@@ -61,7 +61,7 @@ public class CustomMapGenerator {
 		MapController mapcontroller = MapController.getInstance();
 		mapcontroller.intit("CreateMap", FILEPATH);
 		Map<String, Integer> continentMap = new HashMap<String, Integer>();
-		Scanner getMapInt = new Scanner(System.in);
+		Scanner getMapInt = new Scanner(System.in); 
 		Scanner getMapStr = new Scanner(System.in);
 		int numberOfContinent = 0;
 		int numberOfCountries = 0;

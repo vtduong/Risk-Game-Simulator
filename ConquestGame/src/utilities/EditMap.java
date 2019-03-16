@@ -224,7 +224,7 @@ public class EditMap  {
 		}
 
 		if (continents.size() > 0) {
-			mapController.addContinent(continents);
+			mapController.addContinent(continents); 
 		}
 		if (countries.size() > 0) {
 			mapController.addCountry(countries);
