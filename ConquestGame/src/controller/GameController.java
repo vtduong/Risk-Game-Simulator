@@ -112,8 +112,6 @@ public class GameController {
 	public static void main(String[] args) throws IOException, MapInvalidException {
 		GameController controller = GameController.getInstance();
 		controller.createUI();
-		mapController = new MapController();
-
 		controller.loadMap();
 				
 		//Getting Player Info
