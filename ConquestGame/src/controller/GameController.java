@@ -338,19 +338,9 @@ public class GameController {
 				if(isWar()) {
 					do {
 						//check if an attack is possible (there must be at least 1 attacking country having at least 2 armies)
-						boolean canAttack = false;
-						List<Country> curPlayerCountries = currentPlayer.getPlayerCountries();
-						for(Country country : curPlayerCountries) {
-							if(country.getNumArmies() >= 2) {
-								canAttack = true;
-								break;
-							}
-						}
-						if(canAttack) {
+						while(canAttack()) {
 							currentPlayer.attack();
-						} else {
-							ui.showDialog(currentPlayer.getPlayerName() + " does not have enough armies in any countries to attack");
-						}
+						} 
 						currentPlayer.notifyChanges();
 						// check if current player has won the game
 						if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
@@ -371,6 +361,22 @@ public class GameController {
 	}
 
 	
+	/**
+	 * checks if player can attack by having at least 2 armies in one of player's countries
+	 *
+	 * @return true, player can attack
+	 */
+	private boolean canAttack() {
+		List<Country> curPlayerCountries = currentPlayer.getPlayerCountries();
+		for(Country country : curPlayerCountries) {
+			if(country.getNumArmies() >= 2) {
+				return true;
+			}
+		}
+		ui.showDialog(currentPlayer.getPlayerName() + " does not have enough armies in any countries to attack");
+		return false;
+	}
+
 	/**
 	 * This method calls appropriate UI to ask user if he/she wants to continue killing.
 	 *

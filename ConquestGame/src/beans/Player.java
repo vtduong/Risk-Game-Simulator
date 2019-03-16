@@ -7,6 +7,7 @@ import java.util.Map;
 
 import controller.GameController;
 import gui.Observer;
+import utilities.DiceRoller;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -348,7 +349,8 @@ public class Player implements Observable {
 	 */
 	public void attack() throws IllegalArgumentException{
 		System.out.println("-----------Attack Phase-----------");
-		//TODO get attacked country from user, controller
+		
+		// get attacked country from user, controller
 		Country attackedCountry = controller.getAttackedCountry();
 		if(attackedCountry == null) {
 			throw new IllegalArgumentException("The attacked country is not occupied by any player!");
@@ -356,6 +358,7 @@ public class Player implements Observable {
 		//list of attacker's country name adj to selected attacked country
 		List<String> attackingCountries = new ArrayList<String>();
 		String attackedCountryName = attackedCountry.getName();
+		
 		List<Country> occupiedCountries = this.getPlayerCountries();
 		//it's possible that there many attacker's countries adj the selected attacked country
 		for(Country con : occupiedCountries) {
@@ -388,7 +391,7 @@ public class Player implements Observable {
 			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");
 		}
 		//TODO battle and roll dice
-		
+		DiceRoller dice = DiceRoller.getInstance();
 		 
 		
 	}
