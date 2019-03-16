@@ -194,21 +194,29 @@ public class UI implements Observer{
 	}
 
 	/**
-	 * Show adjacent countries and their owner owner.
+	 * Show countries and their owners that are adjacent to current player.
 	 *
 	 * @param currentPlayer the current player
 	 */
 	public static void showAdjCountriesAndOwner(Player currentPlayer) {
 		System.out.println("Below is a list of all countries that are adjacent to "+ currentPlayer.getPlayerName() + "'s countries:");
+		System.out.println("**NOTE**: Only attacker's countries having at least 2 armies are shown here");
 		List<Country> occupiedCountries = currentPlayer.getPlayerCountries();
 		for(Country country : occupiedCountries) {
+			//only show attacking countries with at least 2 armies
+			if(country.getNumArmies() < 2) {
+				continue;
+			}
 			System.out.println("Your country: " + country.getName() + " -- "+ "Armies: " +country.getNumArmies());
 			List<String> adjCountries = country.getAdjacentCountries();
 			System.out.println("   Adjacent countries:");
 			for(String name : adjCountries) {
 				String ownerName = controller.getOwnerByCountryName(name).getPlayerName();
 				if(ownerName != null) {
-					System.out.println("      "+ name + " -- Owner: "+ ownerName);
+					//only show other player's countries
+					if(!ownerName.equals(currentPlayer.getPlayerName())) {
+						System.out.println("      "+ name + " -- Owner: "+ ownerName);
+					}
 				} else {
 					System.out.println("      "+ name + " -- Owner: "+ "No owner");
 				}
@@ -245,6 +253,25 @@ public class UI implements Observer{
 		Scanner scan = new Scanner(System.in);
 		String attackingCountry = scan.nextLine();
 		return attackingCountry;
+	}
+
+	/**
+	 * Ask if user wants to continue attacking
+	 *
+	 * @return true, if yes, else false
+	 */
+	public static boolean keepWar() {
+		System.out.println("Would you like to continue killing?(Y/N):");
+		Scanner scan = new Scanner(System.in);
+		String input = scan.nextLine();
+		input = input.toLowerCase();
+		switch(input) {
+			case "y":
+				return true;
+			case "n":
+				return false;
+		}
+		return false;
 	}
 	
 
