@@ -391,9 +391,67 @@ public class Player implements Observable {
 			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");
 		}
 		//TODO battle and roll dice
-		DiceRoller dice = DiceRoller.getInstance();
+		int numDiceAttacker = 0;
+		int numDiceDefender = 0;
+		//get number of dice from attacker
+		while(true) {
+			try {
+				numDiceAttacker = rollDiceAttacker(attackingCountry);
+				break;
+			}catch(IllegalArgumentException e) {
+				controller.showDialog(e.getMessage());
+			}
+		}
+		
+		//get number of dice from defender
+		while(true) {
+			try {
+				numDiceDefender = rollDiceDefender(attackedCountry);
+				break;
+			}catch(IllegalArgumentException e){
+				controller.showDialog(e.getMessage());
+			}
+		}
+		
 		 
 		
+	}
+
+
+
+	/**
+	 * get number of dices from the attacker's country.
+	 *
+	 * @param attackingCountry the attacking country
+	 * @return the int
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
+	public int rollDiceAttacker(Country attackingCountry) throws IllegalArgumentException {
+		int numDiceAttacker = 0;
+		
+		numDiceAttacker = controller.getNumDiceAttacker();
+		//must have at least one more army than number of dices
+		if( attackingCountry.getNumArmies() - numDiceAttacker < 1) {
+			throw new IllegalArgumentException("must have at least one more army than number of dices!");
+		}
+		return numDiceAttacker;	
+	}
+	
+	/**
+	 * Roll dice defender.
+	 *
+	 * @param defendingCountry the defending country
+	 * @return the int
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
+	public int rollDiceDefender(Country defendingCountry) throws IllegalArgumentException {
+		int numDiceDefender = 0;
+		numDiceDefender = controller.getNumDiceDefender();
+		//must have at least 2 army to roll 2 dices
+		if( defendingCountry.getNumArmies() < 2 && numDiceDefender >= 2) {
+			throw new IllegalArgumentException("must have at least 2 army to roll 2 dices!");
+		}
+		return numDiceDefender;
 	}
 
 

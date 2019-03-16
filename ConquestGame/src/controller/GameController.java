@@ -362,7 +362,7 @@ public class GameController {
 
 	
 	/**
-	 * checks if player can attack by having at least 2 armies in one of player's countries
+	 * checks if player can attack by having at least 2 armies in one of player's countries.
 	 *
 	 * @return true, player can attack
 	 */
@@ -556,12 +556,41 @@ public class GameController {
 	
 	/**
 	 * Calls GUI selectAttackingCountry() method and return the selected country name
-	 * This method gets called inside attack phase only when there are two or more options for attacking country
+	 * This method gets called inside attack phase only when there are two or more options for attacking country.
 	 *
+	 * @param attackingCountries the attacking countries
 	 * @return the string
 	 */
 	public String selectAttackingCountry(List<String> attackingCountries) {
 		// TODO Auto-generated method stub
 		return UI.selectAttackingCountry(attackingCountries);
+	}
+
+	/**
+	 * Ask UI to get the number dice from attacker.
+	 *
+	 * @return the number dice
+	 */
+	public int getNumDiceAttacker() {
+		return ui.getNumDiceAttacker();
+	}
+
+	/**
+	 * Gets the num dice defender.
+	 *
+	 * @return the num dice defender
+	 */
+	public int getNumDiceDefender() {
+		
+		return ui.getNumDiceDefender();
+	}
+
+	/**
+	 * Show dialog to user
+	 *
+	 * @param message the message
+	 */
+	public void showDialog(String message) {
+		ui.showDialog(message);
 	}
 }
