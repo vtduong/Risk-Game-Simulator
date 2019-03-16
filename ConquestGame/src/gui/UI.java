@@ -53,13 +53,10 @@ public class UI implements Observer{
 		return numArmies;
 	}
 
-//	/**
-//	 * @return true of user is ready for next phase
-//	 */
-//	public static boolean readyForNextPhase() {
-//		return false;
-//	}
 
+	public void showDialog(String message) {
+		System.out.println("**INFO**: " + message);
+	}
 	/**
  * display error messages.
  *
