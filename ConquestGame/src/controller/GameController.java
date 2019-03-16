@@ -337,7 +337,20 @@ public class GameController {
 				//ask user if wants to init an attack
 				if(isWar()) {
 					do {
-						currentPlayer.attack();
+						//check if an attack is possible (there must be at least 1 attacking country having at least 2 armies)
+						boolean canAttack = false;
+						List<Country> curPlayerCountries = currentPlayer.getPlayerCountries();
+						for(Country country : curPlayerCountries) {
+							if(country.getNumArmies() >= 2) {
+								canAttack = true;
+								break;
+							}
+						}
+						if(canAttack) {
+							currentPlayer.attack();
+						} else {
+							ui.showDialog(currentPlayer.getPlayerName() + " does not have enough armies in any countries to attack");
+						}
 						currentPlayer.notifyChanges();
 						// check if current player has won the game
 						if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
