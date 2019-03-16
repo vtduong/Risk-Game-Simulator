@@ -346,11 +346,46 @@ public class Player implements Observable {
 	/**
 	 * Attack phase
 	 */
-	public void attack() {
+	public void attack() throws IllegalArgumentException{
 		System.out.println("-----------Attack Phase-----------");
+		//TODO get attacked country from user, controller
+		Country attackedCountry = controller.getAttackedCountry();
+		if(attackedCountry == null) {
+			throw new IllegalArgumentException("The attacked country is not occupied by any player!");
+		}
+		//list of attacker's country name adj to selected attacked country
+		List<String> attackingCountries = new ArrayList<String>();
+		String attackedCountryName = attackedCountry.getName();
+		List<Country> occupiedCountries = this.getPlayerCountries();
+		for(Country con : occupiedCountries) {
+			List<String> adjCountries = con.getAdjacentCountries();
+			for(String name : adjCountries) {
+				if(name == attackedCountryName ) {
+					attackingCountries.add(name);
+				}
+			}
+		}
+		// check if the attacked country is adjacent to attacker's territories
+		if(attackingCountries.isEmpty()) {
+			throw new IllegalArgumentException("The attacked country must be adjacent to any of attacker's countries!");
+		}
+		
+		String attackingCountryName = null;
+		if(attackingCountries.size() > 1) {
+			attackingCountryName = controller.selectAttackingCountry(attackingCountries);
+		}else {
+			attackingCountryName = attackingCountries.get(0);
+		}
+		
+		Country attackingCountry = controller.getCountryByCountryName(attackingCountryName);
+		//TODO battle and roll dice
+		
+		 
 		
 	}
-	
+
+
+
 	/**
 	 * ReEnforcement phase
 	 * This methods calls 2 other private methods to 1) obtain new armies and 2)

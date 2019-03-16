@@ -21,6 +21,7 @@ import utilities.MapParser;
 import utilities.MapValidator;
 import utilities.Tuple;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class GameController.
  */
@@ -30,10 +31,15 @@ import utilities.Tuple;
  */
 public class GameController {
 	
+	/** The Constant INPUTFILE. */
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
 	private static GameController controller= null;
+	
+	/** The country list. */
 	private static List<Country> countryList  = new ArrayList<Country>();
+	
+	/** The map controller. */
 	private static MapController mapController;
 
 /** The number of players. */
@@ -63,6 +69,7 @@ public class GameController {
 	/** The winner. */
 	private Player winner = null;
 	
+	/** The ui. */
 	private UI ui = null;
 	
 	
@@ -154,7 +161,7 @@ public class GameController {
 	}
 	
 	/**
-	 * 
+	 * Register observer.
 	 */
 	private void registerObserver() {
 		for(int i = 0; i < numberOfPlayers; i++) {
@@ -163,7 +170,7 @@ public class GameController {
 	}
 
 	/**
-	 * place one army on each and every country occupied by players
+	 * place one army on each and every country occupied by players.
 	 */
 	private void placeInitialArmies() {
 		for (int i = 0; i < controller.playerList.size(); i++) {
@@ -179,7 +186,7 @@ public class GameController {
 	}
 
 	/**
-	 * create and register a UI interface as observer to player1
+	 * create and register a UI interface as observer to player1.
 	 */
 	private void createUI() {
 		ui = new UI();
@@ -329,14 +336,17 @@ public class GameController {
 			try {
 				//ask user if wants to init an attack
 				if(isWar()) {
-					currentPlayer.attack();
-					currentPlayer.notifyChanges();
-					// check if current player has won the game
-					if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
-						winner = currentPlayer;
-						System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
-						break;
+					while(keepWar()) {
+						currentPlayer.attack();
+						currentPlayer.notifyChanges();
+						// check if current player has won the game
+						if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
+							winner = currentPlayer;
+							System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
+							break;
+						}
 					}
+					
 				}
 				currentPlayer.fortify();
 				currentPlayer.notifyChanges();
@@ -345,6 +355,17 @@ public class GameController {
 				ui.handleExceptions(e.getMessage());
 			}
 		}		
+	}
+
+	
+	/**
+	 * This method calls appropriate UI to ask user if he/she wants to continue killing.
+	 *
+	 * @return true, if user wants to
+	 */
+	private boolean keepWar() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	/**
@@ -437,29 +458,92 @@ public class GameController {
 
 
 	/**
-	 * Gets the params for fortification.
-	 *
-	 * @return a set of 3 objects: country to move armies from, country to move
-	 *         armies to, and number of armies
-	 */
+ * Gets the params for fortification.
+ *
+ * @param countryFrom the country from
+ * @return a set of 3 objects: country to move armies from, country to move
+ *         armies to, and number of armies
+ */
 	public int getParamsForFortification(Country countryFrom) {
 		return ui.getFortificationInfo(countryFrom);
 		
 	}
 
 	/**
-	 * @param playerCountries
-	 * @return
+	 * Select country to transfer from.
+	 *
+	 * @param playerCountries the player countries
+	 * @return the string
 	 */
 	public String selectCountryToTransferFrom(List<Country> playerCountries) {
 		return ui.selectCountryToTransferFrom(playerCountries);
 	}
 
 	/**
-	 * @param adjCountries
-	 * @return
+	 * Select country to transfer to.
+	 *
+	 * @param adjCountries the adj countries
+	 * @return the string
 	 */
 	public String selectCountryToTransferTo(List<String> adjCountries) {
 		return ui.selectCountryToTransferTo(adjCountries);
+	}
+
+	/**
+	 * Call UI to get the attacked country from player.
+	 *
+	 * @return the attacked country
+	 */
+	public Country getAttackedCountry() {
+		UI.showAdjCountriesAndOwner(currentPlayer);
+		String countryName = UI.getAttackedCountryByName();
+		return this.getCountryByCountryName(countryName);
+	}
+
+	/**
+	 * Gets the owner by country name. Null if the country has no owner
+	 *
+	 * @param name the name
+	 * @return the owner by country name
+	 */
+	public Player getOwnerByCountryName(String name) {
+		Player player = null;
+		for(Player gamer : playerList) {
+			if(gamer.getCountryByName(name) != null) {
+				player = gamer;
+				break;
+			}
+		}
+		return (player != null) ? player : null;
+	}
+	
+	/**
+	 * Gets the country by country name.
+	 *
+	 * @param countryName the country name
+	 * @return the country by country name
+	 */
+	public Country getCountryByCountryName(String countryName) {
+		Country country = null;
+		for(Player gamer: playerList) {
+			if(gamer.getCountryByName(countryName) != null) {
+				country = gamer.getCountryByName(countryName);
+				break;
+			}
+		}
+		return (country != null) ? country : null;
+	}
+	
+	
+	
+	/**
+	 * Calls GUI selectAttackingCountry() method and return the selected country name
+	 * This method gets called inside attack phase only when there are two or more options for attacking country
+	 *
+	 * @return the string
+	 */
+	public String selectAttackingCountry(List<String> attackingCountries) {
+		// TODO Auto-generated method stub
+		return UI.selectAttackingCountry(attackingCountries);
 	}
 }
