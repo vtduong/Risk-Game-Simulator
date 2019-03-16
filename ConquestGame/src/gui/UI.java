@@ -270,6 +270,34 @@ public class UI implements Observer{
 		}
 		return false;
 	}
+
+
+	/**
+	 * Ask player to enter the number of dice for attacker.
+	 *
+	 * @return the number dice attacker
+	 */
+	public int getNumDiceAttacker() {
+		System.out.print("Please enter number of dices for attacker: ");
+		Scanner scan = new Scanner(System.in);
+		int num = scan.nextInt();
+		scan.nextLine();
+		return num;
+	}
+
+
+	/**
+	 * Gets the number of dice defender.
+	 *
+	 * @return the number dice defender
+	 */
+	public int getNumDiceDefender() {
+		System.out.print("Please enter number of dices for attacker: ");
+		Scanner scan = new Scanner(System.in);
+		int num = scan.nextInt();
+		scan.nextLine();
+		return num;
+	}
 	
 
 }
