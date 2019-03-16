@@ -22,7 +22,7 @@ import exception.MapInvalidException;
  *
  * @author ankit
  */
-public class EditMap {
+public class EditMap  {
 	
 	/** The continents. */
 	private Map<String, Integer> continents = null;
@@ -65,7 +65,6 @@ public class EditMap {
 
 	private EditMap() {
 		adjCountryMap = new HashMap<String, List<String>>();
-
 		removeContinents = new ArrayList<String>();
 		removeAdjacentCountries = new ArrayList<String>();
 		removeCountries = new ArrayList<String>();
@@ -100,7 +99,8 @@ public class EditMap {
 		MapParser mapParser = new MapParser(EDITEDMAP);
 		mapParser.readFile();
 		countryDefault = mapParser.countriesList;
-		mapController = new MapController();
+		mapController = MapController.getInstance();
+		mapController.intit("EditMap",EDITEDMAP);
 		System.out.println("----------Continent----------");
 		for (Continent continent : mapParser.continentsList)
 			System.out.println(continent.getName());
@@ -183,7 +183,7 @@ public class EditMap {
 				System.out.println("Enter the Country Name: ");
 				String countryName = getUserInputStr.nextLine();
 				System.out.println();
-				System.out.println("Country/Countries Adjacent to the specified country aree listed below");
+				System.out.println("Country/Countries Adjacent to the specified country are listed below");
 				Country conrec = mapParser.getCountry(countryName, (ArrayList<Country>) countryDefault);
 				System.out.println(conrec.getAdjacentCountries());
 				
@@ -224,10 +224,10 @@ public class EditMap {
 		}
 
 		if (continents.size() > 0) {
-			mapController.addContinent(continents, null, true, EDITEDMAP);
+			mapController.addContinent(continents);
 		}
 		if (countries.size() > 0) {
-			mapController.addCountry(countries.toArray(), null, true, EDITEDMAP);
+			mapController.addCountry(countries);
 		}
 
 		if (adjMap.size() > 0) {
@@ -235,10 +235,19 @@ public class EditMap {
 		}
 
 		if (adjCountryMap.size() > 0) {
-			mapController.addAdjCountry(adjCountryMap, EDITEDMAP);
+			mapController.addAdjCountry(adjCountryMap);
 		}
-
-		mapController.validateMap(EDITEDMAP);
+		boolean flag = mapController.mapWritter(EDITEDMAP);
+		
+		if(flag) {
+			System.out.println("Map is successfully editied and validated.");
+		}
+	}
+	
+	
+	public static void main(String argv[]) throws IOException, MapInvalidException {
+		EditMap editMap = EditMap.getInstance();
+		editMap.editExistingMap();
 	}
 
 }
