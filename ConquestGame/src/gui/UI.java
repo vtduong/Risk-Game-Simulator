@@ -12,6 +12,7 @@ import beans.Continent;
 import beans.Country;
 import beans.Observable;
 import beans.Player;
+import controller.GameController;
 import utilities.Tuple;
 
 // TODO: Auto-generated Javadoc
@@ -21,6 +22,9 @@ import utilities.Tuple;
  *
  */
 public class UI implements Observer{
+	
+	/** The controller. */
+	private static GameController controller = GameController.getInstance();
 
 	/**
 	 * Gets the fortification info.
@@ -187,6 +191,60 @@ public class UI implements Observer{
 		System.out.println("Please enter a country name shown above to transfer to:");
 		Scanner scan = new Scanner(System.in);
 		return scan.nextLine();
+	}
+
+	/**
+	 * Show adjacent countries and their owner owner.
+	 *
+	 * @param currentPlayer the current player
+	 */
+	public static void showAdjCountriesAndOwner(Player currentPlayer) {
+		System.out.println("Below is a list of all countries that are adjacent to "+ currentPlayer.getPlayerName() + "'s countries:");
+		List<Country> occupiedCountries = currentPlayer.getPlayerCountries();
+		for(Country country : occupiedCountries) {
+			System.out.println("Your country: " + country.getName() + " -- "+ "Armies: " +country.getNumArmies());
+			List<String> adjCountries = country.getAdjacentCountries();
+			System.out.println("   Adjacent countries:");
+			for(String name : adjCountries) {
+				String ownerName = controller.getOwnerByCountryName(name).getPlayerName();
+				if(ownerName != null) {
+					System.out.println("      "+ name + " -- Owner: "+ ownerName);
+				} else {
+					System.out.println("      "+ name + " -- Owner: "+ "No owner");
+				}
+			}
+		
+		}
+		
+	}
+
+	/**
+	 * Gets the attacked country by name.
+	 *
+	 * @return the attacked country by name
+	 */
+	public static String getAttackedCountryByName() {
+		System.out.print("Please enter a country you would like to attack: ");
+		Scanner scan = new Scanner(System.in);
+		String countryName = scan.nextLine();
+		return countryName;
+	}
+
+	/**
+	 * Asks user to select a country where an attack is initiated from
+	 *
+	 * @param attackingCountries the attacking countries
+	 * @return the country name
+	 */
+	public static String selectAttackingCountry(List<String> attackingCountries) {
+		System.out.println("Below is attacker's countries that are adjacent to the selected attacked country:");
+		for(String name : attackingCountries) {
+			System.out.println("   "+ name);
+		}
+		System.out.print("Please select a country where attacker wants to initiate an attack from:");
+		Scanner scan = new Scanner(System.in);
+		String attackingCountry = scan.nextLine();
+		return attackingCountry;
 	}
 	
 
