@@ -22,25 +22,42 @@ import java.lang.*;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class handles addition, insertion, removal of new continents, countries
- * or adjacent countries.
- *
+ * This class is responsible for handling creation and deletion of countries and
+ * continents. It is also responsible for handling addition or deletion of
+ * adjacent Countries adjacent countries.
+ * 
  * @author apoorvasharma
  * @version 1.0.0
  */
 public class MapController {
+	private volatile static MapController mapCntrl;
+	public ArrayList<Country> countriesDefault;
+	public ArrayList<Continent> continentsDefault;
+	private Map<String, ArrayList<Country>> worldMap;
+	utilities.MapParser mpsr;
 
-	/** The countries default. */
-	public static ArrayList<Country> countriesDefault = new ArrayList<Country>();
-	
-	/** The continents default. */
-	public static ArrayList<Continent> continentsDefault = new ArrayList<Continent>();
-	
-	/** The world map. */
-	private static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
-	
-	/** The filepath. */
-	private static String filepath = "src/resources/usermap.map";
+	private MapController() {}
+	public static MapController getInstance() {
+		if (mapCntrl == null) {
+			synchronized (MapController.class) {
+				if (mapCntrl == null)
+					mapCntrl = new MapController();
+			}
+		}
+		return mapCntrl;
+	}
+
+	public void intit(String OperationType,String inputFile) throws IOException, MapInvalidException {
+		if("LoadMap".equalsIgnoreCase(OperationType)) {
+			validateMap(inputFile);
+		}else if("CreateMap".equalsIgnoreCase(OperationType)) {
+			countriesDefault = new ArrayList<Country>();
+			continentsDefault =new ArrayList<Continent>();
+		}else if("EditMap".equalsIgnoreCase(OperationType)) {
+			validateMap(inputFile);
+		}
+		
+	}
 
 	/**
 	 * Validate map.
@@ -52,9 +69,10 @@ public class MapController {
 	public void validateMap(String inputFile) throws IOException, MapInvalidException {
 		utilities.MapValidator mpsr = new utilities.MapValidator(inputFile);
 		mpsr.createCountryGraph();
-		countriesDefault =mpsr.countriesList;
-		continentsDefault=mpsr.continentsList;
-		
+		countriesDefault = mpsr.countriesList;
+		continentsDefault = mpsr.continentsList;
+		worldMap = mpsr.worldMap;
+
 	}
 
 	/**
@@ -78,36 +96,21 @@ public class MapController {
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
-	public void addContinent(Map<String, Integer> continentMap, BufferedWriter bw, boolean isEdit, String inputFile)
-			throws IOException, MapInvalidException {
+	public void addContinent(Map<String, Integer> continentMap) throws IOException, MapInvalidException {
 		try {
-			if (!isEdit) {
-				bw.write("[Continents]");
-				bw.newLine();
-				for (String key : continentMap.keySet()) {
-					bw.write(key + "=" + continentMap.get(key));
-					bw.newLine();
+			Continent crec;
+			for (String rec : continentMap.keySet()) {
+				if (!continentsDefault.contains(rec)) {
+					crec = new Continent();
+					crec.setName(rec);
+					crec.setMaxArmies(continentMap.get(rec));
+					continentsDefault.add(crec);
 				}
-			} else {
-				utilities.MapParser mpsr = new utilities.MapParser(inputFile);
-				mpsr.readFile();
-				countriesDefault = mpsr.countriesList;
-				continentsDefault = mpsr.continentsList;
-				for (String rec : continentMap.keySet()) {
-					if (!continentsDefault.contains(rec)) {
-						Continent crec = new Continent();
-						crec.setName(rec);
-						crec.setMaxArmies(continentMap.get(rec));
-						continentsDefault.add(crec);
-					}
-
-				}
-				MapFileWriter mfw = new MapFileWriter();
-				mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 			}
 		} catch (Exception e) {
+			System.out.println("Exception:"+e.getCause());
 			throw new MapInvalidException("Error while adding new continent. Provide a valid input.");
-		}
+		} 
 	}
 
 	/**
@@ -121,33 +124,32 @@ public class MapController {
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
-	public void addCountry(Object[] countryArrayList, BufferedWriter bw, boolean isEdit, String inputFile)
-			throws IOException, MapInvalidException {
+	public void addCountry(List<String> countryLst) throws IOException, MapInvalidException {
 		try {
-			if (!isEdit) {
-				bw.write("[Territories]" + "\n");
-				for (int k = 0; k < countryArrayList.length; k++) {
-					bw.write((String) countryArrayList[k] + "\n");
-				}
-			} else {
-				FileReader editFile = new FileReader(inputFile);
-				Scanner sc = new Scanner(new File(inputFile));
-				String tempStr = null;
-				String buildMapFile = "";
-				while (sc.hasNext()) {
-					tempStr = sc.nextLine();
-					buildMapFile = buildMapFile + "" + tempStr + "\n";
-				}
-				String temp = null, updatedStr = null;
-				for (int k = 0; k < countryArrayList.length; k++) {
-					temp = (String) countryArrayList[k] + "\n";
-				}
-				updatedStr = buildMapFile.substring(0, buildMapFile.indexOf("[Territories]"))
-						+ buildMapFile.substring(buildMapFile.indexOf("[Territories]")) + temp;
-				FileWriter writer = new FileWriter(inputFile);
-				writer.write(updatedStr);
-				writer.close();
+			Set<String> countryNameSet = new HashSet<String>();
+			for (Country rec : countriesDefault) {
+				countryNameSet.add(rec.getName());
 			}
+			System.out.println(" In add Country addCountry");
+			for(String str :countryLst) {
+				String[] temp = str.split(",");
+				if (temp != null) {
+					if(!countryNameSet.contains(temp[0].trim())) {
+					Country con = new Country();
+					ArrayList<String> adjCountry = new ArrayList<String>();
+					con.setName(temp[0].trim());
+					con.setLatitude(Integer.parseInt(temp[1].trim()));
+					con.setlongitude(Integer.parseInt(temp[2].trim()));
+					con.setContinent(temp[3].trim());
+					for(int i=4;i<temp.length;i++) {
+						adjCountry.add(temp[i]);
+					}
+					con.setAdjacentCountries(adjCountry);
+					countriesDefault.add(con);
+					}
+				}
+			}
+
 		} catch (Exception e) {
 			throw new MapInvalidException("Error while adding new country. Provide a valid input.");
 		}
@@ -163,23 +165,17 @@ public class MapController {
 	 * @throws MapInvalidException invalid map exception
 	 */
 
-	public void addAdjCountry(Map<String, List<String>> adjCountryMap, String inputFile)
+	public void addAdjCountry(Map<String, List<String>> adjCountryMap)
 			throws IOException, MapInvalidException {
 
 		try {
-			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
-			if (countriesDefault.size() == 0) {
-				mpsr.readFile();
-				countriesDefault = mpsr.countriesList;
-
-			}
 			Set<String> countryname = new HashSet<String>();
 			if (!countriesDefault.isEmpty()) {
 				for (Country rec : countriesDefault) {
 					countryname.add(rec.getName());
 				}
 			}
-
+			
 			for (String str : adjCountryMap.keySet()) {
 				if (countryname.contains(str)) {
 					List<String> adjStr = adjCountryMap.get(str);
@@ -201,13 +197,6 @@ public class MapController {
 
 			}
 
-			if (continentsDefault.size() == 0) {
-				mpsr.readFile();
-				continentsDefault = mpsr.continentsList;
-			}
-
-			MapFileWriter mfw = new MapFileWriter();
-			mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 		} catch (Exception e) {
 			throw new MapInvalidException("Error while adding new adjacent country. Provide a valid input");
 		}
@@ -225,10 +214,6 @@ public class MapController {
 	public void removeContinent(ArrayList<String> continentName, String inputFile)
 			throws IOException, MapInvalidException {
 		try {
-			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
-			mpsr.readFile();
-			continentsDefault = mpsr.continentsList;
-			worldMap = mpsr.worldMap;
 			Iterator<Continent> iter = continentsDefault.iterator();
 			while (iter.hasNext()) {
 				Continent conrec = iter.next();
@@ -269,14 +254,8 @@ public class MapController {
 
 	public void removeCountry(ArrayList<String> countries, String inputFile, boolean isRecursion)
 			throws IOException, MapInvalidException {
-		int countrytoRemove =0;
+		int countrytoRemove = 0;
 		try {
-			utilities.MapParser mpsr = new utilities.MapParser(inputFile);
-			mpsr.readFile();
-			countriesDefault = mpsr.countriesList;
-			if (worldMap.size() == 0) {
-				worldMap = mpsr.worldMap;
-			}
 			Iterator<Country> iter = countriesDefault.iterator();
 			while (iter.hasNext()) {
 				Country conrec = iter.next();
@@ -286,13 +265,13 @@ public class MapController {
 					countrytoRemove++;
 				}
 			}
-			if(countrytoRemove==0) {
+			if (countrytoRemove == 0) {
 				throw new MapInvalidException("The country does not exist. Provide a valid input to remove.");
 			}
 			removeAdjCountry(countries, inputFile, null, true);
 		} catch (MapInvalidException e) {
 			throw new MapInvalidException(e.getMessage());
-		}catch(Exception e) {
+		} catch (Exception e) {
 			throw new MapInvalidException("Error while removing country. Provide a valid input to remove.");
 		}
 
@@ -312,18 +291,6 @@ public class MapController {
 	public void removeAdjCountry(ArrayList<String> countries, String inputFile, Map<String, List<String>> adjMap,
 			boolean isFunCall) throws IOException, MapInvalidException {
 		try {
-			if (countriesDefault.size() == 0) {
-				utilities.MapParser mpsr = new utilities.MapParser(inputFile);
-				mpsr.readFile();
-				countriesDefault = mpsr.countriesList;
-				worldMap = mpsr.worldMap;
-			}
-
-			if (continentsDefault.size() == 0) {
-				utilities.MapParser mpsr = new utilities.MapParser(inputFile);
-				mpsr.readFile();
-				continentsDefault = mpsr.continentsList;
-			}
 			Iterator<Country> iter = countriesDefault.iterator();
 			if (isFunCall) {
 				while (iter.hasNext()) {
@@ -366,11 +333,26 @@ public class MapController {
 					}
 				}
 			}
-			MapFileWriter mfw = new MapFileWriter();
-			mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 		} catch (Exception e) {
 			throw new MapInvalidException("Error while removing Adjacent country. Provide a valid input to remove");
 		}
 
+	}
+
+	public boolean mapWritter(
+			String inputFile) throws MapInvalidException {
+		MapFileWriter mfw = new MapFileWriter();
+		try {
+			System.out.println("continentsDefault"+continentsDefault.size());
+			System.out.println("countriesDefault"+countriesDefault.size());
+			System.out.println("inputFile"+inputFile);
+			mfw.writeFile(continentsDefault, countriesDefault, inputFile);
+			validateMap(inputFile);
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

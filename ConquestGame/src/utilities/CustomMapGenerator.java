@@ -58,20 +58,15 @@ public class CustomMapGenerator {
 	 * @throws MapInvalidException the map invalid exception
 	 */
 	public void createCustomMap() throws IOException, MapInvalidException {
-		MapController mapcontroller = new MapController();
-		BufferedWriter writeMap = new BufferedWriter(new FileWriter(FILEPATH, false));
+		MapController mapcontroller = MapController.getInstance();
+		mapcontroller.intit("CreateMap", FILEPATH);
 		Map<String, Integer> continentMap = new HashMap<String, Integer>();
-		Scanner getMapInt = new Scanner(System.in);
+		Scanner getMapInt = new Scanner(System.in); 
 		Scanner getMapStr = new Scanner(System.in);
-		
-
 		int numberOfContinent = 0;
 		int numberOfCountries = 0;
 		String tempContinentName;
 		int controlValue;
-		
-		
-		writeMap.write("[Map]\n");
 		System.out.println("Please Enter Map Details");
 		System.out.println("Please input the number of continents you wish to"
 				+ " add. The value should be greater than 1.");
@@ -89,39 +84,22 @@ public class CustomMapGenerator {
 			continentMap.put(tempContinentName, controlValue);
 		}
 		
-		writeMap.write("[Continents]\n");
-		for (String key : continentMap.keySet()) {
-			writeMap.write(key + "=" + continentMap.get(key).toString() + "\n");
-		}
-		
+		mapcontroller.addContinent(continentMap);
 		System.out.println("Please input the numbers of countries you wish to add."
 				+ " The value should be greater than 1.");
 		
 		numberOfCountries = getMapInt.nextInt();
 		
-		String [] countryList = new String[numberOfCountries];
+		List<String>countryList = new ArrayList<String>();
 		System.out.println("Enter Country Details in Order specified!!");
 		System.out.println("Example: \n Country_name,latitude,longitude,continent,adjacent_countries1,adjacent_countries2.... ");
 		for (int i = 0; i < numberOfCountries; i++) {
 			System.out.print("Enter the Country Details: ");
 			String temp = getMapStr.nextLine();
-			if(temp == "c")
-				countryList[i] = "\n";
-			else if(temp == "q")
-				break;
-			else
-				countryList[i] = temp;
+			countryList.add(temp);
 		}
-
-		writeMap.write("[Territories]\n");
-		
-		for(int i = 0; i < countryList.length; i++) {
-			writeMap.write(countryList[i] + "\n");
-		}
-		writeMap.flush();
-		writeMap.close();
-		mapcontroller.validateMap(FILEPATH);
-		countryDefault =mapcontroller.countriesDefault;
+		mapcontroller.addCountry(countryList);
+		mapcontroller.mapWritter(FILEPATH);
 		
 	}
 }
