@@ -336,7 +336,7 @@ public class GameController {
 			try {
 				//ask user if wants to init an attack
 				if(isWar()) {
-					while(keepWar()) {
+					do {
 						currentPlayer.attack();
 						currentPlayer.notifyChanges();
 						// check if current player has won the game
@@ -345,7 +345,7 @@ public class GameController {
 							System.out.println(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
 							break;
 						}
-					}
+					}while(keepWar());
 					
 				}
 				currentPlayer.fortify();
@@ -364,8 +364,7 @@ public class GameController {
 	 * @return true, if user wants to
 	 */
 	private boolean keepWar() {
-		// TODO Auto-generated method stub
-		return false;
+		return UI.keepWar();
 	}
 
 	/**

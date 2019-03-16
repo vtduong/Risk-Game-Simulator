@@ -357,13 +357,18 @@ public class Player implements Observable {
 		List<String> attackingCountries = new ArrayList<String>();
 		String attackedCountryName = attackedCountry.getName();
 		List<Country> occupiedCountries = this.getPlayerCountries();
+		//it's possible that there many attacker's countries adj the selected attacked country
 		for(Country con : occupiedCountries) {
-			List<String> adjCountries = con.getAdjacentCountries();
-			for(String name : adjCountries) {
-				if(name == attackedCountryName ) {
-					attackingCountries.add(name);
+			//only consider attaker's countries with at least 2 armies
+			if(con.getNumArmies() > 2) {
+				List<String> adjCountries = con.getAdjacentCountries();
+				for(String name : adjCountries) {
+					if(name.equals(attackedCountryName) ) {
+						attackingCountries.add(con.getName());
+					}
 				}
 			}
+			
 		}
 		// check if the attacked country is adjacent to attacker's territories
 		if(attackingCountries.isEmpty()) {
@@ -378,6 +383,10 @@ public class Player implements Observable {
 		}
 		
 		Country attackingCountry = controller.getCountryByCountryName(attackingCountryName);
+		//check if the attacking country has at least 2 armies
+		if(attackingCountry.getNumArmies() < 2) {
+			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");
+		}
 		//TODO battle and roll dice
 		
 		 
