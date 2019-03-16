@@ -376,6 +376,7 @@ public class Player implements Observable {
 		}else {
 			attackingCountryName = attackingCountries.get(0);
 		}
+		
 		Country attackingCountry = controller.getCountryByCountryName(attackingCountryName);
 		//TODO battle and roll dice
 		
