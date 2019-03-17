@@ -470,19 +470,20 @@ public class Player implements Observable {
 	 * @param attackerSelectNumDice 
 	 */
 	private void invade(int[] result, Country attackingCountry, Country attackedCountry, int attackerSelectNumDice) {
+		Player defender = attackedCountry.getOwner();
 		if(result[0] > 0) {
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - result[0]);
 			this.setArmies(this.getArmies() - result[0]);
 		}
 		if(result[1] > 0) {
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() - result[1]);
-			Player defender = attackedCountry.getOwner();
 			defender.setArmies(defender.getArmies() - result[1]);
 		}
 		
 		//check if attacker can occupy defender's territory (attackedCountry)
 		if(attackedCountry.getNumArmies() == 0) {
-			attackedCountry.setOwner(this);
+			this.addCountry(attackedCountry.getName(), attackedCountry);
+			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
 		}
