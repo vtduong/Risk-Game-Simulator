@@ -15,6 +15,12 @@ import beans.Player;
 import controller.GameController;
 import utilities.DiceRoller;
 
+
+/**
+ * 
+ * @author vanduong
+ *
+ */
 public class AttackTest {
 	private GameController controller = null;
 	private static DiceRoller dicer = DiceRoller.getInstance(0);
@@ -30,25 +36,29 @@ public class AttackTest {
 	@Before
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
-		gamer1 = new Player("gamer1");
-		gamer1.setArmies(4);
-		gamer2 = new Player("gamer2");
-		gamer2.setArmies(4);
-		gamer3 = new Player("gamer3");
-		gamer3.setArmies(1);
-		
 		asia = new Continent("Asia", 5);
 		vn = new Country("Vietnam");
-		vn.setNumArmies(gamer1.getArmies());
-		vn.setOwner(gamer1);
-		
 		indi = new Country("India");
-		indi.setNumArmies(gamer3.getArmies());
-		indi.setOwner(gamer3);
-		
 		usa = new Country("USA");
+		
+		gamer1 = new Player("gamer1");
+		gamer1.setArmies(4);
+		gamer1.addCountry(vn.getName(), vn);
+		
+		gamer2 = new Player("gamer2");
+		gamer2.setArmies(4);
+		gamer2.addCountry(usa.getName(), usa);
+		
+		gamer3 = new Player("gamer3");
+		gamer3.setArmies(1);
+		gamer3.addCountry(indi.getName(), indi);
+		
+		vn.setNumArmies(gamer1.getArmies());
+		indi.setNumArmies(gamer3.getArmies());
 		usa.setNumArmies(gamer2.getArmies());
-		usa.setOwner(gamer2);
+
+
+		
 	}
 
 	@After
@@ -176,6 +186,8 @@ public class AttackTest {
 		assertEquals(1, usa.getNumArmies());
 		assertEquals(3, indi.getNumArmies());
 		assertEquals("gamer2", indi.getOwner().getPlayerName());
+		assertEquals(2, gamer2.getPlayerCountries().size());
+		assertEquals(0, gamer3.getPlayerCountries().size());
 	}
 	
 	@Test

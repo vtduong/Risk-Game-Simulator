@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import beans.Continent;
 import beans.Country;
+import config.Config;
 import controller.MapController;
 import exception.MapInvalidException;
 
@@ -298,7 +299,7 @@ public class CustomMapGenerator {
 	
 	public void LoadMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
-		mapController.intit("LoadMap", "src/resources/World.map");
+		mapController.intit("LoadMap", Config.getProperty("worldmap"));
 		countryDefault =mapController.countriesDefault;
 		System.out.println(countryDefault.size());
 		
