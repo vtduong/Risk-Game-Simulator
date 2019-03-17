@@ -1,6 +1,8 @@
 package beans;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -349,7 +351,7 @@ public class Player implements Observable {
 	 */
 	public void attack() throws IllegalArgumentException{
 		System.out.println("-----------Attack Phase-----------");
-		
+		//TODO refactor this method
 		// get attacked country from user, controller
 		Country attackedCountry = controller.getAttackedCountry();
 		if(attackedCountry == null) {
@@ -378,6 +380,7 @@ public class Player implements Observable {
 			throw new IllegalArgumentException("The attacked country must be adjacent to any of attacker's countries!");
 		}
 		
+		//if there are 2 or more attacking country options, ask user to select one
 		String attackingCountryName = null;
 		if(attackingCountries.size() > 1) {
 			attackingCountryName = controller.selectAttackingCountry(attackingCountries);
@@ -390,13 +393,18 @@ public class Player implements Observable {
 		if(attackingCountry.getNumArmies() < 2) {
 			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");
 		}
-		//TODO battle and roll dice
-		int numDiceAttacker = 0;
-		int numDiceDefender = 0;
+		
+		//roll dice
+		int[] attackerDice = null;
+		int[] defenderDice = null;
+		int attackerSelectNumDice = 0;
+		int defenderSelectNumDice = 0;
+		
 		//get number of dice from attacker
 		while(true) {
 			try {
-				numDiceAttacker = rollDiceAttacker(attackingCountry);
+				attackerSelectNumDice = controller.getNumDiceAttacker();
+				attackerDice = rollDiceAttacker(attackingCountry, attackerSelectNumDice);
 				break;
 			}catch(IllegalArgumentException e) {
 				controller.showDialog(e.getMessage());
@@ -406,52 +414,122 @@ public class Player implements Observable {
 		//get number of dice from defender
 		while(true) {
 			try {
-				numDiceDefender = rollDiceDefender(attackedCountry);
+				defenderSelectNumDice = controller.getNumDiceDefender();
+				defenderDice = rollDiceDefender(attackedCountry,defenderSelectNumDice);
 				break;
 			}catch(IllegalArgumentException e){
 				controller.showDialog(e.getMessage());
 			}
 		}
 		
-		 
+		//battle
+		int[] result = goToBattle(attackerDice, defenderDice);
+		invade(result, attackingCountry, attackedCountry, attackerSelectNumDice );
 		
 	}
 
 
 
 	/**
-	 * get number of dices from the attacker's country.
+	 * Deduct armies on both sides based on dice results and attacker occupies defender's country if possible
+	 *
+	 * @param result the dice result
+	 * @param attackingCountry the attacking country
+	 * @param attackedCountry the attacked country
+	 * @param defenderSelectNumDice 
+	 * @param attackerSelectNumDice 
+	 */
+	private void invade(int[] result, Country attackingCountry, Country attackedCountry, int attackerSelectNumDice) {
+		if(result[0] > 0) {
+			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - result[0]);
+			this.setArmies(this.getArmies() - result[0]);
+		}
+		if(result[1] > 0) {
+			attackedCountry.setNumArmies(attackedCountry.getNumArmies() - result[1]);
+			Player defender = attackedCountry.getOwner();
+			defender.setArmies(defender.getArmies() - result[1]);
+		}
+		
+		//check if attacker can occupy defender's territory (attackedCountry)
+		if(attackedCountry.getNumArmies() == 0) {
+			attackedCountry.setOwner(this);
+			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
+			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
+		}
+		
+	}
+
+
+
+	/**
+	 * compares 2 results of dices to decide who wins the battle
+	 *returns the result in an array of 2 elements: [0] contains number of attacker's lost armies, [1] contains that of defender
+	 * @param attackerDice the attacker dice
+	 * @param defenderDice the defender dice
+	 * @return the number indicating the winner
+	 */
+	public int[] goToBattle(int[] attackerDice, int[] defenderDice) {
+		//stores result of the battle [0] contains number of attacker's lost armies, [1] contains that of defender
+		int[] result = new int[2];
+		
+		//stores the smaller number of dices between the 2 sets of dices
+		int numDice = Math.min(attackerDice.length, defenderDice.length);
+		for(int i = 0; i < numDice; i++) {
+			//compare the highest (and second highest) dice of both 
+			if(attackerDice[i] > defenderDice[i]) {
+				//defender loses 1 army
+				result[1] += 1;
+			} else {
+				//attacker loses 1 army
+				result[0] += 1;
+			}
+		}
+		return result;
+	}
+
+
+
+	/**
+	 * validate user choice of number of dices and..
+	 * get dice result for the attacker's country.
 	 *
 	 * @param attackingCountry the attacking country
-	 * @return the int
+	 * @return the result
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public int rollDiceAttacker(Country attackingCountry) throws IllegalArgumentException {
-		int numDiceAttacker = 0;
-		
-		numDiceAttacker = controller.getNumDiceAttacker();
+	public int[] rollDiceAttacker(Country attackingCountry, int numDice) throws IllegalArgumentException {
+		if(numDice > 3 || numDice < 0) {
+			throw new IllegalArgumentException("Please enter 1, 2, or 3 only");
+		}
 		//must have at least one more army than number of dices
-		if( attackingCountry.getNumArmies() - numDiceAttacker < 1) {
+		if( attackingCountry.getNumArmies() - numDice < 1) {
 			throw new IllegalArgumentException("must have at least one more army than number of dices!");
 		}
-		return numDiceAttacker;	
+		DiceRoller dicer = DiceRoller.getInstance();
+		
+		return dicer.roll(numDice);	
 	}
 	
 	/**
-	 * Roll dice defender.
+	 * validates user's choice of number of dices and..
+	 * get dice result for defender's country
 	 *
 	 * @param defendingCountry the defending country
-	 * @return the int
+	 * @return the result
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public int rollDiceDefender(Country defendingCountry) throws IllegalArgumentException {
-		int numDiceDefender = 0;
-		numDiceDefender = controller.getNumDiceDefender();
+	public int[] rollDiceDefender(Country defendingCountry, int numDice) throws IllegalArgumentException {
+		if(numDice > 2|| numDice < 0) {
+			throw new IllegalArgumentException("Please enter 1 or 2 only");
+		}
 		//must have at least 2 army to roll 2 dices
-		if( defendingCountry.getNumArmies() < 2 && numDiceDefender >= 2) {
+		if( defendingCountry.getNumArmies() < 2 && numDice >= 2) {
 			throw new IllegalArgumentException("must have at least 2 army to roll 2 dices!");
 		}
-		return numDiceDefender;
+		
+		DiceRoller dicer = DiceRoller.getInstance();
+		
+		return dicer.roll(numDice);
 	}
 
 

@@ -29,6 +29,10 @@ public class DiceRoller {
 		rand = new Random();
 	}
 	
+	private DiceRoller(int seed) {
+		rand = new Random(seed);
+	}
+	
 	/**
 	 * Gets the single instance of DiceRoller.
 	 *
@@ -44,10 +48,23 @@ public class DiceRoller {
 	}
 	
 	/**
+	 * Gets the single instance of DiceRoller given a seed for consistent results of roll()
+	 * For Testing Purposes only
+	 * @return new instance of the DiceRoller if it not already exist, otherwise
+	 *         return the existing instance of DiceRoller
+	 */
+	public static DiceRoller getInstance(int seed) {
+		if(dice_roller == null) 
+			dice_roller = new DiceRoller();
+		
+		return dice_roller;
+	}
+	
+	/**
 	 * Roll.
 	 *
 	 * @param number_dices It is input for the number of dices we want to roll.
-	 * @return The values of rolled dices.
+	 * @return The values of rolled dices in descending order
 	 */
 	public int[] roll(int number_dices) {
 		int[] rolls = new int[number_dices];
