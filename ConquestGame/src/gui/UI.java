@@ -54,6 +54,11 @@ public class UI implements Observer{
 	}
 
 
+	/**
+	 * Show dialog.
+	 *
+	 * @param message the message
+	 */
 	public void showDialog(String message) {
 		System.out.println("**INFO**: " + message);
 	}
@@ -236,7 +241,7 @@ public class UI implements Observer{
 	}
 
 	/**
-	 * Asks user to select a country where an attack is initiated from
+	 * Asks user to select a country where an attack is initiated from.
 	 *
 	 * @param attackingCountries the attacking countries
 	 * @return the country name
@@ -253,7 +258,7 @@ public class UI implements Observer{
 	}
 
 	/**
-	 * Ask if user wants to continue attacking
+	 * Ask if user wants to continue attacking.
 	 *
 	 * @return true, if yes, else false
 	 */
@@ -297,6 +302,27 @@ public class UI implements Observer{
 		int num = scan.nextInt();
 		scan.nextLine();
 		return num;
+	}
+
+
+	/**
+	 * asks user to choose if is all out mode.
+	 *
+	 * @return true, if is all out mode
+	 */
+	public boolean isAllOutMode() {
+		System.out.println("Would you like to go ALL-OUT like a samurai?(y/n)");
+		Scanner scan = new Scanner(System.in);
+		String input = scan.next();
+		scan.nextLine();
+		input = input.toLowerCase();
+		switch(input) {
+			case "y":
+				return true;
+			case "n":
+				return false;
+		}
+		return false;
 	}
 	
 

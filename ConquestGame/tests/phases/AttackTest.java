@@ -177,5 +177,17 @@ public class AttackTest {
 		assertEquals(3, indi.getNumArmies());
 		assertEquals("gamer2", indi.getOwner().getPlayerName());
 	}
+	
+	@Test
+	public void testAllOutMode() {
+		int initialArmies = usa.getNumArmies();
+		gamer2.goAllOut(usa, indi);
+		if(indi.getOwner() != gamer2) {//if india does not get invaded, means usa has at most 1 army
+			assertEquals(1, usa.getNumArmies());
+		} else {//if usa occupies india, means there are less armies in usa than before all-out attack
+			assertTrue(usa.getNumArmies() < initialArmies);
+			assertTrue(indi.getNumArmies() > 0);
+		}
+	}
 
 }
