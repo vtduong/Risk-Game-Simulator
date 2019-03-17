@@ -26,6 +26,7 @@ public class ReplicateMap {
 	 * @throws IOException
 	 */
 	public void cloneMap() throws IOException {
+		
 		FileReader reader = new FileReader(INPUTFILE);
 		FileWriter writer = new FileWriter(OUTPUTFILE);
 		Scanner wrapReader = new Scanner(reader);
