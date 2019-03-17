@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import beans.BeansTest;
+import beans.BeanTestSuite;
 import gui.GUITest;
-import phases.FortificationTest;
-import phases.ReEnforcementTest;
+import phases.PhaseTestSuite;
 import utilities.DiceRollerTest;
 import utilities.MapParserTest;
 import utilities.MapUpdateTest;
+import utilities.UtilTestSuite;
 
 /**
  * @author vanduong
@@ -21,10 +21,10 @@ import utilities.MapUpdateTest;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ControllerTest.class,
-				BeansTest.class,
+				BeanTestSuite.class,
 				GUITest.class,
-				FortificationTest.class,
-				ReEnforcementTest.class,
+				PhaseTestSuite.class,
+				UtilTestSuite.class,
 				DiceRollerTest.class,
 				MapParserTest.class,
 				MapUpdateTest.class})
