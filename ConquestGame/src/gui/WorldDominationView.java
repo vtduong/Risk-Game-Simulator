@@ -1,4 +1,4 @@
-package utilities;
+package gui;
 
 import java.util.List;
 
