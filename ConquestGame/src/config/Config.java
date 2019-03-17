@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public class Config {
 		
-	private static String CONFIG = "src/config.properties";
+	private final static String CONFIG = "src/config.properties";
 	
 	
 	public static String getProperty(String key) throws IOException {
