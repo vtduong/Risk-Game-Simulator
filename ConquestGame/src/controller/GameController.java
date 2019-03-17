@@ -39,8 +39,6 @@ public class GameController {
 	/** The country list. */
 	private static List<Country> countryList  = new ArrayList<Country>();
 	
-	/** The map controller. */
-	private static MapController mapController;
 
 /** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
@@ -71,6 +69,7 @@ public class GameController {
 	
 	/** The ui. */
 	private UI ui = null;
+	private CustomMapGenerator customMap=null;
 	
 	
 	
@@ -256,43 +255,41 @@ public class GameController {
 	 * @author
 	 */
 	public void loadMap(){
+		customMap = CustomMapGenerator.getInstance();
 		System.out.println("----------Welcome----------");
 		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
 		Scanner mapOption = new Scanner(System.in);
 		int selectedMapOption = mapOption.nextInt();
 		if(selectedMapOption == 1) {
 			try {
-				mapController.validateMap("src/resources/World.map");
+				customMap.LoadMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
-			countryList = mapController.countriesDefault;
 		}
 		else if(selectedMapOption == 2) {
-			CustomMapGenerator customMap = CustomMapGenerator.getInstance();
+			 
 			try {
 				customMap.createCustomMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
-			countryList = customMap.countryDefault;
 		}
 		else if(selectedMapOption == 3) {
-			EditMap editMap = EditMap.getInstance();
-			countryList =editMap.countryDefault;
 			try {
-				editMap.editExistingMap();
+				customMap.editExistingMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
 		}
 		else {
+			System.out.println("Enter appropiate choice");
 			System.exit(1);
 		}
-		
+		countryList.addAll(customMap.countryDefault);
 	}
 	
 //	/**
