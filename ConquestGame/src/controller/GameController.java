@@ -329,23 +329,20 @@ public class GameController {
 		currentPlayer.notifyChanges();
 		while(true) {
 			try {
-				//ask user if wants to init an attack
-				if(isWar()) {
+				//ask user if wants to make an attack and check if user is able to attack (at least 2 armies in one country)
+				if(isWar() && canAttack()) {	
 					do {
-						//check if an attack is possible (there must be at least 1 attacking country having at least 2 armies)
-						while(canAttack()) {
-							currentPlayer.attack();
-							// check if current player has won the game
-							if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
-								winner = currentPlayer;
-								ui.showDialog(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
-								ui.showDialog("THE END!!!");
-								System.exit(0);
-							}
-						} 
+						currentPlayer.attack();
+						// check if current player has won the game
+						if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
+							winner = currentPlayer;
+							ui.showDialog(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
+							ui.showDialog("THE END!!!");
+							System.exit(0);
+						}
 						currentPlayer.notifyChanges();
-						
-					}while(keepWar());
+					
+					}while(canAttack() && keepWar());
 					
 				}
 				currentPlayer.fortify();
