@@ -394,37 +394,67 @@ public class Player implements Observable {
 			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");
 		}
 		
-		//roll dice
-		int[] attackerDice = null;
-		int[] defenderDice = null;
-		int attackerSelectNumDice = 0;
-		int defenderSelectNumDice = 0;
-		
-		//get number of dice from attacker
-		while(true) {
-			try {
-				attackerSelectNumDice = controller.getNumDiceAttacker();
-				attackerDice = rollDiceAttacker(attackingCountry, attackerSelectNumDice);
-				break;
-			}catch(IllegalArgumentException e) {
-				controller.showDialog(e.getMessage());
+		//request user to choose all-out mode
+		if(controller.isAllOutMode()) {
+			this.goAllOut(attackingCountry, attackedCountry);
+		}else {
+			//roll dice
+			int[] attackerDice = null;
+			int[] defenderDice = null;
+			int attackerSelectNumDice = 0;
+			int defenderSelectNumDice = 0;
+			
+			//get number of dice from attacker
+			while(true) {
+				try {
+					attackerSelectNumDice = controller.getNumDiceAttacker();
+					attackerDice = rollDiceAttacker(attackingCountry, attackerSelectNumDice);
+					break;
+				}catch(IllegalArgumentException e) {
+					controller.showDialog(e.getMessage());
+				}
 			}
+			
+			//get number of dice from defender
+			while(true) {
+				try {
+					defenderSelectNumDice = controller.getNumDiceDefender();
+					defenderDice = rollDiceDefender(attackedCountry,defenderSelectNumDice);
+					break;
+				}catch(IllegalArgumentException e){
+					controller.showDialog(e.getMessage());
+				}
+			}
+			
+			//battle
+			int[] result = goToBattle(attackerDice, defenderDice);
+			invade(result, attackingCountry, attackedCountry, attackerSelectNumDice );
 		}
 		
-		//get number of dice from defender
-		while(true) {
-			try {
-				defenderSelectNumDice = controller.getNumDiceDefender();
-				defenderDice = rollDiceDefender(attackedCountry,defenderSelectNumDice);
-				break;
-			}catch(IllegalArgumentException e){
-				controller.showDialog(e.getMessage());
-			}
-		}
 		
-		//battle
-		int[] result = goToBattle(attackerDice, defenderDice);
-		invade(result, attackingCountry, attackedCountry, attackerSelectNumDice );
+		
+	}
+
+
+
+	/**
+	 * attacks in all-out mode
+	 *
+	 * @param attackingCountry the attacking country
+	 * @param attackedCountry the attacked country
+	 */
+	public void goAllOut(Country attackingCountry, Country attackedCountry) {
+		//keep attacking as long as there's enough armies to attack and haven't occupied defender's country
+		while(attackingCountry.getNumArmies() > 1 && attackedCountry.getOwner() != this) {
+			//get max number of dices possible for attacker
+			int numDiceAttacker = (attackingCountry.getNumArmies() > 3) ? 3 : attackingCountry.getNumArmies() - 1;
+			int numDiceDefender = (attackedCountry.getNumArmies() >= 2) ? 2 : attackedCountry.getNumArmies();
+			int[] attackerDice = rollDiceAttacker(attackingCountry, numDiceAttacker);
+			int[] defenderDice = rollDiceDefender(attackedCountry,numDiceDefender);
+			//battle
+			int[] result = goToBattle(attackerDice, defenderDice);
+			invade(result, attackingCountry, attackedCountry, numDiceAttacker);
+		}
 		
 	}
 

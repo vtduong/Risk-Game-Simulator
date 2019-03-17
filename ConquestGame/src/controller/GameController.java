@@ -343,7 +343,7 @@ public class GameController {
 						currentPlayer.notifyChanges();
 					
 					}while(canAttack() && keepWar());
-					
+			
 				}
 				currentPlayer.fortify();
 				currentPlayer.notifyChanges();
@@ -580,11 +580,20 @@ public class GameController {
 	}
 
 	/**
-	 * Show dialog to user
+	 * Shows dialog to user
 	 *
 	 * @param message the message
 	 */
 	public void showDialog(String message) {
 		ui.showDialog(message);
+	}
+
+	/**
+	 * tells UI to ask user to choose if is all out mode.
+	 *
+	 * @return true, if is all out mode
+	 */
+	public boolean isAllOutMode() {
+		return ui.isAllOutMode();
 	}
 }
