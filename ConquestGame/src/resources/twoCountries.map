@@ -1,0 +1,7 @@
+[Map]
+author=userdefiend map 
+[Continents]
+North America=5
+[Territories]
+Japan,70,126,North America,Siam,
+Siam,148,127,North America,Japan,

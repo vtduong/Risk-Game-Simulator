@@ -147,23 +147,25 @@ public class AttackTest {
 	}
 	
 	@Test
-	public void testDeductArmies() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void testInvade() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		int[] attackerDice = {6, 3, 1};
 		int[] defenderDice = {6, 4};//defender wins both rounds
-		int[] result = gamer1.goToBattle(attackerDice, defenderDice);
+		int[] result = gamer2.goToBattle(attackerDice, defenderDice);
 		
 		//Using reflection API to call private methods
-		Class reflectPhase = gamer1.getClass();
+		Class reflectPhase = gamer2.getClass();
 		Method reflectMethodCall = reflectPhase.getDeclaredMethod("invade",
 				int[].class, Country.class, Country.class, int.class);
 		
 		reflectMethodCall.setAccessible(true);
 		
 		
-		reflectMethodCall.invoke(gamer1, result, usa, vn, 3);
+		reflectMethodCall.invoke(gamer2, result, usa, vn, 3);
 		
 		assertEquals(2, usa.getNumArmies());
 		assertEquals(4, vn.getNumArmies());
+		assertEquals(2, gamer2.getArmies());
+		assertEquals(4, gamer1.getArmies());
 		
 	}
 	
