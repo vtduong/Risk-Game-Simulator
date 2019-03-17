@@ -278,7 +278,7 @@ public class UI implements Observer{
 	 * @return the number dice attacker
 	 */
 	public int getNumDiceAttacker() {
-		System.out.print("Please enter number of dices for attacker: ");
+		System.out.print("Please enter number of dices for attacker (1/2/3): ");
 		Scanner scan = new Scanner(System.in);
 		int num = scan.nextInt();
 		scan.nextLine();
@@ -292,7 +292,7 @@ public class UI implements Observer{
 	 * @return the number dice defender
 	 */
 	public int getNumDiceDefender() {
-		System.out.print("Please enter number of dices for attacker: ");
+		System.out.print("Please enter number of dices for defender (1 or 2): ");
 		Scanner scan = new Scanner(System.in);
 		int num = scan.nextInt();
 		scan.nextLine();
