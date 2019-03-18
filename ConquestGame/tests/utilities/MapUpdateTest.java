@@ -92,7 +92,7 @@ public class MapUpdateTest {
 		addContinents.put("ABCD", 101);
 		String str = "test,1,1,ABCD,China";
 		addCountries[0] = str;
-		mapController.addContinent(addContinents, null, true, expectedFile);
+		mapController.addContinent(addContinents);
 		// mapController.addCountry(addCountries, null, true, expectedFile);
 		assertNotNull(mapController.continentsDefault);
 		assertTrue(mapController.continentsDefault.size() > 0);
@@ -110,7 +110,7 @@ public class MapUpdateTest {
 		list.add("Alberta");
 		list.add("Alaska");
 		adjCountries.put("India", list);
-		mapController.addAdjCountry(adjCountries, expectedFile);
+		mapController.addAdjCountry(adjCountries);
 		assertNotNull(mapController.countriesDefault);
 		assertTrue(mapController.countriesDefault.size() > 0);
 	}
