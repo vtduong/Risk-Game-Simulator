@@ -592,7 +592,9 @@ public class Player implements Observable {
 		System.out.println("-----------Re-EnForcement Phase-----------");
 		obtainNewArmies();
 		this.notifyChanges();
-		distributeArmies();
+		Map<Country, Integer> list = controller.distributeArmies();
+		this.distributeArmies(list);
+		//distributeArmies();
 		
 	}
 
@@ -721,9 +723,9 @@ public class Player implements Observable {
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
 			Country country = entry.getKey();
 			int numArmies = entry.getValue();
-			this.getCountryByName(country.getName()).setNumArmies(numArmies);
 			int totalArmiesToSet = numArmies + country.getNumArmies();
 			this.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
+			this.setNumArmiesDispatched(this.getNumArmiesDispatched() + numArmies);
 		}
 	}
 	

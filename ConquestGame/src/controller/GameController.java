@@ -152,6 +152,7 @@ public class GameController {
 		System.out.println("evenly distributing countries among players in random fashion...");
 		controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
 		controller.placeInitialArmies();
+		controller.placeArmiesForSetup();
 		controller.takeTurns();	
 	}
 	
@@ -178,6 +179,16 @@ public class GameController {
 			}
 		}
 		
+	}
+	
+	private void placeArmiesForSetup() {
+		//each player take turns to place their armies
+				for(int i = 0; i < controller.playerList.size(); i++) {
+					Player player = playerList.get(i);
+					int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
+					Map<Country, Integer> selection = ui.distributeArmies(player.getPlayerCountries(), numArmiesToDispatch);
+					player.distributeArmies(selection);
+				}
 	}
 
 	/**
