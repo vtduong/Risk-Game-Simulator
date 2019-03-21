@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import controller.GameController;
 import gui.Observer;
+import gui.UI;
 import utilities.DiceRoller;
 
 // TODO: Auto-generated Javadoc
@@ -18,6 +20,8 @@ import utilities.DiceRoller;
  */
 public class Player implements Observable {
 	
+
+
 
 	/** The player name. */
 	private final String playerName;
@@ -36,6 +40,10 @@ public class Player implements Observable {
 	
 	/** The cards. */
 	private CardType cards;
+	
+	private List<String> cardsAcquired;
+	private Random random;
+	private UI uiInstance;
 	
 	/** The observer list. */
 	private List<Observer> obList = null;
@@ -185,6 +193,14 @@ public class Player implements Observable {
 		if(this.armies >= armies)
 			this.armies = this.armies - armies;
 	}
+	public List<String> addCards() {
+		random= new Random();
+		cardsAcquired= new ArrayList<String>();
+		List<String> cardType = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");
+		int RandomCard = random.nextInt(cardType.size());
+		cardsAcquired.add(cardType.get(RandomCard));
+		return cardsAcquired;
+	}
 	
 	
 	/**
@@ -271,7 +287,6 @@ public class Player implements Observable {
 		
 		this.occupiedContinents.remove(continent);
 	}
-	
 	
 	
 	
@@ -471,6 +486,7 @@ public class Player implements Observable {
 	 */
 	private void invade(int[] result, Country attackingCountry, Country attackedCountry, int attackerSelectNumDice) {
 		Player defender = attackedCountry.getOwner();
+		uiInstance = new UI();
 		if(result[0] > 0) {
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - result[0]);
 			this.setArmies(this.getArmies() - result[0]);
@@ -483,6 +499,8 @@ public class Player implements Observable {
 		//check if attacker can occupy defender's territory (attackedCountry)
 		if(attackedCountry.getNumArmies() == 0) {
 			this.addCountry(attackedCountry.getName(), attackedCountry);
+			//cards are added after a country is conquered
+			this.addCards();
 			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
