@@ -426,7 +426,7 @@ public class Player implements Observable {
 					attackerDice = rollDiceAttacker(attackingCountry, attackerSelectNumDice);
 					break;
 				}catch(IllegalArgumentException e) {
-					controller.showDialog(e.getMessage());
+					throw e;
 				}
 			}
 			
@@ -437,7 +437,7 @@ public class Player implements Observable {
 					defenderDice = rollDiceDefender(attackedCountry,defenderSelectNumDice);
 					break;
 				}catch(IllegalArgumentException e){
-					controller.showDialog(e.getMessage());
+					throw e;
 				}
 			}
 			
@@ -606,6 +606,7 @@ public class Player implements Observable {
 			int numArmies = entry.getValue();
 			int totalArmiesToSet = numArmies + country.getNumArmies();
 			this.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
+			this.setNumArmiesDispatched(this.getNumArmiesDispatched() + numArmies);
 		}
 		
 	}
