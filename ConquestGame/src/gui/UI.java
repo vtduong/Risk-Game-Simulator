@@ -78,9 +78,10 @@ public class UI implements Observer{
 	@Override
 	public void update(Observable sub) {
 		Player player = (Player)sub;
+		this.showDialog(player.getPlayerName()+"'s Information");
 		// display number of countries occupied
 		System.out.println("Player's total number of armies: " + player.getArmies());
-		System.out.println("Player's total number of dispatched armies: " + player.getNumArmiesDispatched());
+		//System.out.println("Player's total number of dispatched armies: " + player.getNumArmiesDispatched());
 		List<Country> countries = player.getPlayerCountries();
 		System.out.println("Player's total number of occupied countries: " + countries.size());
 		//1System.out.println("Player's occupied countries: " + countries.toString());
