@@ -151,6 +151,7 @@ public class GameController {
 		//TODO MOVE CODE TO UI CLASS UNDER APPROPRIATE METHODS
 		System.out.println("evenly distributing countries among players in random fashion...");
 		controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
+		System.out.println("-------- Setup --------");
 		controller.placeInitialArmies();
 		controller.placeArmiesForSetup();
 		controller.takeTurns();	
@@ -185,6 +186,8 @@ public class GameController {
 		//each player take turns to place their armies
 				for(int i = 0; i < controller.playerList.size(); i++) {
 					Player player = playerList.get(i);
+					player.notifyChanges();
+					ui.showDialog("Please assign armies to countries for " + player.getPlayerName());
 					int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
 					Map<Country, Integer> selection = ui.distributeArmies(player.getPlayerCountries(), numArmiesToDispatch);
 					player.distributeArmies(selection);
