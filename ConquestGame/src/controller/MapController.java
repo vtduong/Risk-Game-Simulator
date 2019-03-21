@@ -47,7 +47,7 @@ public class MapController {
 		return mapCntrl;
 	}
 
-	public void intit(String OperationType,String inputFile) throws IOException, MapInvalidException {
+	public void init(String OperationType,String inputFile) throws IOException, MapInvalidException {
 		if("LoadMap".equalsIgnoreCase(OperationType)) {
 			validateMap(inputFile);
 		}else if("CreateMap".equalsIgnoreCase(OperationType)) {

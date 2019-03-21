@@ -100,7 +100,7 @@ public class EditMap  {
 		mapParser.readFile();
 		countryDefault = mapParser.countriesList;
 		mapController = MapController.getInstance();
-		mapController.intit("EditMap",EDITEDMAP);
+		mapController.init("EditMap",EDITEDMAP);
 		System.out.println("----------Continent----------");
 		for (Continent continent : mapParser.continentsList)
 			System.out.println(continent.getName());

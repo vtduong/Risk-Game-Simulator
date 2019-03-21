@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import beans.*;
 import exception.MapInvalidException;
+import gui.CardExchangeView;
 import gui.UI;
 //import phases.Attack;
 
@@ -152,9 +153,6 @@ public class GameController {
 		controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
 		controller.placeInitialArmies();
 		controller.takeTurns();	
-				
-		
-		
 	}
 	
 	/**

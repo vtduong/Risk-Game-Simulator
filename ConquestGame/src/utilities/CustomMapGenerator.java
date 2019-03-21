@@ -101,7 +101,7 @@ public class CustomMapGenerator {
 	 */
 	public void createCustomMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
-		mapController.intit("CreateMap", FILEPATH);
+		mapController.init("CreateMap", FILEPATH);
 		Map<String, Integer> continentMap = new HashMap<String, Integer>();
 		Scanner getMapInt = new Scanner(System.in); 
 		Scanner getMapStr = new Scanner(System.in);
@@ -153,7 +153,7 @@ public class CustomMapGenerator {
 		mapParser.readFile();
 		countryDefault = mapParser.countriesList;
 		mapController = MapController.getInstance();
-		mapController.intit("EditMap",EDITEDMAP);
+		mapController.init("EditMap",EDITEDMAP);
 		System.out.println("----------Continent----------");
 		for (Continent continent : mapParser.continentsList)
 			System.out.println(continent.getName());
@@ -299,7 +299,7 @@ public class CustomMapGenerator {
 	
 	public void LoadMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
-		mapController.intit("LoadMap", Config.getProperty("worldmap"));
+		mapController.init("LoadMap", Config.getProperty("worldmap"));
 		countryDefault =mapController.countriesDefault;
 		System.out.println(countryDefault.size());
 		
