@@ -148,7 +148,6 @@ public class GameController {
 		}
 		
 		controller.registerObserver();
-		//TODO MOVE CODE TO UI CLASS UNDER APPROPRIATE METHODS
 		System.out.println("evenly distributing countries among players in random fashion...");
 		controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
 		System.out.println("-------- Setup --------");
