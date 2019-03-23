@@ -380,7 +380,7 @@ public class Player implements Observable {
 		//it's possible that there many attacker's countries adj the selected attacked country
 		for(Country con : occupiedCountries) {
 			//only consider attaker's countries with at least 2 armies
-			if(con.getNumArmies() > 2) {
+			if(con.getNumArmies() >= 2) {
 				List<String> adjCountries = con.getAdjacentCountries();
 				for(String name : adjCountries) {
 					if(name.equals(attackedCountryName) ) {
