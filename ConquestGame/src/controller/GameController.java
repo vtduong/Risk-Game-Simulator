@@ -151,7 +151,7 @@ public class GameController {
 		//each player take turns to place their armies
 				for(int i = 0; i < controller.playerList.size(); i++) {
 					Player player = playerList.get(i);
-					player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
+					player.notifyChanges(EventType.PHASE_NOTIFY);
 					ui.showDialog("Please assign armies to countries for " + player.getPlayerName());
 					int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
 					Map<Country, Integer> selection = ui.distributeArmies(player.getPlayerCountries(), numArmiesToDispatch);
@@ -324,13 +324,13 @@ public class GameController {
 							ui.showDialog("THE END!!!");
 							System.exit(0);
 						}
-						currentPlayer.notifyChanges(EventType.ATTACK_NOTIFY);
+						currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 					
 					}while(canAttack() && keepWar());
 			
 				}
 				currentPlayer.fortify();
-				currentPlayer.notifyChanges(EventType.FORTIFICATION_NOTIFY);
+				currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 				break;
 			}catch(IllegalArgumentException e) {
 				ui.handleExceptions(e.getMessage());
@@ -619,4 +619,15 @@ public class GameController {
 	public boolean isAllOutMode() {
 		return ui.isAllOutMode();
 	}
+
+	/**
+	 * @param continent
+	 * @return
+	 */
+	public Continent getContinentByName(String continent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

@@ -21,10 +21,8 @@ import utilities.DiceRoller;
 public class Player implements Observable {
 	
 
+	Map<Integer, Observer> observerList;
 
-	/** EventType */
-	private final Map<Integer, Observer> mappingEventsForUpdate;
-	
 	/** The player name. */
 	private final String playerName;
 	
@@ -117,9 +115,8 @@ public class Player implements Observable {
 		this.armies = armies;
 		this.occupiedContinents = new HashMap<String, Continent>();
 		this.occupiedCountries = new HashMap<String, Country>();
-		obList = new ArrayList<Observer>();
-		
-		this.mappingEventsForUpdate = new HashMap<Integer, Observer>();
+//		obList = new ArrayList<Observer>();
+		observerList = new HashMap<Integer, Observer>();
 	}
 	
 	/**
@@ -336,7 +333,7 @@ public class Player implements Observable {
 	 */
 	@Override
 	public void attach(Observer ob, int event) {
-		mappingEventsForUpdate.put(event, ob);
+		observerList.put(event, ob);
 		
 	}
 
@@ -361,8 +358,7 @@ public class Player implements Observable {
 //		for(Observer o : obList) {
 //			o.update(this);
 //		}
-		mappingEventsForUpdate.get(event).update(this);
-		
+		observerList.get(event).update(this);
 	}
 	
 	
@@ -509,8 +505,25 @@ public class Player implements Observable {
 			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
+			//check if attacker has conquered a whole continent
+			if(hasConqueredContinent(attackedCountry.getContinent())) {
+				Continent continent = controller.getContinentByName(attackedCountry.getContinent());
+				this.addContinent(continent.getName(), continent);
+			}
 		}
 		
+	}
+
+
+
+	/**
+	 * Checks if the given continent is conquered by player
+	 * @param continent The continent to check 
+	 * @return
+	 */
+	public boolean hasConqueredContinent(String continent) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 
@@ -596,7 +609,7 @@ public class Player implements Observable {
 	public void reEnforce() {
 		System.out.println("-----------Re-EnForcement Phase-----------");
 		obtainNewArmies();
-		this.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
+		this.notifyChanges(EventType.PHASE_NOTIFY);
 		Map<Country, Integer> list = controller.distributeArmies();
 		this.distributeArmies(list);
 		//distributeArmies();
@@ -683,7 +696,6 @@ public class Player implements Observable {
 //		fromCountry.setNumArmies(fromCountry.getNumArmies() - numArmies);
 //		toCountry.setNumArmies(toCountry.getNumArmies() + numArmies);
 		moveArmies(fromName, toName, numArmies);
-		
 	}
 
 	/**
