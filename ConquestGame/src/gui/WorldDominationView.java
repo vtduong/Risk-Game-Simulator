@@ -1,10 +1,15 @@
 package gui;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
+import beans.Continent;
 import beans.Country;
+import beans.EventType;
+import beans.Observable;
 import beans.Player;
 import controller.GameController;
+import utilities.CustomMapGenerator;
 
 /**
  * The WorldDominationView class is used to get the progress of 
@@ -12,14 +17,22 @@ import controller.GameController;
  * @author sandeepchowdaryannabathuni
  *
  */
-public class WorldDominationView {
+public class WorldDominationView implements Observer{
 	
 	private static WorldDominationView obj = null;
 	
-	private GameController controller;
+	private GameController controller = null;
+	private CustomMapGenerator mapDetails = null;
+	
+	private DecimalFormat format;
+	
+	
 	
 	private WorldDominationView() {
 		controller = GameController.getInstance();
+		format = new DecimalFormat(".00");
+		mapDetails = CustomMapGenerator.getInstance();
+		
 	}
 	
 	public static WorldDominationView getInstance() {
@@ -32,7 +45,7 @@ public class WorldDominationView {
 	/**
 	 * This method is used to output the progress of the game.
 	 */
-	public void getProgress() {
+	private void getProgress() {
 		
 		List<Player> players = controller.getPlayerList();
 		
@@ -50,7 +63,9 @@ public class WorldDominationView {
 			System.out.println("Available armies : " + armies);
 			System.out.println("Occupied countries : ");
 			
-			for(Country country : player.getPlayerCountries()) {
+			List<Country> playerOccupiedCountries = player.getPlayerCountries();
+			
+			for(Country country : playerOccupiedCountries) {
 				System.out.println(country.getName() + " of continent " +
 									country.getContinent());
 				
@@ -59,6 +74,21 @@ public class WorldDominationView {
 				
 				System.out.println("-".repeat(10));
 			}
+			
+			double occupiedPercentage = 0;
+			
+			if(playerOccupiedCountries.size() > 0)
+				occupiedPercentage = (playerOccupiedCountries.size()/
+										mapDetails.countryDefault.size()) * 100;
+			System.out.println("Percentage of countries occupied : " 
+										+ format.format(occupiedPercentage)
+										+ "%");
 		}
+	}
+
+	@Override
+	public void update(Observable sub) {
+		// TODO Auto-generated method stub
+		getProgress();
 	}
 }

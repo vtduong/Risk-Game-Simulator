@@ -15,7 +15,7 @@ import gui.CardExchangeView;
 import gui.Observer;
 import gui.UI;
 //import phases.Attack;
-
+import gui.WorldDominationView;
 import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 import utilities.EditMap;
@@ -37,6 +37,9 @@ public class GameController {
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
 	private static GameController controller= null;
+	
+	/** The World Domination View. */
+	private WorldDominationView wdView = null;
 	
 	/** The country list. */
 	private static List<Country> countryList  = new ArrayList<Country>();
@@ -114,15 +117,17 @@ public class GameController {
 		GameController controller = GameController.getInstance();
 		controller.createUI();
 		controller.loadMap();
+		controller.createWorldDominationView();
 		controller.initGame();
 	}
 	
 	/**
 	 * Register given observer with all player
 	 */
-	public void registerObserver(Observer ob) {
+	public void registerObserver(Observer ob, int event) {
+		
 		for(int i = 0; i < numberOfPlayers; i++) {
-			controller.playerList.get(i).attach(ob);
+			controller.playerList.get(i).attach(ob, event);
 		}
 	}
 
@@ -146,7 +151,7 @@ public class GameController {
 		//each player take turns to place their armies
 				for(int i = 0; i < controller.playerList.size(); i++) {
 					Player player = playerList.get(i);
-					player.notifyChanges();
+					player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
 					ui.showDialog("Please assign armies to countries for " + player.getPlayerName());
 					int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
 					Map<Country, Integer> selection = ui.distributeArmies(player.getPlayerCountries(), numArmiesToDispatch);
@@ -159,6 +164,13 @@ public class GameController {
 	 */
 	private void createUI() {
 		ui = new UI();
+	}
+	
+	/**
+	 * create and register a UI interface as observer to player.
+	 */
+	public void createWorldDominationView() {
+		wdView = WorldDominationView.getInstance();
 	}
 
 	/**
@@ -298,7 +310,7 @@ public class GameController {
 	public void takePhases() {
 //		currentPhase = new ReEnforcement();
 		currentPlayer.reEnforce();
-		currentPlayer.notifyChanges();
+		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 		while(true) {
 			try {
 				//ask user if wants to make an attack and check if user is able to attack (at least 2 armies in one country)
@@ -312,13 +324,13 @@ public class GameController {
 							ui.showDialog("THE END!!!");
 							System.exit(0);
 						}
-						currentPlayer.notifyChanges();
+						currentPlayer.notifyChanges(EventType.ATTACK_NOTIFY);
 					
 					}while(canAttack() && keepWar());
 			
 				}
 				currentPlayer.fortify();
-				currentPlayer.notifyChanges();
+				currentPlayer.notifyChanges(EventType.FORTIFICATION_NOTIFY);
 				break;
 			}catch(IllegalArgumentException e) {
 				ui.handleExceptions(e.getMessage());
@@ -387,6 +399,7 @@ public class GameController {
 	 */
 	public void initGame() {
 		//Getting Player Info
+				
 				System.out.println("Please enter the number of players between 2 and 6: ");
 				Scanner inputNumPlayers = new Scanner(System.in);	
 				int numberOfPlayers = inputNumPlayers.nextInt();
@@ -418,7 +431,10 @@ public class GameController {
 					controller.addPlayer(player);
 				}
 				
-				controller.registerObserver(ui);
+				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
+				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+				
+				
 				System.out.println("evenly distributing countries among players in random fashion...");
 				controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
 				System.out.println("-------- Setup --------");

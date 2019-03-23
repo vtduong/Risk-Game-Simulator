@@ -11,7 +11,7 @@ import gui.Observer;
  *
  * @author vanduong
  */
-public class Continent implements Observable {
+public class Continent {
 
 	/** The name. */
 	private String name;
@@ -120,39 +120,5 @@ public class Continent implements Observable {
 		this.countries = countries;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see beans.Observable#attach(gui.Observer)
-	 */
-	@Override
-	public void attach(Observer ob) {
-		obList.add(ob);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see beans.Observable#detach(gui.Observer)
-	 */
-	@Override
-	public void detach(Observer ob) {
-		obList.remove(ob);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see beans.Observable#notifyChanges()
-	 */
-	@Override
-	public void notifyChanges() {
-		for (Observer o : obList) {
-			o.update(this);
-		}
-
-	}
 
 }
