@@ -696,6 +696,7 @@ public class Player implements Observable {
 //		fromCountry.setNumArmies(fromCountry.getNumArmies() - numArmies);
 //		toCountry.setNumArmies(toCountry.getNumArmies() + numArmies);
 		moveArmies(fromName, toName, numArmies);
+		notifyChanges(EventType.FORTIFICATION_NOTIFY);
 	}
 
 	/**
