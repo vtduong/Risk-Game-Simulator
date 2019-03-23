@@ -22,7 +22,9 @@ public class Player implements Observable {
 	
 
 
-
+	/** EventType */
+	private final Map<Integer, Observer> mappingEventsForUpdate;
+	
 	/** The player name. */
 	private final String playerName;
 	
@@ -116,6 +118,8 @@ public class Player implements Observable {
 		this.occupiedContinents = new HashMap<String, Continent>();
 		this.occupiedCountries = new HashMap<String, Country>();
 		obList = new ArrayList<Observer>();
+		
+		this.mappingEventsForUpdate = new HashMap<Integer, Observer>();
 	}
 	
 	/**
@@ -331,8 +335,8 @@ public class Player implements Observable {
 	 * @see beans.Observable#attach(gui.Observer)
 	 */
 	@Override
-	public void attach(Observer ob) {
-		obList.add(ob);
+	public void attach(Observer ob, int event) {
+		mappingEventsForUpdate.put(event, ob);
 		
 	}
 
@@ -353,10 +357,11 @@ public class Player implements Observable {
 	 * @see beans.Observable#notifyChanges(java.util.List)
 	 */
 	@Override
-	public void notifyChanges() {
-		for(Observer o : obList) {
-			o.update(this);
-		}
+	public void notifyChanges(int event) {
+//		for(Observer o : obList) {
+//			o.update(this);
+//		}
+		mappingEventsForUpdate.get(event).update(this);
 		
 	}
 	
@@ -591,7 +596,7 @@ public class Player implements Observable {
 	public void reEnforce() {
 		System.out.println("-----------Re-EnForcement Phase-----------");
 		obtainNewArmies();
-		this.notifyChanges();
+		this.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
 		Map<Country, Integer> list = controller.distributeArmies();
 		this.distributeArmies(list);
 		//distributeArmies();
@@ -678,6 +683,7 @@ public class Player implements Observable {
 //		fromCountry.setNumArmies(fromCountry.getNumArmies() - numArmies);
 //		toCountry.setNumArmies(toCountry.getNumArmies() + numArmies);
 		moveArmies(fromName, toName, numArmies);
+		
 	}
 
 	/**

@@ -36,6 +36,7 @@ public class CustomMapGenerator {
 	/** The countries. */
 	private ArrayList<String> countries = null;
 	
+
 	/** The remove continents. */
 	private ArrayList<String> removeContinents = null;
 	
@@ -81,6 +82,8 @@ public class CustomMapGenerator {
 		countryDefault = new ArrayList<Country>();
 	}
 
+	
+	
 	/**
 	 * This is used to create a singleton object of 
 	 * CustomMapGenerator class.

@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import beans.Continent;
 import beans.Country;
+import beans.EventType;
 import beans.Observable;
 import beans.Player;
 import controller.GameController;
@@ -76,32 +77,34 @@ public class UI implements Observer{
 	 */
 	@Override
 	public void update(Observable sub) {
-		Player player = (Player)sub;
-		this.showDialog(player.getPlayerName()+"'s Information:");
-		// display number of countries occupied
-		System.out.println("Player's total number of armies: " + player.getArmies());
-		//System.out.println("Player's total number of dispatched armies: " + player.getNumArmiesDispatched());
-		List<Country> countries = player.getPlayerCountries();
-		System.out.println("Player's total number of occupied countries: " + countries.size());
-		//1System.out.println("Player's occupied countries: " + countries.toString());
-		System.out.println("Number of armies in each occupied country: ");
-		for(int i = 0; i < countries.size(); i++) {
-			Country c = countries.get(i);
-			System.out.println(c.getName() + ": " + c.getNumArmies());
-		}
-		//display number of continents occupied
-		System.out.print("Player's occupied continents: ");
-		List<Continent> continents = player.getPlayerContinents();
-		if(continents == null || continents.size() == 0) {
-			System.out.println(0);
-		} else {
-			System.out.println();
-			for(int i = 0; i < continents.size(); i++) {
-				System.out.println(continents.get(i).getName());
+		
+			Player player = (Player)sub;
+			this.showDialog(player.getPlayerName()+"'s Information:");
+			// display number of countries occupied
+			System.out.println("Player's total number of armies: " + player.getArmies());
+			//System.out.println("Player's total number of dispatched armies: " + player.getNumArmiesDispatched());
+			List<Country> countries = player.getPlayerCountries();
+			System.out.println("Player's total number of occupied countries: " + countries.size());
+			//1System.out.println("Player's occupied countries: " + countries.toString());
+			System.out.println("Number of armies in each occupied country: ");
+			for(int i = 0; i < countries.size(); i++) {
+				Country c = countries.get(i);
+				System.out.println(c.getName() + ": " + c.getNumArmies());
+			}
+			//display number of continents occupied
+			System.out.print("Player's occupied continents: ");
+			List<Continent> continents = player.getPlayerContinents();
+			if(continents == null || continents.size() == 0) {
+				System.out.println(0);
+			} else {
+				System.out.println();
+				for(int i = 0; i < continents.size(); i++) {
+					System.out.println(continents.get(i).getName());
+				}
 			}
 		}
 		
-	}
+	
 
 	/**
 	 * Ask if user wants to go to war.
