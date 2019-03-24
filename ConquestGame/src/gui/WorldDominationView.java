@@ -58,7 +58,7 @@ public class WorldDominationView implements Observer{
 			String playerName = player.getPlayerName();
 			int armies = player.getArmies();
 			
-			System.out.println("*".repeat(16));
+			System.out.println("*".repeat(30));
 			System.out.println("PlayerName : " + playerName);
 			System.out.println("Available armies : " + armies);
 			System.out.println("Occupied countries : ");
@@ -72,7 +72,7 @@ public class WorldDominationView implements Observer{
 				System.out.println("Armies available in " + country.getName() +
 									" : " + country.getNumArmies());
 				
-				System.out.println("-".repeat(10));
+				System.out.println("-".repeat(24));
 			}
 			
 			double occupiedPercentage = 0;
