@@ -48,6 +48,8 @@ public class GameController {
 /** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
+	
+	private HashMap<String, Continent> continentListByName = null;
 
 
 
@@ -76,6 +78,7 @@ public class GameController {
 	private UI ui = null;
 	private CustomMapGenerator customMap=null;
 	
+	private List<Continent> continentList = null;
 	
 	
 	/**
@@ -84,6 +87,8 @@ public class GameController {
 	private GameController(){
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
+		continentListByName = new HashMap<String, Continent>();
+		continentList = new ArrayList<Continent>();
 	}
 
 	/**
@@ -276,6 +281,7 @@ public class GameController {
 		countryList.addAll(customMap.countryDefault);
 	}
 	
+
 //	/**
 //	 * Sets the phase.
 //	 *

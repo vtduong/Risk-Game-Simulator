@@ -11,6 +11,7 @@ import java.util.Random;
 import controller.GameController;
 import gui.Observer;
 import gui.UI;
+import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 
 // TODO: Auto-generated Javadoc
@@ -499,6 +500,7 @@ public class Player implements Observable {
 		
 		//check if attacker can occupy defender's territory (attackedCountry)
 		if(attackedCountry.getNumArmies() == 0) {
+			CustomMapGenerator map = CustomMapGenerator.getInstance();
 			this.addCountry(attackedCountry.getName(), attackedCountry);
 			//cards are added after a country is conquered
 			this.addCards();
@@ -506,8 +508,8 @@ public class Player implements Observable {
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
 			//check if attacker has conquered a whole continent
-			if(hasConqueredContinent(attackedCountry.getContinent())) {
-				Continent continent = controller.getContinentByName(attackedCountry.getContinent());
+			Continent continent = map.getContinent(attackedCountry.getContinent());
+			if(hasConqueredContinent(continent) {
 				this.addContinent(continent.getName(), continent);
 			}
 		}
@@ -521,7 +523,7 @@ public class Player implements Observable {
 	 * @param continent The continent to check 
 	 * @return
 	 */
-	public boolean hasConqueredContinent(String continent) {
+	public boolean hasConqueredContinent(Continent continent) {
 		// TODO Auto-generated method stub
 		return false;
 	}
