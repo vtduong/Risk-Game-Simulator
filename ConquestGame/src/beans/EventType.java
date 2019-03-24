@@ -12,4 +12,5 @@ public class EventType {
 	public static final int FORTIFICATION_NOTIFY = 2;
 	public static final int PHASE_NOTIFY = 3;
 	public static final int ATTACK_NOTIFY = 4;
+	public static final int PHASE_VIEW_NOTIFY = 5;
 }

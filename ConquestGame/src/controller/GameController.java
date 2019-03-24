@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,19 +8,18 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-import beans.*;
+import beans.Continent;
+import beans.Country;
+import beans.EventType;
+import beans.Player;
 import exception.MapInvalidException;
-import gui.CardExchangeView;
 import gui.Observer;
+import gui.PhaseView;
 import gui.UI;
 //import phases.Attack;
 import gui.WorldDominationView;
 import utilities.CustomMapGenerator;
-import utilities.DiceRoller;
-import utilities.EditMap;
-import utilities.MapParser;
 import utilities.MapValidator;
-import utilities.Tuple;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -38,8 +36,14 @@ public class GameController {
 	/** The controller. */
 	private static GameController controller= null;
 	
+	/** The current phase Info. */
+	private String currentPhase;
+	
 	/** The World Domination View. */
 	private WorldDominationView wdView = null;
+	
+	private PhaseView phaseView = null;
+	
 	
 	/** The country list. */
 	private static List<Country> countryList  = new ArrayList<Country>();
@@ -82,13 +86,27 @@ public class GameController {
 	
 	
 	/**
+	 * @return String, the current phase of the game.
+	 */
+	public String getCurrentPhase() {
+		return currentPhase;
+	}
+
+	/**
+	 * @param currentPhase The current phase name
+	 */
+	public void setCurrentPhase(String currentPhase) {
+		this.currentPhase = currentPhase;
+	}
+
+	
+	/**
 	 * Instantiates a new game controller.
 	 */
 	private GameController(){
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
-		continentListByName = new HashMap<String, Continent>();
-		continentList = new ArrayList<Continent>();
+		
 	}
 
 	/**
@@ -123,6 +141,7 @@ public class GameController {
 		controller.createUI();
 		controller.loadMap();
 		controller.createWorldDominationView();
+		controller.createPhaseView();
 		controller.initGame();
 	}
 	
@@ -172,10 +191,17 @@ public class GameController {
 	}
 	
 	/**
-	 * create and register a UI interface as observer to player.
+	 * create and register a WorldDomination interface as observer to player.
 	 */
 	public void createWorldDominationView() {
 		wdView = WorldDominationView.getInstance();
+	}
+	
+	/**
+	 * create and register a PhaseView interface as observer to player.
+	 */
+	public void createPhaseView() {
+		phaseView = PhaseView.getInstance();
 	}
 
 	/**
@@ -439,6 +465,7 @@ public class GameController {
 				
 				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
 				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+				controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 				
 				
 				System.out.println("evenly distributing countries among players in random fashion...");

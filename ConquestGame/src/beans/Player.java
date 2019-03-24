@@ -2,7 +2,6 @@ package beans;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.Random;
 
 import controller.GameController;
 import gui.Observer;
+import gui.PhaseView;
 import gui.UI;
 import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
@@ -367,7 +367,9 @@ public class Player implements Observable {
 	 * Attack phase
 	 */
 	public void attack() throws IllegalArgumentException{
-		System.out.println("-----------Attack Phase-----------");
+		controller.setCurrentPhase("Attack");
+		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		//System.out.println("-----------Attack Phase-----------");
 		//TODO refactor this method
 		// get attacked country from user, controller
 		Country attackedCountry = controller.getAttackedCountry();
@@ -509,7 +511,7 @@ public class Player implements Observable {
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
 			//check if attacker has conquered a whole continent
 			Continent continent = map.getContinent(attackedCountry.getContinent());
-			if(hasConqueredContinent(continent) {
+			if(hasConqueredContinent(continent)) {
 				this.addContinent(continent.getName(), continent);
 			}
 		}
@@ -609,7 +611,9 @@ public class Player implements Observable {
 	 * distribute armies among occupied countries.
 	 */
 	public void reEnforce() {
-		System.out.println("-----------Re-EnForcement Phase-----------");
+		controller.setCurrentPhase("Re-Enforcement");
+		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		//System.out.println("-----------Re-EnForcement Phase-----------");
 		obtainNewArmies();
 		this.notifyChanges(EventType.PHASE_NOTIFY);
 		Map<Country, Integer> list = controller.distributeArmies();
@@ -673,7 +677,9 @@ public class Player implements Observable {
 	 * @throws IllegalArgumentException if 2 countries given are not adjacent or if one of the countries is not owned by player
 	 */
 	public void fortify() throws IllegalArgumentException {
-		System.out.println("--------------Fortification Phase------------");
+		controller.setCurrentPhase("Fortification");
+		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		//System.out.println("--------------Fortification Phase------------");
 		//move armies from one (and only one) country to another neighboring country
 		String fromName = controller.selectCountryToTransferFrom(this.getPlayerCountries());
 		Country fromCountry = this.getCountryByName(fromName);
