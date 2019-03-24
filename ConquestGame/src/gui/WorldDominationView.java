@@ -30,7 +30,7 @@ public class WorldDominationView implements Observer{
 	
 	private WorldDominationView() {
 		controller = GameController.getInstance();
-		format = new DecimalFormat(".00");
+		format = new DecimalFormat(".##");
 		mapDetails = CustomMapGenerator.getInstance();
 		
 	}
@@ -78,7 +78,7 @@ public class WorldDominationView implements Observer{
 			double occupiedPercentage = 0;
 			
 			if(playerOccupiedCountries.size() > 0)
-				occupiedPercentage = (playerOccupiedCountries.size()/
+				occupiedPercentage = ((double)playerOccupiedCountries.size()/
 										mapDetails.countryDefault.size()) * 100;
 			System.out.println("Percentage of countries occupied : " 
 										+ format.format(occupiedPercentage)
