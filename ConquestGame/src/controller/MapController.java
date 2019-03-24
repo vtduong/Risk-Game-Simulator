@@ -26,7 +26,7 @@ import java.lang.*;
  * continents. It is also responsible for handling addition or deletion of
  * adjacent Countries adjacent countries.
  * 
- * @author apoorvasharma
+ * @author apoorvasharma 
  * @version 1.0.0
  */
 public class MapController {
