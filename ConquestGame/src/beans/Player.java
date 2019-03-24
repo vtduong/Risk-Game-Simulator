@@ -509,13 +509,34 @@ public class Player implements Observable {
 			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
+			
 			//check if attacker has conquered a whole continent
 			Continent continent = map.getContinent(attackedCountry.getContinent());
 			if(hasConqueredContinent(continent)) {
 				this.addContinent(continent.getName(), continent);
 			}
+			
+			//check if defender just lost a continent
+			if(hasLostContinent(continent)) {
+				this.removeContinent(continent.getName());
+			}
 		}
 		
+	}
+
+
+
+	/**
+	 * checks if a player has lost control of a continent
+	 * @param continent The continent to be checked
+	 * @return true if lost control
+	 */
+	public boolean hasLostContinent(Continent continent) {
+		String continentName = continent.getName();
+		if(occupiedContinents.containsKey(continentName)) {
+			return true;
+		}
+		return false;
 	}
 
 
@@ -526,8 +547,15 @@ public class Player implements Observable {
 	 * @return
 	 */
 	public boolean hasConqueredContinent(Continent continent) {
-		// TODO Auto-generated method stub
-		return false;
+		List<Country> countryList = continent.getCountries();
+		
+		for(Country con : countryList) {
+			String countryName = con.getName();
+			if(!occupiedCountries.containsKey(countryName)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 

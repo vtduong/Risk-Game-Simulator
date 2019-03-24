@@ -171,6 +171,9 @@ public class GameController {
 		
 	}
 	
+	/**
+	 * each player takes turn to place their armies on their territories
+	 */
 	private void placeArmiesForSetup() {
 		//each player take turns to place their armies
 				for(int i = 0; i < controller.playerList.size(); i++) {
@@ -478,7 +481,7 @@ public class GameController {
 	
 	
 	/**
-	 * evenly distributes countries among players in a random fashion .
+	 * evenly distributes countries among players in a random fashion.
 	 *
 	 * @author vanduong
 	 * @param countries the countries
