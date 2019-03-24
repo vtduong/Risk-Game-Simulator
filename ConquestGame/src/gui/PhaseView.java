@@ -1,6 +1,6 @@
 package gui;
-
-import utilities.ReplicateMap;
+import beans.Observable;
+import controller.GameController;
 
 /**
  * Implementation of a “phase view” using the Observer pattern. The phase view should display:
@@ -11,9 +11,14 @@ import utilities.ReplicateMap;
  * @author ankit
  *
  */
-public class PhaseView {
+public class PhaseView implements Observer {
 	
 	private static PhaseView phaseView = null;
+	private GameController controller;
+	
+	private PhaseView() {
+		controller.getInstance();
+	}
 	
 	public static PhaseView getInstance() {
 		if ( phaseView == null) {
@@ -21,6 +26,13 @@ public class PhaseView {
 		}
 		return phaseView;
 	}
+
+	@Override
+	public void update(Observable sub) {
+		System.out.println("Current state : " + controller.getCurrentPhase());
+		System.out.println("Current Player : " + controller.getCurrentPlayer().getPlayerName());
+	}
+
 	
 
 }
