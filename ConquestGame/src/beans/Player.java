@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 import controller.GameController;
+import exception.MapInvalidException;
+import gui.CardExchangeView;
 import gui.Observer;
 import gui.PhaseView;
 import gui.UI;
@@ -22,6 +25,12 @@ public class Player implements Observable {
 	
 
 	Map<Integer, Observer> observerList;
+	int count =0;
+	int tradeCount =0;
+	int cardNumbers;
+	List<Integer> cardToRemove;
+	Scanner scan= new Scanner(System.in);
+	
 
 	/** The player name. */
 	private final String playerName;
@@ -41,8 +50,8 @@ public class Player implements Observable {
 	/** The cards. */
 	private CardType cards;
 	
-	private List<String> cardsAcquired;
 	private Random random;
+	private List<String> cardsAcquired= new ArrayList<String>();
 	private UI uiInstance;
 	
 	/** The observer list. */
@@ -51,6 +60,7 @@ public class Player implements Observable {
 	private int numArmiesDispatched = 0;
 	
 	private static GameController controller = GameController.getInstance();
+	private static CardExchangeView cardView= new CardExchangeView();
 	
 	
 	/** The minimum new armies each user gets in ReEnforcement phase. */
@@ -83,6 +93,13 @@ public class Player implements Observable {
 	 *
 	 * @return The CardType object.
 	 */
+	public List<String> getCardsAcquired(){
+		return cardsAcquired;
+	}
+	
+	public int getTradeCount() {
+		return tradeCount;
+	}
 	public CardType getCards() {
 		return cards;
 	}
@@ -196,10 +213,11 @@ public class Player implements Observable {
 	}
 	public List<String> addCards() {
 		random= new Random();
-		cardsAcquired= new ArrayList<String>();
 		List<String> cardType = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");
 		int RandomCard = random.nextInt(cardType.size());
 		cardsAcquired.add(cardType.get(RandomCard));
+		System.out.println("Random card is assigned to this player");
+		System.out.println("Card assigned is :" + cardsAcquired );
 		return cardsAcquired;
 	}
 	
@@ -516,7 +534,10 @@ public class Player implements Observable {
 		
 	}
 
-
+	public int winCountry(){
+		count++;
+		return count;
+	}
 
 	/**
 	 * Checks if the given continent is conquered by player
@@ -601,7 +622,30 @@ public class Player implements Observable {
 		return dicer.roll(numDice);
 	}
 
+	public int exchangeCards() {
+		if(cardView.isExchangeCardsPossible()== true) {
+			cardToRemove= new ArrayList<Integer>();
+			System.out.println("You have the following cards :"+ getCardsAcquired());
+			System.out.println("Please select three cards you want to trade off :");
+			System.out.println("(Provide the card positions from 0 to n)");
+			for(int i=0;i<3;i++) {
+				cardNumbers= scan.nextInt();
+				cardToRemove.add(cardNumbers);
+			}
+			removeCards(cardToRemove);
+			tradeCount++;
+			System.out.println("You would get additional " + (tradeCount*5) + "armies for this card trade during re-enforcement phase");
+		}
+		else {
+			System.out.println("You don't have enough cards to trade off for army reinforcement");
+		}
+		return tradeCount;
+	}
 
+	public void removeCards(List<Integer> cardPosition) {
+		getCardsAcquired().removeAll(cardPosition);
+	
+	}
 
 	/**
 	 * ReEnforcement phase
@@ -642,11 +686,10 @@ public class Player implements Observable {
 	 */
 	public int obtainNewArmies() {
 		
-		//player's choice of set of cards to be traded
-		int setChoice = (cardSetChoice > 1) ? cardSetChoice : 1;
+		
 		//redeem armies by cards
-		// TODO
-//		int armiesByCards = redeemCards(setChoice);
+		int tradeNumber= getTradeCount();
+		int armiesByCards = tradeNumber*5;
 		
 		//obtain armies by number of territories occupied
 		int numCountries = this.getPlayerCountries().size();
@@ -663,7 +706,7 @@ public class Player implements Observable {
 		//obtain armies by The specific territory pictured on a traded-in card
 		//NOT APPLICABLE
 		//TODO add armiesByCards later
-		int totalNewArmies = armiesByCountries + armiesByContinents;
+		int totalNewArmies = armiesByCountries + armiesByContinents + armiesByCards;
 		this.increaseArmies(totalNewArmies);
 		return totalNewArmies;
 	}

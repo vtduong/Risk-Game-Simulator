@@ -13,6 +13,7 @@ import beans.Country;
 import beans.EventType;
 import beans.Player;
 import exception.MapInvalidException;
+import gui.CardExchangeView;
 import gui.Observer;
 import gui.PhaseView;
 import gui.UI;
@@ -43,6 +44,8 @@ public class GameController {
 	private WorldDominationView wdView = null;
 	
 	private PhaseView phaseView = null;
+	Scanner scan= new Scanner(System.in);
+	private static CardExchangeView cardView= new CardExchangeView();
 	
 	
 	/** The country list. */
@@ -319,8 +322,9 @@ public class GameController {
 	
 	/**
 	 * Take turns.
+	 * @throws MapInvalidException 
 	 */
-	public void takeTurns() {
+	public void takeTurns() throws MapInvalidException {
 		int i = 0;
 		while (winner == null) {
 			i = i % playerList.size();
@@ -334,9 +338,27 @@ public class GameController {
     
 	/**
 	 * Take phases.
+	 * @throws MapInvalidException 
 	 */
-	public void takePhases() {
+	public void takePhases() throws MapInvalidException {
 //		currentPhase = new ReEnforcement();
+		System.out.println("Do you want to view your cards to exchange ? Y/N");
+		char viewChoice= scan.next().charAt(0);
+		if(viewChoice=='Y') {
+			cardView.getCardProgress();
+		}
+		if(currentPlayer.getCardsAcquired().size()>=3) {
+			System.out.println("Do you want to exchange your cards for army reinforcement ? Y/N");
+			char exchangeChoice= scan.next().charAt(0);
+			if(exchangeChoice=='Y') {
+				currentPlayer.exchangeCards();
+			}
+		}
+		
+		if(currentPlayer.getCardsAcquired().size()>=5) {
+			System.out.println("Since you have 5 or more cards, you have to exchange one set of your cards");
+			currentPlayer.exchangeCards();
+		}
 		currentPlayer.reEnforce();
 		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 		while(true) {
@@ -423,9 +445,11 @@ public class GameController {
 	}
 	
 	/**
+	 * @throws MapInvalidException 
 	 * Inits the game.
+	 * @throws  
 	 */
-	public void initGame() {
+	public void initGame() throws MapInvalidException {
 		//Getting Player Info
 				
 				System.out.println("Please enter the number of players between 2 and 6: ");
