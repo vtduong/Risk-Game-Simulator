@@ -316,7 +316,7 @@ public class CustomMapGenerator {
 		if(continentmap.get(name)!=null) {
 			return continentmap.get(name);
 		}
-		else {
+		else { 
 			return null;
 		}
 	}
