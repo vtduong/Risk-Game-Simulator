@@ -61,19 +61,10 @@ public class WorldDominationView implements Observer{
 			System.out.println("*".repeat(30));
 			System.out.println("PlayerName : " + playerName);
 			System.out.println("Available armies : " + armies);
-			System.out.println("Occupied countries : ");
+			System.out.println("Occupied Continents : " + player.getPlayerCountries().size());;
 			
 			List<Country> playerOccupiedCountries = player.getPlayerCountries();
 			
-			for(Country country : playerOccupiedCountries) {
-				System.out.println(country.getName() + " of continent " +
-									country.getContinent());
-				
-				System.out.println("Armies available in " + country.getName() +
-									" : " + country.getNumArmies());
-				
-				System.out.println("-".repeat(24));
-			}
 			
 			double occupiedPercentage = 0;
 			
