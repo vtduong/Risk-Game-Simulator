@@ -4,13 +4,10 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import beans.Continent;
 import beans.Country;
@@ -45,14 +42,6 @@ public class AttackTest {
 		vn = new Country("Vietnam");
 		indi = new Country("India");
 		usa = new Country("USA");
-		
-		List<Country> countries = new ArrayList<Country>();
-		countries.add(vn);
-		countries.add(indi);
-		asia.setCountries(countries);
-		List<Country> country = new ArrayList<Country>();
-		country.add(usa);
-		africa.setCountries(country);
 		
 		gamer1 = new Player("gamer1");
 		gamer1.setArmies(4);
