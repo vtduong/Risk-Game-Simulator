@@ -27,8 +27,9 @@ public class AttackTest {
 	private Country vn = null;
 	private Country indi = null;
 	private Country usa = null;
+	private Continent asia = null;
+	private Continent africa = null;
 	
-	Continent asia = null;
 	Player gamer1 = null;
 	Player gamer2 = null;
 	Player gamer3 = null;
@@ -37,6 +38,7 @@ public class AttackTest {
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
 		asia = new Continent("Asia", 5);
+		africa = new Continent("Africa", 3);
 		vn = new Country("Vietnam");
 		indi = new Country("India");
 		usa = new Country("USA");

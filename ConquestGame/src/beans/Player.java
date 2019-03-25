@@ -14,6 +14,7 @@ import gui.CardExchangeView;
 import gui.Observer;
 import gui.PhaseView;
 import gui.UI;
+import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 
 // TODO: Auto-generated Javadoc
@@ -518,16 +519,23 @@ public class Player implements Observable {
 		
 		//check if attacker can occupy defender's territory (attackedCountry)
 		if(attackedCountry.getNumArmies() == 0) {
+			CustomMapGenerator map = CustomMapGenerator.getInstance();
 			this.addCountry(attackedCountry.getName(), attackedCountry);
 			//cards are added after a country is conquered
 			this.addCards();
 			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
+			
 			//check if attacker has conquered a whole continent
-			if(hasConqueredContinent(attackedCountry.getContinent())) {
-				Continent continent = controller.getContinentByName(attackedCountry.getContinent());
+			Continent continent = map.getContinent(attackedCountry.getContinent());
+			if(this.hasConqueredContinent(continent)) {
 				this.addContinent(continent.getName(), continent);
+			}
+			
+			//check if defender just lost a continent
+			if(defender.hasLostContinent(continent)) {
+				this.removeContinent(continent.getName());
 			}
 		}
 		
@@ -539,13 +547,35 @@ public class Player implements Observable {
 	}
 
 	/**
+	 * checks if a player has lost control of a continent
+	 * @param continent The continent to be checked
+	 * @return true if lost control
+	 */
+	public boolean hasLostContinent(Continent continent) {
+		String continentName = continent.getName();
+		if(occupiedContinents.containsKey(continentName)) {
+			return true;
+		}
+		return false;
+	}
+
+
+
+	/**
 	 * Checks if the given continent is conquered by player
 	 * @param continent The continent to check 
 	 * @return
 	 */
-	public boolean hasConqueredContinent(String continent) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean hasConqueredContinent(Continent continent) {
+		List<Country> countryList = continent.getCountries();
+		
+		for(Country con : countryList) {
+			String countryName = con.getName();
+			if(!occupiedCountries.containsKey(countryName)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 

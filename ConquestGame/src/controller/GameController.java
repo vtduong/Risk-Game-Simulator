@@ -55,6 +55,8 @@ public class GameController {
 /** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
+	
+	private HashMap<String, Continent> continentListByName = null;
 
 
 
@@ -83,6 +85,7 @@ public class GameController {
 	private UI ui = null;
 	private CustomMapGenerator customMap=null;
 	
+	private List<Continent> continentList = null;
 	
 	
 	/**
@@ -171,6 +174,9 @@ public class GameController {
 		
 	}
 	
+	/**
+	 * each player takes turn to place their armies on their territories
+	 */
 	private void placeArmiesForSetup() {
 		//each player take turns to place their armies
 				for(int i = 0; i < controller.playerList.size(); i++) {
@@ -307,6 +313,7 @@ public class GameController {
 		countryList.addAll(customMap.countryDefault);
 	}
 	
+
 //	/**
 //	 * Sets the phase.
 //	 *
@@ -498,7 +505,7 @@ public class GameController {
 	
 	
 	/**
-	 * evenly distributes countries among players in a random fashion .
+	 * evenly distributes countries among players in a random fashion.
 	 *
 	 * @author vanduong
 	 * @param countries the countries
