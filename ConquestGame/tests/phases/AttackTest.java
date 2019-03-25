@@ -13,6 +13,7 @@ import beans.Continent;
 import beans.Country;
 import beans.Player;
 import controller.GameController;
+import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 
 
@@ -30,6 +31,8 @@ public class AttackTest {
 	private Continent asia = null;
 	private Continent africa = null;
 	
+	private CustomMapGenerator map = null;
+	
 	Player gamer1 = null;
 	Player gamer2 = null;
 	Player gamer3 = null;
@@ -37,8 +40,12 @@ public class AttackTest {
 	@Before
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
-		asia = new Continent("Asia", 5);
-		africa = new Continent("Africa", 3);
+		map = CustomMapGenerator.getInstance();
+		map.LoadMap("testAttack");
+		asia = map.getContinent("Asia");
+		//asia = new Continent("Asia", 5);
+		//africa = new Continent("Africa", 3);
+		africa = map.getContinent("Africa");
 		vn = new Country("Vietnam");
 		indi = new Country("India");
 		usa = new Country("USA");

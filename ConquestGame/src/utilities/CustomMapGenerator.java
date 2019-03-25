@@ -310,6 +310,21 @@ public class CustomMapGenerator {
 		
 	}
 	
+	/**
+	 * Load map with given map name
+	 *
+	 * @param mapName the map name
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
+	public void LoadMap(String mapName) throws IOException, MapInvalidException {
+		mapController = MapController.getInstance();
+		mapController.init("LoadMap", Config.getProperty(mapName));
+		countryDefault =mapController.countriesDefault;
+		continentmap =mapController.continentmap;
+		
+	}
+	
 	
 	public Continent getContinent(String name) {
 		System.out.print(continentmap.size());
