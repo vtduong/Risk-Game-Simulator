@@ -352,7 +352,7 @@ public class GameController {
 //		currentPhase = new ReEnforcement();
 		System.out.println("Do you want to view your cards to exchange ? Y/N");
 		char viewChoice= scan.next().charAt(0);
-		if(viewChoice=='Y') {
+		if(viewChoice=='Y' || viewChoice == 'y') {
 			cardView.getCardProgress();
 		}
 		if(currentPlayer.getCardsAcquired().size()>=3) {
