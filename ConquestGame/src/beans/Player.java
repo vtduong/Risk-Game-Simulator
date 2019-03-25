@@ -521,8 +521,8 @@ public class Player implements Observable {
 		if(attackedCountry.getNumArmies() == 0) {
 			CustomMapGenerator map = CustomMapGenerator.getInstance();
 			this.addCountry(attackedCountry.getName(), attackedCountry);
-			//cards are added after a country is conquered
-			this.addCards();
+			//increment the counter of number of countries invaded
+			this.winCountry();
 			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
