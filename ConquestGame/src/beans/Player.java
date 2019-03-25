@@ -512,12 +512,12 @@ public class Player implements Observable {
 			
 			//check if attacker has conquered a whole continent
 			Continent continent = map.getContinent(attackedCountry.getContinent());
-			if(hasConqueredContinent(continent)) {
+			if(this.hasConqueredContinent(continent)) {
 				this.addContinent(continent.getName(), continent);
 			}
 			
 			//check if defender just lost a continent
-			if(hasLostContinent(continent)) {
+			if(defender.hasLostContinent(continent)) {
 				this.removeContinent(continent.getName());
 			}
 		}
