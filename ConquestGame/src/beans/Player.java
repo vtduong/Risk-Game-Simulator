@@ -25,10 +25,10 @@ public class Player implements Observable {
 	
 
 	Map<Integer, Observer> observerList;
-	int count =0;
+	int invadeCount =0;
 	int tradeCount =0;
-	int cardNumbers;
-	List<Integer> cardToRemove;
+	String cardType;
+	List<String> cardToRemove;
 	Scanner scan= new Scanner(System.in);
 	
 
@@ -216,8 +216,7 @@ public class Player implements Observable {
 		List<String> cardType = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");
 		int RandomCard = random.nextInt(cardType.size());
 		cardsAcquired.add(cardType.get(RandomCard));
-		System.out.println("Random card is assigned to this player");
-		System.out.println("Card assigned is :" + cardsAcquired );
+		System.out.println("CONGRATULATIONS !! A Random card is added to your Card Inventory");
 		return cardsAcquired;
 	}
 	
@@ -535,8 +534,8 @@ public class Player implements Observable {
 	}
 
 	public int winCountry(){
-		count++;
-		return count;
+		invadeCount++;
+		return invadeCount;
 	}
 
 	/**
@@ -624,26 +623,26 @@ public class Player implements Observable {
 
 	public int exchangeCards() {
 		if(cardView.isExchangeCardsPossible()== true) {
-			cardToRemove= new ArrayList<Integer>();
+			cardToRemove= new ArrayList<String>();
 			System.out.println("You have the following cards :"+ getCardsAcquired());
 			System.out.println("Please select three cards you want to trade off :");
-			System.out.println("(Provide the card positions from 0 to n)");
+			System.out.println("(Names should be either INFANTRY or CAVALRY or ARTILLERY)");
 			for(int i=0;i<3;i++) {
-				cardNumbers= scan.nextInt();
-				cardToRemove.add(cardNumbers);
+				cardType= scan.next();
+				cardToRemove.add(cardType);
 			}
 			removeCards(cardToRemove);
 			tradeCount++;
-			System.out.println("You would get additional " + (tradeCount*5) + "armies for this card trade during re-enforcement phase");
+			System.out.println("You would get additional " + " " + (tradeCount*5) + " " + "armies for this card trade during re-enforcement phase");
 		}
 		else {
-			System.out.println("You don't have enough cards to trade off for army reinforcement");
+			System.out.println("SORRY !! You don't have a CARDSET to exchange for additional armies");
 		}
 		return tradeCount;
 	}
 
-	public void removeCards(List<Integer> cardPosition) {
-		getCardsAcquired().removeAll(cardPosition);
+	public void removeCards(List<String> cardsRemove) {
+		getCardsAcquired().removeAll(cardsRemove);
 	
 	}
 
@@ -703,9 +702,6 @@ public class Player implements Observable {
 			armiesByContinents += c.getMaxArmies();
 		}
 		
-		//obtain armies by The specific territory pictured on a traded-in card
-		//NOT APPLICABLE
-		//TODO add armiesByCards later
 		int totalNewArmies = armiesByCountries + armiesByContinents + armiesByCards;
 		this.increaseArmies(totalNewArmies);
 		return totalNewArmies;

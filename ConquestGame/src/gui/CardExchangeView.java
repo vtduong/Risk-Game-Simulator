@@ -35,13 +35,13 @@ Scanner scan= new Scanner(System.in);
 			int infantry=0; int artillery=0; int cavalry=0;
 			if(player.getCardsAcquired()!= null && player.getCardsAcquired().size()>=3) {
 				for(String cardList : player.getCardsAcquired()) {
-					if(cardList == "INFANTRY") {
+					if(cardList.equalsIgnoreCase("INFANTRY")) {
 						infantry++;
 					}
-					if(cardList == "CAVALRY") {
+					if(cardList.equalsIgnoreCase("CAVALRY")) {
 						cavalry++;
 					}
-					if(cardList == "ARTILLERY") {
+					if(cardList.equalsIgnoreCase("ARTILLERY")) {
 						artillery++;
 					}
 				}
