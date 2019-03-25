@@ -397,7 +397,7 @@ public class GameController {
 
 	
 	/**
-	 * checks if player can attack by having at least 2 armies in one of player's countries.
+	 * checks if player can attack by having at least 2 armies in one of player's countries and such country is adjacent to another player's countries
 	 *
 	 * @return true, player can attack
 	 */
@@ -405,10 +405,18 @@ public class GameController {
 		List<Country> curPlayerCountries = currentPlayer.getPlayerCountries();
 		for(Country country : curPlayerCountries) {
 			if(country.getNumArmies() >= 2) {
-				return true;
+				//check if this country is adjacent to at least a country occupied by another player
+				List<String> adjCountries = country.getAdjacentCountries();
+				for(String countryName : adjCountries) {
+					Country con = this.getCountryByCountryName(countryName);
+					if(!con.getOwner().getPlayerName().equals(currentPlayer.getPlayerName())){
+						return true;
+					}
+				}
+				
 			}
 		}
-		ui.showDialog(currentPlayer.getPlayerName() + " does not have enough armies in any countries to attack");
+		ui.showDialog(currentPlayer.getPlayerName() + " does not qualify to start any attack");
 		return false;
 	}
 
