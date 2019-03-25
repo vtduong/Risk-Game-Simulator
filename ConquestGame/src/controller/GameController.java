@@ -88,6 +88,7 @@ public class GameController {
 	private List<Continent> continentList = null;
 	
 	
+	
 	/**
 	 * @return String, the current phase of the game.
 	 */
@@ -370,6 +371,7 @@ public class GameController {
 		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 		while(true) {
 			try {
+				int numberOfCountriesInvaded= 0;
 				//ask user if wants to make an attack and check if user is able to attack (at least 2 armies in one country)
 				if(isWar() && canAttack()) {	
 					do {
@@ -384,7 +386,10 @@ public class GameController {
 						currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 					
 					}while(canAttack() && keepWar());
-			
+					numberOfCountriesInvaded= currentPlayer.winCountry();
+				}
+				if(numberOfCountriesInvaded>=2) {
+					currentPlayer.addCards();
 				}
 				currentPlayer.fortify();
 				currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
