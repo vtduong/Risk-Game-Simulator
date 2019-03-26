@@ -47,7 +47,7 @@ public class GameController {
 
 	private PhaseView phaseView = null;
 	Scanner scan = new Scanner(System.in);
-	private static CardExchangeView cardView= new CardExchangeView();
+	private CardExchangeView cardView= null;
 
 	/** The country list. */
 	private static List<Country> countryList = new ArrayList<Country>();
@@ -152,6 +152,7 @@ public class GameController {
 		controller.createUI();
 		controller.loadMap();
 		controller.createWorldDominationView();
+		controller.createCardExchangeView();
 	//	controller.createPhaseView();
 		controller.initGame();
 	}
@@ -214,6 +215,14 @@ public class GameController {
 	 */
 	public void createWorldDominationView() {
 		wdView = WorldDominationView.getInstance();
+	}
+	
+	/**
+	 * create and register a CardExchange interface as observer to player
+	 */
+	
+	public void createCardExchangeView() {
+		cardView = new CardExchangeView();
 	}
 
 	/**
@@ -368,13 +377,15 @@ public class GameController {
 		if (currentPlayer.getCardsAcquired().size() >= 3) {
 			System.out.println("Do you want to exchange your cards for army reinforcement ? Y/N");
 			char exchangeChoice = scan.next().charAt(0);
-			if (exchangeChoice == 'Y') {
+			if (exchangeChoice == 'Y' || exchangeChoice == 'y' ) {
 				currentPlayer.exchangeCards();
+				currentPlayer.notifyChanges(EventType.CARDS_EXCHANGE_NOTIFY);
 			}
-			if (exchangeChoice == 'N') {
+			if (exchangeChoice == 'N' || exchangeChoice == 'n') {
 				if (currentPlayer.getCardsAcquired().size() >= 5) {
 					System.out.println("Since you have 5 or more cards, you have to exchange one set of your cards");
 					currentPlayer.exchangeCards();
+					currentPlayer.notifyChanges(EventType.CARDS_EXCHANGE_NOTIFY);
 				}
 			}
 		}
@@ -514,6 +525,7 @@ public class GameController {
 				
 				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
 				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+				controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
 //				controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 				
 				

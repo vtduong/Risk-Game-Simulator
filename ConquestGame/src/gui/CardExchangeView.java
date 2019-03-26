@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import beans.Observable;
 import beans.Player;
 import controller.GameController;
 
@@ -13,7 +14,7 @@ import controller.GameController;
  *
  * @author yadavsurbhi
  */
-public class CardExchangeView {
+public class CardExchangeView implements Observer {
 
 /** The controller. */
 public GameController controller;
@@ -27,6 +28,8 @@ boolean isExchangePossible= false;
 /** The scan. */
 Scanner scan= new Scanner(System.in);
 List<String> cardsToRemoveList;
+
+
 	
 	/**
 	 * Instantiates a new card exchange view.
@@ -48,6 +51,7 @@ List<String> cardsToRemoveList;
 			System.out.println("PlayerName : " + playerName);
 			System.out.println("Total cards acquired : "+ player.getCardsAcquired().size());
 			System.out.println("Cards acquired by this player are :" + player.getCardsAcquired());
+			//System.out.println("Cards in cardsToRemoveList are :" + player.getCardsToRemove());
 			System.out.println("-".repeat(20));			
 		}	
 	
@@ -78,5 +82,10 @@ List<String> cardsToRemoveList;
 				}
 			}
 		return isExchangePossible;
+	}
+
+	@Override
+	public void update(Observable sub) {
+		getCardProgress();	
 	}
 }
