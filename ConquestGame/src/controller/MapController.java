@@ -42,6 +42,7 @@ public class MapController {
 	 * Instantiates a new custom MapController.
 	 */
 	private MapController() {}
+	
 	/**
 	 * Created a singleton object of MapController
 	 * @return instance of MapController

@@ -12,7 +12,9 @@ import gui.GUITest;
 import phases.PhaseTestSuite;
 import utilities.DiceRollerTest;
 import utilities.MapParserTest;
+import utilities.MapTest;
 import utilities.MapUpdateTest;
+import utilities.MapValidatorTest;
 import utilities.UtilTestSuite;
 
 /**
@@ -27,7 +29,8 @@ import utilities.UtilTestSuite;
 				UtilTestSuite.class,
 				DiceRollerTest.class,
 				MapParserTest.class,
-				MapUpdateTest.class})
+				MapValidatorTest.class,
+				MapTest.class})
 public class TestSuite {
 
 }
