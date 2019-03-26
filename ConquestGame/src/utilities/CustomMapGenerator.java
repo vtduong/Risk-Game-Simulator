@@ -12,13 +12,14 @@ import java.util.Scanner;
 import beans.Continent;
 import beans.Country;
 import config.Config;
+import controller.GameController;
 import controller.MapController;
 import exception.MapInvalidException;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is responsible for loading a map,creating a new map or editing an existing map.
- * 
+ * This was modified as part of map refactoring to act as single point for map related user
+ * interaction.
  * 
  */
 public class CustomMapGenerator {
@@ -28,14 +29,9 @@ public class CustomMapGenerator {
 	
 	/** The filepath. */
 	private final String FILEPATH = "src/resources/usermap.map";
-	
-	/** The continents. */
 	private Map<String, Integer> continents = null;
-	
-	/** The countries. */
 	private ArrayList<String> countries = null;
 	
-
 	/** The remove continents. */
 	private ArrayList<String> removeContinents = null;
 	
@@ -52,6 +48,7 @@ public class CustomMapGenerator {
 	public List<Country> countryDefault =null;
 	
 	private Map<String, Continent> continentmap=null;
+	private Map<String, Country> countryMap=null;
 	/** The adj country map. */
 	private Map<String,List<String>> adjCountryMap = null;
 	
@@ -80,6 +77,7 @@ public class CustomMapGenerator {
 		adjMap = new HashMap<String, List<String>>();
 		countryDefault = new ArrayList<Country>();
 		continentmap =new HashMap<String, Continent>();
+		countryMap = new HashMap<String, Country>();
 	}
 
 	
@@ -91,7 +89,11 @@ public class CustomMapGenerator {
 	 */
 	public static CustomMapGenerator getInstance() {
 		if(customMap == null) {
-			customMap = new CustomMapGenerator();
+			synchronized (CustomMapGenerator.class) {
+	            if(customMap == null){
+	                customMap = new CustomMapGenerator();
+	            }
+	        }
 		}
 		return customMap;
 	}
@@ -104,7 +106,7 @@ public class CustomMapGenerator {
 	 */
 	public void createCustomMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
-		mapController.init("CreateMap", FILEPATH);
+		mapController.init("CreateMap", Config.getProperty("usermap"));
 		Map<String, Integer> continentMap = new HashMap<String, Integer>();
 		Scanner getMapInt = new Scanner(System.in); 
 		Scanner getMapStr = new Scanner(System.in);
@@ -144,12 +146,18 @@ public class CustomMapGenerator {
 			countryList.add(temp);
 		}
 		mapController.addCountry(countryList);
-		mapController.mapWritter(FILEPATH);
+		mapController.mapWritter(Config.getProperty("usermap"));
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
+		countryMap =mapController.countrymap;
 		
 	}
 	
+	/**
+	 * This method is responsible for editing an existing map
+	 * @throws IOException
+	 * @throws MapInvalidException
+	 */
 	public void editExistingMap() throws IOException, MapInvalidException {
 		ReplicateMap replicateMap = ReplicateMap.getInstance();
 		replicateMap.cloneMap();
@@ -297,24 +305,74 @@ public class CustomMapGenerator {
 		boolean flag = mapController.mapWritter(EDITEDMAP);
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
+		countryMap =mapController.countrymap;
 		if(flag) {
 			System.out.println("Map is successfully editied and validated.");
 		}
 	}
 	
+	/**
+	 * Responsible for loading and existing map file or user-provided File
+	 * @throws IOException
+	 * @throws MapInvalidException
+	 */
 	public void LoadMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
-		mapController.init("LoadMap", Config.getProperty("worldmap"));
+		System.out.println("Do you want to use Existing File?(Y/N)");
+		Scanner input = new Scanner(System.in);
+		String option =input.nextLine();
+		String filePath;
+		if(option.equalsIgnoreCase("N")) {
+			System.out.println("Enter the file path");
+			filePath = input.nextLine();
+		}else {
+			filePath =Config.getProperty("worldmap");
+		}
+		mapController.init("LoadMap",filePath);
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
+		countryMap =mapController.countrymap;
 		
 	}
 	
+	/**
+	 * Load map with given map name
+	 *
+	 * @param mapName the map name
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
+	public void LoadMap(String mapName) throws IOException, MapInvalidException {
+		mapController = MapController.getInstance();
+		mapController.init("LoadMap", Config.getProperty(mapName));
+		countryDefault =mapController.countriesDefault;
+		continentmap =mapController.continentmap;
+		countryMap = mapController.countrymap;
+	}
 	
+	
+	/**
+	 * Responsible for returning Continent based on input provided
+	 * @param name name of the continent to be returned
+	 * @return Continent record if it exist otherwise null
+	 */
 	public Continent getContinent(String name) {
-		System.out.print(continentmap.size());
 		if(continentmap.get(name)!=null) {
 			return continentmap.get(name);
+		}
+		else { 
+			return null;
+		}
+	}
+	
+	/**
+	 * Responsible for returning Country based on input provided
+	 * @param name name of the country to be returned
+	 * @return Country record if it exist otherwise null
+	 */
+	public Country getCountry(String name) {
+		if(countryMap.get(name)!=null) {
+			return countryMap.get(name);
 		}
 		else { 
 			return null;

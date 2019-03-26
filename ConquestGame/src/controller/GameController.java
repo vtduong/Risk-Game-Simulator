@@ -54,6 +54,8 @@ public class GameController {
 	/** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
+	
+	private HashMap<String, Continent> continentListByName = null;
 
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
@@ -78,7 +80,12 @@ public class GameController {
 
 	/** The ui. */
 	private UI ui = null;
-	private CustomMapGenerator customMap = null;
+
+	private CustomMapGenerator customMap=null;
+	
+	private List<Continent> continentList = null;
+	
+	
 	
 
 	/**
@@ -137,7 +144,7 @@ public class GameController {
 		controller.createUI();
 		controller.loadMap();
 		controller.createWorldDominationView();
-		controller.createPhaseView();
+	//	controller.createPhaseView();
 		controller.initGame();
 	}
 
@@ -166,6 +173,11 @@ public class GameController {
 		}
 
 	}
+
+	
+	/**
+	 * each player takes turn to place their armies on their territories
+	 */
 
 	private void placeArmiesForSetup() {
 		// each player take turns to place their armies
@@ -196,9 +208,9 @@ public class GameController {
 	/**
 	 * create and register a PhaseView interface as observer to player.
 	 */
-	public void createPhaseView() {
-		phaseView = PhaseView.getInstance();
-	}
+//	public void createPhaseView() {
+//		PhaseView phaseView = new PhaseView();
+//	}
 
 	/**
 	 * Gets the player list.
@@ -300,6 +312,7 @@ public class GameController {
 		countryList.addAll(customMap.countryDefault);
 	}
 
+
 //	/**
 //	 * Sets the phase.
 //	 *
@@ -385,19 +398,26 @@ public class GameController {
 	}
 
 	/**
-	 * checks if player can attack by having at least 2 armies in one of player's
-	 * countries.
+	 * checks if player can attack by having at least 2 armies in one of player's countries and such country is adjacent to another player's countries
 	 *
 	 * @return true, player can attack
 	 */
 	private boolean canAttack() {
 		List<Country> curPlayerCountries = currentPlayer.getPlayerCountries();
-		for (Country country : curPlayerCountries) {
-			if (country.getNumArmies() >= 2) {
-				return true;
+
+		for(Country country : curPlayerCountries) {
+			if(country.getNumArmies() >= 2) {
+				//check if this country is adjacent to at least a country occupied by another player
+				List<String> adjCountries = country.getAdjacentCountries();
+				for(String countryName : adjCountries) {
+					Country con = this.getCountryByCountryName(countryName);
+					if(!con.getOwner().getPlayerName().equals(currentPlayer.getPlayerName())){
+						return true;
+					}
+				}
 			}
 		}
-		ui.showDialog(currentPlayer.getPlayerName() + " does not have enough armies in any countries to attack");
+		ui.showDialog(currentPlayer.getPlayerName() + " does not qualify to start any attack");
 		return false;
 	}
 
@@ -444,54 +464,55 @@ public class GameController {
 	 * @throws MapInvalidException Inits the game. @throws
 	 */
 	public void initGame() throws MapInvalidException {
-		// Getting Player Info
 
-		System.out.println("Please enter the number of players between 2 and 6: ");
-		Scanner inputNumPlayers = new Scanner(System.in);
-		int numberOfPlayers = inputNumPlayers.nextInt();
-		// if user inputs number of players less than 2 or greater than 6 then exit the
-		// game
-		if (!(numberOfPlayers >= 2 && numberOfPlayers <= 6)) {
-			System.exit(0);
-		}
-		int initialArmies = 0;
-		switch (numberOfPlayers) {
-		case 2:
-			initialArmies = 40;
-			break;
-		case 3:
-			initialArmies = 35;
-			break;
-		case 4:
-			initialArmies = 30;
-			break;
-		case 5:
-			initialArmies = 25;
-			break;
-		case 6:
-			initialArmies = 20;
-			break;
-		}
-		for (int i = 1; i <= numberOfPlayers; i++) {
-			String playerName = "Player " + i;
-			Player player = new Player(playerName, true, initialArmies);
-			controller.addPlayer(player);
-		}
-
-		controller.registerObserver(ui, EventType.PHASE_NOTIFY);
-		controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
-		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-
-		System.out.println("evenly distributing countries among players in random fashion...");
-		controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
-		System.out.println("-------- Setup --------");
-		controller.placeInitialArmies();
-		controller.placeArmiesForSetup();
-		controller.takeTurns();
+		//Getting Player Info
+				
+				System.out.println("Please enter the number of players between 2 and 6: ");
+				Scanner inputNumPlayers = new Scanner(System.in);	
+				int numberOfPlayers = inputNumPlayers.nextInt();
+				//if user inputs number of players less than 2 or greater than 6 then exit the game
+				if (!(numberOfPlayers >= 2 && numberOfPlayers <= 6)) {
+					System.exit(0);
+				}
+				int initialArmies = 0;
+				switch(numberOfPlayers) {
+					case 2:
+						initialArmies = 40;
+					break;
+					case 3:
+						initialArmies = 35;
+					break;
+					case 4:
+						initialArmies = 30;
+					break;
+					case 5:
+						initialArmies = 25;
+					break;
+					case 6:
+						initialArmies = 20;
+					break;	
+				}
+				for(int i = 1; i <=numberOfPlayers ; i++) {
+					String playerName = "Player " + i;
+					Player player = new Player(playerName, true, initialArmies);
+					controller.addPlayer(player);
+				}
+				
+				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
+				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+//				controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
+				
+				
+				System.out.println("evenly distributing countries among players in random fashion...");
+				controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
+				System.out.println("-------- Setup --------");
+				controller.placeInitialArmies();
+				controller.placeArmiesForSetup();
+				controller.takeTurns();
 	}
 
 	/**
-	 * evenly distributes countries among players in a random fashion .
+	 * evenly distributes countries among players in a random fashion.
 	 *
 	 * @author vanduong
 	 * @param countries the countries
