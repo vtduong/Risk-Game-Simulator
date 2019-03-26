@@ -17,11 +17,13 @@ import beans.Country;
 import controller.MapController;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class is used to Edit an existing Map by taking user input.
- * @Deprecated  This class is no longer used. It is merged with customMapGeneretor  
- * 				as part of map refactoring changes.
+ *
  * @author ankit
+ * @Deprecated  This class is no longer used. It is merged with customMapGeneretor
+ * 				as part of map refactoring changes.
  */
 public class EditMap  {
 	
@@ -64,6 +66,9 @@ public class EditMap  {
 	
 	
 
+	/**
+	 * Instantiates a new edits the map.
+	 */
 	private EditMap() {
 		adjCountryMap = new HashMap<String, List<String>>();
 		removeContinents = new ArrayList<String>();
@@ -246,6 +251,13 @@ public class EditMap  {
 	}
 	
 	
+	/**
+	 * The main method.
+	 *
+	 * @param argv the arguments
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
 	public static void main(String argv[]) throws IOException, MapInvalidException {
 		EditMap editMap = EditMap.getInstance();
 		editMap.editExistingMap();

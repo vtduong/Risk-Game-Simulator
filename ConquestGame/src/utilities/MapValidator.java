@@ -27,6 +27,7 @@ import beans.Continent;
 import beans.Country;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class creates the main graph of countries and subgraphs of continents.
  * It also validates the input map file
@@ -35,14 +36,28 @@ import exception.MapInvalidException;
  *
  */
 public class MapValidator {
+	
+	/** The input file. */
 	private String inputFile;
+	
+	/** The world map. */
 	public Map<String, ArrayList<Country>> worldMap;
+	
+	/** The countries list. */
 	public static ArrayList<Country> countriesList = new ArrayList<Country>();
+	
+	/** The continents list. */
 	public static ArrayList<Continent> continentsList = new ArrayList<Continent>();
+	
+	/** The map graph. */
 	public static Graph<String, DefaultEdge> mapGraph = new SimpleGraph<>(DefaultEdge.class);
+	
+	/** The sub graphs list. */
 	public static ArrayList<Graph<List<Country>, DefaultEdge>> subGraphsList = new ArrayList<Graph<List<Country>, DefaultEdge>>();
 
 	/**
+	 * Instantiates a new map validator.
+	 *
 	 * @param inputFile input map file
 	 */
 	public MapValidator(String inputFile) {
@@ -50,8 +65,8 @@ public class MapValidator {
 	}
 
 	/**
-	 * This method creates the main graph of all countries
-	 * 
+	 * This method creates the main graph of all countries.
+	 *
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -106,8 +121,8 @@ public class MapValidator {
 	}
 
 	/**
-	 * This method handles the visualization of map graph
-	 * 
+	 * This method handles the visualization of map graph.
+	 *
 	 * @throws IOException file handling exception
 	 */
 	public void mapVisual() throws IOException {
@@ -124,6 +139,8 @@ public class MapValidator {
 	}
 
 	/**
+	 * Mapis connected.
+	 *
 	 * @return if input map is connected or not
 	 */
 	public boolean mapisConnected() {
@@ -139,8 +156,8 @@ public class MapValidator {
 	}
 
 	/**
-	 * This method handles if the input map file has any duplicate country or not
-	 * 
+	 * This method handles if the input map file has any duplicate country or not.
+	 *
 	 * @param defaultCountryList list of countries which are parsed in map input
 	 *                           file
 	 * @throws MapInvalidException invalid map exception
@@ -159,6 +176,8 @@ public class MapValidator {
 	}
 
 	/**
+	 * Creates the country sub graph.
+	 *
 	 * @param countryList list of all countries in input map file
 	 * @param mapGraph    main graph of input map file
 	 * @return continent subgraphs

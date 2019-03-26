@@ -5,7 +5,7 @@ package utilities;
 
 // TODO: Auto-generated Javadoc
 /**
- * This class is a container to stores info needed for army distribution in ReEnforcement phase
+ * This class is a container to stores info needed for army distribution in ReEnforcement phase.
  *
  * @author vanduong
  */
@@ -14,7 +14,7 @@ public class Tuple {
 	/** The country where armies are transferring from. */
 	private String fromCountry;
 	
-	/** The country where armies are transferring to*/
+	/**  The country where armies are transferring to. */
 	private String toCountry;
 	
 	/** The number of armies. */
@@ -35,7 +35,7 @@ public class Tuple {
 	}
 	
 	/**
-	 * Gets the country armies is transferring from
+	 * Gets the country armies is transferring from.
 	 *
 	 * @return the country
 	 */

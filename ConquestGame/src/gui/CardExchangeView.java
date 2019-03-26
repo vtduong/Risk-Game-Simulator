@@ -7,21 +7,39 @@ import java.util.Scanner;
 import beans.Player;
 import controller.GameController;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author yadavsurbhi
+ * The Class CardExchangeView.
  *
+ * @author yadavsurbhi
  */
 public class CardExchangeView {
+
+/** The controller. */
 public GameController controller;
+
+/** The player. */
 Player player;
+
+/** The is exchange possible. */
 boolean isExchangePossible= false;
+
+/** The scan. */
 Scanner scan= new Scanner(System.in);
 List<String> cardsToRemoveList;
 	
+	/**
+	 * Instantiates a new card exchange view.
+	 */
 	public CardExchangeView() {
 		controller = GameController.getInstance();
 	}
+	
+	/**
+	 * Gets the card progress.
+	 *
+	 * @return the card progress
+	 */
 	public void getCardProgress() {
 			player = controller.getCurrentPlayer();
 			System.out.println("***************CARDS INVENTORY VIEW***************");
@@ -33,6 +51,11 @@ List<String> cardsToRemoveList;
 			System.out.println("-".repeat(20));			
 		}	
 	
+	/**
+	 * Checks if is exchange cards possible.
+	 *
+	 * @return true, if is exchange cards possible
+	 */
 	public boolean isExchangeCardsPossible() {
 			player = controller.getCurrentPlayer();
 			cardsToRemoveList= new ArrayList<String>();

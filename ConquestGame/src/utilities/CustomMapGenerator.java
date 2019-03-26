@@ -16,6 +16,7 @@ import controller.GameController;
 import controller.MapController;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class is responsible for loading a map,creating a new map or editing an existing map.
  * This was modified as part of map refactoring to act as single point for map related user
@@ -29,7 +30,11 @@ public class CustomMapGenerator {
 	
 	/** The filepath. */
 	private final String FILEPATH = "src/resources/usermap.map";
+	
+	/** The continents. */
 	private Map<String, Integer> continents = null;
+	
+	/** The countries. */
 	private ArrayList<String> countries = null;
 	
 	/** The remove continents. */
@@ -47,7 +52,10 @@ public class CustomMapGenerator {
 	/** The country default. */
 	public List<Country> countryDefault =null;
 	
+	/** The continentmap. */
 	private Map<String, Continent> continentmap=null;
+	
+	/** The country map. */
 	private Map<String, Country> countryMap=null;
 	/** The adj country map. */
 	private Map<String,List<String>> adjCountryMap = null;
@@ -154,9 +162,10 @@ public class CustomMapGenerator {
 	}
 	
 	/**
-	 * This method is responsible for editing an existing map
-	 * @throws IOException
-	 * @throws MapInvalidException
+	 * This method is responsible for editing an existing map.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	public void editExistingMap() throws IOException, MapInvalidException {
 		ReplicateMap replicateMap = ReplicateMap.getInstance();
@@ -312,9 +321,10 @@ public class CustomMapGenerator {
 	}
 	
 	/**
-	 * Responsible for loading and existing map file or user-provided File
-	 * @throws IOException
-	 * @throws MapInvalidException
+	 * Responsible for loading and existing map file or user-provided File.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	public void LoadMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
@@ -336,7 +346,7 @@ public class CustomMapGenerator {
 	}
 	
 	/**
-	 * Load map with given map name
+	 * Load map with given map name.
 	 *
 	 * @param mapName the map name
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -352,7 +362,8 @@ public class CustomMapGenerator {
 	
 	
 	/**
-	 * Responsible for returning Continent based on input provided
+	 * Responsible for returning Continent based on input provided.
+	 *
 	 * @param name name of the continent to be returned
 	 * @return Continent record if it exist otherwise null
 	 */
@@ -366,7 +377,8 @@ public class CustomMapGenerator {
 	}
 	
 	/**
-	 * Responsible for returning Country based on input provided
+	 * Responsible for returning Country based on input provided.
+	 *
 	 * @param name name of the country to be returned
 	 * @return Country record if it exist otherwise null
 	 */

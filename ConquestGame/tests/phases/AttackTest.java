@@ -17,28 +17,61 @@ import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author vanduong
+ * The Class AttackTest.
  *
+ * @author vanduong
  */
 public class AttackTest {
+	
+	/** The controller. */
 	private GameController controller = null;
+	
+	/** The dicer. */
 	private static DiceRoller dicer = DiceRoller.getInstance(0);
+	
+	/** The vn. */
 	private Country vn = null;
+	
+	/** The indi. */
 	private Country indi = null;
+	
+	/** The usa. */
 	private Country usa = null;
+	
+	/** The germany. */
 	private Country germany = null;
+	
+	/** The asia. */
 	private Continent asia = null;
+	
+	/** The africa. */
 	private Continent africa = null;
+	
+	/** The europe. */
 	private Continent europe = null;
+	
+	/** The map. */
 	private CustomMapGenerator map = null;
 	
+	/** The gamer 1. */
 	Player gamer1 = null;
+	
+	/** The gamer 2. */
 	Player gamer2 = null;
+	
+	/** The gamer 3. */
 	Player gamer3 = null;
+	
+	/** The gamer 4. */
 	Player gamer4 = null;
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
@@ -80,10 +113,18 @@ public class AttackTest {
 		
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test invalid defender roll.
+	 */
 	@Test
 	public void testInvalidDefenderRoll() {
 		int[] result = null;
@@ -102,6 +143,9 @@ public class AttackTest {
 		}
 	}
 	
+	/**
+	 * Test invalid attacker roll.
+	 */
 	@Test
 	public void testInvalidAttackerRoll() {
 		int[] result = null;
@@ -120,6 +164,9 @@ public class AttackTest {
 		}
 	}
 	
+	/**
+	 * Test valid roll.
+	 */
 	@Test
 	public void testValidRoll() {
 		int[] result = null;
@@ -139,6 +186,9 @@ public class AttackTest {
 		}
 	}
 	
+	/**
+	 * Test go to battle.
+	 */
 	@Test
 	public void testGoToBattle() {
 		int[] attackerDice = {6, 3, 1};
@@ -165,6 +215,15 @@ public class AttackTest {
 		assertEquals(1, result3[1]);
 	}
 	
+	/**
+	 * Test invade.
+	 *
+	 * @throws IllegalAccessException the illegal access exception
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws InvocationTargetException the invocation target exception
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 */
 	@Test
 	public void testInvade() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		int[] attackerDice = {6, 3, 1};
@@ -188,6 +247,15 @@ public class AttackTest {
 		
 	}
 	
+	/**
+	 * Test capture country.
+	 *
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 * @throws IllegalAccessException the illegal access exception
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws InvocationTargetException the invocation target exception
+	 */
 	@Test
 	public void testCaptureCountry() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		int[] attackerDice = {6, 3, 1};
@@ -211,6 +279,9 @@ public class AttackTest {
 		assertEquals(0, gamer3.getPlayerCountries().size());
 	}
 	
+	/**
+	 * Test all out mode.
+	 */
 	@Test
 	public void testAllOutMode() {
 		int initialArmies = usa.getNumArmies();
@@ -223,25 +294,35 @@ public class AttackTest {
 		}
 	}
 	
-//	@Test
-//	public void testContinentInvasion() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-//		int[] attackerDice = {6, 3, 1};
-//		int[] defenderDice = {5};//defender loses 1 round, USA is about invade Germany
-//		int[] result = gamer2.goToBattle(attackerDice, defenderDice);
-//		
-//		//Using reflection API to call private methods
-//		Class reflectPhase = gamer2.getClass();
-//		Method reflectMethodCall = reflectPhase.getDeclaredMethod("invade",
-//				int[].class, Country.class, Country.class, int.class);
-//		
-//		reflectMethodCall.setAccessible(true);
-//		
-//		
-//		reflectMethodCall.invoke(gamer2, result, usa, germany, 3);
-//		
-//		assertEquals(2, gamer2.getPlayerContinents().size());
-//		assertTrue(gamer2.getPlayerContinents().contains(africa));
-//		assertTrue(gamer2.getPlayerContinents().contains(europe));
-//	}
+	/**
+	 * Test continent invasion.
+	 *
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 * @throws IllegalAccessException the illegal access exception
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws InvocationTargetException the invocation target exception
+	 */
+	@Test
+	public void testContinentInvasion() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		int[] attackerDice = {6, 3, 1};
+		int[] defenderDice = {5};//defender loses 1 round, USA is about invade Germany
+		int[] result = gamer2.goToBattle(attackerDice, defenderDice);
+		
+		assertEquals("Africa", gamer2.getPlayerContinents().get(0).getName() );
+		//Using reflection API to call private methods
+		Class reflectPhase = gamer2.getClass();
+		Method reflectMethodCall = reflectPhase.getDeclaredMethod("invade",
+				int[].class, Country.class, Country.class, int.class);
+		
+		reflectMethodCall.setAccessible(true);
+		
+		
+		reflectMethodCall.invoke(gamer2, result, usa, germany, 3);
+		
+		assertEquals(2, gamer2.getPlayerContinents().size());
+		assertTrue(gamer2.getPlayerContinents().contains(africa));
+		assertTrue(gamer2.getPlayerContinents().contains(europe));
+	}
 
 }

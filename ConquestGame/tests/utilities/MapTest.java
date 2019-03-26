@@ -20,15 +20,28 @@ import config.Config;
 import controller.MapController;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author apoorvasharma
+ * The Class MapTest.
  *
+ * @author apoorvasharma
  */
 public class MapTest {
 	
+	/** The cust map. */
 	private CustomMapGenerator custMap;
+	
+	/** The mapcntrl. */
 	private MapController mapcntrl;
+	
+	/** The continent map. */
 	private Map<String, Integer> continentMap;
+	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		custMap = CustomMapGenerator.getInstance();
@@ -36,10 +49,21 @@ public class MapTest {
 		continentMap = new HashMap<String,Integer>();
 	}
 	
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 	
+	/**
+	 * Load map test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
 	@Test
 	public void loadMapTest() throws IOException, MapInvalidException {
 		mapcntrl.init("LoadMap", Config.getProperty("testMap"));
@@ -48,6 +72,11 @@ public class MapTest {
 		assertTrue(countryDefault.size() > 0);
 	}
 	
+	/**
+	 * Adds the continent negative test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void addContinentNegativeTest() throws IOException{
 		try {
@@ -59,6 +88,11 @@ public class MapTest {
 		}
 	}
 	
+	/**
+	 * Adds the contry negative test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void addContryNegativeTest() throws IOException{
 		try {
@@ -72,6 +106,12 @@ public class MapTest {
 		}
 	}
 	
+	/**
+	 * Adds the contry continent positive.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
 	@Test
 	public void addContryContinentPositive() throws IOException, MapInvalidException{
 		mapcntrl.init("CreateMap", Config.getProperty("testMap"));
@@ -85,6 +125,11 @@ public class MapTest {
 		assertTrue(mapcntrl.countriesDefault.size()==2);
 	}
 	
+	/**
+	 * Adds the adj country negative test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void addAdjCountryNegativeTest() throws IOException{
 		try {
@@ -100,6 +145,11 @@ public class MapTest {
 		}
 	}
 	
+	/**
+	 * Removes the continent negative test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void removeContinentNegativeTest() throws IOException{
 		try {
@@ -114,6 +164,12 @@ public class MapTest {
 		}
 	}
 	
+	/**
+	 * Removes the continent positive test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
 	@Test
 	public void removeContinentPositiveTest() throws IOException, MapInvalidException{
 		
@@ -133,6 +189,11 @@ public class MapTest {
 	 }
 	
 	
+	/**
+	 * Removes the countryt negative test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Test
 	public void removeCountrytNegativeTest() throws IOException{
 		try {
@@ -146,6 +207,12 @@ public class MapTest {
 		}
 	}
 	
+	/**
+	 * Removes the country positive test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
 	@Test
 	public void removeCountryPositiveTest() throws IOException, MapInvalidException{
 			mapcntrl.init(Config.getProperty("editOperation"), Config.getProperty("testMap"));
@@ -161,6 +228,12 @@ public class MapTest {
 		
 	}
 	
+	/**
+	 * Removeadj country positive test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
 	@Test
 	public void removeadjCountryPositiveTest() throws IOException, MapInvalidException{
 			mapcntrl.init(Config.getProperty("editOperation"), Config.getProperty("testMap"));
@@ -178,6 +251,12 @@ public class MapTest {
 		
 	}
 	
+	/**
+	 * Removeadj country negative test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 */
 	@Test
 	public void removeadjCountryNegativeTest() throws IOException, MapInvalidException{
 			mapcntrl.init(Config.getProperty("editOperation"), Config.getProperty("testMap"));
@@ -195,6 +274,9 @@ public class MapTest {
 		
 	}
 	
+	/**
+	 * Testmap writter.
+	 */
 	@Test
 	public void testmapWritter(){
 		try {
@@ -204,6 +286,9 @@ public class MapTest {
 		}
 	}
 	
+	/**
+	 * Cust map generator test.
+	 */
 	@Test
 	public void custMapGeneratorTest(){
 		try {

@@ -1,0 +1,11 @@
+[Map]
+author=userdefiend map 
+[Continents]
+Asia=5
+Africa=3
+Europe=1
+[Territories]
+Vietnam,70,126,Asia,India,USA,
+India,148,127,Asia,Vietnam,USA,
+USA,147,163,Africa,Vietnam,India,Germany
+Germany,150,150,Europe,USA,

@@ -30,12 +30,26 @@ import java.lang.*;
  * @version 1.0.0
  */
 public class MapController {
+	
+	/** The map cntrl. */
 	private volatile static MapController mapCntrl;
+	
+	/** The countries default. */
 	public ArrayList<Country> countriesDefault;
+	
+	/** The continents default. */
 	public ArrayList<Continent> continentsDefault;
+	
+	/** The world map. */
 	private Map<String, ArrayList<Country>> worldMap;
+	
+	/** The continentmap. */
 	public Map<String, Continent> continentmap;
+	
+	/** The mpsr. */
 	utilities.MapParser mpsr;
+	
+	/** The countrymap. */
 	public HashMap<String, Country> countrymap;
 
 	/**
@@ -44,7 +58,8 @@ public class MapController {
 	private MapController() {}
 	
 	/**
-	 * Created a singleton object of MapController
+	 * Created a singleton object of MapController.
+	 *
 	 * @return instance of MapController
 	 */
 	public static MapController getInstance() {
@@ -60,10 +75,11 @@ public class MapController {
 	/**
 	 * This method is responsible for initialization of countriesDefault and continentsDefault
 	 * based on operation type.
+	 *
 	 * @param OperationType Determine if operation is create map,edit map or load a map file
 	 * @param inputFile path of the file to be validated for map
-	 * @throws IOException
-	 * @throws MapInvalidException
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	public void init(String OperationType,String inputFile) throws IOException, MapInvalidException {
 		if("LoadMap".equalsIgnoreCase(OperationType)) {
@@ -110,10 +126,6 @@ public class MapController {
 	 * Adds the continent.
 	 *
 	 * @param continentMap continent user wish to add in the input map file
-	 * @param bw           instance of Buffered Writer
-	 * @param isEdit       to decide if input file needs to be edited or newly
-	 *                     created
-	 * @param inputFile    input map file
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -137,11 +149,7 @@ public class MapController {
 	/**
 	 * Adds the country.
 	 *
-	 * @param countryArrayList list of
-	 * @param bw               instance of Buffered Writer
-	 * @param isEdit           to decide if input file needs to be edited or newly
-	 *                         created
-	 * @param inputFile        input map file
+	 * @param countryLst the country lst
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -181,7 +189,6 @@ public class MapController {
 	 * Adds the adj country.
 	 *
 	 * @param adjCountryMap list of adjacent countries of a particular country
-	 * @param inputFile     input map file
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -361,10 +368,11 @@ public class MapController {
 	}
 
 	/**
-	 * This method is responsible for writing into the map into the file
-	 * @param inputFile
+	 * This method is responsible for writing into the map into the file.
+	 *
+	 * @param inputFile the input file
 	 * @return false  in case of exception otherwise returns true
-	 * @throws MapInvalidException
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	public boolean mapWritter(
 			String inputFile) throws MapInvalidException {

@@ -2,6 +2,7 @@ package gui;
 import beans.Observable;
 import controller.GameController;
 
+// TODO: Auto-generated Javadoc
 /**
  * Implementation of a �phase view� using the Observer pattern. The phase view should display:
  * (1)The name of the game phase currently being played 
@@ -13,8 +14,11 @@ import controller.GameController;
  */
 public class PhaseView implements Observer {
 	
+	/** The phase view. */
 	private static PhaseView phaseView = null;
-	private GameController controller;
+	
+	/** The controller. */
+	private GameController controller = GameController.getInstance();
 	
 //	private PhaseView() {
 //		controller = GameController.getInstance();
@@ -27,7 +31,10 @@ public class PhaseView implements Observer {
 //		return phaseView;
 //	}
 
-	@Override
+	/* (non-Javadoc)
+ * @see gui.Observer#update(beans.Observable)
+ */
+@Override
 	public void update(Observable sub) {
 		System.out.println("Current state : " + controller.getCurrentPhase());
 		System.out.println("Current Player : " + controller.getCurrentPlayer().getPlayerName());

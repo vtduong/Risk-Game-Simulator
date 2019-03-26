@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class is used to configure the project. It is use to
  * remove the hardcoded paths in the java files.
@@ -12,9 +13,17 @@ import java.util.Properties;
  */
 public class Config {
 		
+	/** The Constant CONFIG. */
 	private final static String CONFIG = "src/config.properties";
 	
 	
+	/**
+	 * Gets the property.
+	 *
+	 * @param key the key
+	 * @return the property
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static String getProperty(String key) throws IOException {
 		String property = null;
 		
