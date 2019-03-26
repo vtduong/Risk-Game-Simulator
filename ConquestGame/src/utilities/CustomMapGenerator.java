@@ -152,6 +152,11 @@ public class CustomMapGenerator {
 		
 	}
 	
+	/**
+	 * This method is responsible for editing an existing map
+	 * @throws IOException
+	 * @throws MapInvalidException
+	 */
 	public void editExistingMap() throws IOException, MapInvalidException {
 		ReplicateMap replicateMap = ReplicateMap.getInstance();
 		replicateMap.cloneMap();
