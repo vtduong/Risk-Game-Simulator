@@ -310,6 +310,7 @@ public class AttackTest {
 		int[] result = gamer2.goToBattle(attackerDice, defenderDice);
 		
 		assertEquals("Africa", gamer2.getPlayerContinents().get(0).getName() );
+		assertEquals("Europe", gamer4.getPlayerContinents().get(0).getName());
 		//Using reflection API to call private methods
 		Class reflectPhase = gamer2.getClass();
 		Method reflectMethodCall = reflectPhase.getDeclaredMethod("invade",
@@ -323,6 +324,8 @@ public class AttackTest {
 		assertEquals(2, gamer2.getPlayerContinents().size());
 		assertTrue(gamer2.getPlayerContinents().contains(africa));
 		assertTrue(gamer2.getPlayerContinents().contains(europe));
+		assertEquals(0, gamer4.getPlayerCountries().size());
+		assertEquals(0, gamer4.getPlayerContinents().size());
 	}
 
 }
