@@ -18,7 +18,7 @@ public class PhaseView implements Observer {
 	private static PhaseView phaseView = null;
 	
 	/** The controller. */
-	private GameController controller;
+	private GameController controller = GameController.getInstance();
 	
 //	private PhaseView() {
 //		controller = GameController.getInstance();
