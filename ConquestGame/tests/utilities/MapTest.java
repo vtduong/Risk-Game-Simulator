@@ -207,11 +207,11 @@ public class MapTest {
 	@Test
 	public void custMapGeneratorTest(){
 		try {
-			custMap.LoadMap();
-			custMap.editExistingMap();
-			custMap.createCustomMap();
+			mapcntrl.init("LoadMap", Config.getProperty("testMap"));
+			custMap.getContinent("test");
+			custMap.getCountry("test");
 		} catch (Exception e) {
-			assertTrue(e.getMessage()!=null);
+			assertTrue(e!=null);
 		}
 	}
 }
