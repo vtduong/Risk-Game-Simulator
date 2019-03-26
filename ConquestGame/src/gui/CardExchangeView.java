@@ -24,6 +24,7 @@ List<String> cardsToRemoveList;
 	}
 	public void getCardProgress() {
 			player = controller.getCurrentPlayer();
+			System.out.println("***************CARDS INVENTORY VIEW***************");
 			String playerName = player.getPlayerName();
 			System.out.println("*".repeat(20));
 			System.out.println("PlayerName : " + playerName);

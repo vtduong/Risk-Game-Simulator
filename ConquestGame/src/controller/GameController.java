@@ -46,7 +46,7 @@ public class GameController {
 
 	private PhaseView phaseView = null;
 	Scanner scan = new Scanner(System.in);
-	private static CardExchangeView cardView = new CardExchangeView();
+	private static CardExchangeView cardView= new CardExchangeView();
 
 	/** The country list. */
 	private static List<Country> countryList = new ArrayList<Country>();
@@ -79,7 +79,6 @@ public class GameController {
 	/** The ui. */
 	private UI ui = null;
 	private CustomMapGenerator customMap = null;
-	int numberOfCountriesInvaded;
 	
 
 	/**
@@ -355,6 +354,7 @@ public class GameController {
 		currentPlayer.reEnforce();
 		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 		while (true) {
+			boolean	isAnyCountryInvaded =false;
 			try {
 				// ask user if wants to make an attack and check if user is able to attack (at
 				// least 2 armies in one country)
@@ -370,12 +370,9 @@ public class GameController {
 						}
 						currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 					} while (canAttack() && keepWar());
-					//numberOfCountriesInvaded= currentPlayer.getNumberOfCountriesInvaded();
-					numberOfCountriesInvaded = currentPlayer.winCountry();
-					System.out.println("Number of countries this player invaded in attack phase : "
-							+ (numberOfCountriesInvaded-1));
+				isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
 				}
-				if (numberOfCountriesInvaded >= 2) {
+				if (isAnyCountryInvaded == true) {
 					currentPlayer.addCards();
 				}
 				currentPlayer.fortify();
