@@ -368,10 +368,10 @@ public class GameController {
 		if (currentPlayer.getCardsAcquired().size() >= 3) {
 			System.out.println("Do you want to exchange your cards for army reinforcement ? Y/N");
 			char exchangeChoice = scan.next().charAt(0);
-			if (exchangeChoice == 'Y') {
+			if (exchangeChoice == 'Y' || exchangeChoice == 'y' ) {
 				currentPlayer.exchangeCards();
 			}
-			if (exchangeChoice == 'N') {
+			if (exchangeChoice == 'N' || exchangeChoice == 'n') {
 				if (currentPlayer.getCardsAcquired().size() >= 5) {
 					System.out.println("Since you have 5 or more cards, you have to exchange one set of your cards");
 					currentPlayer.exchangeCards();
