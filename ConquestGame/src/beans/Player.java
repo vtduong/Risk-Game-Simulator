@@ -75,7 +75,7 @@ public class Player implements Observable {
 	/** The observer list. */
 	private List<Observer> obList = null;
 	
-	/** The num armies dispatched. */
+	/** The num armies dispatched (number of armies that has been deployed to countries*/
 	private int numArmiesDispatched = 0;
 	
 	/** The controller. */
@@ -753,28 +753,13 @@ public class Player implements Observable {
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		//System.out.println("-----------Re-EnForcement Phase-----------");
-		obtainNewArmies();
+		int newArmies = obtainNewArmies();
 		this.notifyChanges(EventType.PHASE_NOTIFY);
-		Map<Country, Integer> list = controller.distributeArmies();
+		Map<Country, Integer> list = controller.distributeArmies(newArmies);
 		this.distributeArmies(list);
-		//distributeArmies();
 		
 	}
 
-	/**
-	 * distribute number of armies to countries occupied by current player.
-	 */
-	public void distributeArmies() {
-		Map<Country, Integer> list = controller.distributeArmies();
-		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
-			Country country = entry.getKey();
-			int numArmies = entry.getValue();
-			int totalArmiesToSet = numArmies + country.getNumArmies();
-			this.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
-			this.setNumArmiesDispatched(this.getNumArmiesDispatched() + numArmies);
-		}
-		
-	}
 	
 	/**
 	 * Obtain new armies.
