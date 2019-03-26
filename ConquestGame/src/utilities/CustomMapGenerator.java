@@ -15,10 +15,10 @@ import config.Config;
 import controller.MapController;
 import exception.MapInvalidException;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is responsible for loading a map,creating a new map or editing an existing map.
- * 
+ * This was modified as part of map refactoring to act as single point for map related user
+ * interaction.
  * 
  */
 public class CustomMapGenerator {
@@ -28,14 +28,9 @@ public class CustomMapGenerator {
 	
 	/** The filepath. */
 	private final String FILEPATH = "src/resources/usermap.map";
-	
-	/** The continents. */
 	private Map<String, Integer> continents = null;
-	
-	/** The countries. */
 	private ArrayList<String> countries = null;
 	
-
 	/** The remove continents. */
 	private ArrayList<String> removeContinents = null;
 	
@@ -105,7 +100,7 @@ public class CustomMapGenerator {
 	 */
 	public void createCustomMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
-		mapController.init("CreateMap", FILEPATH);
+		mapController.init("CreateMap", Config.getProperty("usermap"));
 		Map<String, Integer> continentMap = new HashMap<String, Integer>();
 		Scanner getMapInt = new Scanner(System.in); 
 		Scanner getMapStr = new Scanner(System.in);
@@ -145,7 +140,7 @@ public class CustomMapGenerator {
 			countryList.add(temp);
 		}
 		mapController.addCountry(countryList);
-		mapController.mapWritter(FILEPATH);
+		mapController.mapWritter(Config.getProperty("usermap"));
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
 		countryMap =mapController.countrymap;
