@@ -24,9 +24,6 @@ Player player;
 
 /** The is exchange possible. */
 boolean isExchangePossible= false;
-
-/** The scan. */
-Scanner scan= new Scanner(System.in);
 List<String> cardsToRemoveList;
 
 
