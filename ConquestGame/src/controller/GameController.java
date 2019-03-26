@@ -145,7 +145,7 @@ public class GameController {
 		controller.createUI();
 		controller.loadMap();
 		controller.createWorldDominationView();
-		controller.createPhaseView();
+	//	controller.createPhaseView();
 		controller.initGame();
 	}
 	
@@ -207,9 +207,9 @@ public class GameController {
 	/**
 	 * create and register a PhaseView interface as observer to player.
 	 */
-	public void createPhaseView() {
-		phaseView = PhaseView.getInstance();
-	}
+//	public void createPhaseView() {
+//		PhaseView phaseView = new PhaseView();
+//	}
 
 	/**
 	 * Gets the player list.
@@ -505,7 +505,7 @@ public class GameController {
 				
 				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
 				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
-				controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
+//				controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 				
 				
 				System.out.println("evenly distributing countries among players in random fashion...");
@@ -513,7 +513,7 @@ public class GameController {
 				System.out.println("-------- Setup --------");
 				controller.placeInitialArmies();
 				controller.placeArmiesForSetup();
-				controller.takeTurns();	
+				controller.takeTurns();
 	}
 	
 	

@@ -16,16 +16,16 @@ public class PhaseView implements Observer {
 	private static PhaseView phaseView = null;
 	private GameController controller;
 	
-	private PhaseView() {
-		controller = GameController.getInstance();
-	}
+//	private PhaseView() {
+//		controller = GameController.getInstance();
+//	}
 	
-	public static PhaseView getInstance() {
-		if ( phaseView == null) {
-			phaseView = new PhaseView();
-		}
-		return phaseView;
-	}
+//	public static PhaseView getInstance() {
+//		if ( phaseView == null) {
+//			phaseView = new PhaseView();
+//		}
+//		return phaseView;
+//	}
 
 	@Override
 	public void update(Observable sub) {
@@ -36,3 +36,4 @@ public class PhaseView implements Observer {
 	
 
 }
+	

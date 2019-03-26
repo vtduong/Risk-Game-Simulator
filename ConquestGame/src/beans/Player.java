@@ -385,6 +385,8 @@ public class Player implements Observable {
 	 */
 	public void attack() throws IllegalArgumentException{
 		controller.setCurrentPhase("Attack");
+		PhaseView phaseView = new PhaseView();
+		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		//System.out.println("-----------Attack Phase-----------");
 		//TODO refactor this method
@@ -683,6 +685,8 @@ public class Player implements Observable {
 	 */
 	public void reEnforce() {
 		controller.setCurrentPhase("Re-Enforcement");
+		PhaseView phaseView = new PhaseView();
+		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		//System.out.println("-----------Re-EnForcement Phase-----------");
 		obtainNewArmies();
@@ -745,6 +749,8 @@ public class Player implements Observable {
 	 */
 	public void fortify() throws IllegalArgumentException {
 		controller.setCurrentPhase("Fortification");
+		PhaseView phaseView = new PhaseView();
+		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		//System.out.println("--------------Fortification Phase------------");
 		//move armies from one (and only one) country to another neighboring country
