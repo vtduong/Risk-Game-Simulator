@@ -38,7 +38,14 @@ public class MapController {
 	utilities.MapParser mpsr;
 	public HashMap<String, Country> countrymap;
 
+	/**
+	 * Instantiates a new custom MapController.
+	 */
 	private MapController() {}
+	/**
+	 * Created a singleton object of MapController
+	 * @return instance of MapController
+	 */
 	public static MapController getInstance() {
 		if (mapCntrl == null) {
 			synchronized (MapController.class) {
@@ -49,6 +56,14 @@ public class MapController {
 		return mapCntrl;
 	}
 
+	/**
+	 * This method is responsible for initialization of countriesDefault and continentsDefault
+	 * based on operation type.
+	 * @param OperationType Determine if operation is create map,edit map or load a map file
+	 * @param inputFile path of the file to be validated for map
+	 * @throws IOException
+	 * @throws MapInvalidException
+	 */
 	public void init(String OperationType,String inputFile) throws IOException, MapInvalidException {
 		if("LoadMap".equalsIgnoreCase(OperationType)) {
 			validateMap(inputFile);
@@ -88,16 +103,6 @@ public class MapController {
 		continentsDefault = mpsr.continentsList;
 		worldMap = mpsr.worldMap;
 
-	}
-
-	/**
-	 * Sets the map details.
-	 *
-	 * @param bw instance of Buffered Writer
-	 * @throws IOException file handling exception
-	 */
-	private void setMapDetails(BufferedWriter bw) throws IOException {
-		bw.write("[Map]");
 	}
 
 	/**
@@ -354,18 +359,20 @@ public class MapController {
 
 	}
 
+	/**
+	 * This method is responsible for writing into the map into the file
+	 * @param inputFile
+	 * @return false  in case of exception otherwise returns true
+	 * @throws MapInvalidException
+	 */
 	public boolean mapWritter(
 			String inputFile) throws MapInvalidException {
 		MapFileWriter mfw = new MapFileWriter();
 		try {
-			System.out.println("continentsDefault"+continentsDefault.size());
-			System.out.println("countriesDefault"+countriesDefault.size());
-			System.out.println("inputFile"+inputFile);
 			mfw.writeFile(continentsDefault, countriesDefault, inputFile);
 			validateMap(inputFile);
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
