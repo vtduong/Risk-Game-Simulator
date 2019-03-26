@@ -23,4 +23,7 @@ public class EventType {
 	
 	/** The Constant PHASE_VIEW_NOTIFY. */
 	public static final int PHASE_VIEW_NOTIFY = 5;
+	
+	/** The Constant CARDS_EXCHANGE_NOTIFY. */
+	public static final int CARDS_EXCHANGE_NOTIFY = 6;
 }
