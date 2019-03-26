@@ -61,6 +61,8 @@ public class Player implements Observable {
 	private int numArmiesDispatched = 0;
 	
 	private static GameController controller = GameController.getInstance();
+	private static CustomMapGenerator map = CustomMapGenerator.getInstance();
+
 	private static CardExchangeView cardView= new CardExchangeView();
 	
 	
@@ -521,7 +523,6 @@ public class Player implements Observable {
 		
 		//check if attacker can occupy defender's territory (attackedCountry)
 		if(attackedCountry.getNumArmies() == 0) {
-			CustomMapGenerator map = CustomMapGenerator.getInstance();
 			this.addCountry(attackedCountry.getName(), attackedCountry);
 			//increment the counter of number of countries invaded
 			this.winCountry();
@@ -529,16 +530,16 @@ public class Player implements Observable {
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
 			
-//			//check if attacker has conquered a whole continent
-//			Continent continent = map.getContinent(attackedCountry.getContinent());
-//			if(this.hasConqueredContinent(continent)) {
-//				this.addContinent(continent.getName(), continent);
-//			}
-//			
-//			//check if defender just lost a continent
-//			if(defender.hasLostContinent(continent)) {
-//				this.removeContinent(continent.getName());
-//			}
+			//check if attacker has conquered a whole continent
+			Continent continent = map.getContinent(attackedCountry.getContinent());
+			if(this.hasConqueredContinent(continent)) {
+				this.addContinent(continent.getName(), continent);
+			}
+			
+			//check if defender just lost a continent
+			if(defender.hasLostContinent(continent)) {
+				this.removeContinent(continent.getName());
+			}
 		}
 		
 	}

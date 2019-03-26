@@ -12,6 +12,7 @@ import java.util.Scanner;
 import beans.Continent;
 import beans.Country;
 import config.Config;
+import controller.GameController;
 import controller.MapController;
 import exception.MapInvalidException;
 
@@ -81,6 +82,7 @@ public class CustomMapGenerator {
 		adjMap = new HashMap<String, List<String>>();
 		countryDefault = new ArrayList<Country>();
 		continentmap =new HashMap<String, Continent>();
+		countryMap = new HashMap<String, Country>();
 	}
 
 	
@@ -92,7 +94,11 @@ public class CustomMapGenerator {
 	 */
 	public static CustomMapGenerator getInstance() {
 		if(customMap == null) {
-			customMap = new CustomMapGenerator();
+			synchronized (CustomMapGenerator.class) {
+	            if(customMap == null){
+	                customMap = new CustomMapGenerator();
+	            }
+	        }
 		}
 		return customMap;
 	}
@@ -341,7 +347,7 @@ public class CustomMapGenerator {
 		mapController.init("LoadMap", Config.getProperty(mapName));
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
-		
+		countryMap = mapController.countrymap;
 	}
 	
 	

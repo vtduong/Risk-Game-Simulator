@@ -28,14 +28,16 @@ public class AttackTest {
 	private Country vn = null;
 	private Country indi = null;
 	private Country usa = null;
+	private Country germany = null;
 	private Continent asia = null;
 	private Continent africa = null;
-	
+	private Continent europe = null;
 	private CustomMapGenerator map = null;
 	
 	Player gamer1 = null;
 	Player gamer2 = null;
 	Player gamer3 = null;
+	Player gamer4 = null;
 
 	@Before
 	public void setUp() throws Exception {
@@ -43,12 +45,13 @@ public class AttackTest {
 		map = CustomMapGenerator.getInstance();
 		map.LoadMap("testAttack");
 		asia = map.getContinent("Asia");
-		//asia = new Continent("Asia", 5);
-		//africa = new Continent("Africa", 3);
 		africa = map.getContinent("Africa");
-		vn = new Country("Vietnam");
-		indi = new Country("India");
-		usa = new Country("USA");
+		europe = map.getContinent("Europe");
+		
+		vn = map.getCountry("Vietnam");
+		indi = map.getCountry("India");
+		usa = map.getCountry("USA");
+		germany = map.getCountry("Germany");
 		
 		gamer1 = new Player("gamer1");
 		gamer1.setArmies(4);
@@ -57,14 +60,21 @@ public class AttackTest {
 		gamer2 = new Player("gamer2");
 		gamer2.setArmies(4);
 		gamer2.addCountry(usa.getName(), usa);
+		gamer2.addContinent(africa.getName(), africa);
 		
 		gamer3 = new Player("gamer3");
 		gamer3.setArmies(1);
 		gamer3.addCountry(indi.getName(), indi);
 		
+		gamer4 = new Player("gamer4");
+		gamer4.setArmies(1);
+		gamer4.addCountry(germany.getName(), germany);
+		gamer4.addContinent(europe.getName(), europe);
+		
 		vn.setNumArmies(gamer1.getArmies());
 		indi.setNumArmies(gamer3.getArmies());
 		usa.setNumArmies(gamer2.getArmies());
+		germany.setNumArmies(gamer4.getArmies());
 
 
 		
@@ -212,5 +222,26 @@ public class AttackTest {
 			assertTrue(indi.getNumArmies() > 0);
 		}
 	}
+	
+//	@Test
+//	public void testContinentInvasion() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+//		int[] attackerDice = {6, 3, 1};
+//		int[] defenderDice = {5};//defender loses 1 round, USA is about invade Germany
+//		int[] result = gamer2.goToBattle(attackerDice, defenderDice);
+//		
+//		//Using reflection API to call private methods
+//		Class reflectPhase = gamer2.getClass();
+//		Method reflectMethodCall = reflectPhase.getDeclaredMethod("invade",
+//				int[].class, Country.class, Country.class, int.class);
+//		
+//		reflectMethodCall.setAccessible(true);
+//		
+//		
+//		reflectMethodCall.invoke(gamer2, result, usa, germany, 3);
+//		
+//		assertEquals(2, gamer2.getPlayerContinents().size());
+//		assertTrue(gamer2.getPlayerContinents().contains(africa));
+//		assertTrue(gamer2.getPlayerContinents().contains(europe));
+//	}
 
 }
