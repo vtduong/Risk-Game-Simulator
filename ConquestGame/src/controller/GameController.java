@@ -554,12 +554,12 @@ public class GameController {
 	/**
 	 * Asks GUI to ask user to input number of armies to be distributed to each
 	 * occupied countries.
+	 * @param newArmies 
 	 *
 	 * @return the map
 	 */
-	public Map<Country, Integer> distributeArmies() {
-		int numArmiesToDispatch = currentPlayer.getArmies() - currentPlayer.getNumArmiesDispatched();
-		return ui.distributeArmies(currentPlayer.getPlayerCountries(), numArmiesToDispatch);
+	public Map<Country, Integer> distributeArmies(int newArmies) {
+		return ui.distributeArmies(currentPlayer.getPlayerCountries(), newArmies);
 	}
 
 //	/**
