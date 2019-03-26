@@ -36,6 +36,7 @@ public class MapController {
 	private Map<String, ArrayList<Country>> worldMap;
 	public Map<String, Continent> continentmap;
 	utilities.MapParser mpsr;
+	public HashMap<String, Country> countrymap;
 
 	private MapController() {}
 	public static MapController getInstance() {
@@ -61,6 +62,13 @@ public class MapController {
 			continentmap = new HashMap <String, Continent>();
 			for(Continent crec :continentsDefault) {
 				continentmap.put(crec.getName(),crec);
+			}
+		}
+		
+		if(!countriesDefault.isEmpty()) {
+			countrymap = new HashMap <String, Country>();
+			for(Country crec :countriesDefault) {
+				countrymap.put(crec.getName(), crec);
 			}
 		}
 		

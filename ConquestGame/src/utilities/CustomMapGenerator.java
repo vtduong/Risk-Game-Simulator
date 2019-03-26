@@ -52,6 +52,7 @@ public class CustomMapGenerator {
 	public List<Country> countryDefault =null;
 	
 	private Map<String, Continent> continentmap=null;
+	private Map<String, Country> countryMap=null;
 	/** The adj country map. */
 	private Map<String,List<String>> adjCountryMap = null;
 	
@@ -147,6 +148,7 @@ public class CustomMapGenerator {
 		mapController.mapWritter(FILEPATH);
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
+		countryMap =mapController.countrymap;
 		
 	}
 	
@@ -297,24 +299,59 @@ public class CustomMapGenerator {
 		boolean flag = mapController.mapWritter(EDITEDMAP);
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
+		countryMap =mapController.countrymap;
 		if(flag) {
 			System.out.println("Map is successfully editied and validated.");
 		}
 	}
 	
+	/**
+	 * Responsible for loading and existing map file or user-provided File
+	 * @throws IOException
+	 * @throws MapInvalidException
+	 */
 	public void LoadMap() throws IOException, MapInvalidException {
 		mapController = MapController.getInstance();
-		mapController.init("LoadMap", Config.getProperty("worldmap"));
+		System.out.println("Do you want to use Existing File?(Y/N)");
+		Scanner input = new Scanner(System.in);
+		String option =input.nextLine();
+		String filePath;
+		if(option.equalsIgnoreCase("N")) {
+			System.out.println("Enter the file path");
+			filePath = input.nextLine();
+		}else {
+			filePath =Config.getProperty("worldmap");
+		}
+		mapController.init("LoadMap",filePath);
 		countryDefault =mapController.countriesDefault;
 		continentmap =mapController.continentmap;
+		countryMap =mapController.countrymap;
 		
 	}
 	
 	
+	/**
+	 * Responsible for returning Continent based on input provided
+	 * @param name name of the continent to be returned
+	 * @return Continent record if it exist otherwise null
+	 */
 	public Continent getContinent(String name) {
-		System.out.print(continentmap.size());
 		if(continentmap.get(name)!=null) {
 			return continentmap.get(name);
+		}
+		else { 
+			return null;
+		}
+	}
+	
+	/**
+	 * Responsible for returning Country based on input provided
+	 * @param name name of the country to be returned
+	 * @return Country record if it exist otherwise null
+	 */
+	public Country getCountry(String name) {
+		if(countryMap.get(name)!=null) {
+			return countryMap.get(name);
 		}
 		else { 
 			return null;
