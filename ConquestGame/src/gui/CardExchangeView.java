@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import beans.Observable;
 import beans.Player;
 import controller.GameController;
 
@@ -13,7 +14,7 @@ import controller.GameController;
  *
  * @author yadavsurbhi
  */
-public class CardExchangeView {
+public class CardExchangeView implements Observer {
 
 /** The controller. */
 public GameController controller;
@@ -81,5 +82,10 @@ List<String> cardsToRemoveList;
 				}
 			}
 		return isExchangePossible;
+	}
+
+	@Override
+	public void update(Observable sub) {
+		getCardProgress();	
 	}
 }
