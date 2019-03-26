@@ -43,8 +43,13 @@ public class GameController {
 	/** The World Domination View. */
 	private WorldDominationView wdView = null;
 	
+	/** The phase view. */
 	private PhaseView phaseView = null;
+	
+	/** The scan. */
 	Scanner scan= new Scanner(System.in);
+	
+	/** The card view. */
 	private static CardExchangeView cardView= new CardExchangeView();
 	
 	
@@ -56,6 +61,7 @@ public class GameController {
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
 	
+	/** The continent list by name. */
 	private HashMap<String, Continent> continentListByName = null;
 
 
@@ -83,13 +89,18 @@ public class GameController {
 	
 	/** The ui. */
 	private UI ui = null;
+	
+	/** The custom map. */
 	private CustomMapGenerator customMap=null;
 	
+	/** The continent list. */
 	private List<Continent> continentList = null;
 	
 	
 	
 	/**
+	 * Gets the current phase.
+	 *
 	 * @return String, the current phase of the game.
 	 */
 	public String getCurrentPhase() {
@@ -97,6 +108,8 @@ public class GameController {
 	}
 
 	/**
+	 * Sets the current phase.
+	 *
 	 * @param currentPhase The current phase name
 	 */
 	public void setCurrentPhase(String currentPhase) {
@@ -150,7 +163,10 @@ public class GameController {
 	}
 	
 	/**
-	 * Register given observer with all player
+	 * Register given observer with all player.
+	 *
+	 * @param ob the ob
+	 * @param event the event
 	 */
 	public void registerObserver(Observer ob, int event) {
 		
@@ -176,7 +192,7 @@ public class GameController {
 	}
 	
 	/**
-	 * each player takes turn to place their armies on their territories
+	 * each player takes turn to place their armies on their territories.
 	 */
 	private void placeArmiesForSetup() {
 		//each player take turns to place their armies
@@ -206,6 +222,8 @@ public class GameController {
 	
 	/**
 	 * create and register a PhaseView interface as observer to player.
+	 *
+	 * @return the player list
 	 */
 //	public void createPhaseView() {
 //		PhaseView phaseView = new PhaseView();
@@ -329,9 +347,10 @@ public class GameController {
 //	}
 	
 	/**
-	 * Take turns.
-	 * @throws MapInvalidException 
-	 */
+ * Take turns.
+ *
+ * @throws MapInvalidException the map invalid exception
+ */
 	public void takeTurns() throws MapInvalidException {
 		int i = 0;
 		while (winner == null) {
@@ -346,7 +365,8 @@ public class GameController {
     
 	/**
 	 * Take phases.
-	 * @throws MapInvalidException 
+	 *
+	 * @throws MapInvalidException the map invalid exception
 	 */
 	public void takePhases() throws MapInvalidException {
 //		currentPhase = new ReEnforcement();
@@ -402,7 +422,7 @@ public class GameController {
 
 	
 	/**
-	 * checks if player can attack by having at least 2 armies in one of player's countries and such country is adjacent to another player's countries
+	 * checks if player can attack by having at least 2 armies in one of player's countries and such country is adjacent to another player's countries.
 	 *
 	 * @return true, player can attack
 	 */
@@ -465,9 +485,9 @@ public class GameController {
 	}
 	
 	/**
-	 * @throws MapInvalidException 
 	 * Inits the game.
-	 * @throws  
+	 *
+	 * @throws MapInvalidException Inits the game.
 	 */
 	public void initGame() throws MapInvalidException {
 		//Getting Player Info
@@ -676,7 +696,7 @@ public class GameController {
 	}
 
 	/**
-	 * Shows dialog to user
+	 * Shows dialog to user.
 	 *
 	 * @param message the message
 	 */
@@ -691,15 +711,6 @@ public class GameController {
 	 */
 	public boolean isAllOutMode() {
 		return ui.isAllOutMode();
-	}
-
-	/**
-	 * @param continent
-	 * @return
-	 */
-	public Continent getContinentByName(String continent) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 

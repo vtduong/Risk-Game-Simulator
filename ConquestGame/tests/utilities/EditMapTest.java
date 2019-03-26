@@ -20,17 +20,41 @@ import org.junit.Test;
 
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EditMapTest.
+ */
 public class EditMapTest {
 
+	/** The edit map. */
 	EditMap editMap;
+	
+	/** The adj country map. */
 	HashMap adjCountryMap;
+	
+	/** The remove continents. */
 	ArrayList removeContinents;
+	
+	/** The remove adjacent countries. */
 	ArrayList removeAdjacentCountries;
+	
+	/** The remove countries. */
 	ArrayList removeCountries;
+	
+	/** The continents. */
 	HashMap continents;
+	
+	/** The countries. */
 	ArrayList countries;
+	
+	/** The adj map. */
 	HashMap adjMap;
 	
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 
@@ -43,10 +67,23 @@ public class EditMapTest {
 		adjMap = new HashMap<String,List<String>>();
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Adds the continent test.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 */
 	@Test
 	public void addContinentTest() throws IOException, MapInvalidException, NoSuchMethodException, SecurityException {
 		Class reflectEditMap = editMap.getClass();

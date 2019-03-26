@@ -29,6 +29,11 @@ public class DiceRoller {
 		rand = new Random();
 	}
 	
+	/**
+	 * Instantiates a new dice roller.
+	 *
+	 * @param seed the seed
+	 */
 	private DiceRoller(int seed) {
 		rand = new Random(seed);
 	}
@@ -49,7 +54,9 @@ public class DiceRoller {
 	
 	/**
 	 * Gets the single instance of DiceRoller given a seed for consistent results of roll()
-	 * For Testing Purposes only
+	 * For Testing Purposes only.
+	 *
+	 * @param seed the seed
 	 * @return new instance of the DiceRoller if it not already exist, otherwise
 	 *         return the existing instance of DiceRoller
 	 */

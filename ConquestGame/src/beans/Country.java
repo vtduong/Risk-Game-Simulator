@@ -81,7 +81,7 @@ public class Country {
 	}
 
 	/**
-	 * Sets the number armies occupied in this country
+	 * Sets the number armies occupied in this country.
 	 *
 	 * @param numArmies the numArmies to set
 	 */

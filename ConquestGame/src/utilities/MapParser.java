@@ -10,34 +10,48 @@ import beans.Continent;
 import beans.Country;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class is used to handle the parsing of map files
- * 
+ * This class is used to handle the parsing of map files.
+ *
  * @author apoorvasharma
  * @version 1.0.0
  */
 
 public class MapParser {
 
+	/** The input file. */
 	private String inputFile;
+	
+	/** The sc. */
 	private Scanner sc;
 
 	/**
+	 * Instantiates a new map parser.
+	 *
 	 * @param inputFile input map file
 	 */
 	public MapParser(String inputFile) {
 		this.inputFile = inputFile;
 	}
 
+	/** The build map file. */
 	private String buildMapFile;
+	
+	/** The countries list. */
 	public ArrayList<Country> countriesList = new ArrayList<Country>();
+	
+	/** The continents list. */
 	public ArrayList<Continent> continentsList = new ArrayList<Continent>();
+	
+	/** The world map. */
 	public static Map<String, ArrayList<Country>> worldMap = new HashMap<String, ArrayList<Country>>();
 
 	/**
-	 * This method reads the input file for parsing
-	 * @throws MapInvalidException 
-	 * @throws FileNotFoundException 
+	 * This method reads the input file for parsing.
+	 *
+	 * @throws MapInvalidException the map invalid exception
+	 * @throws FileNotFoundException the file not found exception
 	 */
 	public void readFile() throws MapInvalidException, FileNotFoundException {
 		try {
@@ -62,8 +76,8 @@ public class MapParser {
 	}
 
 	/**
-	 * This method parse all the continents and store them in List
-	 * 
+	 * This method parse all the continents and store them in List.
+	 *
 	 * @param continents String that contains all the continent information
 	 * @return list of continents
 	 * @throws MapInvalidException invalid map exception
@@ -90,9 +104,9 @@ public class MapParser {
 	}
 
 	/**
-	 * This method parse all the countries in input map and store them in list
-	 * 
-	 * @param country String that contains all the country information
+	 * This method parse all the countries in input map and store them in list.
+	 *
+	 * @param countries the countries
 	 * @return list of all the countries
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -125,8 +139,8 @@ public class MapParser {
 	}
 
 	/**
-	 * This method gets all the countries records
-	 * 
+	 * This method gets all the countries records.
+	 *
 	 * @param name        name of country to get
 	 * @param countryList list of all countries
 	 * @return country record
@@ -144,8 +158,8 @@ public class MapParser {
 
 	/**
 	 * This method parse the adjacent countries in input map file and store them in
-	 * a list
-	 * 
+	 * a list.
+	 *
 	 * @param country     country whose adjacent country needs to be parsed
 	 * @param countryList list of all adjacent countries
 	 */

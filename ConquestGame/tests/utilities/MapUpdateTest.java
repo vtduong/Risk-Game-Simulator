@@ -23,26 +23,42 @@ import beans.Country;
 import controller.MapController;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class test the updates made in the existing map file
- * 
- * @author yadavsurbhi
+ * This class test the updates made in the existing map file.
  *
+ * @author yadavsurbhi
  */
 
 public class MapUpdateTest {
+	
+	/** The map controller. */
 	private MapController mapController;
+	
+	/** The edit map. */
 	EditMap editMap;
+	
+	/** The add continents. */
 	Map<String, Integer> addContinents;
+	
+	/** The add countries. */
 	Object[] addCountries;
+	
+	/** The adj countries. */
 	Map<String, List<String>> adjCountries;
+	
+	/** The remove continents. */
 	ArrayList<String> removeContinents;
+	
+	/** The remove countries. */
 	ArrayList<String> removeCountries;
+	
+	/** The expected file. */
 	String expectedFile = "src/resources/testingworld.map";
 
 	/**
-	 * This method allocates resources before running test cases
-	 * 
+	 * This method allocates resources before running test cases.
+	 *
 	 * @throws Exception invalid input exception
 	 */
 	@Before
@@ -73,8 +89,8 @@ public class MapUpdateTest {
 	}
 
 	/**
-	 * This method deallocates the resources after running test cases
-	 * 
+	 * This method deallocates the resources after running test cases.
+	 *
 	 * @throws Exception invalid input exception
 	 */
 	@After
@@ -82,8 +98,8 @@ public class MapUpdateTest {
 	}
 
 	/**
-	 * This method test if continents are added in input map
-	 * 
+	 * This method test if continents are added in input map.
+	 *
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -99,8 +115,8 @@ public class MapUpdateTest {
 	}
 
 	/**
-	 * This method test if adjacent countries are added in input map
-	 * 
+	 * This method test if adjacent countries are added in input map.
+	 *
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -116,8 +132,8 @@ public class MapUpdateTest {
 	}
 
 	/**
-	 * This method test if continents are removed in input map
-	 * 
+	 * This method test if continents are removed in input map.
+	 *
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */
@@ -130,8 +146,8 @@ public class MapUpdateTest {
 	}
 
 	/**
-	 * This method test if countries are removed in input map
-	 * 
+	 * This method test if countries are removed in input map.
+	 *
 	 * @throws IOException         file handling exception
 	 * @throws MapInvalidException invalid map exception
 	 */

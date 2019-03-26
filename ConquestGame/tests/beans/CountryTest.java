@@ -9,27 +9,68 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CountryTest.
+ */
 public class CountryTest {
+	
+	/** The gamer 2. */
 	private Player player, gamer1, gamer2;
 	
+	/** The vn. */
 	private Country vn;
+	
+	/** The indi. */
 	private Country indi;
+	
+	/** The usa. */
 	private Country usa;
+	
+	/** The can. */
 	private Country can;
+	
+	/** The mex. */
 	private Country mex;
+	
+	/** The eng. */
 	private Country eng;
+	
+	/** The ger. */
 	private Country ger;
+	
+	/** The france. */
 	private Country france;
+	
+	/** The rus. */
 	private Country rus;
+	
+	/** The china. */
 	private Country china;
+	
+	/** The congo. */
 	private Country congo;
+	
+	/** The ugan. */
 	private Country ugan;
 	
+	/** The america. */
 	private Continent america;
+	
+	/** The europe. */
 	private Continent europe;
+	
+	/** The asia. */
 	private Continent asia;
+	
+	/** The africa. */
 	private Continent africa;
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		player = new Player("PlayerOne");
@@ -55,10 +96,18 @@ public class CountryTest {
 		africa = new Continent("Africa", 1);
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test.
+	 */
 	@Test
 	public void test() {
 		eng.setOwner(player);
@@ -77,6 +126,9 @@ public class CountryTest {
 	
 	}
 	
+	/**
+	 * Test place initial armies.
+	 */
 	@Test
 	public void testPlaceInitialArmies() {
 		

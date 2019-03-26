@@ -16,18 +16,34 @@ import beans.Country;
 import beans.Player;
 import controller.GameController;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FortificationTest.
+ */
 public class FortificationTest {
 	
+	/** The controller. */
 	private GameController controller = null;
+	
+	/** The vn. */
 	private Country vn = null;
+	
+	/** The indi. */
 	private Country indi = null;
+	
+	/** The usa. */
 	private Country usa = null;
 	
+	/** The asia. */
 	Continent asia = null;
+	
+	/** The gamer 1. */
 	Player gamer1 = null;
 	
 	/**
-	 * @throws java.lang.Exception
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -45,13 +61,24 @@ public class FortificationTest {
 	
 	
 	/**
-	 * @throws java.lang.Exception
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
 	 */
 	@After
 	public void tearDown() throws Exception {	
 		gamer1 = null;
 	}
 	
+	/**
+	 * Test move armies.
+	 *
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 * @throws IllegalAccessException the illegal access exception
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws InvocationTargetException the invocation target exception
+	 */
 	@Test
 	public void testMoveArmies() throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		//Player gamer1 = controller.getPlayer(0);
@@ -90,6 +117,12 @@ public class FortificationTest {
 		assertEquals(3, indi.getNumArmies());
 	}
 	
+	/**
+	 * Test invalid move.
+	 *
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 */
 	@Test
 	public void testInvalidMove() throws NoSuchMethodException, SecurityException {
 		//Player gamer1 = controller.getPlayer(0);
@@ -136,6 +169,12 @@ public class FortificationTest {
 		}
 	}
 	
+	/**
+	 * Test invalid countries.
+	 *
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 */
 	@Test
 	public void testInvalidCountries() throws NoSuchMethodException, SecurityException {
 		//Player gamer1 = controller.getPlayer(0);

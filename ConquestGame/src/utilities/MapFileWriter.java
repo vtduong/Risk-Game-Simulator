@@ -8,14 +8,17 @@ import java.util.ArrayList;
 import beans.Continent;
 import beans.Country;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class writes into the existing input map and update it accordingly
- * 
+ * This class writes into the existing input map and update it accordingly.
+ *
  * @author apoorvasharma version 1.0.0
  */
 public class MapFileWriter {
 
 	/**
+	 * Write file.
+	 *
 	 * @param continentsDefault list of continents already present after parsing
 	 *                          input map file
 	 * @param countriesDefault  list of countries already present after parsing

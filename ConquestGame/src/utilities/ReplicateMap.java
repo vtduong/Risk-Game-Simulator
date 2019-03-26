@@ -3,17 +3,29 @@ package utilities;
 import java.io.*;
 import java.util.*;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class is used to clone the original map so that the original map
- *  is not affected by the changes made by user
- * @author ankit
+ *  is not affected by the changes made by user.
  *
+ * @author ankit
  */
 public class ReplicateMap {
+	
+	/** The inputfile. */
 	private final String INPUTFILE = "src/resources/World.map";
+	
+	/** The outputfile. */
 	private final String OUTPUTFILE = "src/resources/usermap.map";
+	
+	/** The replicate map. */
 	private static ReplicateMap replicateMap = null;
 	
+	/**
+	 * Gets the single instance of ReplicateMap.
+	 *
+	 * @return single instance of ReplicateMap
+	 */
 	public static ReplicateMap getInstance() {
 		if ( replicateMap == null) {
 			replicateMap = new ReplicateMap();
@@ -22,8 +34,9 @@ public class ReplicateMap {
 	}
 	
 	/**
-	 * Clones the existing map so the original map is not changed by the user
-	 * @throws IOException
+	 * Clones the existing map so the original map is not changed by the user.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void cloneMap() throws IOException {
 		

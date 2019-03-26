@@ -14,9 +14,9 @@ import beans.Observable;
 public interface Observer {
 	
 	/**
-	 * Gets Updates from the subscribing subject
+	 * Gets Updates from the subscribing subject.
 	 *
-	 * @param sub the subject 
+	 * @param sub the subject
 	 */
 	public void update(Observable sub);
 

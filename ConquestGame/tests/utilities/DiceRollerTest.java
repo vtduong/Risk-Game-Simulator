@@ -5,20 +5,34 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DiceRollerTest.
+ */
 public class DiceRollerTest {
 	
+	/** The dice. */
 	private DiceRoller dice;
 	
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		dice = DiceRoller.getInstance();
 	}
 	
+	/**
+	 * Tear down.
+	 */
 	@After
 	public void tearDown() {
 		
 	}
 	
+	/**
+	 * Dice test.
+	 */
 	@Test
 	public void diceTest() {
 		int dices = 3;

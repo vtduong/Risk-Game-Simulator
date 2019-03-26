@@ -25,11 +25,22 @@ import utilities.DiceRoller;
 public class Player implements Observable {
 	
 
+	/** The observer list. */
 	Map<Integer, Observer> observerList;
+	
+	/** The invade count. */
 	int invadeCount =0;
+	
+	/** The trade count. */
 	int tradeCount =0;
+	
+	/** The card type. */
 	String cardType;
+	
+	/** The card to remove. */
 	List<String> cardToRemove;
+	
+	/** The scan. */
 	Scanner scan= new Scanner(System.in);
 	
 
@@ -51,18 +62,28 @@ public class Player implements Observable {
 	/** The cards. */
 	private CardType cards;
 	
+	/** The random. */
 	private Random random;
+	
+	/** The cards acquired. */
 	private List<String> cardsAcquired= new ArrayList<String>();
+	
+	/** The ui instance. */
 	private UI uiInstance;
 	
 	/** The observer list. */
 	private List<Observer> obList = null;
 	
+	/** The num armies dispatched. */
 	private int numArmiesDispatched = 0;
 	
+	/** The controller. */
 	private static GameController controller = GameController.getInstance();
+	
+	/** The map. */
 	private static CustomMapGenerator map = CustomMapGenerator.getInstance();
 
+	/** The card view. */
 	private static CardExchangeView cardView= new CardExchangeView();
 	
 	
@@ -74,6 +95,8 @@ public class Player implements Observable {
 	
 	
 	/**
+	 * Gets the num armies dispatched.
+	 *
 	 * @return the number of armies has been dispatched to occupied countries
 	 */
 	public int getNumArmiesDispatched() {
@@ -82,7 +105,9 @@ public class Player implements Observable {
 
 
 
-	/**set number of armies dispatched to occupied countries
+	/**
+	 * set number of armies dispatched to occupied countries.
+	 *
 	 * @param numArmiesDispatched the numArmiesDispatched to set
 	 */
 	public void setNumArmiesDispatched(int numArmiesDispatched) {
@@ -100,9 +125,20 @@ public class Player implements Observable {
 		return cardsAcquired;
 	}
 	
+	/**
+	 * Gets the trade count.
+	 *
+	 * @return the trade count
+	 */
 	public int getTradeCount() {
 		return tradeCount;
 	}
+	
+	/**
+	 * Gets the cards.
+	 *
+	 * @return the cards
+	 */
 	public CardType getCards() {
 		return cards;
 	}
@@ -214,6 +250,12 @@ public class Player implements Observable {
 		if(this.armies >= armies)
 			this.armies = this.armies - armies;
 	}
+	
+	/**
+	 * Adds the cards.
+	 *
+	 * @return the list
+	 */
 	public List<String> addCards() {
 		random= new Random();
 		List<String> cardType = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");
@@ -383,7 +425,9 @@ public class Player implements Observable {
 	
 	
 	/**
-	 * Attack phase
+	 * Attack phase.
+	 *
+	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	public void attack() throws IllegalArgumentException{
 		controller.setCurrentPhase("Attack");
@@ -478,7 +522,7 @@ public class Player implements Observable {
 
 
 	/**
-	 * attacks in all-out mode
+	 * attacks in all-out mode.
 	 *
 	 * @param attackingCountry the attacking country
 	 * @param attackedCountry the attacked country
@@ -501,13 +545,12 @@ public class Player implements Observable {
 
 
 	/**
-	 * Deduct armies on both sides based on dice results and attacker occupies defender's country if possible
+	 * Deduct armies on both sides based on dice results and attacker occupies defender's country if possible.
 	 *
 	 * @param result the dice result
 	 * @param attackingCountry the attacking country
 	 * @param attackedCountry the attacked country
-	 * @param defenderSelectNumDice 
-	 * @param attackerSelectNumDice 
+	 * @param attackerSelectNumDice the attacker select num dice
 	 */
 	private void invade(int[] result, Country attackingCountry, Country attackedCountry, int attackerSelectNumDice) {
 		Player defender = attackedCountry.getOwner();
@@ -544,13 +587,19 @@ public class Player implements Observable {
 		
 	}
 
+	/**
+	 * Win country.
+	 *
+	 * @return the int
+	 */
 	public int winCountry(){
 		invadeCount++;
 		return invadeCount;
 	}
 
 	/**
-	 * checks if a player has lost control of a continent
+	 * checks if a player has lost control of a continent.
+	 *
 	 * @param continent The continent to be checked
 	 * @return true if lost control
 	 */
@@ -565,9 +614,10 @@ public class Player implements Observable {
 
 
 	/**
-	 * Checks if the given continent is conquered by player
-	 * @param continent The continent to check 
-	 * @return
+	 * Checks if the given continent is conquered by player.
+	 *
+	 * @param continent The continent to check
+	 * @return true, if successful
 	 */
 	public boolean hasConqueredContinent(Continent continent) {
 		List<Country> countryList = continent.getCountries();
@@ -585,7 +635,8 @@ public class Player implements Observable {
 
 	/**
 	 * compares 2 results of dices to decide who wins the battle
-	 *returns the result in an array of 2 elements: [0] contains number of attacker's lost armies, [1] contains that of defender
+	 * returns the result in an array of 2 elements: [0] contains number of attacker's lost armies, [1] contains that of defender.
+	 *
 	 * @param attackerDice the attacker dice
 	 * @param defenderDice the defender dice
 	 * @return the number indicating the winner
@@ -616,6 +667,7 @@ public class Player implements Observable {
 	 * get dice result for the attacker's country.
 	 *
 	 * @param attackingCountry the attacking country
+	 * @param numDice the num dice
 	 * @return the result
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
@@ -637,6 +689,7 @@ public class Player implements Observable {
 	 * get dice result for defender's country
 	 *
 	 * @param defendingCountry the defending country
+	 * @param numDice the num dice
 	 * @return the result
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
@@ -654,6 +707,11 @@ public class Player implements Observable {
 		return dicer.roll(numDice);
 	}
 
+	/**
+	 * Exchange cards.
+	 *
+	 * @return the int
+	 */
 	public int exchangeCards() {
 		if(cardView.isExchangeCardsPossible()== true) {
 			cardToRemove= new ArrayList<String>();
@@ -674,6 +732,11 @@ public class Player implements Observable {
 		return tradeCount;
 	}
 
+	/**
+	 * Removes the cards.
+	 *
+	 * @param cardsRemove the cards remove
+	 */
 	public void removeCards(List<String> cardsRemove) {
 		getCardsAcquired().removeAll(cardsRemove);
 	
@@ -744,7 +807,7 @@ public class Player implements Observable {
 	
 	
 	/**
-	 * Fortify player's countries in fortification phase
+	 * Fortify player's countries in fortification phase.
 	 *
 	 * @throws IllegalArgumentException if 2 countries given are not adjacent or if one of the countries is not owned by player
 	 */
