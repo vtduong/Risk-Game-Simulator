@@ -309,6 +309,7 @@ public class AttackTest {
 		int[] defenderDice = {5};//defender loses 1 round, USA is about invade Germany
 		int[] result = gamer2.goToBattle(attackerDice, defenderDice);
 		
+		assertEquals("Africa", gamer2.getPlayerContinents().get(0).getName() );
 		//Using reflection API to call private methods
 		Class reflectPhase = gamer2.getClass();
 		Method reflectMethodCall = reflectPhase.getDeclaredMethod("invade",

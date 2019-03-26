@@ -581,7 +581,7 @@ public class Player implements Observable {
 			
 			//check if defender just lost a continent
 			if(defender.hasLostContinent(continent)) {
-				this.removeContinent(continent.getName());
+				defender.removeContinent(continent.getName());
 			}
 		}
 		
