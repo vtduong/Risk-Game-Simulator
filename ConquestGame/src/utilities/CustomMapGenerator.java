@@ -15,7 +15,6 @@ import config.Config;
 import controller.MapController;
 import exception.MapInvalidException;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is responsible for loading a map,creating a new map or editing an existing map.
  * This was modified as part of map refactoring to act as single point for map related user
