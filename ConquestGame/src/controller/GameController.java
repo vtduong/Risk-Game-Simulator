@@ -28,67 +28,66 @@ import utilities.MapValidator;
  */
 /*
  * @description :
+ * 
  * @author
  */
 public class GameController {
-	
+
 	/** The Constant INPUTFILE. */
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
-	private static GameController controller= null;
-	
+	private static GameController controller = null;
+
 	/** The current phase Info. */
 	private String currentPhase;
-	
+
 	/** The World Domination View. */
 	private WorldDominationView wdView = null;
-	
-	private PhaseView phaseView = null;
-	Scanner scan= new Scanner(System.in);
-	private static CardExchangeView cardView= new CardExchangeView();
-	
-	
-	/** The country list. */
-	private static List<Country> countryList  = new ArrayList<Country>();
-	
 
-/** The number of players. */
+	private PhaseView phaseView = null;
+	Scanner scan = new Scanner(System.in);
+	private static CardExchangeView cardView= new CardExchangeView();
+
+	/** The country list. */
+	private static List<Country> countryList = new ArrayList<Country>();
+
+	/** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
 	
 	private HashMap<String, Continent> continentListByName = null;
 
-
-
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
-	
+
 //	/** The current phase. */
 //	TurnPhase currentPhase = null;
-	
+
 	/** The ready for next phase. */
 	private boolean readyForNextPhase = false;
-	
+
 	/** The current player. */
 	private Player currentPlayer;
-	
+
 	/** The player list. */
 	private ArrayList<Player> playerList;
-	
+
 	/** The Constant MIN_ARGS. */
 	private final static int MIN_ARGS = 1;
-	
+
 	/** The winner. */
 	private Player winner = null;
-	
+
 	/** The ui. */
 	private UI ui = null;
+
 	private CustomMapGenerator customMap=null;
 	
 	private List<Continent> continentList = null;
 	
 	
 	
+
 	/**
 	 * @return String, the current phase of the game.
 	 */
@@ -103,14 +102,13 @@ public class GameController {
 		this.currentPhase = currentPhase;
 	}
 
-	
 	/**
 	 * Instantiates a new game controller.
 	 */
-	private GameController(){
+	private GameController() {
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
-		
+
 	}
 
 	/**
@@ -118,17 +116,17 @@ public class GameController {
 	 *
 	 * @return single instance of GameController
 	 */
-	public static GameController getInstance(){
-		    if(controller == null){
-		        synchronized (GameController.class) {
-		            if(controller == null){
-		                controller = new GameController();
-		            }
-		        }
-	    }
-	    return controller;
+	public static GameController getInstance() {
+		if (controller == null) {
+			synchronized (GameController.class) {
+				if (controller == null) {
+					controller = new GameController();
+				}
+			}
+		}
+		return controller;
 	}
-	
+
 	/**
 	 * The main method.
 	 *
@@ -138,6 +136,7 @@ public class GameController {
 	 */
 	/*
 	 * @description :
+	 * 
 	 * @author
 	 */
 	public static void main(String[] args) throws IOException, MapInvalidException {
@@ -148,13 +147,13 @@ public class GameController {
 	//	controller.createPhaseView();
 		controller.initGame();
 	}
-	
+
 	/**
 	 * Register given observer with all player
 	 */
 	public void registerObserver(Observer ob, int event) {
-		
-		for(int i = 0; i < numberOfPlayers; i++) {
+
+		for (int i = 0; i < numberOfPlayers; i++) {
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -165,29 +164,31 @@ public class GameController {
 	private void placeInitialArmies() {
 		for (int i = 0; i < controller.playerList.size(); i++) {
 			Player player = controller.getPlayer(i);
-			for(int j = 0; j < player.getPlayerCountries().size(); j++) {
+			for (int j = 0; j < player.getPlayerCountries().size(); j++) {
 				Country c = player.getPlayerCountries().get(j);
 				c.setNumArmies(1);
 				c.setOwner(player);
-				player.setNumArmiesDispatched(j+1);
+				player.setNumArmiesDispatched(j + 1);
 			}
 		}
-		
+
 	}
+
 	
 	/**
 	 * each player takes turn to place their armies on their territories
 	 */
+
 	private void placeArmiesForSetup() {
-		//each player take turns to place their armies
-				for(int i = 0; i < controller.playerList.size(); i++) {
-					Player player = playerList.get(i);
-					player.notifyChanges(EventType.PHASE_NOTIFY);
-					ui.showDialog("Please assign armies to countries for " + player.getPlayerName());
-					int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
-					Map<Country, Integer> selection = ui.distributeArmies(player.getPlayerCountries(), numArmiesToDispatch);
-					player.distributeArmies(selection);
-				}
+		// each player take turns to place their armies
+		for (int i = 0; i < controller.playerList.size(); i++) {
+			Player player = playerList.get(i);
+			player.notifyChanges(EventType.PHASE_NOTIFY);
+			ui.showDialog("Please assign armies to countries for " + player.getPlayerName());
+			int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
+			Map<Country, Integer> selection = ui.distributeArmies(player.getPlayerCountries(), numArmiesToDispatch);
+			player.distributeArmies(selection);
+		}
 	}
 
 	/**
@@ -196,14 +197,14 @@ public class GameController {
 	private void createUI() {
 		ui = new UI();
 	}
-	
+
 	/**
 	 * create and register a WorldDomination interface as observer to player.
 	 */
 	public void createWorldDominationView() {
 		wdView = WorldDominationView.getInstance();
 	}
-	
+
 	/**
 	 * create and register a PhaseView interface as observer to player.
 	 */
@@ -218,15 +219,15 @@ public class GameController {
 	 */
 	public List<Player> getPlayerList() {
 		return this.playerList;
-	} 	
-	
+	}
+
 	/**
 	 * Show help.
 	 */
 	public void showHelp() {
-		//TODO
+		// TODO
 	}
-	
+
 	/**
 	 * Adds the player.
 	 *
@@ -236,7 +237,7 @@ public class GameController {
 		playerList.add(player);
 		numberOfPlayers++;
 	}
-	
+
 	/**
 	 * Gets the num players.
 	 *
@@ -245,7 +246,7 @@ public class GameController {
 	public int getNumPlayers() {
 		return numberOfPlayers;
 	}
-	
+
 	/**
 	 * Gets the player.
 	 *
@@ -255,8 +256,6 @@ public class GameController {
 	public Player getPlayer(int idx) {
 		return playerList.get(idx);
 	}
-	
-	
 
 	/**
 	 * Gets the winner.
@@ -274,46 +273,45 @@ public class GameController {
 	 */
 	/*
 	 * @description :
+	 * 
 	 * @author
 	 */
-	public void loadMap(){
+	public void loadMap() {
 		customMap = CustomMapGenerator.getInstance();
 		System.out.println("----------Welcome----------");
-		System.out.println("Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
+		System.out.println(
+				"Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
 		Scanner mapOption = new Scanner(System.in);
 		int selectedMapOption = mapOption.nextInt();
-		if(selectedMapOption == 1) {
+		if (selectedMapOption == 1) {
 			try {
 				customMap.LoadMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
-		}
-		else if(selectedMapOption == 2) {
-			 
+		} else if (selectedMapOption == 2) {
+
 			try {
 				customMap.createCustomMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
-		}
-		else if(selectedMapOption == 3) {
+		} else if (selectedMapOption == 3) {
 			try {
 				customMap.editExistingMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
-		}
-		else {
+		} else {
 			System.out.println("Enter appropiate choice");
 			System.exit(1);
 		}
 		countryList.addAll(customMap.countryDefault);
 	}
-	
+
 
 //	/**
 //	 * Sets the phase.
@@ -327,80 +325,78 @@ public class GameController {
 //	public void setPhase(TurnPhase turnPhase) {
 //		currentPhase = turnPhase;
 //	}
-	
+
 	/**
 	 * Take turns.
-	 * @throws MapInvalidException 
+	 * 
+	 * @throws MapInvalidException
 	 */
 	public void takeTurns() throws MapInvalidException {
 		int i = 0;
 		while (winner == null) {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
-			System.out.println("=============="+ currentPlayer.getPlayerName() + "'S TURN==================");
+			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			takePhases();
 			i++;
 		}
 	}
-    
+
 	/**
 	 * Take phases.
-	 * @throws MapInvalidException 
+	 * 
+	 * @throws MapInvalidException
 	 */
 	public void takePhases() throws MapInvalidException {
 //		currentPhase = new ReEnforcement();
-		System.out.println("Do you want to view your cards to exchange ? Y/N");
-		char viewChoice= scan.next().charAt(0);
-		if(viewChoice=='Y' || viewChoice == 'y') {
-			cardView.getCardProgress();
-		}
-		if(currentPlayer.getCardsAcquired().size()>=3) {
+		cardView.getCardProgress();
+		if (currentPlayer.getCardsAcquired().size() >= 3) {
 			System.out.println("Do you want to exchange your cards for army reinforcement ? Y/N");
-			char exchangeChoice= scan.next().charAt(0);
-			if(exchangeChoice=='Y') {
+			char exchangeChoice = scan.next().charAt(0);
+			if (exchangeChoice == 'Y') {
 				currentPlayer.exchangeCards();
 			}
-		}
-		
-		if(currentPlayer.getCardsAcquired().size()>=5) {
-			System.out.println("Since you have 5 or more cards, you have to exchange one set of your cards");
-			currentPlayer.exchangeCards();
+			if (exchangeChoice == 'N') {
+				if (currentPlayer.getCardsAcquired().size() >= 5) {
+					System.out.println("Since you have 5 or more cards, you have to exchange one set of your cards");
+					currentPlayer.exchangeCards();
+				}
+			}
 		}
 		currentPlayer.reEnforce();
 		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
-		while(true) {
+		while (true) {
+			boolean	isAnyCountryInvaded =false;
 			try {
-				int numberOfCountriesInvaded= 0;
-				//ask user if wants to make an attack and check if user is able to attack (at least 2 armies in one country)
-				if(isWar() && canAttack()) {	
+				// ask user if wants to make an attack and check if user is able to attack (at
+				// least 2 armies in one country)
+				if (isWar() && canAttack()) {
 					do {
 						currentPlayer.attack();
 						// check if current player has won the game
-						if(currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
+						if (currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
 							winner = currentPlayer;
 							ui.showDialog(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
 							ui.showDialog("THE END!!!");
 							System.exit(0);
 						}
 						currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
-					
-					}while(canAttack() && keepWar());
-					numberOfCountriesInvaded= currentPlayer.winCountry();
+					} while (canAttack() && keepWar());
+				isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
 				}
-				if(numberOfCountriesInvaded>=2) {
+				if (isAnyCountryInvaded == true) {
 					currentPlayer.addCards();
 				}
 				currentPlayer.fortify();
 				currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 				break;
-			}catch(IllegalArgumentException e) {
+			} catch (IllegalArgumentException e) {
 				ui.handleExceptions(e.getMessage());
 			}
-		}		
+		}
 	}
 
-	
 	/**
 	 * checks if player can attack by having at least 2 armies in one of player's countries and such country is adjacent to another player's countries
 	 *
@@ -408,6 +404,7 @@ public class GameController {
 	 */
 	private boolean canAttack() {
 		List<Country> curPlayerCountries = currentPlayer.getPlayerCountries();
+
 		for(Country country : curPlayerCountries) {
 			if(country.getNumArmies() >= 2) {
 				//check if this country is adjacent to at least a country occupied by another player
@@ -418,7 +415,6 @@ public class GameController {
 						return true;
 					}
 				}
-				
 			}
 		}
 		ui.showDialog(currentPlayer.getPlayerName() + " does not qualify to start any attack");
@@ -426,7 +422,8 @@ public class GameController {
 	}
 
 	/**
-	 * This method calls appropriate UI to ask user if he/she wants to continue killing.
+	 * This method calls appropriate UI to ask user if he/she wants to continue
+	 * killing.
 	 *
 	 * @return true, if user wants to
 	 */
@@ -441,9 +438,8 @@ public class GameController {
 	 */
 	private boolean isWar() {
 		return UI.isWar();
-		
-	}
 
+	}
 
 	/**
 	 * Gets the current player.
@@ -454,7 +450,7 @@ public class GameController {
 	public Player getCurrentPlayer() {
 		return currentPlayer;
 	}
-	
+
 	/**
 	 * Sets the current player.
 	 *
@@ -463,13 +459,12 @@ public class GameController {
 	public void setCurrentPlayer(Player player) {
 		currentPlayer = player;
 	}
-	
+
 	/**
-	 * @throws MapInvalidException 
-	 * Inits the game.
-	 * @throws  
+	 * @throws MapInvalidException Inits the game. @throws
 	 */
 	public void initGame() throws MapInvalidException {
+
 		//Getting Player Info
 				
 				System.out.println("Please enter the number of players between 2 and 6: ");
@@ -515,8 +510,7 @@ public class GameController {
 				controller.placeArmiesForSetup();
 				controller.takeTurns();
 	}
-	
-	
+
 	/**
 	 * evenly distributes countries among players in a random fashion.
 	 *
@@ -525,24 +519,24 @@ public class GameController {
 	 * @param players   the players
 	 */
 	public void randomizeCountryDistribution(List<Country> countries, List<Player> players) {
-	    Random rand = new Random();
-	    int playerIdx = 0;
-	    
-	    //players take turn to add a country to their occupied_list until the unoccupied country list is empty
-	    while(countries.size() > 0) {
-	    	//if playerIdx >= playerList size, reset playerIdx
-	    	playerIdx = playerIdx % players.size();
-	    	Player player = players.get(playerIdx);
-	    	int randIdx = rand.nextInt(countries.size());
-	    	Country country = countries.get(randIdx);
-	    	player.addCountry(country.getName(), country);
-	    	playerIdx++;
-	    	countries.remove(randIdx); 
-	    }
-	    
-	    
+		Random rand = new Random();
+		int playerIdx = 0;
+
+		// players take turn to add a country to their occupied_list until the
+		// unoccupied country list is empty
+		while (countries.size() > 0) {
+			// if playerIdx >= playerList size, reset playerIdx
+			playerIdx = playerIdx % players.size();
+			Player player = players.get(playerIdx);
+			int randIdx = rand.nextInt(countries.size());
+			Country country = countries.get(randIdx);
+			player.addCountry(country.getName(), country);
+			playerIdx++;
+			countries.remove(randIdx);
+		}
+
 	}
-	
+
 	/**
 	 * Asks GUI to ask user to input number of armies to be distributed to each
 	 * occupied countries.
@@ -554,7 +548,6 @@ public class GameController {
 		return ui.distributeArmies(currentPlayer.getPlayerCountries(), numArmiesToDispatch);
 	}
 
-
 //	/**
 //	 * Ask GUI to ask if user is ready for next phase.
 //	 *
@@ -565,17 +558,16 @@ public class GameController {
 //		
 //	}
 
-
 	/**
- * Gets the params for fortification.
- *
- * @param countryFrom the country from
- * @return a set of 3 objects: country to move armies from, country to move
- *         armies to, and number of armies
- */
+	 * Gets the params for fortification.
+	 *
+	 * @param countryFrom the country from
+	 * @return a set of 3 objects: country to move armies from, country to move
+	 *         armies to, and number of armies
+	 */
 	public int getParamsForFortification(Country countryFrom) {
 		return ui.getFortificationInfo(countryFrom);
-		
+
 	}
 
 	/**
@@ -617,15 +609,15 @@ public class GameController {
 	 */
 	public Player getOwnerByCountryName(String name) {
 		Player player = null;
-		for(Player gamer : playerList) {
-			if(gamer.getCountryByName(name) != null) {
+		for (Player gamer : playerList) {
+			if (gamer.getCountryByName(name) != null) {
 				player = gamer;
 				break;
 			}
 		}
 		return (player != null) ? player : null;
 	}
-	
+
 	/**
 	 * Gets the country by country name.
 	 *
@@ -634,20 +626,19 @@ public class GameController {
 	 */
 	public Country getCountryByCountryName(String countryName) {
 		Country country = null;
-		for(Player gamer: playerList) {
-			if(gamer.getCountryByName(countryName) != null) {
+		for (Player gamer : playerList) {
+			if (gamer.getCountryByName(countryName) != null) {
 				country = gamer.getCountryByName(countryName);
 				break;
 			}
 		}
 		return (country != null) ? country : null;
 	}
-	
-	
-	
+
 	/**
-	 * Calls GUI selectAttackingCountry() method and return the selected country name
-	 * This method gets called inside attack phase only when there are two or more options for attacking country.
+	 * Calls GUI selectAttackingCountry() method and return the selected country
+	 * name This method gets called inside attack phase only when there are two or
+	 * more options for attacking country.
 	 *
 	 * @param attackingCountries the attacking countries
 	 * @return the string
@@ -671,7 +662,7 @@ public class GameController {
 	 * @return the num dice defender
 	 */
 	public int getNumDiceDefender() {
-		
+
 		return ui.getNumDiceDefender();
 	}
 
@@ -701,6 +692,5 @@ public class GameController {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

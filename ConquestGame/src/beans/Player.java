@@ -31,6 +31,7 @@ public class Player implements Observable {
 	String cardType;
 	List<String> cardToRemove;
 	Scanner scan= new Scanner(System.in);
+	boolean isCountryInvaded;
 	
 
 	/** The player name. */
@@ -512,6 +513,7 @@ public class Player implements Observable {
 	private void invade(int[] result, Country attackingCountry, Country attackedCountry, int attackerSelectNumDice) {
 		Player defender = attackedCountry.getOwner();
 		uiInstance = new UI();
+		isCountryInvaded= false;
 		if(result[0] > 0) {
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - result[0]);
 			this.setArmies(this.getArmies() - result[0]);
@@ -523,9 +525,9 @@ public class Player implements Observable {
 		
 		//check if attacker can occupy defender's territory (attackedCountry)
 		if(attackedCountry.getNumArmies() == 0) {
+			//flag the counter if player invades a country
+			isCountryInvaded= true;
 			this.addCountry(attackedCountry.getName(), attackedCountry);
-			//increment the counter of number of countries invaded
-			this.winCountry();
 			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
@@ -543,10 +545,8 @@ public class Player implements Observable {
 		}
 		
 	}
-
-	public int winCountry(){
-		invadeCount++;
-		return invadeCount;
+	public boolean isAnyCountryInvaded() {
+		return isCountryInvaded;
 	}
 
 	/**
@@ -677,6 +677,10 @@ public class Player implements Observable {
 	public void removeCards(List<String> cardsRemove) {
 		getCardsAcquired().removeAll(cardsRemove);
 	
+	}
+	
+	public List<String> getCardsToRemove() {
+		return cardToRemove;
 	}
 
 	/**

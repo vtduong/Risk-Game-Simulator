@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,12 +17,14 @@ public GameController controller;
 Player player;
 boolean isExchangePossible= false;
 Scanner scan= new Scanner(System.in);
+List<String> cardsToRemoveList;
 	
 	public CardExchangeView() {
 		controller = GameController.getInstance();
 	}
 	public void getCardProgress() {
 			player = controller.getCurrentPlayer();
+			System.out.println("***************CARDS INVENTORY VIEW***************");
 			String playerName = player.getPlayerName();
 			System.out.println("*".repeat(20));
 			System.out.println("PlayerName : " + playerName);
@@ -32,9 +35,11 @@ Scanner scan= new Scanner(System.in);
 	
 	public boolean isExchangeCardsPossible() {
 			player = controller.getCurrentPlayer();
+			cardsToRemoveList= new ArrayList<String>();
+			cardsToRemoveList= player.getCardsToRemove();
 			int infantry=0; int artillery=0; int cavalry=0;
 			if(player.getCardsAcquired()!= null && player.getCardsAcquired().size()>=3) {
-				for(String cardList : player.getCardsAcquired()) {
+				for(String cardList : cardsToRemoveList) {
 					if(cardList.equalsIgnoreCase("INFANTRY")) {
 						infantry++;
 					}
