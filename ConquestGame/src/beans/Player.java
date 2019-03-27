@@ -38,8 +38,13 @@ public class Player implements Observable {
 	String cardType;
 	
 	/** The card to remove. */
-	List<String> cardToRemove;
+	 List<String> cardToRemove;
 	
+	public void setCardToRemove(String name) {
+		cardToRemove.add(name);
+		//System.out.println("Inside the setCarToRemove" + name);
+	}
+
 	/** The scan. */
 	Scanner scan= new Scanner(System.in);
 	
@@ -176,6 +181,7 @@ public class Player implements Observable {
 		this.occupiedCountries = new HashMap<String, Country>();
 //		obList = new ArrayList<Observer>();
 		observerList = new HashMap<Integer, Observer>();
+		cardToRemove= new ArrayList<String>();
 	}
 	
 	/**
@@ -755,7 +761,7 @@ public class Player implements Observable {
 	}
 	
 	public void setCardsToRemove(){
-		cardToRemove= new ArrayList<String>();
+		
 		System.out.println("You have the following cards :"+ getCardsAcquired());
 		System.out.println("Please select three cards you want to trade off :");
 		System.out.println("(Names should be either INFANTRY or CAVALRY or ARTILLERY)");
