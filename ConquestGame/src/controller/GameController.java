@@ -117,7 +117,7 @@ public class GameController {
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
 		ui = new UI();
-
+		customMap = CustomMapGenerator.getInstance();
 	}
 
 	/**
@@ -429,7 +429,8 @@ public class GameController {
 				//check if this country is adjacent to at least a country occupied by another player
 				List<String> adjCountries = country.getAdjacentCountries();
 				for(String countryName : adjCountries) {
-					Country con = this.getCountryByCountryName(countryName);
+//					Country con = this.getCountryByCountryName(countryName);
+					Country con = customMap.getCountry(countryName);
 					if(!con.getOwner().getPlayerName().equals(currentPlayer.getPlayerName())){
 						return true;
 					}
@@ -568,15 +569,6 @@ public class GameController {
 		return ui.distributeArmies(currentPlayer.getPlayerCountries(), newArmies);
 	}
 
-//	/**
-//	 * Ask GUI to ask if user is ready for next phase.
-//	 *
-//	 * @return true, if successful
-//	 */
-//	public boolean readyForNextPhase() {
-//		return UI.readyForNextPhase();
-//		
-//	}
 
 	/**
 	 * Gets the params for fortification.
@@ -618,7 +610,8 @@ public class GameController {
 	public Country getAttackedCountry() {
 		UI.showAdjCountriesAndOwner(currentPlayer);
 		String countryName = UI.getAttackedCountryByName();
-		return this.getCountryByCountryName(countryName);
+//		return this.getCountryByCountryName(countryName);
+		return customMap.getCountry(countryName);
 	}
 
 	/**
@@ -628,32 +621,9 @@ public class GameController {
 	 * @return the owner by country name
 	 */
 	public Player getOwnerByCountryName(String name) {
-		Player player = null;
-		for (Player gamer : playerList) {
-			if (gamer.getCountryByName(name) != null) {
-				player = gamer;
-				break;
-			}
-		}
-		return (player != null) ? player : null;
+		return customMap.getCountry(name).getOwner();
 	}
 
-	/**
-	 * Gets the country by country name.
-	 *
-	 * @param countryName the country name
-	 * @return the country by country name
-	 */
-	public Country getCountryByCountryName(String countryName) {
-		Country country = null;
-		for (Player gamer : playerList) {
-			if (gamer.getCountryByName(countryName) != null) {
-				country = gamer.getCountryByName(countryName);
-				break;
-			}
-		}
-		return (country != null) ? country : null;
-	}
 
 	/**
 	 * Calls GUI selectAttackingCountry() method and return the selected country
