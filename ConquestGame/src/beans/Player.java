@@ -473,7 +473,7 @@ public class Player implements Observable {
 			attackingCountryName = attackingCountries.get(0);
 		}
 		
-		Country attackingCountry = controller.getCountryByCountryName(attackingCountryName);
+		Country attackingCountry = map.getCountry(attackingCountryName);
 		//check if the attacking country has at least 2 armies
 		if(attackingCountry.getNumArmies() < 2) {
 			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");
