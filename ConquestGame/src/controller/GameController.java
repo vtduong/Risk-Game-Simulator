@@ -116,6 +116,7 @@ public class GameController {
 	private GameController() {
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
+		ui = new UI();
 
 	}
 
@@ -149,7 +150,6 @@ public class GameController {
 	 */
 	public static void main(String[] args) throws IOException, MapInvalidException {
 		GameController controller = GameController.getInstance();
-		controller.createUI();
 		controller.loadMap();
 		controller.createWorldDominationView();
 		controller.createCardExchangeView();
@@ -203,12 +203,6 @@ public class GameController {
 		}
 	}
 
-	/**
-	 * create and register a UI interface as observer to player1.
-	 */
-	private void createUI() {
-		ui = new UI();
-	}
 
 	/**
 	 * create and register a WorldDomination interface as observer to player.
