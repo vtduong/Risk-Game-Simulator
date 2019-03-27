@@ -42,6 +42,8 @@ public class Player implements Observable {
 	
 	/** The scan. */
 	Scanner scan= new Scanner(System.in);
+	
+	/** flag to check if any country invaded.  */
 	boolean isCountryInvaded;
 	
 
@@ -589,6 +591,9 @@ public class Player implements Observable {
 		
 	}
 
+	/**
+	 * @return flag to check if any country invaded or not
+	 */
 	public boolean isAnyCountryInvaded() {
 		return isCountryInvaded;
 	}
@@ -731,6 +736,9 @@ public class Player implements Observable {
 	
 	}
 	
+	/**
+	 * @return list of cards to remove 
+	 */
 	public List<String> getCardsToRemove() {
 		return cardToRemove;
 	}
