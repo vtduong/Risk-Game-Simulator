@@ -560,10 +560,12 @@ public class Player implements Observable {
 		uiInstance = new UI();
 		isCountryInvaded= false;
 		if(result[0] > 0) {
+			controller.showDialog(this.getPlayerName() + " lost " + result[0] + " army");
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - result[0]);
 			this.setArmies(this.getArmies() - result[0]);
 		}
 		if(result[1] > 0) {
+			controller.showDialog(defender.getPlayerName() + " lost " + result[1] + " army");
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() - result[1]);
 			defender.setArmies(defender.getArmies() - result[1]);
 		}
@@ -576,16 +578,21 @@ public class Player implements Observable {
 			defender.removeCountry(attackedCountry.getName());
 			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
 			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
-			
+			controller.showDialog(this.getPlayerName() + " has conquered " + attackedCountry.getName());
+
 			//check if attacker has conquered a whole continent
 			Continent continent = map.getContinent(attackedCountry.getContinent());
 			if(this.hasConqueredContinent(continent)) {
 				this.addContinent(continent.getName(), continent);
+				controller.showDialog(this.getPlayerName() + " has conquered " + continent.getName());
+
 			}
 			
 			//check if defender just lost a continent
 			if(defender.hasLostContinent(continent)) {
 				defender.removeContinent(continent.getName());
+				controller.showDialog(defender.getPlayerName() + " has lost full control of " + continent.getName());
+
 			}
 		}
 		
@@ -653,6 +660,7 @@ public class Player implements Observable {
 			if(attackerDice[i] > defenderDice[i]) {
 				//defender loses 1 army
 				result[1] += 1;
+
 			} else {
 				//attacker loses 1 army
 				result[0] += 1;

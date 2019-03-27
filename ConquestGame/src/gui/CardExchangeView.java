@@ -1,3 +1,4 @@
+
 package gui;
 
 import java.util.ArrayList;
@@ -92,3 +93,4 @@ List<String> cardsToRemoveList;
 		getCardProgress();	
 	}
 }
+

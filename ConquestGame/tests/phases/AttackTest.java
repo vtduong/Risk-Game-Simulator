@@ -13,6 +13,7 @@ import beans.Continent;
 import beans.Country;
 import beans.Player;
 import controller.GameController;
+import gui.UI;
 import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 
@@ -27,6 +28,7 @@ public class AttackTest {
 	
 	/** The controller. */
 	private GameController controller = null;
+	private UI ui =null;
 	
 	/** The dicer. */
 	private static DiceRoller dicer = DiceRoller.getInstance(0);
@@ -75,6 +77,7 @@ public class AttackTest {
 	@Before
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
+		
 		map = CustomMapGenerator.getInstance();
 		map.LoadMap("testAttack");
 		asia = map.getContinent("Asia");
