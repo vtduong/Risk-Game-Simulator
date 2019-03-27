@@ -1,3 +1,4 @@
+
 package gui;
 
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ Player player;
 
 /** The is exchange possible. */
 boolean isExchangePossible= false;
+
+/** The scan. */
+Scanner scan= new Scanner(System.in);
 List<String> cardsToRemoveList;
 
 
@@ -81,8 +85,12 @@ List<String> cardsToRemoveList;
 		return isExchangePossible;
 	}
 
+	/* (non-Javadoc)
+	 * @see gui.Observer#update(beans.Observable)
+	 */
 	@Override
 	public void update(Observable sub) {
 		getCardProgress();	
 	}
 }
+
