@@ -14,24 +14,12 @@ import controller.GameController;
  */
 public class PhaseView implements Observer {
 	
-	/** The phase view. */
-	private static PhaseView phaseView = null;
-	
 	/** The controller. */
 	private GameController controller = GameController.getInstance();
+	private int state; 
 	
-//	private PhaseView() {
-//		controller = GameController.getInstance();
-//	}
-	
-//	public static PhaseView getInstance() {
-//		if ( phaseView == null) {
-//			phaseView = new PhaseView();
-//		}
-//		return phaseView;
-//	}
 
-	/* (non-Javadoc)
+/* (non-Javadoc)
  * @see gui.Observer#update(beans.Observable)
  */
 @Override
