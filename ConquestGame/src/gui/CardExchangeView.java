@@ -65,6 +65,7 @@ List<String> cardsToRemoveList;
 			player = controller.getCurrentPlayer();
 			cardsToRemoveList= new ArrayList<String>();
 			cardsToRemoveList= player.getCardsToRemove();
+			//System.out.println(cardsToRemoveList);
 			int infantry=0; int artillery=0; int cavalry=0;
 			if(player.getCardsAcquired()!= null && player.getCardsAcquired().size()>=3) {
 				for(String cardList : cardsToRemoveList) {
