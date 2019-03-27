@@ -592,6 +592,9 @@ public class Player implements Observable {
 			if(defender.hasLostContinent(continent)) {
 				defender.removeContinent(continent.getName());
 				controller.showDialog(defender.getPlayerName() + " has lost full control of " + continent.getName());
+				if(defender.getPlayerCountries().size()==0) {
+					this.getCardsAcquired().addAll(defender.getCardsAcquired());
+				}
 
 			}
 		}
