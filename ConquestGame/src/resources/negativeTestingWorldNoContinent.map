@@ -1,0 +1,9 @@
+[Map]
+author=userdefiend map 
+[Continents]
+North America=5
+South America=2
+Africa=3
+Europe=5
+Australia=2
+[Territories]
