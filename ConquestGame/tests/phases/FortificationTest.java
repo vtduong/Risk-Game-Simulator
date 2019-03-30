@@ -15,6 +15,7 @@ import beans.Continent;
 import beans.Country;
 import beans.Player;
 import controller.GameController;
+import strategies.Human;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -49,6 +50,9 @@ public class FortificationTest {
 	public void setUp() throws Exception {
 		controller = GameController.getInstance();
 		gamer1 = new Player("gamer1");
+		gamer1.setStrategy(new Human(gamer1));
+		
+		
 		asia = new Continent("Asia", 5);
 		vn = new Country("Vietnam");
 		vn.setNumArmies(4);
@@ -103,16 +107,16 @@ public class FortificationTest {
 		assertEquals(2, gamer1.getPlayerCountries().size());
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
-		//Using reflection API to call private methods
-		Class reflectPhase = controller.getCurrentPlayer().getClass();
-		Method reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
-				String.class, String.class, int.class);
-		
-		reflectMethodCall.setAccessible(true);
+//		//Using reflection API to call private methods
+//		Class reflectPhase = controller.getCurrentPlayer().getStrategy().getClass();
+//		Method reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
+//				String.class, String.class, int.class);
+//		
+//		reflectMethodCall.setAccessible(true);
 		
 		int testValue = 2;
-		reflectMethodCall.invoke(controller.getCurrentPlayer(), countryOne, countryTwo, testValue);
-		
+//		reflectMethodCall.invoke(controller.getCurrentPlayer(), countryOne, countryTwo, testValue);
+		controller.getCurrentPlayer().getStrategy().moveArmies(countryOne, countryTwo, testValue);
 		assertEquals(2, vn.getNumArmies());
 		assertEquals(3, indi.getNumArmies());
 	}
@@ -148,25 +152,33 @@ public class FortificationTest {
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
 		//Using reflection API to call private methods
-		Class reflectPhase = controller.getCurrentPlayer().getClass();
-		Method reflectMethodCall;
-		
-			reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
-					String.class, String.class, int.class);
-			
-		
-		
-		reflectMethodCall.setAccessible(true);
+//		Class reflectPhase = controller.getCurrentPlayer().getStrategy().getClass();
+//		Method reflectMethodCall;
+//		
+//			reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
+//					String.class, String.class, int.class);
+//			
+//		
+//		
+//		reflectMethodCall.setAccessible(true);
 		
 		int testValue = 1;
+//		try {
+//			reflectMethodCall.invoke(controller.getCurrentPlayer(), countryTwo, countryOne, testValue);
+//			fail();
+//		} catch (IllegalAccessException e) {
+//			fail();
+//		} catch (InvocationTargetException e) {
+//			assertTrue(e.getCause() instanceof IllegalArgumentException );
+//		}
+		
 		try {
-			reflectMethodCall.invoke(controller.getCurrentPlayer(), countryTwo, countryOne, testValue);
+			controller.getCurrentPlayer().getStrategy().moveArmies(countryTwo, countryOne, testValue);
 			fail();
-		} catch (IllegalAccessException e) {
-			fail();
-		} catch (InvocationTargetException e) {
-			assertTrue(e.getCause() instanceof IllegalArgumentException );
+		}catch (IllegalArgumentException e) {
+			
 		}
+		
 	}
 	
 	/**
@@ -200,26 +212,35 @@ public class FortificationTest {
 		assertEquals(3, gamer1.getPlayerCountries().size());
 		assertEquals(1, gamer1.getPlayerContinents().size());
 		
-		//Using reflection API to call private methods
-		Class reflectPhase = controller.getCurrentPlayer().getClass();
-		Method reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
-				String.class, String.class, int.class);
-		
-		reflectMethodCall.setAccessible(true);
+//		//Using reflection API to call private methods
+//		Class reflectPhase = controller.getCurrentPlayer().getStrategy().getClass();
+//		Method reflectMethodCall = reflectPhase.getDeclaredMethod("moveArmies",
+//				String.class, String.class, int.class);
+//		
+//		reflectMethodCall.setAccessible(true);
 		
 		int testValue = 2;
+//		try {
+//			reflectMethodCall.invoke(controller.getCurrentPlayer(), countryOne, country3, testValue);
+//			fail();
+//		} catch (IllegalAccessException e) {
+//			fail();
+//			e.printStackTrace();
+//		} catch (IllegalArgumentException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InvocationTargetException e) {
+//			assertTrue(e.getCause() instanceof IllegalArgumentException );
+//		}
+		
 		try {
-			reflectMethodCall.invoke(controller.getCurrentPlayer(), countryOne, country3, testValue);
+			controller.getCurrentPlayer().getStrategy().moveArmies(countryOne, country3, testValue);
 			fail();
-		} catch (IllegalAccessException e) {
-			fail();
-			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			assertTrue(e.getCause() instanceof IllegalArgumentException );
+			
 		}
+		
+		
 	}
 	
 }

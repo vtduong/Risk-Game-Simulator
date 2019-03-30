@@ -153,7 +153,6 @@ public class GameController {
 		controller.loadMap();
 		controller.createWorldDominationView();
 		controller.createCardExchangeView();
-	//	controller.createPhaseView();
 		controller.initGame();
 	}
 
@@ -188,18 +187,15 @@ public class GameController {
 
 	
 	/**
-	 * each player takes turn to place their armies on their territories.
+	 * player places their armies on their territories in setup phase
 	 */
 
 	private void placeArmiesForSetup() {
 		// each player take turns to place their armies
 		for (int i = 0; i < controller.playerList.size(); i++) {
 			Player player = playerList.get(i);
-			player.notifyChanges(EventType.PHASE_NOTIFY);
-			ui.showDialog("Please assign armies to countries for " + player.getPlayerName());
-			int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
-			Map<Country, Integer> selection = ui.distributeArmies(player.getPlayerCountries(), numArmiesToDispatch);
-			player.distributeArmies(selection);
+			currentPlayer = player;
+			player.getStrategy().placeArmiesForSetup();
 		}
 	}
 

@@ -14,6 +14,7 @@ import gui.CardExchangeView;
 import gui.Observer;
 import gui.PhaseView;
 import gui.UI;
+import strategies.Strategy;
 import utilities.CustomMapGenerator;
 import utilities.DiceRoller;
 
@@ -76,8 +77,6 @@ public class Player implements Observable {
 	/** The cards acquired. */
 	private List<String> cardsAcquired= new ArrayList<String>();
 	
-	/** The ui instance. */
-	private UI uiInstance;
 	
 	/** The observer list. */
 	private List<Observer> obList = null;
@@ -94,14 +93,28 @@ public class Player implements Observable {
 	/** The card view. */
 	private static CardExchangeView cardView= new CardExchangeView();
 	
-	
-	/** The minimum new armies each user gets in ReEnforcement phase. */
-	private final int MIN_NEW_ARMIES = 3;
-	
-	/** The card set choice. */
-	private int cardSetChoice = 0;
+	private Strategy strategy= null;
 	
 	
+	/**
+	 * returns player's strategy
+	 * @return the strategy
+	 */
+	public Strategy getStrategy() {
+		return strategy;
+	}
+
+
+	/**
+	 * Sets player's strategy
+	 * @param strategy the strategy to set
+	 */
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
+
+
+
 	/**
 	 * Gets the num armies dispatched.
 	 *
@@ -179,11 +192,10 @@ public class Player implements Observable {
 		this.armies = armies;
 		this.occupiedContinents = new HashMap<String, Continent>();
 		this.occupiedCountries = new HashMap<String, Country>();
-//		obList = new ArrayList<Observer>();
 		observerList = new HashMap<Integer, Observer>();
 		cardToRemove= new ArrayList<String>();
 	}
-	
+		
 	/**
 	 * Instantiates a new player.
 	 *
@@ -439,179 +451,25 @@ public class Player implements Observable {
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	public void attack() throws IllegalArgumentException{
-		controller.setCurrentPhase("Attack");
-		PhaseView phaseView = new PhaseView();
-		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
-		//System.out.println("-----------Attack Phase-----------");
-		//TODO refactor this method
-		// get attacked country from user, controller
-		Country attackedCountry = controller.getAttackedCountry();
-		if(attackedCountry == null) {
-			throw new IllegalArgumentException("The attacked country is not occupied by any player!");
-		}
-		//list of attacker's country name adj to selected attacked country
-		List<String> attackingCountries = new ArrayList<String>();
-		String attackedCountryName = attackedCountry.getName();
-		
-		List<Country> occupiedCountries = this.getPlayerCountries();
-		//it's possible that there many attacker's countries adj the selected attacked country
-		for(Country con : occupiedCountries) {
-			//only consider attaker's countries with at least 2 armies
-			if(con.getNumArmies() >= 2) {
-				List<String> adjCountries = con.getAdjacentCountries();
-				for(String name : adjCountries) {
-					if(name.equals(attackedCountryName) ) {
-						attackingCountries.add(con.getName());
-					}
-				}
-			}
-			
-		}
-		// check if the attacked country is adjacent to attacker's territories
-		if(attackingCountries.isEmpty()) {
-			throw new IllegalArgumentException("The attacked country must be adjacent to any of attacker's countries!");
-		}
-		
-		//if there are 2 or more attacking country options, ask user to select one
-		String attackingCountryName = null;
-		if(attackingCountries.size() > 1) {
-			attackingCountryName = controller.selectAttackingCountry(attackingCountries);
-		}else {
-			attackingCountryName = attackingCountries.get(0);
-		}
-		
-		Country attackingCountry = map.getCountry(attackingCountryName);
-		//check if the attacking country has at least 2 armies
-		if(attackingCountry.getNumArmies() < 2) {
-			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");
-		}
-		
-		//request user to choose all-out mode
-		if(controller.isAllOutMode()) {
-			this.goAllOut(attackingCountry, attackedCountry);
-		}else {
-			//roll dice
-			int[] attackerDice = null;
-			int[] defenderDice = null;
-			int attackerSelectNumDice = 0;
-			int defenderSelectNumDice = 0;
-			
-			//get number of dice from attacker
-			while(true) {
-				try {
-					attackerSelectNumDice = controller.getNumDiceAttacker();
-					attackerDice = rollDiceAttacker(attackingCountry, attackerSelectNumDice);
-					break;
-				}catch(IllegalArgumentException e) {
-					throw e;
-				}
-			}
-			
-			//get number of dice from defender
-			while(true) {
-				try {
-					defenderSelectNumDice = controller.getNumDiceDefender();
-					defenderDice = rollDiceDefender(attackedCountry,defenderSelectNumDice);
-					break;
-				}catch(IllegalArgumentException e){
-					throw e;
-				}
-			}
-			
-			//battle
-			int[] result = goToBattle(attackerDice, defenderDice);
-			invade(result, attackingCountry, attackedCountry, attackerSelectNumDice );
-		}
-		
-		
-		
+		this.strategy.attack();
 	}
 
-
-
-	/**
-	 * attacks in all-out mode.
-	 *
-	 * @param attackingCountry the attacking country
-	 * @param attackedCountry the attacked country
-	 */
-	public void goAllOut(Country attackingCountry, Country attackedCountry) {
-		//keep attacking as long as there's enough armies to attack and haven't occupied defender's country
-		while(attackingCountry.getNumArmies() > 1 && attackedCountry.getOwner() != this) {
-			//get max number of dices possible for attacker
-			int numDiceAttacker = (attackingCountry.getNumArmies() > 3) ? 3 : attackingCountry.getNumArmies() - 1;
-			int numDiceDefender = (attackedCountry.getNumArmies() >= 2) ? 2 : attackedCountry.getNumArmies();
-			int[] attackerDice = rollDiceAttacker(attackingCountry, numDiceAttacker);
-			int[] defenderDice = rollDiceDefender(attackedCountry,numDiceDefender);
-			//battle
-			int[] result = goToBattle(attackerDice, defenderDice);
-			invade(result, attackingCountry, attackedCountry, numDiceAttacker);
-		}
-		
-	}
-
-
-
-	/**
-	 * Deduct armies on both sides based on dice results and attacker occupies defender's country if possible.
-	 *
-	 * @param result the dice result
-	 * @param attackingCountry the attacking country
-	 * @param attackedCountry the attacked country
-	 * @param attackerSelectNumDice the attacker select num dice
-	 */
-	private void invade(int[] result, Country attackingCountry, Country attackedCountry, int attackerSelectNumDice) {
-		Player defender = attackedCountry.getOwner();
-		uiInstance = new UI();
-		isCountryInvaded= false;
-		if(result[0] > 0) {
-			controller.showDialog(this.getPlayerName() + " lost " + result[0] + " army");
-			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - result[0]);
-			this.setArmies(this.getArmies() - result[0]);
-		}
-		if(result[1] > 0) {
-			controller.showDialog(defender.getPlayerName() + " lost " + result[1] + " army");
-			attackedCountry.setNumArmies(attackedCountry.getNumArmies() - result[1]);
-			defender.setArmies(defender.getArmies() - result[1]);
-		}
-		
-		//check if attacker can occupy defender's territory (attackedCountry)
-		if(attackedCountry.getNumArmies() == 0) {
-			//flag the counter if player invades a country
-			isCountryInvaded= true;
-			this.addCountry(attackedCountry.getName(), attackedCountry);
-			defender.removeCountry(attackedCountry.getName());
-			attackedCountry.setNumArmies(attackedCountry.getNumArmies() + attackerSelectNumDice);
-			attackingCountry.setNumArmies(attackingCountry.getNumArmies() - attackerSelectNumDice);
-			controller.showDialog(this.getPlayerName() + " has conquered " + attackedCountry.getName());
-
-			//check if attacker has conquered a whole continent
-			Continent continent = map.getContinent(attackedCountry.getContinent());
-			if(this.hasConqueredContinent(continent)) {
-				this.addContinent(continent.getName(), continent);
-				controller.showDialog(this.getPlayerName() + " has conquered " + continent.getName());
-
-			}
-			
-			//check if defender just lost a continent
-			if(defender.hasLostContinent(continent)) {
-				defender.removeContinent(continent.getName());
-				controller.showDialog(defender.getPlayerName() + " has lost full control of " + continent.getName());
-				if(defender.getPlayerCountries().size()==0) {
-					this.getCardsAcquired().addAll(defender.getCardsAcquired());
-				}
-
-			}
-		}
-		
-	}
+	
 
 	/**
 	 * @return flag to check if any country invaded or not
 	 */
 	public boolean isAnyCountryInvaded() {
 		return isCountryInvaded;
+	}
+	
+	/**
+	 * Sets  isCountryInvaded
+	 *
+	 * @param bool the new checks if is country invaded
+	 */
+	public void setIsCountryInvaded(boolean bool) {
+		this.isCountryInvaded = bool;
 	}
 
 	/**
@@ -647,83 +505,8 @@ public class Player implements Observable {
 		}
 		return true;
 	}
-
-
-
-	/**
-	 * compares 2 results of dices to decide who wins the battle
-	 * returns the result in an array of 2 elements: [0] contains number of attacker's lost armies, [1] contains that of defender.
-	 *
-	 * @param attackerDice the attacker dice
-	 * @param defenderDice the defender dice
-	 * @return the number indicating the winner
-	 */
-	public int[] goToBattle(int[] attackerDice, int[] defenderDice) {
-		//stores result of the battle [0] contains number of attacker's lost armies, [1] contains that of defender
-		int[] result = new int[2];
-		
-		//stores the smaller number of dices between the 2 sets of dices
-		int numDice = Math.min(attackerDice.length, defenderDice.length);
-		for(int i = 0; i < numDice; i++) {
-			//compare the highest (and second highest) dice of both 
-			if(attackerDice[i] > defenderDice[i]) {
-				//defender loses 1 army
-				result[1] += 1;
-
-			} else {
-				//attacker loses 1 army
-				result[0] += 1;
-			}
-		}
-		return result;
-	}
-
-
-
-	/**
-	 * validate user choice of number of dices and..
-	 * get dice result for the attacker's country.
-	 *
-	 * @param attackingCountry the attacking country
-	 * @param numDice the num dice
-	 * @return the result
-	 * @throws IllegalArgumentException the illegal argument exception
-	 */
-	public int[] rollDiceAttacker(Country attackingCountry, int numDice) throws IllegalArgumentException {
-		if(numDice > 3 || numDice < 0) {
-			throw new IllegalArgumentException("Please enter 1, 2, or 3 only");
-		}
-		//must have at least one more army than number of dices
-		if( attackingCountry.getNumArmies() - numDice < 1) {
-			throw new IllegalArgumentException("must have at least one more army than number of dices!");
-		}
-		DiceRoller dicer = DiceRoller.getInstance();
-		
-		return dicer.roll(numDice);	
-	}
 	
-	/**
-	 * validates user's choice of number of dices and..
-	 * get dice result for defender's country
-	 *
-	 * @param defendingCountry the defending country
-	 * @param numDice the num dice
-	 * @return the result
-	 * @throws IllegalArgumentException the illegal argument exception
-	 */
-	public int[] rollDiceDefender(Country defendingCountry, int numDice) throws IllegalArgumentException {
-		if(numDice > 2|| numDice < 0) {
-			throw new IllegalArgumentException("Please enter 1 or 2 only");
-		}
-		//must have at least 2 army to roll 2 dices
-		if( defendingCountry.getNumArmies() < 2 && numDice >= 2) {
-			throw new IllegalArgumentException("must have at least 2 army to roll 2 dices!");
-		}
-		
-		DiceRoller dicer = DiceRoller.getInstance();
-		
-		return dicer.roll(numDice);
-	}
+	
 
 	/**
 	 * Exchange cards.
@@ -777,46 +560,8 @@ public class Player implements Observable {
 	 * distribute armies among occupied countries.
 	 */
 	public void reEnforce() {
-		controller.setCurrentPhase("Re-Enforcement");
-		PhaseView phaseView = new PhaseView();
-		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
-		//System.out.println("-----------Re-EnForcement Phase-----------");
-		int newArmies = obtainNewArmies();
-		this.notifyChanges(EventType.PHASE_NOTIFY);
-		Map<Country, Integer> list = controller.distributeArmies(newArmies);
-		this.distributeArmies(list);
+		this.strategy.reEnforce();
 		
-	}
-
-	
-	/**
-	 * Obtain new armies.
-	 *
-	 * @return total new armies current player is granted to be added to existing armies.
-	 */
-	public int obtainNewArmies() {
-		
-		
-		//redeem armies by cards
-		int tradeNumber= getTradeCount();
-		int armiesByCards = tradeNumber*5;
-		
-		//obtain armies by number of territories occupied
-		int numCountries = this.getPlayerCountries().size();
-		int numArmies = numCountries / 3;
-		int armiesByCountries = ((numArmies > MIN_NEW_ARMIES)) ? numArmies : MIN_NEW_ARMIES;
-		
-		//obtain armies by number of continents controlled
-		List<Continent> continents= this.getPlayerContinents();
-		int armiesByContinents = 0;
-		for(Continent c : continents) {
-			armiesByContinents += c.getMaxArmies();
-		}
-		
-		int totalNewArmies = armiesByCountries + armiesByContinents + armiesByCards;
-		this.increaseArmies(totalNewArmies);
-		return totalNewArmies;
 	}
 	
 	
@@ -826,85 +571,7 @@ public class Player implements Observable {
 	 * @throws IllegalArgumentException if 2 countries given are not adjacent or if one of the countries is not owned by player
 	 */
 	public void fortify() throws IllegalArgumentException {
-		controller.setCurrentPhase("Fortification");
-		PhaseView phaseView = new PhaseView();
-		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		notifyChanges(EventType.PHASE_VIEW_NOTIFY);
-		//System.out.println("--------------Fortification Phase------------");
-		//move armies from one (and only one) country to another neighboring country
-		String fromName = controller.selectCountryToTransferFrom(this.getPlayerCountries());
-		Country fromCountry = this.getCountryByName(fromName);
-		if(fromCountry == null) {
-			throw new IllegalArgumentException(fromName + " is not a country you occupied!");
-		}
-		List<String> adjCountries = fromCountry.getAdjacentCountries();
-		//get the names of countries occupied by this player among adjacent countries
-		List<String> occupiedCountries = new ArrayList<String>();
-		for(int i = 0; i < adjCountries.size(); i++) {
-			Country country = this.getCountryByName(adjCountries.get(i));
-			if(country != null) {
-				occupiedCountries.add(adjCountries.get(i));
-			}
-		}
-		if( occupiedCountries.size() == 0) {
-			throw new IllegalArgumentException("There is no adjacent countries occupied by you!");
-		}
-		String toName = controller.selectCountryToTransferTo(occupiedCountries);
-		int numArmies = controller.getParamsForFortification(fromCountry);
-		Country toCountry = this.getCountryByName(toName);
-//		fromCountry.setNumArmies(fromCountry.getNumArmies() - numArmies);
-//		toCountry.setNumArmies(toCountry.getNumArmies() + numArmies);
-		moveArmies(fromName, toName, numArmies);
-		notifyChanges(EventType.FORTIFICATION_NOTIFY);
-	}
-
-	/**
-	 * Move armies.
-	 *
-	 * @param fromCountry the country from which armies are transfered
-	 * @param toCountry   the country to which armies are transfered
-	 * @param numArmies   number of armies transfered
-	 * @exception IllegalArgumentException There must be at least one army in one
-	 *                                     country
-	 */
-	private void moveArmies(String fromCountry, String toCountry, int numArmies) throws IllegalArgumentException {
-		Country from = this.getCountryByName(fromCountry);
-		Country to = this.getCountryByName(toCountry);
-		if( from == null || to == null) {
-			throw new IllegalArgumentException("The selected country is not occupied by you!");
-		}
-		List<String> adjFrom = from.getAdjacentCountries();
-		List<String> adjTo = to.getAdjacentCountries();
-		//check if 2 countries are adjacent
-		if(adjFrom == null || adjTo == null || !adjFrom.contains(to.getName()) || !adjTo.contains(from.getName())) {
-			throw new IllegalArgumentException("Two countries must be adjacent");
-		}
-		//check if number of armies move is valid
-		if(from.getNumArmies() - numArmies < 1) {
-			throw new IllegalArgumentException("there must be at least 1 army per country");
-		}
-		if(numArmies < 0) {
-			throw new IllegalArgumentException("Number of armies must be non-negative!");
-		}
-		from.setNumArmies(from.getNumArmies() - numArmies);
-		to.setNumArmies(to.getNumArmies() + numArmies);
-		
-	}
-	
-	/**
-	 * Distribute armies. For testing purpose only
-	 *
-	 * @param list the list of countries with corresponding armies.
-	 * @VisibleForTesting
-	 */
-	public void distributeArmies(Map<Country, Integer> list) {
-		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
-			Country country = entry.getKey();
-			int numArmies = entry.getValue();
-			int totalArmiesToSet = numArmies + country.getNumArmies();
-			this.getCountryByName(country.getName()).setNumArmies(totalArmiesToSet);
-			this.setNumArmiesDispatched(this.getNumArmiesDispatched() + numArmies);
-		}
+		this.strategy.fortify();
 	}
 	
 }
