@@ -141,7 +141,6 @@ public class MapController {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Exception:"+e.getCause());
 			throw new MapInvalidException("Error while adding new continent. Provide a valid input.");
 		} 
 	}
@@ -159,7 +158,6 @@ public class MapController {
 			for (Country rec : countriesDefault) {
 				countryNameSet.add(rec.getName());
 			}
-			System.out.println(" In add Country addCountry");
 			for(String str :countryLst) {
 				String[] temp = str.split(",");
 				if (temp != null) {

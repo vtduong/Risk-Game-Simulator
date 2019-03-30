@@ -16,6 +16,7 @@ import beans.Continent;
 import beans.Country;
 import beans.Player;
 import controller.GameController;
+import strategies.Human;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -89,6 +90,8 @@ public class ReEnforcementTest {
 		//add one player to system
 		controller = GameController.getInstance();
 		gamer1 = new Player("gamer1");
+		gamer1.setStrategy(new Human(gamer1));
+		
 		controller.addPlayer(gamer1);
 		controller.setCurrentPlayer(gamer1);
 	}
@@ -119,19 +122,19 @@ public class ReEnforcementTest {
 		//create phase
 //		phase = new ReEnforcement();
 		Player curPlayer = controller.getCurrentPlayer();
-		curPlayer.obtainNewArmies();
+		curPlayer.getStrategy().obtainNewArmies();
 		assertEquals(4, gamer1.getArmies());
 		String [] moreCountryNames = {mex.getName(), eng.getName(), ger.getName(), rus.getName()};
 		Country [] moreCountries = {mex, eng, ger, rus};
 		gamer1.addCountries(moreCountryNames, moreCountries);
 		assertEquals(8, gamer1.getPlayerCountries().size());
-		curPlayer.obtainNewArmies();
+		curPlayer.getStrategy().obtainNewArmies();
 		assertEquals(8, gamer1.getArmies());
 		String [] names = {france.getName(), china.getName(), ugan.getName(), congo.getName()};
 		Country [] Additionalcountries = {france, china, ugan, congo};
 		gamer1.addCountries(names, Additionalcountries);
 		assertEquals(12, gamer1.getPlayerCountries().size());
-		curPlayer.obtainNewArmies();
+		curPlayer.getStrategy().obtainNewArmies();
 		assertEquals(13, gamer1.getArmies());
 		
 	}
@@ -152,13 +155,13 @@ public class ReEnforcementTest {
 		assertEquals(4, gamer1.getPlayerCountries().size());
 		gamer1.setArmies(9);
 		Player curPlayer = controller.getCurrentPlayer();
-		curPlayer.obtainNewArmies();
+		curPlayer.getStrategy().obtainNewArmies();
 		assertEquals(12, gamer1.getArmies());
 		for(int i = 0; i < countries.length; i++) {
 			list.put(countries[i], 4);
 		}
 		//distribute armies to countries
-		curPlayer.distributeArmies(list);
+		curPlayer.getStrategy().distributeArmies(list);
 		assertEquals(4, (int)list.get(vn));
 		assertEquals(4, (int)list.get(indi));
 		assertEquals(4, (int)list.get(usa));
