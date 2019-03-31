@@ -133,6 +133,8 @@ public class AggressiveStrategy extends Strategy{
 		// TODO Auto-generated method stub
 		player.notifyChanges(EventType.PHASE_NOTIFY);
 		
+		//Q: Should initial armies placement for aggresive be random for player 1 ?
+		
 	}
 	
 }
