@@ -84,7 +84,8 @@ public class AggressiveStrategy extends Strategy{
 				//TODO : Makes changes in re-enforce to select the next strongest country as attacking country
 			}
 		}
-		
+		// Question? :need to confirm if the attacker defeated the defender, should it attack
+		//another country or fortify.
 		this.goAllOut(attackingCountry, toAttack);
 		
 		
@@ -95,16 +96,34 @@ public class AggressiveStrategy extends Strategy{
 	 */
 	@Override
 	public void fortify() {
-		// need confirmation on should I assign aarmies to 2nd strongest or to a country that in future might have a 
+		// Question? need confirmation on should I assign armies to 2nd strongest or to a country that in future might have a 
 		// chance to win.
 		controller.setCurrentPhase("Fortification");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
-		Country fromCountry;
+		Country fromCountry = null,toCountry = null;
+		String toName,fromName =attackingCountry.getName();
+		
+		
 		//check id attacking country has any defending neighbor left.
-		if(getdefendingNeighbours(attackingCountry).size()>0) {
-			
+		if(getdefendingNeighbours(attackingCountry).size()==0) {
+			 fromCountry =player.getCountryByName(attackingCountry.getName());
+			 toCountry = compareCountries("strongest",fromCountry);
+		}else {
+			// TODO bases on Confirmation.
+		}
+		if(fromCountry == null) {
+			throw new IllegalArgumentException(fromName + " is not a country you occupied!");
+		}
+	
+		if(toCountry==null) {
+			throw new IllegalArgumentException("There is no adjacent countries occupied by you!");
+		}else {
+			toName=toCountry.getName();
+			//Question? Armies assignment? will depend  on question for attack.
+			this.moveArmies(fromName, toName, fromCountry.getNumArmies());
+			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
 		}
 		
 	}
