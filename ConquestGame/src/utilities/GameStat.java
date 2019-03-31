@@ -29,6 +29,10 @@ public class GameStat {
 		return obj;
 	}
 	
+	/**
+	 * This method is used to save game.
+	 * @throws IOException
+	 */
 	public void save() throws IOException{
 		String saveStatToFile = Config.getProperty("saveTofile");
 		FileOutputStream file = new FileOutputStream(saveStatToFile);
@@ -38,6 +42,11 @@ public class GameStat {
 	}
 	
 	
+	/**
+	 * This method is used to load the game from the previous checkpoint.
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public void load() throws IOException, ClassNotFoundException {
 		String loadStatFromFile = Config.getProperty("loadFromfile");
 		FileInputStream file = new FileInputStream(loadStatFromFile);
