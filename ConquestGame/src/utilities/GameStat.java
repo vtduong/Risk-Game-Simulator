@@ -46,8 +46,8 @@ public class GameStat {
 		controller = (GameController)objectReader.readObject();
 	}
 	
-	public static void main(String[] args) throws IOException {
-		GameStat obj = GameStat.getInstance();
-		obj.save();
-	}
+//	public static void main(String[] args) throws IOException {
+//		GameStat obj = GameStat.getInstance();
+//		obj.save();
+//	}
 }
