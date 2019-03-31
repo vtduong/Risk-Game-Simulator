@@ -1,4 +1,6 @@
 package gui;
+import java.io.Serializable;
+
 import beans.Observable;
 import controller.GameController;
 
@@ -10,7 +12,7 @@ import controller.GameController;
  * The phase view should be cleared at the beginning of every phase.
  *
  */
-public class PhaseView implements Observer {
+public class PhaseView implements Observer, Serializable{
 	
 	/** The controller. */
 	private GameController controller = GameController.getInstance();

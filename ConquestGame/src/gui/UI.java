@@ -3,6 +3,7 @@
  */
 package gui;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import utilities.Tuple;
  * @author vanduong
  *
  */
-public class UI implements Observer{
+public class UI implements Observer, Serializable{
 	
 	/** The controller. */
 	private static GameController controller = GameController.getInstance();

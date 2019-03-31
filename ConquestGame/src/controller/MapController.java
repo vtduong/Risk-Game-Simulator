@@ -1,24 +1,19 @@
 package controller;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
 import beans.Continent;
 import beans.Country;
 import exception.MapInvalidException;
 import utilities.MapFileWriter;
-import java.lang.*;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,7 +24,7 @@ import java.lang.*;
  * @author apoorvasharma 
  * @version 1.0.0
  */
-public class MapController {
+public class MapController implements Serializable{
 	
 	/** The map cntrl. */
 	private volatile static MapController mapCntrl;

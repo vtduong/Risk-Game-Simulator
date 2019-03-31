@@ -3,6 +3,7 @@ package utilities;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import beans.Continent;
@@ -14,7 +15,7 @@ import beans.Country;
  *
  * @author apoorvasharma version 1.0.0
  */
-public class MapFileWriter {
+public class MapFileWriter implements Serializable {
 
 	/**
 	 * Write file.

@@ -3,6 +3,7 @@ package utilities;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ import exception.MapInvalidException;
  * interaction.
  * 
  */
-public class CustomMapGenerator {
+public class CustomMapGenerator implements Serializable{
 	
 	/** The custom map. */
 	private static CustomMapGenerator customMap = null;

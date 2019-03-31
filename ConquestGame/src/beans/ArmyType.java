@@ -3,13 +3,15 @@
  */
 package beans;
 
+import java.io.Serializable;
+
 // TODO: Auto-generated Javadoc
 /**
  * enum for army types: Infantry, Cavalry, Artillery.
  *
  * @author vanduong
  */
-public enum ArmyType {
+public enum ArmyType implements Serializable{
 	
 	/** The infantry. */
 	INFANTRY (1),

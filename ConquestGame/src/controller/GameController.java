@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +32,7 @@ import utilities.MapValidator;
  * 
  * @author
  */
-public class GameController {
+public class GameController implements Serializable{
 
 	/** The Constant INPUTFILE. */
 	private final static String INPUTFILE = "src/resources/World.map";
@@ -46,7 +47,7 @@ public class GameController {
 
 
 	private PhaseView phaseView = null;
-	Scanner scan = new Scanner(System.in);
+	transient Scanner scan = new Scanner(System.in);
 	private CardExchangeView cardView= null;
 
 	/** The country list. */

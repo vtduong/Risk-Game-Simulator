@@ -3,13 +3,15 @@
  */
 package utilities;
 
+import java.io.Serializable;
+
 // TODO: Auto-generated Javadoc
 /**
  * This class is a container to stores info needed for army distribution in ReEnforcement phase.
  *
  * @author vanduong
  */
-public class Tuple {
+public class Tuple implements Serializable {
 	
 	/** The country where armies are transferring from. */
 	private String fromCountry;

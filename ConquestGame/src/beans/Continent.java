@@ -1,5 +1,6 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import gui.Observer;
  *
  * @author vanduong
  */
-public class Continent {
+public class Continent implements Serializable{
 
 	/** The name. */
 	private String name;

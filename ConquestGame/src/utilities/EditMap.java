@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ import exception.MapInvalidException;
  * @Deprecated  This class is no longer used. It is merged with customMapGeneretor
  * 				as part of map refactoring changes.
  */
-public class EditMap  {
+public class EditMap implements Serializable {
 	
 	/** The continents. */
 	private Map<String, Integer> continents = null;

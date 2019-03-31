@@ -10,7 +10,7 @@ import java.util.*;
  *
  * @author ankit
  */
-public class ReplicateMap {
+public class ReplicateMap implements Serializable {
 	
 	/** The inputfile. */
 	private final String INPUTFILE = "src/resources/World.map";

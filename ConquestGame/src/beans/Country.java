@@ -1,5 +1,6 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import gui.Observer;
 /**
  * The Class Country.
  */
-public class Country {
+public class Country implements Serializable{
 
 	/** The name. */
 	private String name = null;

@@ -1,4 +1,5 @@
 package utilities;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
@@ -13,7 +14,7 @@ import org.apache.commons.lang3.ArrayUtils;
  *
  */
 
-public class DiceRoller {
+public class DiceRoller implements Serializable{
 
 	/** The dice roller. */
 	private static DiceRoller dice_roller = null;

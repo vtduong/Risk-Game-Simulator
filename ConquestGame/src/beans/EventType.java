@@ -1,5 +1,7 @@
 package beans;
 
+import java.io.Serializable;
+
 // TODO: Auto-generated Javadoc
 /**
  * This class is used for naming the events that raise 
@@ -7,7 +9,7 @@ package beans;
  * @author sandeepchowdaryannabathuni
  *
  */
-public class EventType {
+public class EventType implements Serializable{
 	
 	/** The Constant REENFORCEMENT_NOTIFY. */
 	public static final int REENFORCEMENT_NOTIFY = 1;

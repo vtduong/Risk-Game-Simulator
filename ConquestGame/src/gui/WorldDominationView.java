@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import utilities.CustomMapGenerator;
  * @author sandeepchowdaryannabathuni
  *
  */
-public class WorldDominationView implements Observer{
+public class WorldDominationView implements Observer, Serializable {
 	
 	/** The obj. */
 	private static WorldDominationView obj = null;

@@ -1,5 +1,6 @@
 package beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,21 +10,17 @@ import java.util.Random;
 import java.util.Scanner;
 
 import controller.GameController;
-import exception.MapInvalidException;
 import gui.CardExchangeView;
 import gui.Observer;
-import gui.PhaseView;
-import gui.UI;
 import strategies.Strategy;
 import utilities.CustomMapGenerator;
-import utilities.DiceRoller;
 
 // TODO: Auto-generated Javadoc
 /**
  * <p> This class stores the players details.<p>
  *
  */
-public class Player implements Observable {
+public class Player implements Observable, Serializable{
 	
 
 	/** The observer list. */
@@ -47,7 +44,7 @@ public class Player implements Observable {
 	}
 
 	/** The scan. */
-	Scanner scan= new Scanner(System.in);
+	transient Scanner scan= new Scanner(System.in);
 	
 	/** flag to check if any country invaded.  */
 	boolean isCountryInvaded;

@@ -18,13 +18,13 @@ import exception.MapInvalidException;
  * @version 1.0.0
  */
 
-public class MapParser {
+public class MapParser implements Serializable {
 
 	/** The input file. */
 	private String inputFile;
 	
 	/** The sc. */
-	private Scanner sc;
+	private transient Scanner sc;
 
 	/**
 	 * Instantiates a new map parser.

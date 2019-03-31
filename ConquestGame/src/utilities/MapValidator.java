@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,7 +36,7 @@ import exception.MapInvalidException;
  * @author apoorvasharma version 1.0.0
  *
  */
-public class MapValidator {
+public class MapValidator implements Serializable {
 	
 	/** The input file. */
 	private String inputFile;

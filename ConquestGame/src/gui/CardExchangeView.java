@@ -1,6 +1,7 @@
 
 package gui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ import controller.GameController;
  *
  * @author yadavsurbhi
  */
-public class CardExchangeView implements Observer {
+public class CardExchangeView implements Observer, Serializable{
 
 /** The controller. */
 public GameController controller;
@@ -27,7 +28,7 @@ Player player;
 boolean isExchangePossible= false;
 
 /** The scan. */
-Scanner scan= new Scanner(System.in);
+transient Scanner scan= new Scanner(System.in);
 List<String> cardsToRemoveList;
 
 

@@ -2,6 +2,7 @@ package config;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Properties;
 
 // TODO: Auto-generated Javadoc
@@ -11,7 +12,7 @@ import java.util.Properties;
  * @author sandeepchowdaryannabathuni
  *
  */
-public class Config {
+public class Config implements Serializable{
 		
 	/** The Constant CONFIG. */
 	private final static String CONFIG = "src/config.properties";

@@ -3,13 +3,15 @@
  */
 package beans;
 
+import java.io.Serializable;
+
 // TODO: Auto-generated Javadoc
 /**
  * enum for card sets, representing different sets of 3 RISK cards.
  *
  * @author vanduong
  */
-public enum CardSet {
+public enum CardSet implements Serializable{
 	
 	/** The all infantry. */
 	ALL_INFANTRY(1),

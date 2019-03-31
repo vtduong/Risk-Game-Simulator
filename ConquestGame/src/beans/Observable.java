@@ -3,8 +3,6 @@
  */
 package beans;
 
-import java.util.List;
-
 import gui.Observer;
 
 // TODO: Auto-generated Javadoc
