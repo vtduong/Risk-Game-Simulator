@@ -3,6 +3,8 @@
  */
 package strategies;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -280,7 +282,72 @@ public abstract class Strategy {
 		to.setNumArmies(to.getNumArmies() + numArmies);
 		
 	}
-
+	
+	/**
+	 * Get the weakest or strongest country
+	 * @param getType :Determines the type of country in terms of armies; greater the army stronger the territory
+	 * @param countryToRemove :Removes country if the strongest country is not strong enough for aggressive mode.
+	 * @return :County instance.
+	 */
+	public Country compareCountries(String getType,Country countryToRemove) {
+		List<Country> countryList=player.getPlayerCountries();
+		if(countryToRemove==null) {
+			countryList.remove(countryToRemove);
+		}
+		Country toReturn =countryList.get(0);
+		for (int i = 0; i < countryList.size(); i++) {
+			  for (int j = i+1; j < countryList.size(); j++) {
+				  if(getType.equalsIgnoreCase("strongest")) {
+					  if(countryList.get(i).getNumArmies()>countryList.get(j).getNumArmies() && countryList.get(i).getNumArmies()>toReturn.getNumArmies()) {
+						  toReturn= countryList.get(i);
+					  }else if(countryList.get(j).getNumArmies()>countryList.get(i).getNumArmies() && countryList.get(j).getNumArmies()>toReturn.getNumArmies()) {
+						  toReturn= countryList.get(j);
+					  }
+				  }else if(getType.equalsIgnoreCase("weakest")) {
+					  if(countryList.get(i).getNumArmies()<countryList.get(j).getNumArmies() && countryList.get(i).getNumArmies()<toReturn.getNumArmies()) {
+						  toReturn= countryList.get(i);
+					  }else if(countryList.get(j).getNumArmies()<countryList.get(i).getNumArmies() && countryList.get(j).getNumArmies()<toReturn.getNumArmies()) {
+						  toReturn= countryList.get(j);
+					  }
+				  }
+			  }
+			}
+		return toReturn;
+	}
+	
+	/**
+	 * sets the map to be used for distributing armies
+	 * @param countryToSet
+	 * @return
+	 */
+	public Map<Country, Integer> generateArmyCountyMap(Country countryToSet) {
+		Map<Country, Integer> armyCountryMap = new HashMap<Country,Integer>();
+		for(Country con: player.getPlayerCountries()) {
+			armyCountryMap.put(con, con.getNumArmies());
+		}
+		armyCountryMap.put(countryToSet, countryToSet.getNumArmies());
+		return armyCountryMap;
+		
+	}
+	
+	/**
+	 * Returns list of adjacent countries that can be attacked.
+	 * @param attacking :attacking country
+	 * @return adjacent countries that does not belong to current player.
+	 */
+	public List<Country> getdefendingNeighbours(Country attacking) {
+		List<Country> defendingNeighbours = map.getInstance().getAdjacentCountry(attacking);
+		defendingNeighbours.removeAll(player.getPlayerCountries());
+		return defendingNeighbours;
+	}
+    
+	public boolean isStronger(Country attacking,Country defending) {
+		boolean isTrue=false;
+		if(attacking.getNumArmies()>defending.getNumArmies()) {
+			isTrue=true;
+		}
+		return isTrue;
+	}
 	/**
 	 * Re- enforce player's armies. Each strategy has a different reEnforcement behavior
 	 */

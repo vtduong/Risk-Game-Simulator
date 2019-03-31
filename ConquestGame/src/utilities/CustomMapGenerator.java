@@ -391,4 +391,19 @@ public class CustomMapGenerator implements Serializable{
 			return null;
 		}
 	}
+	
+	/**
+	 * Responsible for returning list of adjacent countries based on the input provided.
+	 * @param name Country which determines the list of adjacent countries
+	 * @return list of adjacent Countries
+	 */
+	public List<Country> getAdjacentCountry(Country name){
+		List<Country> adjacentCountriesList = new ArrayList<Country>();
+		List<String> adjStrings = name.getAdjacentCountries();
+		for(String str:adjStrings) {
+			adjacentCountriesList.add(getCountry(str));
+		}
+		return adjacentCountriesList;
+		
+	}
 }
