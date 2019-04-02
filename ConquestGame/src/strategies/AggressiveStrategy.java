@@ -119,7 +119,7 @@ public class AggressiveStrategy extends Strategy{
 		Country rec=compareCountries();
 		int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
 		rec.setNumArmies(numArmiesToDispatch);
-		this.distributeArmies(generateArmyCountyMap(attackingCountry));
+		this.distributeArmies(generateArmyCountyMap(rec));
 	}
 	
 }
