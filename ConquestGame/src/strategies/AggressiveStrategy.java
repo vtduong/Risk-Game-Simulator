@@ -34,19 +34,6 @@ public class AggressiveStrategy extends Strategy{
 		// TODO Auto-generated method stub
 		int newArmies = obtainNewArmies();
 		attackingCountry =compareCountries("strongest",attackingCountry);
-		/*weakestDefender =compareCountries("weakest",weakestDefender);
-		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);
-		player.notifyChanges(EventType.PHASE_NOTIFY);
-		// if the attacking country is weak as compared to its weakest defender 
-		while(!isStronger(attackingCountry,weakestDefender)) {
-			for(Country rec :defendingNeighbours) {
-				if(attackingCountry.getNumArmies()>rec.getNumArmies()) {
-					attackingCountry =compareCountries("strongest",attackingCountry);
-					weakestDefender =compareCountries("weakest",weakestDefender);
-				}
-				
-			}
-		}*/
 		if(attackingCountry!=null) {
 			attackingCountry.setNumArmies(newArmies);
 			this.distributeArmies(generateArmyCountyMap(attackingCountry));
@@ -80,61 +67,59 @@ public class AggressiveStrategy extends Strategy{
 			if(attackingCountry.getNumArmies()>rec.getNumArmies()) {
 				toAttack =rec;
 				break;
-			}else {
-				//TODO : Makes changes in re-enforce to select the next strongest country as attacking country
 			}
 		}
-		// Question? :need to confirm if the attacker defeated the defender, should it attack
-		//another country or fortify.
 		this.goAllOut(attackingCountry, toAttack);
 		
 		
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see strategies.Strategy#fortify()
 	 */
 	@Override
 	public void fortify() {
-		// Question? need confirmation on should I assign armies to 2nd strongest or to a country that in future might have a 
-		// chance to win.
 		controller.setCurrentPhase("Fortification");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
-		Country fromCountry = null,toCountry = null;
-		String toName,fromName =attackingCountry.getName();
-		
-		
-		//check id attacking country has any defending neighbor left.
-		if(getdefendingNeighbours(attackingCountry).size()==0) {
-			 fromCountry =player.getCountryByName(attackingCountry.getName());
-			 toCountry = compareCountries("strongest",fromCountry);
-		}else {
-			// TODO bases on Confirmation.
+		Country fromCountry = null, toCountry = null;
+		String toName, fromName = attackingCountry.getName();
+
+		fromCountry = player.getCountryByName(attackingCountry.getName());
+		toCountry = compareCountries("strongest", fromCountry);
+		int armiesToMove = 0;
+		// check id attacking country has any defending neighbor left.
+		if (getdefendingNeighbours(attackingCountry).size() == 0) {
+			armiesToMove = fromCountry.getNumArmies() - 1;
+		} else {
+			armiesToMove = 1;
 		}
-		if(fromCountry == null) {
+		if (fromCountry == null) {
 			throw new IllegalArgumentException(fromName + " is not a country you occupied!");
 		}
-	
-		if(toCountry==null) {
+
+		if (toCountry == null) {
 			throw new IllegalArgumentException("There is no adjacent countries occupied by you!");
-		}else {
-			toName=toCountry.getName();
-			//Question? Armies assignment? will depend  on question for attack.
-			this.moveArmies(fromName, toName, fromCountry.getNumArmies());
+		} else {
+			toName = toCountry.getName();
+			this.moveArmies(fromName, toName, armiesToMove);
 			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
 		}
-		
+
 	}
 
 	@Override
 	public void placeArmiesForSetup() {
 		// TODO Auto-generated method stub
 		player.notifyChanges(EventType.PHASE_NOTIFY);
-		
-		//Q: Should initial armies placement for aggresive be random for player 1 ?
-		
+		// get the country with  with highest number of defenders and assign all the remaining armies to it,
+		Country rec=compareCountries();
+		int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
+		rec.setNumArmies(numArmiesToDispatch);
+		this.distributeArmies(generateArmyCountyMap(rec));
 	}
 	
 }

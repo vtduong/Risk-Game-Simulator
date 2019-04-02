@@ -11,7 +11,12 @@ import beans.EventType;
 import beans.Player;
 
 /**
- * @author apoorvasharma
+ * A cheater computer player strategy whose reinforce() method doubles the
+ * number of armies on all its countries, whose attack() method automatically
+ * conquers all the neighbors of all its countries, and whose fortify() method
+ * doubles the number of armies on its countries that have neighbors that belong to
+ * other players. 
+ * @author 
  *
  */
 public class CheaterStrategy extends Strategy{
