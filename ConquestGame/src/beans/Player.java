@@ -91,6 +91,9 @@ public class Player implements Observable, Serializable{
 	private static CardExchangeView cardView= new CardExchangeView();
 	
 	private Strategy strategy= null;
+	private String strategyType =null;
+	private boolean hasEnemy;
+	
 	
 	
 	/**
@@ -543,12 +546,43 @@ public class Player implements Observable, Serializable{
 	public void setCardsToRemove(){
 		
 		System.out.println("You have the following cards :"+ getCardsAcquired());
-		System.out.println("Please select three cards you want to trade off :");
-		System.out.println("(Names should be either INFANTRY or CAVALRY or ARTILLERY)");
-		for(int i=0;i<3;i++) {
-			cardType= scan.next();
-			cardToRemove.add(cardType);
+		if(getStrategyType().equals("Human")) {
+			System.out.println("Please select three cards you want to trade off :");
+			System.out.println("(Names should be either INFANTRY or CAVALRY or ARTILLERY)");
+			for(int i=0;i<3;i++) {
+				cardType= scan.next();
+				cardToRemove.add(cardType);
+			}
+		}else {
+			cardToRemove.addAll(getCardsToExchange());
+			System.out.println("Following cards are selected for transaction:"+cardToRemove);
 		}
+	}
+	
+	private List<String> getCardsToExchange() {
+		List<String> toReturn = null;
+		HashMap<String,Integer> cardsPairsCount = new HashMap<String,Integer>();
+		for(String s: getCardsAcquired()) {
+			if(cardsPairsCount.containsKey(s)) {
+				cardsPairsCount.put(s,cardsPairsCount.get(s)+1);
+			}else {
+				cardsPairsCount.put(s,1);
+			}
+		}
+		String temp ="";
+		 for(String s:cardsPairsCount.keySet()) {
+			 if(cardsPairsCount.get(s)>=3) {
+				 temp=s;
+			 }
+		 }
+		 if(temp!="") {
+			 String[] strs = {temp,temp,temp };
+			 toReturn =Arrays.asList( strs );
+		 }else {
+			 String[] strs = {"CAVALRY","INFANTRY","ARTILLERY" };
+			 toReturn =Arrays.asList( strs );
+		 }
+		 return toReturn;
 	}
 
 	/**
@@ -570,5 +604,26 @@ public class Player implements Observable, Serializable{
 	public void fortify() throws IllegalArgumentException {
 		this.strategy.fortify();
 	}
+
+
+	public String getStrategyType() {
+		return strategyType;
+	}
+
+
+	public void setStrategyType(String strategyType) {
+		this.strategyType = strategyType;
+	}
+
+
+	public boolean isHasEnemy() {
+		return hasEnemy;
+	}
+
+
+	public void setHasEnemy(boolean hasEnemy) {
+		this.hasEnemy = hasEnemy;
+	}
+
 	
 }

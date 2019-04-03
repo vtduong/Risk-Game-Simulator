@@ -295,7 +295,7 @@ public abstract class Strategy {
 	 */
 	public Country compareCountries(String getType, Country countryToRemove) {
 		List<Country> countryList = player.getPlayerCountries();
-		if (countryToRemove == null) {
+		if (countryToRemove != null) {
 			countryList.remove(countryToRemove);
 		}
 		Country toReturn = countryList.get(0);

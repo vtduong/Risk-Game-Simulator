@@ -86,7 +86,6 @@ public class BenevolentStrategy extends Strategy {
 		int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
 		rec.setNumArmies(numArmiesToDispatch);
 		this.distributeArmies(generateArmyCountyMap(rec));
-
 	}
 
 }
