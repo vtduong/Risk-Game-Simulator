@@ -1,5 +1,8 @@
 package strategies;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 import beans.Country;
 import beans.EventType;
 import beans.Player;
@@ -11,6 +14,7 @@ public class BenevolentStrategy extends Strategy {
 
 	public BenevolentStrategy(Player player) {
 		super(player);
+		this.player =player;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -39,29 +43,34 @@ public class BenevolentStrategy extends Strategy {
 		toCountry = compareCountries("weakest", null);
 		fromCountry=toCountry;
 		String toName = toCountry.getName(), fromName = null;
-
-		//fromCountry = player.getCountryByName(toCountry.getName());
-		for(Country rec: player.getPlayerCountries()) {
-			if(rec.getNumArmies()>fromCountry.getNumArmies()) {
+        ArrayList<Country> validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
+        
+        //System.out.println("------"+validCountriestoMove.size());
+		for(Country rec: validCountriestoMove) {
+			if(rec.getNumArmies()>fromCountry.getNumArmies() || fromCountry.getName().equals(toCountry.getName())) {
 				fromCountry = rec;
 			}
 		}
 		int armiesToMove = 0;
-		// check id attacking country has any defending neighbor left.
+		// check if from country has any other player as neighbor.
 		if (getdefendingNeighbours(fromCountry).size() == 0) {
 			armiesToMove = fromCountry.getNumArmies() - 1;
 		} else {
 			armiesToMove = 1;
 		}
 		if (fromCountry == null) {
-			fromName =toCountry.getName();
 			throw new IllegalArgumentException(fromName + " is not a country you occupied!");
 		}
 
 		if (toCountry == null) {
 			throw new IllegalArgumentException("There is no adjacent countries occupied by you!");
 		} else {
+			
 			toName = toCountry.getName();
+			fromName =fromCountry.getName();
+			System.out.println("To Country Name"+toName);
+			System.out.println("From Country Name"+fromName);
+			
 			this.moveArmies(fromName, toName, armiesToMove);
 			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
 		}

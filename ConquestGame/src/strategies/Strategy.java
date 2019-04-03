@@ -385,6 +385,19 @@ public abstract class Strategy {
 		}
 		return isTrue;
 	}
+	
+	public List<Country> validCountryMove(Country rec){
+		List<Country> countriestoReturn =new ArrayList<Country>();
+		List<Country> playerCountries =player.getPlayerCountries();
+		List<Country> adjacentCountries = map.getInstance().getAdjacentCountry(rec);
+		for(Country countryRec:playerCountries) {
+			if(adjacentCountries.contains(countryRec)) {
+				countriestoReturn.add(countryRec);
+			}
+		}
+		return countriestoReturn;
+		
+	}
 
 	/**
 	 * Re- enforce player's armies. Each strategy has a different reEnforcement
