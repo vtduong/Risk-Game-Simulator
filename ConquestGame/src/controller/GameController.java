@@ -20,6 +20,9 @@ import gui.PhaseView;
 import gui.UI;
 //import phases.Attack;
 import gui.WorldDominationView;
+import strategies.AggressiveStrategy;
+import strategies.BenevolentStrategy;
+import strategies.Human;
 import utilities.CustomMapGenerator;
 import utilities.MapValidator;
 
@@ -185,6 +188,25 @@ public class GameController implements Serializable{
 		}
 
 	}
+	
+	/**
+	 * This method is responsible for setting up the strategy for individual Player 
+	 * based on user input
+	 */
+	private void setupStrategy() {
+		for (int i = 0; i < controller.playerList.size(); i++) {
+			Player player = playerList.get(i);
+			currentPlayer = player;
+			if(i==0) {
+			player.setStrategyType("Aggressive");
+			player.setStrategy(new AggressiveStrategy(currentPlayer));
+			}else {
+				player.setStrategyType("Human");
+				player.setStrategy(new Human(currentPlayer));
+			}
+			//player.setStrategy(new BenevolentStrategy(currentPlayer));
+		}
+	}
 
 	
 	/**
@@ -196,6 +218,9 @@ public class GameController implements Serializable{
 		for (int i = 0; i < controller.playerList.size(); i++) {
 			Player player = playerList.get(i);
 			currentPlayer = player;
+			//player.setStrategyType("Benevolent");
+			//player.setStrategy(new AggressiveStrategy(currentPlayer));
+			//player.setStrategy(new BenevolentStrategy(currentPlayer));
 			player.getStrategy().placeArmiesForSetup();
 		}
 	}
@@ -365,7 +390,7 @@ public class GameController implements Serializable{
 	public void takePhases() throws MapInvalidException {
 //		currentPhase = new ReEnforcement();
 		cardView.getCardProgress();
-		if (currentPlayer.getCardsAcquired().size() >= 3) {
+		if (currentPlayer.getCardsAcquired().size() >= 3 && getCurrentPlayer().getStrategyType().equals("Human")) {
 			System.out.println("Do you want to exchange your cards for army reinforcement ? Y/N");
 			char exchangeChoice = scan.next().charAt(0);
 			if (exchangeChoice == 'Y' || exchangeChoice == 'y' ) {
@@ -379,6 +404,8 @@ public class GameController implements Serializable{
 					currentPlayer.notifyChanges(EventType.CARDS_EXCHANGE_NOTIFY);
 				}
 			}
+		}else if(currentPlayer.getCardsAcquired().size() >= 5) {
+			currentPlayer.exchangeCards();
 		}
 		currentPlayer.reEnforce();
 		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
@@ -445,8 +472,16 @@ public class GameController implements Serializable{
 	 * @return true, if user wants to
 	 */
 	private boolean keepWar() {
-		return UI.keepWar();
-	}
+		boolean keepWar = false;
+		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")) {
+			if(getCurrentPlayer().isHasEnemy()) {
+				keepWar =true;
+			}
+		}else {
+			keepWar = UI.keepWar();
+		}
+		return keepWar;
+	} 
 
 	/**
 	 * Request GUI to ask if user wants to go to war.
@@ -454,7 +489,16 @@ public class GameController implements Serializable{
 	 * @return true if user wants to go to war
 	 */
 	private boolean isWar() {
-		return UI.isWar();
+		boolean isWar = false;
+		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")) {
+			isWar =true;
+		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Benevolent")){
+			isWar=false;
+		}
+		else{
+			isWar = UI.isWar();
+		}
+		return isWar;
 
 	}
 
@@ -524,6 +568,7 @@ public class GameController implements Serializable{
 				System.out.println("evenly distributing countries among players in random fashion...");
 				controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
 				System.out.println("-------- Setup --------");
+				setupStrategy();
 				controller.placeInitialArmies();
 				controller.placeArmiesForSetup();
 				controller.takeTurns();
