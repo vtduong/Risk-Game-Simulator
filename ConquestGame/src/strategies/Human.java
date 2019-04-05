@@ -33,6 +33,7 @@ public class Human extends Strategy {
 	 */
 	public Human(Player player) {
 		super(player);
+		this.player=player;
 	}
 
 	

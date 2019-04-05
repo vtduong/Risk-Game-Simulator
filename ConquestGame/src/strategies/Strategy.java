@@ -295,7 +295,7 @@ public abstract class Strategy {
 	 */
 	public Country compareCountries(String getType, Country countryToRemove) {
 		List<Country> countryList = player.getPlayerCountries();
-		if (countryToRemove == null) {
+		if (countryToRemove != null) {
 			countryList.remove(countryToRemove);
 		}
 		Country toReturn = countryList.get(0);
@@ -384,6 +384,19 @@ public abstract class Strategy {
 			isTrue = true;
 		}
 		return isTrue;
+	}
+	
+	public List<Country> validCountryMove(Country rec){
+		List<Country> countriestoReturn =new ArrayList<Country>();
+		List<Country> playerCountries =player.getPlayerCountries();
+		List<Country> adjacentCountries = map.getInstance().getAdjacentCountry(rec);
+		for(Country countryRec:playerCountries) {
+			if(adjacentCountries.contains(countryRec)) {
+				countriestoReturn.add(countryRec);
+			}
+		}
+		return countriestoReturn;
+		
 	}
 
 	/**
