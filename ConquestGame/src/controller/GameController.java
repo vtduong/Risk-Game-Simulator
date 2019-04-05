@@ -551,8 +551,9 @@ public class GameController implements Serializable{
 
 	/**
 	 * @throws MapInvalidException Inits the game. @throws
+	 * @throws IOException 
 	 */
-	public void initGame() throws MapInvalidException {
+	public void initGame() throws MapInvalidException, IOException {
 
 		//Getting Player Info
 				
@@ -599,16 +600,7 @@ public class GameController implements Serializable{
 				setupStrategy();
 				controller.placeInitialArmies();
 				controller.placeArmiesForSetup();
-				//Testing game saving
-//				gameStat = GameStat.getInstance();
-//				try {
-//					gameStat.save();
-//					System.exit(0);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-				//
+				
 				controller.takeTurns();
 	}
 

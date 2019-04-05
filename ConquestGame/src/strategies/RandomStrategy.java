@@ -1,5 +1,7 @@
 package strategies;
 
+import java.io.Serializable;
+
 /**
  * A random computer player strategy that reinforces random a random country,
  * attacks a random number of times a random country, and fortifies a random
@@ -7,6 +9,6 @@ package strategies;
  * @author ankit
  *
  */
-public class RandomStrategy {
+public class RandomStrategy implements Serializable {
 
 }

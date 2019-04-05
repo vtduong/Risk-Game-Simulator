@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import config.Config;
 import controller.GameController;
@@ -15,7 +16,7 @@ import exception.MapInvalidException;
  * @author sandeepchowdaryannabathuni
  *
  */
-public class GameStat {
+public class GameStat implements Serializable {
 	
 	private static GameStat obj = null;
 	private GameController controller = null;

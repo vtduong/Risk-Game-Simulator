@@ -3,6 +3,7 @@
  */
 package strategies;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import beans.Player;
  * @author 
  *
  */
-public class CheaterStrategy extends Strategy{
+public class CheaterStrategy extends Strategy implements Serializable {
 
 	private Player player = null;
 

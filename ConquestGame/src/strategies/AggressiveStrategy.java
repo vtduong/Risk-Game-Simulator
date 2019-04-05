@@ -3,6 +3,7 @@
  */
 package strategies;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import beans.Country;
@@ -16,7 +17,7 @@ import gui.PhaseView;
  * @author apoorvasharma
  *
  */
-public class AggressiveStrategy extends Strategy {
+public class AggressiveStrategy extends Strategy implements Serializable {
 	private Player player = null;
 	private Country attackingCountry = null;
 
