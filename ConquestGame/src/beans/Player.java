@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -577,7 +578,9 @@ public class Player implements Observable, Serializable{
 			}
 		}else {
 			cardToRemove.addAll(getCardsToExchange());
-			System.out.println("Following cards are selected for transaction:"+cardToRemove);
+			HashSet<String> temp = new HashSet<String>();
+			temp.addAll(cardToRemove);
+			System.out.println("Following cards are selected for transaction:"+temp);
 		}
 	}
 	
