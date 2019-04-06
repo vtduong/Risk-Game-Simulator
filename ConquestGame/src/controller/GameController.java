@@ -13,6 +13,7 @@ import java.util.Scanner;
 import beans.Continent;
 import beans.Country;
 import beans.EventType;
+import beans.Phase;
 import beans.Player;
 import exception.MapInvalidException;
 import gui.CardExchangeView;
@@ -53,7 +54,7 @@ public class GameController implements Serializable{
 
 
 	/** The current phase Info. */
-	private String currentPhase;
+	private Phase currentPhase;
 	
 
 	/** The World Domination View. */
@@ -303,7 +304,7 @@ public class GameController implements Serializable{
 	 *
 	 * @return String, the current phase of the game.
 	 */
-	public String getCurrentPhase() {
+	public Phase getCurrentPhase() {
 		return currentPhase;
 	}
 
@@ -312,7 +313,7 @@ public class GameController implements Serializable{
 	 *
 	 * @param currentPhase The current phase name
 	 */
-	public void setCurrentPhase(String currentPhase) {
+	public void setCurrentPhase(Phase currentPhase) {
 		this.currentPhase = currentPhase;
 	}
 
@@ -616,15 +617,8 @@ public class GameController implements Serializable{
 			
 		}
 	}
-
-	/**
-	 * Take phases.
-	 * 
-	 * @throws MapInvalidException
-	 * @throws IOException 
-	 */
-	public void takePhases() throws MapInvalidException, IOException {
-//		currentPhase = new ReEnforcement();
+	
+	private void exchangeCards() {
 		cardView.getCardProgress();
 		if (currentPlayer.getCardsAcquired().size() >= 3 && getCurrentPlayer().getStrategyType().equals("Human")) {
 			System.out.println("Do you want to exchange your cards for army reinforcement ? Y/N");
@@ -643,33 +637,75 @@ public class GameController implements Serializable{
 		}else if(currentPlayer.getCardsAcquired().size() >= 5) {
 			currentPlayer.exchangeCards();
 		}
-		currentPlayer.reEnforce();
-		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
-		while (true) {
+	}
+	
+	public void takePhase(Phase phase) throws IOException {
+		
+		switch(phase) {
+		case REENFORCEMENT:
+			exchangeCards();
+			reEnforce();
+		case ATTACK:
 			boolean	isAnyCountryInvaded =false;
+			while (true) {
+				
+				try {
+					// ask user if wants to make an attack and check if user is able to attack (at
+					// least 2 armies in one country)
+					if (isWar() && canAttack()) {
+						attack();
+					}
+					isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
+					if (isAnyCountryInvaded == true) {
+						currentPlayer.addCards();
+					}
+					
+					break;
+				} catch (IllegalArgumentException e) {
+					ui.handleExceptions(e.getMessage());
+				}
+			}
+		case FORTIFICATION:
+			while(true) {
+				try {
+					if(canFortify()) {
+						fortify();
+					}else {
+						ui.showDialog("The player is not qualified for fortification");
+					}
+					break;
+				}catch(IllegalArgumentException e) {
+					ui.handleExceptions(e.getMessage());
+				}
+			}
+			break;
+		}
+		
+	}
+	/**
+	 * Take phases.
+	 * 
+	 * @throws MapInvalidException
+	 * @throws IOException 
+	 */
+	public void takePhases() throws MapInvalidException, IOException {		
+		exchangeCards();
+		reEnforce();
+		boolean	isAnyCountryInvaded =false;
+		while (true) {
+			
 			try {
 				// ask user if wants to make an attack and check if user is able to attack (at
 				// least 2 armies in one country)
 				if (isWar() && canAttack()) {
-					do {
-						currentPlayer.attack();
-						// check if current player has won the game
-						if (currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
-							winner = currentPlayer;
-							ui.showDialog(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
-							ui.showDialog("THE END!!!");
-							System.exit(0);
-						}
-						currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
-					} while (canAttack() && keepWar());
-				isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
+					attack();
 				}
+				isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
 				if (isAnyCountryInvaded == true) {
 					currentPlayer.addCards();
 				}
 				if(canFortify()) {
-					currentPlayer.fortify();
-					currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
+					fortify();
 				} else {
 					ui.showDialog("The player is not qualified for fortification");
 				}
@@ -679,6 +715,46 @@ public class GameController implements Serializable{
 				ui.handleExceptions(e.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
+	 * 
+	 */
+	private void fortify() throws IllegalArgumentException, IOException {
+		currentPlayer.fortify();
+		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void attack() {
+		do {
+			currentPlayer.attack();
+			// check if current player has won the game
+			if (currentPlayer.getPlayerCountries().size() == MapValidator.countriesList.size()) {
+				winner = currentPlayer;
+				ui.showDialog(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
+				ui.showDialog("THE END!!!");
+				System.exit(0);
+			}
+			currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
+		} while (canAttack() && keepWar());
+		
+	}
+
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private void reEnforce() throws IOException {
+		setCurrentPhase(Phase.REENFORCEMENT);
+		currentPlayer.reEnforce();
+		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
+
 	}
 
 	/**

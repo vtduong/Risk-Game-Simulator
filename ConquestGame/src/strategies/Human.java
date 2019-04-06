@@ -58,7 +58,6 @@ public class Human extends Strategy implements Serializable {
 	 * @see strategies.Strategy#attack()
 	 */
 	public void attack() {
-		controller.setCurrentPhase("Attack");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
@@ -150,7 +149,6 @@ public class Human extends Strategy implements Serializable {
 	 * @see strategies.Strategy#fortify()
 	 */
 	public void fortify() {
-		controller.setCurrentPhase("Fortification");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
