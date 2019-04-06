@@ -3,6 +3,7 @@
  */
 package strategies;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import gui.PhaseView;
  * @author apoorvasharma
  *
  */
-public class AggressiveStrategy extends Strategy {
+public class AggressiveStrategy extends Strategy implements Serializable {
 	private Player player = null;
 	private Country attackingCountry = null;
 
@@ -37,6 +38,7 @@ public class AggressiveStrategy extends Strategy {
 	 */
 	@Override
 	public void reEnforce() {
+		controller.setCurrentPhase("Reenforce");
 		int newArmies = obtainNewArmies();
 		attackingCountry = compareCountries("strongest", null);
 		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);

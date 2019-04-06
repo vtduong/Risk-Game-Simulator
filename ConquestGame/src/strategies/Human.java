@@ -3,6 +3,7 @@
  */
 package strategies;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import utilities.DiceRoller;
  *
  * @author vanduong
  */
-public class Human extends Strategy {
+public class Human extends Strategy implements Serializable {
 	
 	/** The player. */
 	private Player player = null;

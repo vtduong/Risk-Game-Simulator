@@ -24,6 +24,7 @@ import strategies.AggressiveStrategy;
 import strategies.BenevolentStrategy;
 import strategies.Human;
 import utilities.CustomMapGenerator;
+import utilities.GameStat;
 import utilities.MapValidator;
 
 // TODO: Auto-generated Javadoc
@@ -36,7 +37,7 @@ import utilities.MapValidator;
  * @author
  */
 public class GameController implements Serializable{
-
+	
 	/** The Constant INPUTFILE. */
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
@@ -93,7 +94,8 @@ public class GameController implements Serializable{
 	/** The continent list. */
 	private List<Continent> continentList = null;
 	
-	
+	/** Used for game saving and loading */
+	private GameStat gameStat = null;
 	
 
 	/**
@@ -122,6 +124,7 @@ public class GameController implements Serializable{
 		playerList = new ArrayList<Player>();
 		ui = new UI();
 		customMap = CustomMapGenerator.getInstance();
+		
 	}
 
 	/**
@@ -169,6 +172,8 @@ public class GameController implements Serializable{
 	public void registerObserver(Observer ob, int event) {
 
 		for (int i = 0; i < numberOfPlayers; i++) {
+			GameController con = GameController.getInstance();
+			System.out.println(con.playerList.size());
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -318,17 +323,17 @@ public class GameController implements Serializable{
 		customMap = CustomMapGenerator.getInstance();
 		System.out.println("----------Welcome----------");
 		System.out.println(
-				"Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map");
+				"Please select the following options.\n1)Load exisiting map\n2)Create map\n3)Edit existing map\n4)Load game\n");
 		Scanner mapOption = new Scanner(System.in);
-		int selectedMapOption = mapOption.nextInt();
-		if (selectedMapOption == 1) {
+		int selectedOption = mapOption.nextInt();
+		if (selectedOption == 1) {
 			try {
 				customMap.LoadMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
-		} else if (selectedMapOption == 2) {
+		} else if (selectedOption == 2) {
 
 			try {
 				customMap.createCustomMap();
@@ -336,13 +341,37 @@ public class GameController implements Serializable{
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
-		} else if (selectedMapOption == 3) {
+		} else if (selectedOption == 3) {
 			try {
 				customMap.editExistingMap();
 			} catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
+		} else if (selectedOption == 4) {
+			try {
+				gameStat = GameStat.getInstance();
+				gameStat.load();
+			} catch (ClassNotFoundException e) {
+				
+				System.out.println("Problem while loading game");
+				System.out.println(e.getMessage());
+				System.exit(1);
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Problem while loading game");
+				System.out.println(e.getMessage());
+				System.exit(1);
+				e.printStackTrace();
+			} catch (MapInvalidException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Problem while loading game");
+				System.out.println(e.getMessage());
+				System.exit(1);
+				e.printStackTrace();
+			}
+			
 		} else {
 			System.out.println("Enter appropiate choice");
 			System.exit(1);
@@ -369,8 +398,9 @@ public class GameController implements Serializable{
  * Take turns.
  *
  * @throws MapInvalidException the map invalid exception
+	 * @throws IOException 
  */
-	public void takeTurns() throws MapInvalidException {
+	public void takeTurns() throws MapInvalidException, IOException {
 		int i = 0;
 		while (winner == null) {
 			i = i % playerList.size();
@@ -379,6 +409,7 @@ public class GameController implements Serializable{
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			takePhases();
 			i++;
+			
 		}
 	}
 
@@ -386,8 +417,9 @@ public class GameController implements Serializable{
 	 * Take phases.
 	 * 
 	 * @throws MapInvalidException
+	 * @throws IOException 
 	 */
-	public void takePhases() throws MapInvalidException {
+	public void takePhases() throws MapInvalidException, IOException {
 //		currentPhase = new ReEnforcement();
 		cardView.getCardProgress();
 		if (currentPlayer.getCardsAcquired().size() >= 3 && getCurrentPlayer().getStrategyType().equals("Human")) {
@@ -523,8 +555,9 @@ public class GameController implements Serializable{
 
 	/**
 	 * @throws MapInvalidException Inits the game. @throws
+	 * @throws IOException 
 	 */
-	public void initGame() throws MapInvalidException {
+	public void initGame() throws MapInvalidException, IOException {
 
 		//Getting Player Info
 				
@@ -571,6 +604,7 @@ public class GameController implements Serializable{
 				setupStrategy();
 				controller.placeInitialArmies();
 				controller.placeArmiesForSetup();
+				
 				controller.takeTurns();
 	}
 

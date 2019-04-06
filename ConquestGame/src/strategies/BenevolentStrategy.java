@@ -1,5 +1,7 @@
 package strategies;
 
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,7 @@ import beans.EventType;
 import beans.Player;
 import gui.PhaseView;
 
-public class BenevolentStrategy extends Strategy {
+public class BenevolentStrategy extends Strategy implements Serializable {
 	private Country weakestCountry = null;
 	private Player player = null;
 

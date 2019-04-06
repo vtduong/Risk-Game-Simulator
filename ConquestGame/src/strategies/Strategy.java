@@ -3,6 +3,7 @@
  */
 package strategies;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,12 +23,12 @@ import utilities.DiceRoller;
  *
  * @author vanduong
  */
-public abstract class Strategy {
+public abstract class Strategy implements Serializable {
 	/** The minimum new armies each user gets in ReEnforcement phase. */
 	static final int MIN_NEW_ARMIES = 3;
 
 	/** The controller. */
-	static GameController controller = null;
+	GameController controller = null;
 
 	/** The map. */
 	static CustomMapGenerator map = null;
