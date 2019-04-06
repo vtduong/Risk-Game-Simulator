@@ -28,7 +28,7 @@ public abstract class Strategy implements Serializable {
 	static final int MIN_NEW_ARMIES = 3;
 
 	/** The controller. */
-	static GameController controller = null;
+	GameController controller = null;
 
 	/** The map. */
 	static CustomMapGenerator map = null;

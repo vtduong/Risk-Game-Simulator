@@ -34,6 +34,7 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 	 */
 	@Override
 	public void reEnforce() {
+		controller.setCurrentPhase("Reenforce");
 		int newArmies = obtainNewArmies();
 		attackingCountry = compareCountries("strongest", attackingCountry);
 		if (attackingCountry != null) {

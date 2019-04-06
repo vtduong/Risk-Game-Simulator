@@ -172,6 +172,8 @@ public class GameController implements Serializable{
 	public void registerObserver(Observer ob, int event) {
 
 		for (int i = 0; i < numberOfPlayers; i++) {
+			GameController con = GameController.getInstance();
+			System.out.println(con.playerList.size());
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -398,7 +400,7 @@ public class GameController implements Serializable{
  * @throws MapInvalidException the map invalid exception
 	 * @throws IOException 
  */
-	public void takeTurns() throws MapInvalidException {
+	public void takeTurns() throws MapInvalidException, IOException {
 		int i = 0;
 		while (winner == null) {
 			i = i % playerList.size();
@@ -407,6 +409,7 @@ public class GameController implements Serializable{
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			takePhases();
 			i++;
+			
 		}
 	}
 
@@ -414,8 +417,9 @@ public class GameController implements Serializable{
 	 * Take phases.
 	 * 
 	 * @throws MapInvalidException
+	 * @throws IOException 
 	 */
-	public void takePhases() throws MapInvalidException {
+	public void takePhases() throws MapInvalidException, IOException {
 //		currentPhase = new ReEnforcement();
 		cardView.getCardProgress();
 		if (currentPlayer.getCardsAcquired().size() >= 3 && getCurrentPlayer().getStrategyType().equals("Human")) {

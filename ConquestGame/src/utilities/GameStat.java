@@ -63,6 +63,7 @@ public class GameStat implements Serializable {
 		controller = (GameController)objectReader.readObject();
 		
 		controller.takeTurns();
+		
 		}
 		
 	}

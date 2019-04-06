@@ -1,5 +1,6 @@
 package beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import gui.CardExchangeView;
 import gui.Observer;
 import strategies.Strategy;
 import utilities.CustomMapGenerator;
+import utilities.GameStat;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -82,7 +84,7 @@ public class Player implements Observable, Serializable{
 	private int numArmiesDispatched = 0;
 	
 	/** The controller. */
-	private static GameController controller = GameController.getInstance();
+	private  GameController controller = GameController.getInstance();
 	
 	/** The map. */
 	private static CustomMapGenerator map = CustomMapGenerator.getInstance();
@@ -589,10 +591,28 @@ public class Player implements Observable, Serializable{
 	 * ReEnforcement phase
 	 * This methods calls 2 other private methods to 1) obtain new armies and 2)
 	 * distribute armies among occupied countries.
+	 * @throws IOException 
 	 */
-	public void reEnforce() {
+	public void reEnforce() throws IOException {
 		this.strategy.reEnforce();
 		
+		System.out.println(controller.getCurrentPhase() + " Complete.");
+		System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
+		Scanner userOpinion = new Scanner(System.in);
+		System.out.println("Do you want to save progress?");
+		
+		if(userOpinion.nextLine().toLowerCase().equals("y") ||
+				userOpinion.nextLine().toLowerCase().equals("yes")) {
+			
+			GameStat progress = GameStat.getInstance();
+			progress.save();
+			System.out.println("saved....");
+			
+		}
+		
+		else {
+			System.out.println("Alright....Proceed....");
+		}
 	}
 	
 	
@@ -600,9 +620,29 @@ public class Player implements Observable, Serializable{
 	 * Fortify player's countries in fortification phase.
 	 *
 	 * @throws IllegalArgumentException if 2 countries given are not adjacent or if one of the countries is not owned by player
+	 * @throws IOException 
 	 */
-	public void fortify() throws IllegalArgumentException {
+	public void fortify() throws IllegalArgumentException, IOException {
+		
 		this.strategy.fortify();
+		
+		System.out.println(controller.getCurrentPhase() + " Complete.");
+		System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
+		Scanner userOpinion = new Scanner(System.in);
+		System.out.println("Do you want to save progress?");
+		
+		if(userOpinion.nextLine().toLowerCase().equals("y") ||
+				userOpinion.nextLine().toLowerCase().equals("yes")) {
+			
+			GameStat progress = GameStat.getInstance();
+			progress.save();
+			System.out.println("saved....");
+		
+		}
+		
+		else {
+			System.out.println("Alright....Proceed....");
+		}
 	}
 
 
