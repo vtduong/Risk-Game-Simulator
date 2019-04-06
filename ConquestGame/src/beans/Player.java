@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -451,9 +452,29 @@ public class Player implements Observable, Serializable{
 	 * Attack phase.
 	 *
 	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws IOException 
 	 */
-	public void attack() throws IllegalArgumentException{
+	public void attack() throws IllegalArgumentException, IOException{
 		this.strategy.attack();
+		
+		if(this.getStrategyType().toLowerCase().equals("human")) {
+			System.out.println(controller.getCurrentPhase() + " Complete.");
+			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
+			Scanner userOpinion = new Scanner(System.in);
+			System.out.println("Do you want to save progress?");
+			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+					userOpinion.nextLine().toLowerCase().equals("yes")) {
+				
+				GameStat progress = GameStat.getInstance();
+				progress.save();
+				System.out.println("saved....");
+			
+			}
+			
+			else {
+				System.out.println("Alright....Proceed....");
+			}
+		}
 	}
 
 	
@@ -557,7 +578,9 @@ public class Player implements Observable, Serializable{
 			}
 		}else {
 			cardToRemove.addAll(getCardsToExchange());
-			System.out.println("Following cards are selected for transaction:"+cardToRemove);
+			HashSet<String> temp = new HashSet<String>();
+			temp.addAll(cardToRemove);
+			System.out.println("Following cards are selected for transaction:"+temp);
 		}
 	}
 	
@@ -596,22 +619,23 @@ public class Player implements Observable, Serializable{
 	public void reEnforce() throws IOException {
 		this.strategy.reEnforce();
 		
-		System.out.println(controller.getCurrentPhase() + " Complete.");
-		System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
-		Scanner userOpinion = new Scanner(System.in);
-		System.out.println("Do you want to save progress?");
-		
-		if(userOpinion.nextLine().toLowerCase().equals("y") ||
-				userOpinion.nextLine().toLowerCase().equals("yes")) {
+		if(this.getStrategyType().toLowerCase().equals("human")) {
+			System.out.println(controller.getCurrentPhase() + " Complete.");
+			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
+			Scanner userOpinion = new Scanner(System.in);
+			System.out.println("Do you want to save progress?");
+			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+					userOpinion.nextLine().toLowerCase().equals("yes")) {
+				
+				GameStat progress = GameStat.getInstance();
+				progress.save();
+				System.out.println("saved....");
 			
-			GameStat progress = GameStat.getInstance();
-			progress.save();
-			System.out.println("saved....");
+			}
 			
-		}
-		
-		else {
-			System.out.println("Alright....Proceed....");
+			else {
+				System.out.println("Alright....Proceed....");
+			}
 		}
 	}
 	
@@ -626,23 +650,26 @@ public class Player implements Observable, Serializable{
 		
 		this.strategy.fortify();
 		
-		System.out.println(controller.getCurrentPhase() + " Complete.");
-		System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
-		Scanner userOpinion = new Scanner(System.in);
-		System.out.println("Do you want to save progress?");
 		
-		if(userOpinion.nextLine().toLowerCase().equals("y") ||
-				userOpinion.nextLine().toLowerCase().equals("yes")) {
+		if(this.getStrategyType().toLowerCase().equals("human")) {
+			System.out.println(controller.getCurrentPhase() + " Complete.");
+			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
+			Scanner userOpinion = new Scanner(System.in);
+			System.out.println("Do you want to save progress?");
+			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+					userOpinion.nextLine().toLowerCase().equals("yes")) {
+				
+				GameStat progress = GameStat.getInstance();
+				progress.save();
+				System.out.println("saved....");
 			
-			GameStat progress = GameStat.getInstance();
-			progress.save();
-			System.out.println("saved....");
-		
+			}
+			
+			else {
+				System.out.println("Alright....Proceed....");
+			}
 		}
-		
-		else {
-			System.out.println("Alright....Proceed....");
-		}
+
 	}
 
 
