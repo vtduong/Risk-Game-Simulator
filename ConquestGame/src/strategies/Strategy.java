@@ -304,7 +304,6 @@ public abstract class Strategy implements Serializable {
 		if(countryList.size()>0) {
 		 toReturn = countryList.get(0);
 		}
-	// toReturn = countryList.get(0);
 		for (int i = 0; i < countryList.size(); i++) {
 			for (int j = i + 1; j < countryList.size(); j++) {
 				if (getType.equalsIgnoreCase("strongest")) {
