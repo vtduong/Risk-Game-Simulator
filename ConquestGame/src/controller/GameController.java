@@ -667,13 +667,39 @@ public class GameController implements Serializable{
 				if (isAnyCountryInvaded == true) {
 					currentPlayer.addCards();
 				}
-				currentPlayer.fortify();
-				currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
+				if(canFortify()) {
+					currentPlayer.fortify();
+					currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
+				} else {
+					ui.showDialog("The player is not qualified for fortification");
+				}
+				
 				break;
 			} catch (IllegalArgumentException e) {
 				ui.handleExceptions(e.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * checks if player can fortify by having at least 1 country with 2 or mor armies and at least 2 adj countries
+	 * @return true if player can fortify
+	 */
+	private boolean canFortify() {
+		//check if there's at least 1 pair of countries adj to each other and one of them has 2 or more armies 
+		List<Country> countries = currentPlayer.getPlayerCountries();
+		for(int i = 0; i < countries.size()-1; i++) {
+			Country con = countries.get(i);
+			List<String> adjConNames = con.getAdjacentCountries();
+			for(int j = i+1; j < countries.size(); j++) {
+				if(adjConNames.contains(countries.get(j).getName())) {
+					if(con.getNumArmies() >= 2 || countries.get(j).getNumArmies() >= 2) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
