@@ -1,0 +1,9 @@
+[Map]
+author=userdefiend map 
+[Continents]
+North America=5
+South America=2
+
+[Territories]
+Alaska,70,126,North America,Northwest Territory,
+Northwest Territory,148,127,South America,Alaska,

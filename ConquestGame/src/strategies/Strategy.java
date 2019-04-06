@@ -294,11 +294,12 @@ public abstract class Strategy implements Serializable {
 	 *                        strong enough for aggressive mode.
 	 * @return :County instance.
 	 */
-	public Country compareCountries(String getType, Country countryToRemove) {
+	public Country compareCountries(String getType, List<Country> countryToRemove) {
 		List<Country> countryList = player.getPlayerCountries();
 		if (countryToRemove != null) {
-			countryList.remove(countryToRemove);
+			countryList.removeAll(countryToRemove);
 		}
+		
 		Country toReturn = countryList.get(0);
 		for (int i = 0; i < countryList.size(); i++) {
 			for (int j = i + 1; j < countryList.size(); j++) {
@@ -324,7 +325,9 @@ public abstract class Strategy implements Serializable {
 					}
 				}
 			}
+			
 		}
+		
 		return toReturn;
 	}
 	
@@ -357,12 +360,12 @@ public abstract class Strategy implements Serializable {
 	 * @param countryToSet
 	 * @return
 	 */
-	public Map<Country, Integer> generateArmyCountyMap(Country countryToSet) {
+	public Map<Country, Integer> generateArmyCountyMap(Country countryToSet,int noArmies) {
 		Map<Country, Integer> armyCountryMap = new HashMap<Country, Integer>();
 		for (Country con : player.getPlayerCountries()) {
-			armyCountryMap.put(con, con.getNumArmies());
+			armyCountryMap.put(con, 0);
 		}
-		armyCountryMap.put(countryToSet, countryToSet.getNumArmies());
+		armyCountryMap.put(countryToSet, noArmies);
 		return armyCountryMap;
 
 	}

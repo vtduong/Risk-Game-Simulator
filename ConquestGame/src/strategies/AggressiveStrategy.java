@@ -5,7 +5,11 @@ package strategies;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import beans.Country;
 import beans.EventType;
 import beans.Player;
@@ -36,10 +40,16 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 	public void reEnforce() {
 		controller.setCurrentPhase("Reenforce");
 		int newArmies = obtainNewArmies();
-		attackingCountry = compareCountries("strongest", attackingCountry);
+		attackingCountry = compareCountries("strongest", null);
+		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);
+		List<Country> toRemove =new ArrayList<Country>();
+		while(defendingNeighbours.size()==0) {
+			toRemove.add(attackingCountry);
+			attackingCountry = compareCountries("strongest", toRemove);
+			defendingNeighbours = getdefendingNeighbours(attackingCountry);
+		}
 		if (attackingCountry != null) {
-			attackingCountry.setNumArmies(newArmies);
-			this.distributeArmies(generateArmyCountyMap(attackingCountry));
+			this.distributeArmies(generateArmyCountyMap(attackingCountry,newArmies));
 		}
 	}
 
@@ -62,23 +72,21 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
-
+		//attackingCountry = compareCountries("strongest", null);
 		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);
 		Country toAttack = null;
 		for (Country rec : defendingNeighbours) {
-			if (attackingCountry.getNumArmies() > rec.getNumArmies()) {
 				toAttack = rec;
 				player.setHasEnemy(true);
 				break;
-			} else {
-				player.setHasEnemy(false);
-			}
 		}
 		if (toAttack == null) {
 			player.setHasEnemy(false);
 		}
-		if (attackingCountry.getNumArmies() > 2 && toAttack != null) {
+		if (toAttack != null && attackingCountry.getNumArmies()>1) {
 			this.goAllOut(attackingCountry, toAttack);
+		}else {
+			player.setHasEnemy(false);
 		}
 
 	}
@@ -98,15 +106,22 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		String toName, fromName = null;
 		toCountry = compareCountries("strongest", null);
 		ArrayList<Country> validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
-		while(true){
-			if(validCountriestoMove.size()!=0) {
-				break;
-			}else {
-				toCountry = compareCountries("strongest", toCountry);
-				validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
-			}
+		
+		/*while(validCountriestoMove.size()==0 && player.getPlayerCountries().size()>1) {
+			toCountry = compareCountries("strongest", (new (List<Country>) toCountry);
+			validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
+		 
+		}*/
+		
+		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);
+		List<Country> toRemove =new ArrayList<Country>();
+		while(defendingNeighbours.size()==0 && validCountriestoMove.size()==0 ) {
+			toRemove.add(toCountry);
+			toCountry = compareCountries("strongest", toRemove);
+			validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
 			
 		}
+		fromCountry=toCountry;
 		for (Country rec : validCountriestoMove) {
 			if (rec.getNumArmies() > 1 || fromCountry.getName().equals(toCountry.getName())) {
 				fromCountry = rec;
@@ -114,14 +129,16 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		}
 		int armiesToMove = 0;
 		// check id attacking country has any defending neighbor left.
-		if (getdefendingNeighbours(toCountry).size() == 0 || validCountriestoMove.size() == 0) {
+		
+		
+		if (getdefendingNeighbours(toCountry).size() == 0) {
 			fromCountry = toCountry;
 			validCountriestoMove.removeAll(validCountriestoMove);
 			validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
 			for (Country rec : validCountriestoMove) {
 				if (rec.getNumArmies() > toCountry.getNumArmies()
 						|| fromCountry.getName().equals(toCountry.getName())) {
-					fromCountry = rec;
+					toCountry = rec;
 				}
 			}
 			armiesToMove = fromCountry.getNumArmies() - 1;
@@ -137,7 +154,9 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		} else {
 			toName = toCountry.getName();
 			fromName = fromCountry.getName();
-			this.moveArmies(fromName, toName, armiesToMove);
+			if(fromCountry.getNumArmies()>1 && fromName!=toName) {
+				this.moveArmies(fromName, toName, armiesToMove);
+			}
 			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
 		}
 
@@ -148,10 +167,19 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		player.notifyChanges(EventType.PHASE_NOTIFY);
 		// get the country with with highest number of defenders and assign all the
 		// remaining armies to it,
-		Country rec = compareCountries();
-		int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
-		rec.setNumArmies(numArmiesToDispatch);
-		this.distributeArmies(generateArmyCountyMap(rec));
+		//Country rec = compareCountries();
+		//this.distributeArmies(generateArmyCountyMap(rec,player.getArmies()));
+		
+		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
+		Random r = new Random();
+		int maxArmies =player.getArmies();
+		for(Country rec:player.getPlayerCountries()) {
+			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
+			armyCountryMap.put(rec, temp);
+			maxArmies =maxArmies-temp;
+		}
+		
+		this.distributeArmies(armyCountryMap);
 	}
 
 }
