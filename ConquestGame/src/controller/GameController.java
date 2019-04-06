@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+
 import beans.Continent;
 import beans.Country;
 import beans.EventType;
@@ -42,62 +43,261 @@ public class GameController implements Serializable{
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
 	private static GameController controller = null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setController(GameController controller) {
+		GameController.controller = controller;
+	}
+
 
 	/** The current phase Info. */
 	private String currentPhase;
+	
 
 	/** The World Domination View. */
 	private WorldDominationView wdView = null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setWorldDominationView(WorldDominationView wd) {
+		wdView = wd;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public WorldDominationView getWorldDominationView() {
+		return wdView;
+	}
+	
+	
 
 
 	private PhaseView phaseView = null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setPhaseView(PhaseView pv) {
+		phaseView = pv;
+	}
+		
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public PhaseView getPhaseView() {
+		return phaseView;
+	}
+		
+		
 	transient Scanner scan = new Scanner(System.in);
 	private CardExchangeView cardView= null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setCardExchangeView(CardExchangeView cv) {
+		cardView = cv;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public CardExchangeView getCardExchangeView() {
+		return cardView;
+	}
 
 	/** The country list. */
 	private static List<Country> countryList = new ArrayList<Country>();
-
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setCountryList(List<Country> cl) {
+		countryList = cl;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public List<Country> getCountryList() {
+		return countryList;
+	}
+	
+	
 	/** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
 	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setNumberOfPlayers(int n) {
+		numberOfPlayers = n;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+	
 	/** The continent list by name. */
 	private HashMap<String, Continent> continentListByName = null;
-
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setContinentListByName(HashMap<String, Continent> clbm) {
+		continentListByName = clbm;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public HashMap<String, Continent> getContinentListByName() {
+		return continentListByName;
+	}
+	
+	
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
-
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setCountryOwnership(Map<Player, ArrayList<Country>> co) {
+		countryOwnership = co;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public Map<Player, ArrayList<Country>> getCountryOwnership() {
+		return countryOwnership;
+	}
+	
+	
 //	/** The current phase. */
 //	TurnPhase currentPhase = null;
 
 	/** The ready for next phase. */
 	private boolean readyForNextPhase = false;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setReadyForNextPhase(boolean rfnp) {
+		readyForNextPhase = rfnp;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public boolean getReadyForNextPhase() {
+		return readyForNextPhase;
+	}
 
 	/** The current player. */
 	private Player currentPlayer;
 
 	/** The player list. */
 	private ArrayList<Player> playerList;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setPlayerList(ArrayList<Player> pl) {
+		playerList = pl;
+	}
+	
 
 	/** The Constant MIN_ARGS. */
 	private final static int MIN_ARGS = 1;
 
 	/** The winner. */
 	private Player winner = null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setWinner(Player win) {
+		winner = win;
+	}
+	
 
 	/** The ui. */
 	private UI ui = null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setUI(UI ui) {
+		this.ui = ui;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public UI getUI() {
+		return ui;
+	}
 
 
 	private CustomMapGenerator customMap=null;
 	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setCustomMapCenerator(CustomMapGenerator map) {
+		customMap = map;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public CustomMapGenerator getCustomMapGenerator() {
+		return customMap;
+	}
+	
 	/** The continent list. */
 	private List<Continent> continentList = null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setContinentList(List<Continent> cl) {
+		continentList = cl;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public List<Continent> getContinetList() {
+		return continentList;
+	}
 	
 	/** Used for game saving and loading */
 	private GameStat gameStat = null;
 	
-
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setGameStat(GameStat game) {
+		gameStat = game;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public GameStat getGameStat() {
+		return gameStat;
+	}
+	
 	/**
 	 * Gets the current phase.
 	 *
@@ -149,13 +349,14 @@ public class GameController implements Serializable{
 	 * @param args the arguments
 	 * @throws IOException         Signals that an I/O exception has occurred.
 	 * @throws MapInvalidException the map invalid exception
+	 * @throws ClassNotFoundException 
 	 */
 	/*
 	 * @description :
 	 * 
 	 * @author
 	 */
-	public static void main(String[] args) throws IOException, MapInvalidException {
+	public static void main(String[] args) throws IOException, MapInvalidException, ClassNotFoundException {
 		GameController controller = GameController.getInstance();
 		controller.loadMap();
 		controller.createWorldDominationView();
@@ -260,7 +461,7 @@ public class GameController implements Serializable{
 	 *
 	 * @return the list of players
 	 */
-	public List<Player> getPlayerList() {
+	public ArrayList<Player> getPlayerList() {
 		return this.playerList;
 	}
 
@@ -313,13 +514,16 @@ public class GameController implements Serializable{
 	 * Load map.
 	 *
 	 * @return true, if successful
+	 * @throws MapInvalidException 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
 	/*
 	 * @description :
 	 * 
 	 * @author
 	 */
-	public void loadMap() {
+	public void loadMap() throws ClassNotFoundException, IOException, MapInvalidException {
 		customMap = CustomMapGenerator.getInstance();
 		System.out.println("----------Welcome----------");
 		System.out.println(
@@ -349,29 +553,29 @@ public class GameController implements Serializable{
 				System.exit(1);
 			}
 		} else if (selectedOption == 4) {
-			try {
+			//try {
 				gameStat = GameStat.getInstance();
 				gameStat.load();
-			} catch (ClassNotFoundException e) {
-				
-				System.out.println("Problem while loading game");
-				System.out.println(e.getMessage());
-				System.exit(1);
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Problem while loading game");
-				System.out.println(e.getMessage());
-				System.exit(1);
-				e.printStackTrace();
-			} catch (MapInvalidException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Problem while loading game");
-				System.out.println(e.getMessage());
-				System.exit(1);
-				e.printStackTrace();
-			}
-			
+//			} catch (ClassNotFoundException e) {
+//				
+//				System.out.println("Problem while loading game");
+//				//System.out.println(e.getMessage());
+//				//System.exit(1);
+//				//e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				System.out.println("Problem while loading game");
+//				//System.out.println(e.getMessage());
+//				//System.exit(1);
+//				//e.printStackTrace();
+//			} catch (MapInvalidException e) {
+//				// TODO Auto-generated catch block
+//				System.out.println("Problem while loading game");
+//				//System.out.println(e.getMessage());
+//				//System.exit(1);
+//				//e.printStackTrace();
+//			}
+//			
 		} else {
 			System.out.println("Enter appropiate choice");
 			System.exit(1);

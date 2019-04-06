@@ -60,9 +60,25 @@ public class GameStat implements Serializable {
 		try(FileInputStream file = new FileInputStream(loadStatFromFile);
 		ObjectInputStream objectReader = new ObjectInputStream(file);) {
 		
-		controller = (GameController)objectReader.readObject();
+		GameController controllerObj = (GameController)objectReader.readObject();
+		controller.setController(controllerObj);
+		controller.setCurrentPhase(controllerObj.getCurrentPhase());
+		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
+		controller.setWorldDominationView(controllerObj.getWorldDominationView());
+		controller.setPhaseView(controllerObj.getPhaseView());
+		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
+		controller.setCountryList(controllerObj.getCountryList());
+		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
+		controller.setContinentListByName(controllerObj.getContinentListByName());;
+		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
+		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
+		controller.setPlayerList(controllerObj.getPlayerList());
+		controller.setWinner(controllerObj.getWinner());
+		controller.setUI(controllerObj.getUI());
+		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
+		controller.setContinentList(controllerObj.getContinetList());
+		controller.setGameStat(controllerObj.getGameStat());
 		
-		controller.takeTurns();
 		
 		}
 		
