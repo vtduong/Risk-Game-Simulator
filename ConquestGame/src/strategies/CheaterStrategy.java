@@ -34,7 +34,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 
 	@Override
 	public void reEnforce() {
-		controller.setCurrentPhase("ReInforce");
+		//controller.setCurrentPhase("ReInforce");
 		int newArmies = obtainNewArmies();
 		player.notifyChanges(EventType.PHASE_NOTIFY);
 		Map<Country, Integer> list = controller.distributeArmies(newArmies);
@@ -49,7 +49,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 	@Override
 	public void attack() {
 		// TODO Auto-generated method stub
-		controller.setCurrentPhase("Attack");
+		//controller.setCurrentPhase("Attack");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		List<Country> defendingNeighbours = null;
