@@ -11,12 +11,43 @@ import java.io.Serializable;
  */
 public enum Phase implements Serializable {
 	/** the enforcement phase. */
-	REENFORCEMENT,
+	REENFORCEMENT(0),
 	
 	/** the attack phase. */
-	ATTACK,
+	ATTACK(1),
 	
 	/** the Fortification. */
-	FORTIFICATION,
+	FORTIFICATION(2);
+	
+	private final int inputValue;
+	
+	Phase(int input){
+		this.inputValue = input;
+	}
+	
+	public int getValue() {
+		return inputValue;
+	}
+	
+	
+	public static Phase getPhase(int val) {
+		Phase phase = null;
+		switch(val) {
+		case 0:
+			phase = Phase.REENFORCEMENT;
+			break;
+		case 1:
+			phase = Phase.ATTACK;
+			break;
+		case 2:
+			phase = Phase.FORTIFICATION;
+			break;
+		default:
+			phase = Phase.REENFORCEMENT;
+		}
+		
+		return phase;
+		
+	}
 	
 }

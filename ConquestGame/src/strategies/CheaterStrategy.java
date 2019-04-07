@@ -4,8 +4,10 @@
 package strategies;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import beans.Country;
 import beans.EventType;
@@ -64,7 +66,16 @@ public class CheaterStrategy extends Strategy implements Serializable {
 
 	@Override
 	public void placeArmiesForSetup() {
-		// TODO Auto-generated method stub
+		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
+		Random r = new Random();
+		int maxArmies =player.getArmies();
+		for(Country rec:player.getPlayerCountries()) {
+			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
+			armyCountryMap.put(rec, temp);
+			maxArmies =maxArmies-temp;
+		}
+		
+		this.distributeArmies(armyCountryMap);
 		
 	}
 

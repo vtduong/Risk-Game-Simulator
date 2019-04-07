@@ -618,6 +618,19 @@ public class GameController implements Serializable{
 		}
 	}
 	
+	public void takeSavedTurn() throws MapInvalidException, IOException {
+		int i = playerList.indexOf(this.currentPlayer);
+		while (winner == null) {
+			i = i % playerList.size();
+			currentPlayer = playerList.get(i);
+			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
+			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
+			takePhases();
+			i++;
+			
+		}
+	}
+	
 	private void exchangeCards() {
 		cardView.getCardProgress();
 		if (currentPlayer.getCardsAcquired().size() >= 3 && getCurrentPlayer().getStrategyType().equals("Human")) {
@@ -639,13 +652,13 @@ public class GameController implements Serializable{
 		}
 	}
 	
-	public void takePhase(Phase phase) throws IOException {
+	public void takeSavedPhases() throws IOException {
 		
-		switch(phase) {
-		case REENFORCEMENT:
+		switch(this.getCurrentPhase().getValue()) {
+		case 0:
 			exchangeCards();
 			reEnforce();
-		case ATTACK:
+		case 1:
 			boolean	isAnyCountryInvaded =false;
 			while (true) {
 				
@@ -665,7 +678,7 @@ public class GameController implements Serializable{
 					ui.handleExceptions(e.getMessage());
 				}
 			}
-		case FORTIFICATION:
+		case 2:
 			while(true) {
 				try {
 					if(canFortify()) {
@@ -680,7 +693,8 @@ public class GameController implements Serializable{
 			}
 			break;
 		}
-		
+		//
+		setCurrentPhase(Phase.REENFORCEMENT);
 	}
 	/**
 	 * Take phases.
@@ -688,7 +702,8 @@ public class GameController implements Serializable{
 	 * @throws MapInvalidException
 	 * @throws IOException 
 	 */
-	public void takePhases() throws MapInvalidException, IOException {		
+	public void takePhases() throws MapInvalidException, IOException {	
+		
 		exchangeCards();
 		reEnforce();
 		boolean	isAnyCountryInvaded =false;
@@ -729,9 +744,11 @@ public class GameController implements Serializable{
 	}
 
 	/**
+	 * @throws IOException 
+	 * @throws IllegalArgumentException 
 	 * 
 	 */
-	private void attack() {
+	private void attack() throws IllegalArgumentException, IOException {
 		do {
 			currentPlayer.attack();
 			// check if current player has won the game
