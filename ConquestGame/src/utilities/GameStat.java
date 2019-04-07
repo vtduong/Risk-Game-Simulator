@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import beans.Phase;
 import config.Config;
 import controller.GameController;
 import exception.MapInvalidException;
@@ -62,7 +63,7 @@ public class GameStat implements Serializable {
 		
 		GameController controllerObj = (GameController)objectReader.readObject();
 		controller.setController(controllerObj);
-		controller.setCurrentPhase(controllerObj.getCurrentPhase());
+		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
 		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
 		controller.setWorldDominationView(controllerObj.getWorldDominationView());
 		controller.setPhaseView(controllerObj.getPhaseView());
@@ -78,7 +79,7 @@ public class GameStat implements Serializable {
 		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
 		controller.setContinentList(controllerObj.getContinetList());
 		controller.setGameStat(controllerObj.getGameStat());
-		
+		controller.takeSavedTurn();
 		
 		}
 		
