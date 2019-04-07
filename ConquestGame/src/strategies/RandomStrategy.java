@@ -63,7 +63,6 @@ public class RandomStrategy extends Strategy implements Serializable {
 	
 	@Override
 	public void reEnforce() {
-		controller.setCurrentPhase("ReInforce");
 		int newArmies = obtainNewArmies();
 		player.notifyChanges(EventType.PHASE_NOTIFY);
 		Country country = getRandomCountry();
@@ -80,7 +79,6 @@ public class RandomStrategy extends Strategy implements Serializable {
 
 	@Override
 	public void attack() {
-		controller.setCurrentPhase("Attack");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		
@@ -116,7 +114,6 @@ public class RandomStrategy extends Strategy implements Serializable {
 	@Override
 	public void fortify() {
 		// TODO Auto-generated method stub
-		controller.setCurrentPhase("Fortification");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		Country fromCountry = null, toCountry = null;
