@@ -79,7 +79,7 @@ public class GameStat implements Serializable {
 		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
 		controller.setContinentList(controllerObj.getContinetList());
 		controller.setGameStat(controllerObj.getGameStat());
-		controller.takeSavedTurn();
+		controller.takeTurns();
 		
 		}
 		
