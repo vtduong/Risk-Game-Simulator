@@ -47,6 +47,16 @@ public class GameController implements Serializable{
 	/** The controller. */
 	private static GameController controller = null;
 	
+	private  Country attackingCountry = null;
+	
+	public Country getAttackingCountry() {
+		return attackingCountry;
+	}
+
+	public void setAttackingCountry(Country attackingCountry) {
+		this.attackingCountry = attackingCountry;
+	}
+
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
 	//Don't use for other purpose.
