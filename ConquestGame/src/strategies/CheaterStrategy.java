@@ -12,6 +12,7 @@ import java.util.Random;
 import beans.Country;
 import beans.EventType;
 import beans.Player;
+import gui.PhaseView;
 
 /**
  * A cheater computer player strategy whose reinforce() method doubles the
@@ -33,6 +34,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 
 	@Override
 	public void reEnforce() {
+		controller.setCurrentPhase("ReInforce");
 		int newArmies = obtainNewArmies();
 		player.notifyChanges(EventType.PHASE_NOTIFY);
 		Map<Country, Integer> list = controller.distributeArmies(newArmies);
@@ -40,13 +42,22 @@ public class CheaterStrategy extends Strategy implements Serializable {
 		for(Country rec:player.getPlayerCountries()) {
 			rec.setNumArmies(rec.getNumArmies()*2);
 		}
+		player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
 		
 	}
 
 	@Override
 	public void attack() {
 		// TODO Auto-generated method stub
+		controller.setCurrentPhase("Attack");
+		PhaseView phaseView = new PhaseView();
+		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		
+		
+		
+		
+		
+		player.notifyChanges(EventType.ATTACK_NOTIFY);
 	}
 
 	@Override
@@ -59,9 +70,9 @@ public class CheaterStrategy extends Strategy implements Serializable {
 			}
 			// do we still need to provide the option of moving armies or just  double the armies if defending
 			//Neighbor is there.
-			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
+			
 		}
-		
+		player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
 	}
 
 	@Override
