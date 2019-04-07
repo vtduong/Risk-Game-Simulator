@@ -625,7 +625,7 @@ public class GameController implements Serializable{
 			currentPlayer = playerList.get(i);
 			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
-			takePhases();
+			takeSavedPhases();
 			i++;
 			
 		}
