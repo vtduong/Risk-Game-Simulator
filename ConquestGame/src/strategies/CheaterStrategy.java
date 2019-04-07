@@ -52,10 +52,16 @@ public class CheaterStrategy extends Strategy implements Serializable {
 		controller.setCurrentPhase("Attack");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		
-		
-		
-		
+		List<Country> defendingNeighbours = null;
+		for(Country rec:player.getPlayerCountries()) {
+			defendingNeighbours = getdefendingNeighbours(rec);
+			if(defendingNeighbours.size() > 1) {
+				break;
+			}
+		}
+		for(Country temp : defendingNeighbours)	{
+			temp.setOwner(controller.getCurrentPlayer());		
+		}
 		
 		player.notifyChanges(EventType.ATTACK_NOTIFY);
 	}
@@ -68,8 +74,6 @@ public class CheaterStrategy extends Strategy implements Serializable {
 			if(defendingNeighbours.size()>0) {
 				rec.setNumArmies(rec.getNumArmies()*2);
 			}
-			// do we still need to provide the option of moving armies or just  double the armies if defending
-			//Neighbor is there.
 			
 		}
 		player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
