@@ -328,6 +328,7 @@ public class GameController implements Serializable{
 		playerList = new ArrayList<Player>();
 		ui = new UI();
 		customMap = CustomMapGenerator.getInstance();
+		this.currentPhase = Phase.REENFORCEMENT;
 		
 	}
 
@@ -620,41 +621,41 @@ public class GameController implements Serializable{
 //	}
 
 
-	/**
- * Take turns.
- *
- * @throws MapInvalidException the map invalid exception
-	 * @throws IOException 
- */
-	public void takeTurns() throws MapInvalidException, IOException {
-		int i = 0;
-		//System.out.println("Provide number of turns you wish to play");
-		//phaseCount= scan.nextInt();
-		while (winner == null) {
-			i = i % playerList.size();
-			currentPlayer = playerList.get(i);
-			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
-			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
-			takePhases();
-			i++;
-			//phaseCount--;
-		}
-		/*if(winner== null) {
-			System.out.println("GAME DRAW !!");
-		}
-		else {
-			System.out.println(winner.getPlayerName()+" "+"WONS THE GAME !!");
-		}*/
-	}
+//	/**
+// * Take turns.
+// *
+// * @throws MapInvalidException the map invalid exception
+//	 * @throws IOException 
+// */
+//	public void takeTurns() throws MapInvalidException, IOException {
+//		int i = 0;
+//		//System.out.println("Provide number of turns you wish to play");
+//		//phaseCount= scan.nextInt();
+//		while (winner == null) {
+//			i = i % playerList.size();
+//			currentPlayer = playerList.get(i);
+//			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
+//			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
+//			takePhases();
+//			i++;
+//			//phaseCount--;
+//		}
+//		/*if(winner== null) {
+//			System.out.println("GAME DRAW !!");
+//		}
+//		else {
+//			System.out.println(winner.getPlayerName()+" "+"WONS THE GAME !!");
+//		}*/
+//	}
 	
-	public void takeSavedTurn() throws MapInvalidException, IOException {
+	public void takeTurns() throws MapInvalidException, IOException {
 		int i = playerList.indexOf(this.currentPlayer);
 		while (winner == null) {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
 			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
-			takeSavedPhases();
+			takePhases();
 			i++;
 			
 		}
@@ -681,7 +682,7 @@ public class GameController implements Serializable{
 		}
 	}
 	
-	public void takeSavedPhases() throws IOException {
+	public void takePhases() throws IOException {
 		
 		switch(this.getCurrentPhase().getValue()) {
 		case 0:
@@ -725,41 +726,41 @@ public class GameController implements Serializable{
 		//
 		setCurrentPhase(Phase.REENFORCEMENT);
 	}
-	/**
-	 * Take phases.
-	 * 
-	 * @throws MapInvalidException
-	 * @throws IOException 
-	 */
-	public void takePhases() throws MapInvalidException, IOException {	
-		
-		exchangeCards();
-		reEnforce();
-		boolean	isAnyCountryInvaded =false;
-		while (true) {
-			
-			try {
-				// ask user if wants to make an attack and check if user is able to attack (at
-				// least 2 armies in one country)
-				if (isWar() && canAttack()) {
-					attack();
-				}
-				isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
-				if (isAnyCountryInvaded == true) {
-					currentPlayer.addCards();
-				}
-				if(canFortify()) {
-					fortify();
-				} else {
-					ui.showDialog("The player is not qualified for fortification");
-				}
-				
-				break;
-			} catch (IllegalArgumentException e) {
-				ui.handleExceptions(e.getMessage());
-			}
-		}
-	}
+//	/**
+//	 * Take phases.
+//	 * 
+//	 * @throws MapInvalidException
+//	 * @throws IOException 
+//	 */
+//	public void takePhases() throws MapInvalidException, IOException {	
+//		
+//		exchangeCards();
+//		reEnforce();
+//		boolean	isAnyCountryInvaded =false;
+//		while (true) {
+//			
+//			try {
+//				// ask user if wants to make an attack and check if user is able to attack (at
+//				// least 2 armies in one country)
+//				if (isWar() && canAttack()) {
+//					attack();
+//				}
+//				isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
+//				if (isAnyCountryInvaded == true) {
+//					currentPlayer.addCards();
+//				}
+//				if(canFortify()) {
+//					fortify();
+//				} else {
+//					ui.showDialog("The player is not qualified for fortification");
+//				}
+//				
+//				break;
+//			} catch (IllegalArgumentException e) {
+//				ui.handleExceptions(e.getMessage());
+//			}
+//		}
+//	}
 
 	/**
 	 * @throws IOException 
