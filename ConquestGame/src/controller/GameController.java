@@ -969,6 +969,7 @@ public class GameController implements Serializable{
 				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
 				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
 				controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
+				
 //				controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 				
 				

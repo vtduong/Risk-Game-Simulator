@@ -42,7 +42,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 		for(Country rec:player.getPlayerCountries()) {
 			rec.setNumArmies(rec.getNumArmies()*2);
 		}
-		player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
+		//player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
 		
 	}
 
@@ -63,7 +63,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 			temp.setOwner(controller.getCurrentPlayer());		
 		}
 		
-		player.notifyChanges(EventType.ATTACK_NOTIFY);
+		//player.notifyChanges(EventType.ATTACK_NOTIFY);
 	}
 
 	@Override

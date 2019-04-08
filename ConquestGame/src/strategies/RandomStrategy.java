@@ -68,7 +68,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 		player.notifyChanges(EventType.PHASE_NOTIFY);
 		Country country = getRandomCountry();
 		country.setNumArmies(newArmies);
-		player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
+		//player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
 //		Map<Country, Integer> list = controller.distributeArmies(newArmies);
 //		this.distributeArmies(list);
 //		for(Country rec:player.getPlayerCountries()) {
@@ -108,7 +108,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 		if (attackingCountry.getNumArmies() > 2 && toAttack != null) {
 			this.randomAttack(attackingCountry, toAttack);
 		}
-		player.notifyChanges(EventType.ATTACK_NOTIFY);
+		//player.notifyChanges(EventType.ATTACK_NOTIFY);
 		
 	}
 
