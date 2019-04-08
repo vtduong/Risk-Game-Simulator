@@ -32,12 +32,19 @@ public class RandomStrategy extends Strategy implements Serializable {
 	public Country getRandomCountry() {
 		List<Country> countries = player.getPlayerCountries();
 		int minRange = 0;
-		int maxRange = countries.size();
+		int maxRange = countries.size() - 1;
 		
 		Random rand = new Random();
-		int randomCountryInt = rand.nextInt((maxRange - minRange) + 1) + minRange;
+		Country randomCountry = null;
 		
-		Country randomCountry = countries.get(randomCountryInt);
+		for(;;) {
+			int randomCountryInt = rand.nextInt((maxRange - minRange) + 1) + minRange;
+			randomCountry = countries.get(randomCountryInt);
+			
+			if(randomCountry != null)
+				break;
+		}
+		
 		
 		return randomCountry; 
 	}
@@ -82,10 +89,10 @@ public class RandomStrategy extends Strategy implements Serializable {
 	public void attack() {
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		
+		Country attackingCountry = null;
 		List<Country> defendingNeighbours = null;
 		for(;;) {
-			Country attackingCountry = getRandomCountry();
+			attackingCountry = getRandomCountry();
 			defendingNeighbours = getdefendingNeighbours(attackingCountry);
 			
 			if(defendingNeighbours.size() > 0)
@@ -124,7 +131,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 			fromCountry = getRandomCountry();
 			if (fromCountry.getNumArmies() > 1) {
 				int minRange = 1;
-				int maxRange = fromCountry.getNumArmies();
+				int maxRange = fromCountry.getNumArmies() - 1;
 				Random rand = new Random();
 				int randomTransfer = rand.nextInt((maxRange - minRange) + 1) + minRange;
 				

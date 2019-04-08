@@ -85,7 +85,6 @@ public class GameStat implements Serializable {
 		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
 		controller.setContinentList(controllerObj.getContinetList());
 		controller.setGameStat(controllerObj.getGameStat());
-		controller.takeTurns();
 		
 		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
 		customMap.setCustomMap(customMapObj.getCustomMap());
@@ -101,6 +100,8 @@ public class GameStat implements Serializable {
 		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
 		customMap.setEditMap(customMapObj.getEditMap());
 		customMap.setMapController(customMapObj.getMapController());
+		
+		controller.takeTurns();
 		}
 		
 	}
