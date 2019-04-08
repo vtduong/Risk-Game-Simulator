@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import beans.Phase;
+import beans.Player;
 import config.Config;
 import controller.GameController;
 import exception.MapInvalidException;
@@ -21,9 +22,14 @@ public class GameStat implements Serializable {
 	
 	private static GameStat obj = null;
 	private GameController controller = null;
+	private CustomMapGenerator customMap = null;
+	
 	
 	private GameStat() {
 		controller = GameController.getInstance();
+		customMap = CustomMapGenerator.getInstance();
+		
+		
 	}
 	
 	public static GameStat getInstance() {
@@ -37,7 +43,7 @@ public class GameStat implements Serializable {
 	 * @throws IOException
 	 */
 	public void save() throws IOException{
-		String saveStatToFile = Config.getProperty("saveTofile");
+		String saveStatToFile = Config.getProperty("savecontroller");
 		
 		try(FileOutputStream file = new FileOutputStream(saveStatToFile);
 		ObjectOutputStream objectWriter = new ObjectOutputStream(file);) {
@@ -56,7 +62,7 @@ public class GameStat implements Serializable {
 	 * @throws MapInvalidException 
 	 */
 	public void load() throws IOException, ClassNotFoundException, MapInvalidException {
-		String loadStatFromFile = Config.getProperty("loadFromfile");
+		String loadStatFromFile = Config.getProperty("loadcontroller");
 		
 		try(FileInputStream file = new FileInputStream(loadStatFromFile);
 		ObjectInputStream objectReader = new ObjectInputStream(file);) {
@@ -81,6 +87,20 @@ public class GameStat implements Serializable {
 		controller.setGameStat(controllerObj.getGameStat());
 		controller.takeTurns();
 		
+		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
+		customMap.setCustomMap(customMapObj.getCustomMap());
+		customMap.setContinents(customMapObj.getContinents());
+		customMap.setCountries(customMapObj.getCountries());
+		customMap.setRemoveContinents(customMapObj.getRemoveContinents());
+		customMap.setRemoveCountries(customMapObj.getRemoveCountries());
+		customMap.setRemoveAdjacentCountries(customMapObj.getRemoveAdjacentCountries());
+		customMap.setAdjMap(customMapObj.getAdjMap());
+		customMap.setCountryDefault(customMapObj.getCountryDefault());
+		customMap.setContinentmap(customMapObj.getContinentmap());
+		customMap.setCountryMap(customMapObj.getCountryMap());
+		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
+		customMap.setEditMap(customMapObj.getEditMap());
+		customMap.setMapController(customMapObj.getMapController());
 		}
 		
 	}
