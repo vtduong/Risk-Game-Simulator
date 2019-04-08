@@ -672,7 +672,11 @@ public class GameController implements Serializable{
 			currentPlayer = playerList.get(i);
 			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
-			takePhases();
+			System.out.println("Countries occupied by Player: " + currentPlayer.getPlayerCountries().size());
+			// if player does not have any country,all of its  phases are skipped.
+			if(currentPlayer.getPlayerCountries().size()>0) {
+				takePhases();
+			}
 			i++;
 			
 		}
