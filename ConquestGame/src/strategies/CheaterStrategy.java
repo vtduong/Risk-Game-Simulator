@@ -29,7 +29,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 
 	public CheaterStrategy(Player player) {
 		super(player);
-		// TODO Auto-generated constructor stub
+		this.player=player;
 	}
 
 	@Override
