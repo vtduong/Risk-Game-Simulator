@@ -47,6 +47,19 @@ public class GameController implements Serializable{
 	/** The controller. */
 	private static GameController controller = null;
 	
+	private  Country attackingCountry = null;
+	
+	/** Keeps track if this game is a saved game. */
+	private boolean isSavedGame = false;
+	
+	public Country getAttackingCountry() {
+		return attackingCountry;
+	}
+
+	public void setAttackingCountry(Country attackingCountry) {
+		this.attackingCountry = attackingCountry;
+	}
+
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
 	//Don't use for other purpose.
@@ -577,6 +590,7 @@ public class GameController implements Serializable{
 			}
 		} else if (selectedOption == 4) {
 			//try {
+				isSavedGame = true;
 				gameStat = GameStat.getInstance();
 				gameStat.load();
 //			} catch (ClassNotFoundException e) {
@@ -649,7 +663,10 @@ public class GameController implements Serializable{
 //	}
 	
 	public void takeTurns() throws MapInvalidException, IOException {
-		int i = playerList.indexOf(this.currentPlayer);
+		int i = 0;
+		if(isSavedGame) {
+			i = playerList.indexOf(this.currentPlayer);
+		}
 		while (winner == null) {
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);

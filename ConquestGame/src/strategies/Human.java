@@ -98,7 +98,9 @@ public class Human extends Strategy implements Serializable {
 			attackingCountryName = attackingCountries.get(0);
 		}
 		
+		
 		Country attackingCountry = map.getCountry(attackingCountryName);
+		controller.setAttackingCountry(attackingCountry);
 		//check if the attacking country has at least 2 armies
 		if(attackingCountry.getNumArmies() < 2) {
 			throw new IllegalArgumentException("The attacking country must have at least 2 armies!");

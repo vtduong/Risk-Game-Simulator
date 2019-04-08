@@ -43,6 +43,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 	}
 
 	public void randomAttack(Country attackingCountry, Country attackedCountry) {
+		controller.setAttackingCountry(attackingCountry);
 		int minRange = 0;
 		int maxRange = 5;
 		Random rand = new Random();
