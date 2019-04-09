@@ -32,6 +32,7 @@ public enum Phase implements Serializable {
 	
 	public static Phase getPhase(int val) {
 		Phase phase = null;
+		val = val %3;
 		switch(val) {
 		case 0:
 			phase = Phase.REENFORCEMENT;

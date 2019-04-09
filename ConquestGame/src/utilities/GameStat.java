@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.List;
 
 import beans.Phase;
 import beans.Player;
@@ -70,7 +71,14 @@ public class GameStat implements Serializable {
 		GameController controllerObj = (GameController)objectReader.readObject();
 		controller.setController(controllerObj);
 		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
+		controller.setPlayerList(controllerObj.getPlayerList());
 		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
+		//if saved phase is at the end of fortification, next player gets to play
+		if(controller.getCurrentPhase() == Phase.FORTIFICATION) {
+			List<Player> playerList = controller.getPlayerList();
+			controller.setCurrentPlayer(playerList.get(playerList.indexOf(controller.getCurrentPlayer())+1));
+		}
+		
 		controller.setWorldDominationView(controllerObj.getWorldDominationView());
 		controller.setPhaseView(controllerObj.getPhaseView());
 		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
@@ -79,7 +87,6 @@ public class GameStat implements Serializable {
 		controller.setContinentListByName(controllerObj.getContinentListByName());;
 		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
 		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
-		controller.setPlayerList(controllerObj.getPlayerList());
 		controller.setWinner(controllerObj.getWinner());
 		controller.setUI(controllerObj.getUI());
 		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());

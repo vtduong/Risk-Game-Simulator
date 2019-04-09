@@ -341,7 +341,6 @@ public class GameController implements Serializable{
 		playerList = new ArrayList<Player>();
 		ui = new UI();
 		customMap = CustomMapGenerator.getInstance();
-		this.currentPhase = Phase.REENFORCEMENT;
 		
 	}
 
@@ -392,7 +391,6 @@ public class GameController implements Serializable{
 
 		for (int i = 0; i < numberOfPlayers; i++) {
 			GameController con = GameController.getInstance();
-			System.out.println(con.playerList.size());
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -704,9 +702,13 @@ public class GameController implements Serializable{
 	}
 	
 	public void takePhases() throws IOException {
-		
+		Phase curPhase = controller.getCurrentPhase();
+		if(curPhase == null) {//this is a new game, not a saved game
+			currentPhase = Phase.REENFORCEMENT;
+		}
 		switch(this.getCurrentPhase().getValue()) {
 		case 0:
+			
 			exchangeCards();
 			reEnforce();
 		case 1:
@@ -714,9 +716,11 @@ public class GameController implements Serializable{
 			while (true) {
 				
 				try {
+					this.setCurrentPhase(Phase.ATTACK);
 					// ask user if wants to make an attack and check if user is able to attack (at
 					// least 2 armies in one country)
 					if (isWar() && canAttack()) {
+						
 						attack();
 					}
 					isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
@@ -732,7 +736,9 @@ public class GameController implements Serializable{
 		case 2:
 			while(true) {
 				try {
+					this.setCurrentPhase(Phase.FORTIFICATION);
 					if(canFortify()) {
+						
 						fortify();
 					}else {
 						ui.showDialog("The player is not qualified for fortification");
@@ -744,8 +750,6 @@ public class GameController implements Serializable{
 			}
 			break;
 		}
-		//
-		setCurrentPhase(Phase.REENFORCEMENT);
 	}
 //	/**
 //	 * Take phases.
