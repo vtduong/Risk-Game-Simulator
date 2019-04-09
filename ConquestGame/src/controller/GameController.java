@@ -391,6 +391,7 @@ public class GameController implements Serializable{
 
 		for (int i = 0; i < numberOfPlayers; i++) {
 			GameController con = GameController.getInstance();
+
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -887,7 +888,18 @@ public class GameController implements Serializable{
 			if(getCurrentPlayer().isHasEnemy()) {
 				keepWar =true;
 			}
-		}else {
+		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Cheater")){
+			keepWar =false;
+		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Random")) {
+			Random r = new Random();
+			int temp =r.nextInt((50 - 0) + 1) + 0;
+			if(temp!=0) {
+				keepWar =true;
+			}else {
+				keepWar =false;
+			}
+		}
+		else {
 			keepWar = UI.keepWar();
 		}
 		return keepWar;
@@ -900,7 +912,11 @@ public class GameController implements Serializable{
 	 */
 	private boolean isWar() {
 		boolean isWar = false;
-		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")) {
+		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive") ||
+				getCurrentPlayer().getStrategyType().equalsIgnoreCase("Random") ||
+				getCurrentPlayer().getStrategyType().equalsIgnoreCase("Cheater")
+				
+				) {
 			isWar =true;
 		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Benevolent")){
 			isWar=false;
