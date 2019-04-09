@@ -20,17 +20,15 @@ import gui.PhaseView;
  *
  */
 public class RandomStrategy extends Strategy implements Serializable {
-	private Player player = null;
 	private Country attackingCountry = null;
 
 	public RandomStrategy(Player player) {
 		super(player);
-		this.player = player;
 	}
 	
 	
 	public Country getRandomCountry() {
-		List<Country> countries = player.getPlayerCountries();
+		List<Country> countries = this.getPlayer().getPlayerCountries();
 		int minRange = 0;
 		int maxRange = countries.size() - 1;
 		
@@ -55,7 +53,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 		int maxRange = 5;
 		Random rand = new Random();
 		int randomChances = rand.nextInt((maxRange - minRange) + 1) + minRange;
-		while (attackingCountry.getNumArmies() > 1 && attackedCountry.getOwner() != this.player && randomChances > 0) {
+		while (attackingCountry.getNumArmies() > 1 && attackedCountry.getOwner() != this.getPlayer() && randomChances > 0) {
 			// get max number of dices possible for attacker
 			int numDiceAttacker = (attackingCountry.getNumArmies() > 3) ? 3 : attackingCountry.getNumArmies() - 1;
 			int numDiceDefender = (attackedCountry.getNumArmies() >= 2) ? 2 : attackedCountry.getNumArmies();
@@ -72,7 +70,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 	@Override
 	public void reEnforce() {
 		int newArmies = obtainNewArmies();
-		player.notifyChanges(EventType.PHASE_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
 		Country country = getRandomCountry();
 		country.setNumArmies(newArmies);
 		//player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
@@ -103,14 +101,14 @@ public class RandomStrategy extends Strategy implements Serializable {
 		for (Country rec : defendingNeighbours) {
 			if (attackingCountry.getNumArmies() > rec.getNumArmies()) {
 				toAttack = rec;
-				player.setHasEnemy(true);
+				this.getPlayer().setHasEnemy(true);
 				break;
 			} else {
-				player.setHasEnemy(false);
+				this.getPlayer().setHasEnemy(false);
 			}
 		}
 		if (toAttack == null) {
-			player.setHasEnemy(false);
+			this.getPlayer().setHasEnemy(false);
 		}
 		if (attackingCountry.getNumArmies() > 2 && toAttack != null) {
 			this.randomAttack(attackingCountry, toAttack);
@@ -140,7 +138,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 				
 				int randomToCountry = rand.nextInt((maxRange - minRange) + 1) + minRange;
 				
-				toCountry = player.getCountryByName(adjCountries.get(randomToCountry));
+				toCountry = this.getPlayer().getCountryByName(adjCountries.get(randomToCountry));
 				
 				fromCountry.setNumArmies(fromCountry.getNumArmies() - randomTransfer);
 				toCountry.setNumArmies(toCountry.getNumArmies() + randomTransfer);
@@ -156,7 +154,7 @@ public class RandomStrategy extends Strategy implements Serializable {
 				
 				int randomToCountry = rand.nextInt((maxRange - minRange) + 1) + minRange;
 				
-				toCountry = player.getCountryByName(adjCountries.get(randomToCountry));
+				toCountry = this.getPlayer().getCountryByName(adjCountries.get(randomToCountry));
 				
 				fromCountry.setNumArmies(fromCountry.getNumArmies() - 1);
 				toCountry.setNumArmies(toCountry.getNumArmies() + 1);
@@ -207,15 +205,15 @@ public class RandomStrategy extends Strategy implements Serializable {
 //			this.moveArmies(fromName, toName, armiesToMove);
 //			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
 //		}
-		player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.FORTIFICATION_NOTIFY);
 	}
 
 	@Override
 	public void placeArmiesForSetup() {
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
 		Random r = new Random();
-		int maxArmies =player.getArmies();
-		for(Country rec:player.getPlayerCountries()) {
+		int maxArmies =this.getPlayer().getArmies();
+		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
 			armyCountryMap.put(rec, temp);
 			maxArmies =maxArmies-temp;

@@ -22,12 +22,10 @@ import gui.PhaseView;
  *
  */
 public class AggressiveStrategy extends Strategy implements Serializable {
-	private Player player = null;
 	private Country attackingCountry = null;
 
 	public AggressiveStrategy(Player player) {
 		super(player);
-		this.player = player;
 	}
 
 	/*
@@ -69,22 +67,22 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 	public void attack() {
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		//attackingCountry = compareCountries("strongest", null);
 		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);
 		Country toAttack = null;
 		for (Country rec : defendingNeighbours) {
 				toAttack = rec;
-				player.setHasEnemy(true);
+				this.getPlayer().setHasEnemy(true);
 				break;
 		}
 		if (toAttack == null) {
-			player.setHasEnemy(false);
+			this.getPlayer().setHasEnemy(false);
 		}
 		if (toAttack != null && attackingCountry.getNumArmies()>1) {
 			this.goAllOut(attackingCountry, toAttack);
 		}else {
-			player.setHasEnemy(false);
+			this.getPlayer().setHasEnemy(false);
 		}
 
 	}
@@ -98,7 +96,7 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 	public void fortify() {
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		Country fromCountry = null, toCountry = null;
 		String toName, fromName = null;
 		toCountry = compareCountries("strongest", null);
@@ -154,14 +152,14 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 			if(fromCountry.getNumArmies()>1 && fromName!=toName) {
 				this.moveArmies(fromName, toName, armiesToMove);
 			}
-			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
+			this.getPlayer().notifyChanges(EventType.FORTIFICATION_NOTIFY);
 		}
 
 	}
 
 	@Override
 	public void placeArmiesForSetup() {
-		player.notifyChanges(EventType.PHASE_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
 		// get the country with with highest number of defenders and assign all the
 		// remaining armies to it,
 		//Country rec = compareCountries();
@@ -169,8 +167,8 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
 		Random r = new Random();
-		int maxArmies =player.getArmies();
-		for(Country rec:player.getPlayerCountries()) {
+		int maxArmies =this.getPlayer().getArmies();
+		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
 			armyCountryMap.put(rec, temp);
 			maxArmies =maxArmies-temp;
