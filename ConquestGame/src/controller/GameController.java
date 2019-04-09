@@ -1334,5 +1334,21 @@ public class GameController implements Serializable{
 		customMap.LoadMap(mapName);
 		countryList.addAll(customMap.countryDefault);
 	}
+	public void takeTurnsForTournament() throws IOException, MapInvalidException {
+		int i = 0;
+		if(isSavedGame) {
+			i = playerList.indexOf(this.currentPlayer);
+		}
+			i = i % playerList.size();
+			currentPlayer = playerList.get(i);
+			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
+			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
+			System.out.println("Countries occupied by Player: " + currentPlayer.getPlayerCountries().size());
+			// if player does not have any country,all of its  phases are skipped.
+			if(currentPlayer.getPlayerCountries().size()>0 && winner== null) {
+					takePhases();
+			}
+			i++;
+}
 
 }
