@@ -341,7 +341,6 @@ public class GameController implements Serializable{
 		playerList = new ArrayList<Player>();
 		ui = new UI();
 		customMap = CustomMapGenerator.getInstance();
-		this.currentPhase = Phase.REENFORCEMENT;
 		
 	}
 
@@ -392,7 +391,7 @@ public class GameController implements Serializable{
 
 		for (int i = 0; i < numberOfPlayers; i++) {
 			GameController con = GameController.getInstance();
-			//System.out.println(con.playerList.size());
+
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -592,7 +591,10 @@ public class GameController implements Serializable{
 			//try {
 				isSavedGame = true;
 				gameStat = GameStat.getInstance();
-				gameStat.load();
+				GameController controllerObj = gameStat.load();
+				loadStat(controllerObj);
+				controller.takeTurns();
+
 //			} catch (ClassNotFoundException e) {
 //				
 //				System.out.println("Problem while loading game");
@@ -620,6 +622,51 @@ public class GameController implements Serializable{
 		countryList.addAll(customMap.countryDefault);
 	}
 
+
+/**
+	 * @param controllerObj
+	 */
+	private void loadStat(GameController controllerObj) {
+		controller.setController(controllerObj);
+		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
+		controller.setPlayerList(controllerObj.getPlayerList());
+		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
+		//if saved phase is at the end of fortification, next player gets to play
+		if(controller.getCurrentPhase() == Phase.FORTIFICATION) {
+			List<Player> playerList = controller.getPlayerList();
+			controller.setCurrentPlayer(playerList.get(playerList.indexOf(controller.getCurrentPlayer())+1));
+		}
+		
+		controller.setWorldDominationView(controllerObj.getWorldDominationView());
+		controller.setPhaseView(controllerObj.getPhaseView());
+		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
+		controller.setCountryList(controllerObj.getCountryList());
+		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
+		controller.setContinentListByName(controllerObj.getContinentListByName());;
+		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
+		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
+		controller.setWinner(controllerObj.getWinner());
+		controller.setUI(controllerObj.getUI());
+		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
+		controller.setContinentList(controllerObj.getContinetList());
+		controller.setGameStat(controllerObj.getGameStat());
+		
+		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
+		customMap.setCustomMap(customMapObj.getCustomMap());
+		customMap.setContinents(customMapObj.getContinents());
+		customMap.setCountries(customMapObj.getCountries());
+		customMap.setRemoveContinents(customMapObj.getRemoveContinents());
+		customMap.setRemoveCountries(customMapObj.getRemoveCountries());
+		customMap.setRemoveAdjacentCountries(customMapObj.getRemoveAdjacentCountries());
+		customMap.setAdjMap(customMapObj.getAdjMap());
+		customMap.setCountryDefault(customMapObj.getCountryDefault());
+		customMap.setContinentmap(customMapObj.getContinentmap());
+		customMap.setCountryMap(customMapObj.getCountryMap());
+		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
+		customMap.setEditMap(customMapObj.getEditMap());
+		customMap.setMapController(customMapObj.getMapController());		
+		
+	}
 
 //	/**
 //	 * Sets the phase.
@@ -704,9 +751,13 @@ public class GameController implements Serializable{
 	}
 	
 	public void takePhases() throws IOException {
-		
+		Phase curPhase = controller.getCurrentPhase();
+		if(curPhase == null) {//this is a new game, not a saved game
+			currentPhase = Phase.REENFORCEMENT;
+		}
 		switch(this.getCurrentPhase().getValue()) {
 		case 0:
+			
 			exchangeCards();
 			reEnforce();
 		case 1:
@@ -714,9 +765,11 @@ public class GameController implements Serializable{
 			while (true) {
 				
 				try {
+					this.setCurrentPhase(Phase.ATTACK);
 					// ask user if wants to make an attack and check if user is able to attack (at
 					// least 2 armies in one country)
 					if (isWar() && canAttack()) {
+						
 						attack();
 					}
 					isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
@@ -732,7 +785,9 @@ public class GameController implements Serializable{
 		case 2:
 			while(true) {
 				try {
+					this.setCurrentPhase(Phase.FORTIFICATION);
 					if(canFortify()) {
+						
 						fortify();
 					}else {
 						ui.showDialog("The player is not qualified for fortification");
@@ -744,8 +799,6 @@ public class GameController implements Serializable{
 			}
 			break;
 		}
-		//
-		setCurrentPhase(Phase.REENFORCEMENT);
 	}
 //	/**
 //	 * Take phases.

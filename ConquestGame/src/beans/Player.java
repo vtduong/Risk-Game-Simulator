@@ -462,7 +462,7 @@ public class Player implements Observable, Serializable{
 			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
 			Scanner userOpinion = new Scanner(System.in);
 			System.out.println("Do you want to save progress?");
-			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+			if(userOpinion.next().toLowerCase().equals("y") ||
 					userOpinion.nextLine().toLowerCase().equals("yes")) {
 				
 				GameStat progress = GameStat.getInstance();
@@ -624,7 +624,7 @@ public class Player implements Observable, Serializable{
 			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
 			Scanner userOpinion = new Scanner(System.in);
 			System.out.println("Do you want to save progress?");
-			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+			if(userOpinion.next().toLowerCase().equals("y") ||
 					userOpinion.nextLine().toLowerCase().equals("yes")) {
 				
 				GameStat progress = GameStat.getInstance();
@@ -656,7 +656,7 @@ public class Player implements Observable, Serializable{
 			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
 			Scanner userOpinion = new Scanner(System.in);
 			System.out.println("Do you want to save progress?");
-			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+			if(userOpinion.next().toLowerCase().equals("y") ||
 					userOpinion.nextLine().toLowerCase().equals("yes")) {
 				
 				GameStat progress = GameStat.getInstance();

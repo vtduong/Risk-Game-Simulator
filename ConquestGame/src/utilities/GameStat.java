@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.List;
 
 import beans.Phase;
 import beans.Player;
@@ -61,49 +62,18 @@ public class GameStat implements Serializable {
 	 * @throws ClassNotFoundException ec
 	 * @throws MapInvalidException 
 	 */
-	public void load() throws IOException, ClassNotFoundException, MapInvalidException {
+	public GameController load() throws IOException, ClassNotFoundException, MapInvalidException {
 		String loadStatFromFile = Config.getProperty("loadcontroller");
 		
 		try(FileInputStream file = new FileInputStream(loadStatFromFile);
 		ObjectInputStream objectReader = new ObjectInputStream(file);) {
 		
 		GameController controllerObj = (GameController)objectReader.readObject();
-		controller.setController(controllerObj);
-		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
-		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
-		controller.setWorldDominationView(controllerObj.getWorldDominationView());
-		controller.setPhaseView(controllerObj.getPhaseView());
-		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
-		controller.setCountryList(controllerObj.getCountryList());
-		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
-		controller.setContinentListByName(controllerObj.getContinentListByName());;
-		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
-		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
-		controller.setPlayerList(controllerObj.getPlayerList());
-		controller.setWinner(controllerObj.getWinner());
-		controller.setUI(controllerObj.getUI());
-		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
-		controller.setContinentList(controllerObj.getContinetList());
-		controller.setGameStat(controllerObj.getGameStat());
 		
-		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
-		customMap.setCustomMap(customMapObj.getCustomMap());
-		customMap.setContinents(customMapObj.getContinents());
-		customMap.setCountries(customMapObj.getCountries());
-		customMap.setRemoveContinents(customMapObj.getRemoveContinents());
-		customMap.setRemoveCountries(customMapObj.getRemoveCountries());
-		customMap.setRemoveAdjacentCountries(customMapObj.getRemoveAdjacentCountries());
-		customMap.setAdjMap(customMapObj.getAdjMap());
-		customMap.setCountryDefault(customMapObj.getCountryDefault());
-		customMap.setContinentmap(customMapObj.getContinentmap());
-		customMap.setCountryMap(customMapObj.getCountryMap());
-		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
-		customMap.setEditMap(customMapObj.getEditMap());
-		customMap.setMapController(customMapObj.getMapController());
+		return controllerObj;
 		
-		controller.takeTurns();
+		
 		}
-		
 	}
 	
 //	public static void main(String[] args) throws IOException {
