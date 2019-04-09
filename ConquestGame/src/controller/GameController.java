@@ -883,7 +883,10 @@ public class GameController implements Serializable{
 			if(getCurrentPlayer().isHasEnemy()) {
 				keepWar =true;
 			}
-		}else {
+		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Cheater")){
+			keepWar =false;
+		}
+		else {
 			keepWar = UI.keepWar();
 		}
 		return keepWar;
@@ -896,7 +899,11 @@ public class GameController implements Serializable{
 	 */
 	private boolean isWar() {
 		boolean isWar = false;
-		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")) {
+		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive") ||
+				getCurrentPlayer().getStrategyType().equalsIgnoreCase("Random") ||
+				getCurrentPlayer().getStrategyType().equalsIgnoreCase("Cheater")
+				
+				) {
 			isWar =true;
 		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Benevolent")){
 			isWar=false;

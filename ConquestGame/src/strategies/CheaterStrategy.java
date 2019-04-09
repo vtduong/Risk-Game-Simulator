@@ -4,6 +4,7 @@
 package strategies;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +34,10 @@ public class CheaterStrategy extends Strategy implements Serializable {
 	@Override
 	public void reEnforce() {
 		//controller.setCurrentPhase("ReInforce");
-		int newArmies = obtainNewArmies();
+		//int newArmies = obtainNewArmies();
 		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
-		Map<Country, Integer> list = controller.distributeArmies(newArmies);
-		this.distributeArmies(list);
+		//Map<Country, Integer> list = controller.distributeArmies(newArmies);
+		//this.distributeArmies(list);
 		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			rec.setNumArmies(rec.getNumArmies()*2);
 		}
@@ -46,22 +47,19 @@ public class CheaterStrategy extends Strategy implements Serializable {
 
 	@Override
 	public void attack() {
-		// TODO Auto-generated method stub
-		//controller.setCurrentPhase("Attack");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		List<Country> defendingNeighbours = null;
-		for(Country rec:this.getPlayer().getPlayerCountries()) {
+		List<Country> currentCountryPlayerList = this.getPlayer().getPlayerCountries();
+		System.out.println(currentCountryPlayerList.size());
+		for(Country rec:currentCountryPlayerList) {
 			defendingNeighbours = getdefendingNeighbours(rec);
-			if(defendingNeighbours.size() > 1) {
-				break;
+			for(Country recDef :defendingNeighbours) {
+				Player ownerRec = recDef.getOwner();
+				ownerRec.removeCountry(recDef.getName());
+				this.getPlayer().addCountry(recDef.getName(), recDef);
 			}
 		}
-		for(Country temp : defendingNeighbours)	{
-			temp.setOwner(controller.getCurrentPlayer());		
-		}
-		
-		//player.notifyChanges(EventType.ATTACK_NOTIFY);
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 	public void placeArmiesForSetup() {
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
 		Random r = new Random();
-		int maxArmies =this.getPlayer().getArmies();
+		int maxArmies =this.getPlayer().getArmies() - this.getPlayer().getNumArmiesDispatched();;
 		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
 			armyCountryMap.put(rec, temp);
