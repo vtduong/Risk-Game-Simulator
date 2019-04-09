@@ -120,7 +120,7 @@ public class GameController implements Serializable{
 	}
 		
 		
-	transient Scanner scan = new Scanner(System.in);
+	transient static Scanner scan = new Scanner(System.in);
 	private CardExchangeView cardView= null;
 	
 	//TODO change to private and use reflect.
@@ -386,10 +386,16 @@ public class GameController implements Serializable{
 	 */
 	public static void main(String[] args) throws IOException, MapInvalidException, ClassNotFoundException {
 		GameController controller = GameController.getInstance();
-		controller.loadMap();
-		controller.createWorldDominationView();
-		controller.createCardExchangeView();
-		controller.initGame();
+		System.out.println("Do you want to play in single mode or in tournament mode ? S/T");
+		char mode = scan.next().charAt(0);
+		if(mode=='S' || mode=='s') {
+			controller.modeSingle();	
+		}
+		if(mode=='T' || mode=='t') {
+			tScan= new Scanner(System.in);
+			tournamentFlag= true;
+			controller.modeTournament();	
+		}
 	}
 
 	/**
