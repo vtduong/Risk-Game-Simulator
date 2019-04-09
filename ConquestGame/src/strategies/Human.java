@@ -24,9 +24,6 @@ import utilities.DiceRoller;
  */
 public class Human extends Strategy implements Serializable {
 	
-	/** The player. */
-	private Player player = null;
-
 	/**
 	 * Instantiates a new human.
 	 *
@@ -34,7 +31,6 @@ public class Human extends Strategy implements Serializable {
 	 */
 	public Human(Player player) {
 		super(player);
-		this.player=player;
 	}
 
 	
@@ -43,7 +39,7 @@ public class Human extends Strategy implements Serializable {
 	 */
 	public void reEnforce() {
 		int newArmies = obtainNewArmies();
-		player.notifyChanges(EventType.PHASE_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
 		Map<Country, Integer> list = controller.distributeArmies(newArmies);
 		this.distributeArmies(list);
 		
@@ -60,7 +56,7 @@ public class Human extends Strategy implements Serializable {
 	public void attack() {
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		
 		// get attacked country from user, controller
 		Country attackedCountry = controller.getAttackedCountry();
@@ -71,7 +67,7 @@ public class Human extends Strategy implements Serializable {
 		List<String> attackingCountries = new ArrayList<String>();
 		String attackedCountryName = attackedCountry.getName();
 		
-		List<Country> occupiedCountries = player.getPlayerCountries();
+		List<Country> occupiedCountries = this.getPlayer().getPlayerCountries();
 		//it's possible that there many attacker's countries adj the selected attacked country
 		for(Country con : occupiedCountries) {
 			//only consider attaker's countries with at least 2 armies
@@ -153,10 +149,10 @@ public class Human extends Strategy implements Serializable {
 	public void fortify() {
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		//move armies from one (and only one) country to another neighboring country
-		String fromName = controller.selectCountryToTransferFrom(player.getPlayerCountries());
-		Country fromCountry = player.getCountryByName(fromName);
+		String fromName = controller.selectCountryToTransferFrom(this.getPlayer().getPlayerCountries());
+		Country fromCountry = this.getPlayer().getCountryByName(fromName);
 		if(fromCountry == null) {
 			throw new IllegalArgumentException(fromName + " is not a country you occupied!");
 		}
@@ -164,7 +160,7 @@ public class Human extends Strategy implements Serializable {
 		//get the names of countries occupied by this player among adjacent countries
 		List<String> occupiedCountries = new ArrayList<String>();
 		for(int i = 0; i < adjCountries.size(); i++) {
-			Country country = player.getCountryByName(adjCountries.get(i));
+			Country country = this.getPlayer().getCountryByName(adjCountries.get(i));
 			if(country != null) {
 				occupiedCountries.add(adjCountries.get(i));
 			}
@@ -174,11 +170,11 @@ public class Human extends Strategy implements Serializable {
 		}
 		String toName = controller.selectCountryToTransferTo(occupiedCountries);
 		int numArmies = controller.getParamsForFortification(fromCountry);
-		Country toCountry = player.getCountryByName(toName);
+		Country toCountry = this.getPlayer().getCountryByName(toName);
 //				fromCountry.setNumArmies(fromCountry.getNumArmies() - numArmies);
 //				toCountry.setNumArmies(toCountry.getNumArmies() + numArmies);
 		this.moveArmies(fromName, toName, numArmies);
-		player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.FORTIFICATION_NOTIFY);
 
 	}
 	
@@ -189,9 +185,9 @@ public class Human extends Strategy implements Serializable {
 	 */
 
 	public void placeArmiesForSetup() {
-		player.notifyChanges(EventType.PHASE_NOTIFY);
-		controller.showDialog("Please assign armies to countries for " + player.getPlayerName());
-		int numArmiesToDispatch = player.getArmies() - player.getNumArmiesDispatched();
+		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
+		controller.showDialog("Please assign armies to countries for " + this.getPlayer().getPlayerName());
+		int numArmiesToDispatch = this.getPlayer().getArmies() - this.getPlayer().getNumArmiesDispatched();
 		Map<Country, Integer> selection = controller.distributeArmies(numArmiesToDispatch);
 		this.distributeArmies(selection);
 		
