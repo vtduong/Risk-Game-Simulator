@@ -15,6 +15,7 @@ import beans.Player;
 import gui.PhaseView;
 
 /**
+ * Implementation of Cheater Strategy
  * A cheater computer player strategy whose reinforce() method doubles the
  * number of armies on all its countries, whose attack() method automatically
  * conquers all the neighbors of all its countries, and whose fortify() method
@@ -30,6 +31,10 @@ public class CheaterStrategy extends Strategy implements Serializable {
 		super(player);
 	}
 
+	/* (non-Javadoc)
+	 * Implementation of Reinforce phase for Cheater Strategy  
+	 * @see strategies.Strategy#reEnforce()
+	 */
 	@Override
 	public void reEnforce() {
 		//controller.setCurrentPhase("ReInforce");
@@ -44,6 +49,10 @@ public class CheaterStrategy extends Strategy implements Serializable {
 		
 	}
 
+	/* (non-Javadoc)
+	 * Implementation of Attack phase for Cheater Strategy
+	 * @see strategies.Strategy#attack()
+	 */
 	@Override
 	public void attack() {
 		// TODO Auto-generated method stub
@@ -64,6 +73,10 @@ public class CheaterStrategy extends Strategy implements Serializable {
 		//player.notifyChanges(EventType.ATTACK_NOTIFY);
 	}
 
+	/* (non-Javadoc)
+	 * Implementation of Fortify phase for Cheater Strategy
+	 * @see strategies.Strategy#fortify()
+	 */
 	@Override
 	public void fortify() {
 		// TODO Auto-generated method stub
@@ -77,6 +90,10 @@ public class CheaterStrategy extends Strategy implements Serializable {
 		this.getPlayer().notifyChanges(EventType.FORTIFICATION_NOTIFY);
 	}
 
+	/* (non-Javadoc)
+	 * Initial Set Up phase for Cheater Strategy
+	 * @see strategies.Strategy#placeArmiesForSetup()
+	 */
 	@Override
 	public void placeArmiesForSetup() {
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();

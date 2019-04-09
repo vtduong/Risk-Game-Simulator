@@ -13,6 +13,7 @@ import beans.Player;
 import gui.PhaseView;
 
 /**
+ * Implementation of Random Strategy
  * A random computer player strategy that reinforces random a random country,
  * attacks a random number of times a random country, and fortifies a random
  * country, all following the standard rules for each phase. 
@@ -27,6 +28,10 @@ public class RandomStrategy extends Strategy implements Serializable {
 	}
 	
 	
+	/**
+	 * Method to Choose a random country amoung the list of current players' country 
+	 * @return
+	 */
 	public Country getRandomCountry() {
 		List<Country> countries = this.getPlayer().getPlayerCountries();
 		int minRange = 0;
@@ -47,6 +52,11 @@ public class RandomStrategy extends Strategy implements Serializable {
 		return randomCountry; 
 	}
 
+	/**
+	 * Method to attack a random country a random number of times 
+	 * @param attackingCountry
+	 * @param attackedCountry
+	 */
 	public void randomAttack(Country attackingCountry, Country attackedCountry) {
 		controller.setAttackingCountry(attackingCountry);
 		int minRange = 0;
@@ -67,6 +77,10 @@ public class RandomStrategy extends Strategy implements Serializable {
 
 	}
 	
+	/* (non-Javadoc)
+	 * Implementation of Reinforce phase for Random Strategy
+	 * @see strategies.Strategy#reEnforce()
+	 */
 	@Override
 	public void reEnforce() {
 		int newArmies = obtainNewArmies();
@@ -83,6 +97,10 @@ public class RandomStrategy extends Strategy implements Serializable {
 	}
 	
 
+	/* (non-Javadoc)
+	 * Implementation of Attack phase for Random Strategy
+	 * @see strategies.Strategy#attack()
+	 */
 	@Override
 	public void attack() {
 		PhaseView phaseView = new PhaseView();
@@ -117,6 +135,10 @@ public class RandomStrategy extends Strategy implements Serializable {
 		
 	}
 
+	/* (non-Javadoc)
+	 * Implementation of Fortify phase for Random Strategy
+	 * @see strategies.Strategy#fortify()
+	 */
 	@Override
 	public void fortify() {
 		// TODO Auto-generated method stub
@@ -208,6 +230,10 @@ public class RandomStrategy extends Strategy implements Serializable {
 		this.getPlayer().notifyChanges(EventType.FORTIFICATION_NOTIFY);
 	}
 
+	/* (non-Javadoc)
+	 * Initial Army setup for Random Strategy
+	 * @see strategies.Strategy#placeArmiesForSetup()
+	 */
 	@Override
 	public void placeArmiesForSetup() {
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
