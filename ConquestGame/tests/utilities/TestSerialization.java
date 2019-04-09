@@ -52,12 +52,12 @@ public class TestSerialization {
 		}
 		GameController savedController = null;
 		try {
-			  saver.load();
+			  savedController = saver.load();
 		} catch (ClassNotFoundException | IOException | MapInvalidException e) {
 			fail();
 			e.printStackTrace();
 		}
-		savedController = GameController.getInstance();
+	
 		assertEquals(savedController.getCurrentPhase(), controller.getCurrentPhase());
 		
 	}
@@ -66,12 +66,12 @@ public class TestSerialization {
 	public void testLoading() {
 		GameController savedController = null;
 		try {
-			 saver.load();
+			savedController = saver.load();
 		} catch (ClassNotFoundException | IOException | MapInvalidException e) {
 			e.printStackTrace();
 		}
-		savedController = GameController.getInstance();
-		assertEquals(savedController.getCurrentPhase(), Phase.ATTACK);
+		
+		assertEquals(savedController.getCurrentPlayer().getPlayerName(), controller.getCurrentPlayer().getPlayerName());
 	}
 
 }

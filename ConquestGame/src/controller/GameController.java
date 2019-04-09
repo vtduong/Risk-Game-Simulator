@@ -591,7 +591,10 @@ public class GameController implements Serializable{
 			//try {
 				isSavedGame = true;
 				gameStat = GameStat.getInstance();
-				gameStat.load();
+				GameController controllerObj = gameStat.load();
+				loadStat(controllerObj);
+				controller.takeTurns();
+
 //			} catch (ClassNotFoundException e) {
 //				
 //				System.out.println("Problem while loading game");
@@ -619,6 +622,51 @@ public class GameController implements Serializable{
 		countryList.addAll(customMap.countryDefault);
 	}
 
+
+/**
+	 * @param controllerObj
+	 */
+	private void loadStat(GameController controllerObj) {
+		controller.setController(controllerObj);
+		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
+		controller.setPlayerList(controllerObj.getPlayerList());
+		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
+		//if saved phase is at the end of fortification, next player gets to play
+		if(controller.getCurrentPhase() == Phase.FORTIFICATION) {
+			List<Player> playerList = controller.getPlayerList();
+			controller.setCurrentPlayer(playerList.get(playerList.indexOf(controller.getCurrentPlayer())+1));
+		}
+		
+		controller.setWorldDominationView(controllerObj.getWorldDominationView());
+		controller.setPhaseView(controllerObj.getPhaseView());
+		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
+		controller.setCountryList(controllerObj.getCountryList());
+		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
+		controller.setContinentListByName(controllerObj.getContinentListByName());;
+		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
+		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
+		controller.setWinner(controllerObj.getWinner());
+		controller.setUI(controllerObj.getUI());
+		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
+		controller.setContinentList(controllerObj.getContinetList());
+		controller.setGameStat(controllerObj.getGameStat());
+		
+		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
+		customMap.setCustomMap(customMapObj.getCustomMap());
+		customMap.setContinents(customMapObj.getContinents());
+		customMap.setCountries(customMapObj.getCountries());
+		customMap.setRemoveContinents(customMapObj.getRemoveContinents());
+		customMap.setRemoveCountries(customMapObj.getRemoveCountries());
+		customMap.setRemoveAdjacentCountries(customMapObj.getRemoveAdjacentCountries());
+		customMap.setAdjMap(customMapObj.getAdjMap());
+		customMap.setCountryDefault(customMapObj.getCountryDefault());
+		customMap.setContinentmap(customMapObj.getContinentmap());
+		customMap.setCountryMap(customMapObj.getCountryMap());
+		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
+		customMap.setEditMap(customMapObj.getEditMap());
+		customMap.setMapController(customMapObj.getMapController());		
+		
+	}
 
 //	/**
 //	 * Sets the phase.
