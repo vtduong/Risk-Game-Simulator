@@ -1,6 +1,3 @@
-/**
- * 
- */
 package strategies;
 
 import java.io.Serializable;
@@ -37,6 +34,7 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 	@Override
 	public void reEnforce() {
 		int newArmies = obtainNewArmies();
+		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
 		attackingCountry = compareCountries("strongest", null);
 		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);
 		List<Country> toRemove =new ArrayList<Country>();
@@ -50,13 +48,6 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		}
 	}
 
-	private boolean isAttackPossible(Country attackingCountry, Country defendingCountry) {
-		boolean isAttackPossoble = false;
-		if (attackingCountry.getNumArmies() > defendingCountry.getNumArmies()) {
-			isAttackPossoble = true;
-		}
-		return isAttackPossoble;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -101,12 +92,6 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		String toName, fromName = null;
 		toCountry = compareCountries("strongest", null);
 		ArrayList<Country> validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
-		
-		/*while(validCountriestoMove.size()==0 && player.getPlayerCountries().size()>1) {
-			toCountry = compareCountries("strongest", (new (List<Country>) toCountry);
-			validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
-		 
-		}*/
 		
 		List<Country> defendingNeighbours = getdefendingNeighbours(attackingCountry);
 		List<Country> toRemove =new ArrayList<Country>();
@@ -167,7 +152,7 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 		
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
 		Random r = new Random();
-		int maxArmies =this.getPlayer().getArmies();
+		int maxArmies =this.getPlayer().getArmies() - this.getPlayer().getNumArmiesDispatched();
 		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
 			armyCountryMap.put(rec, temp);
