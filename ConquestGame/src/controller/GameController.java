@@ -1063,6 +1063,7 @@ public class GameController implements Serializable{
 
 		//Getting Player Info
 				
+				if(tournamentFlag==false) {
 				System.out.println("Please enter the number of players between 2 and 6: ");
 				Scanner inputNumPlayers = new Scanner(System.in);	
 				int numberOfPlayers = inputNumPlayers.nextInt();
@@ -1109,6 +1110,43 @@ public class GameController implements Serializable{
 				controller.placeArmiesForSetup();
 				
 				controller.takeTurns();
+				}
+				else {
+					int numberOfPlayersForTournament = strategyList.length;
+					System.out.println("Number of Players: "+numberOfPlayersForTournament);
+					int initialArmies = 0;
+					switch(numberOfPlayersForTournament) {
+						case 2:
+							initialArmies = 40;
+						break;
+						case 3:
+							initialArmies = 35;
+						break;
+						case 4:
+							initialArmies = 30;
+						break;	
+					}
+					for(int i = 1; i <= numberOfPlayersForTournament ; i++) {
+						String playerName = "Player " + i;
+						Player player = new Player(playerName, true, initialArmies);
+						controller.addPlayer(player);
+					}
+					
+					controller.registerObserver(ui, EventType.PHASE_NOTIFY);
+					controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+					controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
+//					controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
+					
+					System.out.println("evenly distributing countries among players in random fashion...");
+					controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
+					System.out.println("-------- Setup --------");
+					controller.setupStrategy();
+					controller.placeInitialArmies();
+					controller.placeArmiesForSetup();
+					for(int k=0; k < turnCount; k++) {
+						controller.takeTurnsForTournament();
+						}
+					}
 	}
 
 	/**
