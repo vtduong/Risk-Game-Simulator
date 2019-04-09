@@ -96,7 +96,7 @@ public class CheaterStrategy extends Strategy implements Serializable {
 	public void placeArmiesForSetup() {
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
 		Random r = new Random();
-		int maxArmies =this.getPlayer().getArmies() - this.getPlayer().getNumArmiesDispatched();;
+		int maxArmies =this.getPlayer().getArmies() - this.getPlayer().getNumArmiesDispatched();
 		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
 			armyCountryMap.put(rec, temp);

@@ -392,7 +392,7 @@ public class GameController implements Serializable{
 
 		for (int i = 0; i < numberOfPlayers; i++) {
 			GameController con = GameController.getInstance();
-			System.out.println(con.playerList.size());
+			//System.out.println(con.playerList.size());
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -885,6 +885,14 @@ public class GameController implements Serializable{
 			}
 		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Cheater")){
 			keepWar =false;
+		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Random")) {
+			Random r = new Random();
+			int temp =r.nextInt((50 - 0) + 1) + 0;
+			if(temp!=0) {
+				keepWar =true;
+			}else {
+				keepWar =false;
+			}
 		}
 		else {
 			keepWar = UI.keepWar();
