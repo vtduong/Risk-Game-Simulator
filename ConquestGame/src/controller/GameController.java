@@ -351,6 +351,8 @@ public class GameController implements Serializable{
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
 		ui = new UI();
+		finalWinnerList= new String[10][10];
+		mapList= new String[5];
 		customMap = CustomMapGenerator.getInstance();
 		
 	}
@@ -815,6 +817,9 @@ public class GameController implements Serializable{
 		if(curPhase == null) {//this is a new game, not a saved game
 			currentPhase = Phase.REENFORCEMENT;
 		}
+		if(tournamentFlag) {
+			currentPhase = Phase.REENFORCEMENT;
+		}
 		switch(this.getCurrentPhase().getValue()) {
 		case 0:
 			
@@ -920,7 +925,9 @@ public class GameController implements Serializable{
 				winner = currentPlayer;
 				ui.showDialog(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
 				ui.showDialog("THE END!!!");
-				System.exit(0);
+				if(!tournamentFlag) {
+					System.exit(0);
+				}
 			}
 			currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 		} while (canAttack() && keepWar());
@@ -1126,6 +1133,8 @@ public class GameController implements Serializable{
 							initialArmies = 30;
 						break;	
 					}
+					numberOfPlayers =0;
+					playerList.removeAll(playerList);
 					for(int i = 1; i <= numberOfPlayersForTournament ; i++) {
 						String playerName = "Player " + i;
 						Player player = new Player(playerName, true, initialArmies);
@@ -1143,9 +1152,9 @@ public class GameController implements Serializable{
 					controller.setupStrategy();
 					controller.placeInitialArmies();
 					controller.placeArmiesForSetup();
-					for(int k=0; k < turnCount; k++) {
+					//for(int k=0; k < turnCount; k++) {
 						controller.takeTurnsForTournament();
-						}
+						//}
 					}
 	}
 
@@ -1307,7 +1316,6 @@ public class GameController implements Serializable{
 		controller.createCardExchangeView();
 		controller.initGame();
 	}
-	
 	public void modeTournament() throws ClassNotFoundException, IOException, MapInvalidException{
 		//GameController controller = GameController.getInstance();
 		System.out.println("Provide 1-5 maps you wish to play on:");
@@ -1317,7 +1325,6 @@ public class GameController implements Serializable{
 		if(mapInput.contains(",")) {
 			mapList= mapInput.split(",");
 		}
-		System.out.println(mapList.length);
 		System.out.println("Provide player's strategies :");
 		System.out.println("*********STRATEGY MENU************");
 		System.out.println("1. Aggressive 2. Benevolent 3. Cheater 4. Random");
@@ -1329,9 +1336,10 @@ public class GameController implements Serializable{
 		turnCount= tScan.nextInt();
 		for(int i=0; i< mapList.length; i++) {
 			try {
-				System.out.println("Length of mapList is: "+mapList.length);
-				controller.loadMapForTournament(mapList[i]);
+				//controller.loadMapForTournament(mapList[i]);
 				for(int j=0; j < gameCount; j++) {
+					System.out.println("Map Loaded for the game:"+j+1+" is "+mapList[i]);
+					controller.loadMapForTournament(mapList[i]);
 					strategyList= new String[5];
 					if(strategyInput.contains(",")) {
 						strategyList= strategyInput.split(",");
@@ -1345,14 +1353,16 @@ public class GameController implements Serializable{
 					System.out.println("initGame method called");
 					System.out.println("Game"+" "+(j+1)+" "+"has ended. Going for next game...");
 					if(winner!=null) {
-						finalWinnerList[i][j]= controller.getWinner().getStrategyType();	
+						finalWinnerList[i][j]= controller.getWinner().getStrategyType();
+						controller = GameController.getInstance();
 					}
 					else {
 						finalWinnerList[i][j]= "DRAW";
+						controller = GameController.getInstance();
 					}
 				}
 				System.out.println("All games of Map"+" "+(i+1)+" "+"are completed. Going for next map...");
-			} catch (IOException | MapInvalidException e) {
+			}catch (IOException | MapInvalidException e) {
 				ui.handleExceptions(e.getMessage());
 				System.exit(1);
 			}
@@ -1366,27 +1376,33 @@ public class GameController implements Serializable{
 			System.out.println("****************************");
 		}
 	}
-	
 	public void loadMapForTournament(String mapName) throws IOException, MapInvalidException {
-		customMap = CustomMapGenerator.getInstance();
+		customMap.reset();
+		customMap =CustomMapGenerator.getInstance();
 		customMap.LoadMap(mapName);
+		countryList.removeAll(countryList);
 		countryList.addAll(customMap.countryDefault);
+		System.out.println("countryList size!!!!!!!!!"+countryList.size());
 	}
 	public void takeTurnsForTournament() throws IOException, MapInvalidException {
 		int i = 0;
-		if(isSavedGame) {
-			i = playerList.indexOf(this.currentPlayer);
-		}
+		int counter=0;
+		while (counter<turnCount) {
+			counter++;
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
 			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
+			System.out.println("Turn Number"+counter)
+			;
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			System.out.println("Countries occupied by Player: " + currentPlayer.getPlayerCountries().size());
 			// if player does not have any country,all of its  phases are skipped.
-			if(currentPlayer.getPlayerCountries().size()>0 && winner== null) {
-					takePhases();
+			if(currentPlayer.getPlayerCountries().size()>0) {
+				takePhases();
 			}
 			i++;
+		}
+			
 }
 
 }
