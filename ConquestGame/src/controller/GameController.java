@@ -606,7 +606,7 @@ public class GameController implements Serializable{
 
 	 */
 	private void setupStrategy() {
-		try(Scanner selectStrategy = new Scanner(System.in);){
+		Scanner selectStrategy = new Scanner(System.in);
 			if (tournamentFlag == false) {
 				System.out.println("1. Aggressive 2. Human 3. Benevolent 4. Cheater 5. Random");
 				for (int i = 0; i < controller.playerList.size(); i++) {
@@ -614,7 +614,7 @@ public class GameController implements Serializable{
 					currentPlayer = player;
 					System.out.println("Assign a strategy for" + " " + currentPlayer.getPlayerName() + " " + ":");
 					String choice = selectStrategy.next();
-
+	
 					// Select strategies
 					if (choice.equalsIgnoreCase("Aggressive")) {
 						player.setStrategyType("Aggressive");
@@ -663,9 +663,9 @@ public class GameController implements Serializable{
 					//}
 				}
 			}
-		}
-		
 	}
+		
+	
 
 	/**
 	 * player places their armies on their territories in setup phase.
