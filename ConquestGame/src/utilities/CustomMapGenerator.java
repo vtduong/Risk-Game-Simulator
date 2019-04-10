@@ -719,4 +719,8 @@ public class CustomMapGenerator implements Serializable{
 		return adjacentCountriesList;
 		
 	}
+	
+	public void reset() {
+		customMap =null;
+	}
 }
