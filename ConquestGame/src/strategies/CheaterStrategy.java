@@ -15,6 +15,7 @@ import beans.EventType;
 import beans.Player;
 import gui.PhaseView;
 
+// TODO: Auto-generated Javadoc
 /**
  * Implementation of Cheater Strategy
  * A cheater computer player strategy whose reinforce() method doubles the
@@ -28,6 +29,11 @@ import gui.PhaseView;
 public class CheaterStrategy extends Strategy implements Serializable {
 
 
+	/**
+	 * Instantiates a new cheater strategy.
+	 *
+	 * @param player the player
+	 */
 	public CheaterStrategy(Player player) {
 		super(player);
 	}

@@ -16,22 +16,38 @@ import beans.Player;
 import controller.GameController;
 import gui.CardExchangeView;
 
+// TODO: Auto-generated Javadoc
 /**
- * This class tests the Card Exchange methods
- * @author yadavsurbhi
+ * This class tests the Card Exchange methods.
  *
+ * @author yadavsurbhi
  */
 
 public class CardExchangeTest {
+	
+	/** The card view. */
 	private CardExchangeView cardView;
+	
+	/** The player. */
 	private Player player;
+	
+	/** The controller. */
 	private GameController controller;
 	
-	  List<String> cardSet1; List<String> cardSet2; List<String> cardSet3;
-	  List<String> cardSet4;
+	  /** The card set 1. */
+  	List<String> cardSet1; /** The card set 2. */
+ List<String> cardSet2; /** The card set 3. */
+ List<String> cardSet3;
+	  
+  	/** The card set 4. */
+  	List<String> cardSet4;
 	 
+	/** The gamer 1. */
 	private Player gamer1;
 
+	/**
+	 * Sets the up.
+	 */
 	@Before
 	public void setUp() {
 		cardView = new CardExchangeView();
@@ -46,17 +62,29 @@ public class CardExchangeTest {
 		 
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		gamer1 = null;
 		controller = null;
 	}
 
+	/**
+	 * Adds the cards test.
+	 */
 	@Test
 	public void addCardsTest() {
 		assertNotNull(gamer1.addCards());
 		assertTrue(gamer1.addCards().size() > 1);
-	}@Test
+	}
+/**
+ * Card set 1 test.
+ */
+@Test
 	public void cardSet1Test() {
 		//cardView = new CardExchangeView();
 		//cardSet1 = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");
@@ -67,6 +95,9 @@ public class CardExchangeTest {
 		assertFalse(cardView.isExchangeCardsPossible());
 	}
 
+	/**
+	 * Card set 2 test.
+	 */
 	public void cardSet2Test() {
 		//cardView = new CardExchangeView();
 		//cardSet1 = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");
@@ -76,6 +107,10 @@ public class CardExchangeTest {
 		gamer1.setCardToRemove("INFANTRY");
 		assertFalse(cardView.isExchangeCardsPossible());
 	}
+	
+	/**
+	 * Card set 3 test.
+	 */
 	public void cardSet3Test() {
 		//cardView = new CardExchangeView();
 		//cardSet1 = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");
@@ -85,6 +120,10 @@ public class CardExchangeTest {
 		gamer1.setCardToRemove("CAVALRY");
 		assertFalse(cardView.isExchangeCardsPossible());
 	}
+	
+	/**
+	 * Card set 4 test.
+	 */
 	public void cardSet4Test() {
 		//cardView = new CardExchangeView();
 		//cardSet1 = Arrays.asList("INFANTRY", "CAVALRY", "ARTILLERY");

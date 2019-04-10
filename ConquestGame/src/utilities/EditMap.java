@@ -23,7 +23,7 @@ import exception.MapInvalidException;
  * This class is used to Edit an existing Map by taking user input.
  *
  * @author ankit
- * @Deprecated  This class is no longer used. It is merged with customMapGeneretor
+ * @deprecated  This class is no longer used. It is merged with customMapGeneretor
  * 				as part of map refactoring changes.
  */
 public class EditMap implements Serializable {
