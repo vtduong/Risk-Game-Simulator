@@ -36,13 +36,13 @@ public class MapController implements Serializable{
 	public ArrayList<Continent> continentsDefault;
 	
 	/** The world map. */
-	private Map<String, ArrayList<Country>> worldMap;
+	public Map<String, ArrayList<Country>> worldMap;
 	
 	/** The continentmap. */
 	public Map<String, Continent> continentmap;
 	
 	/** The mpsr. */
-	utilities.MapParser mpsr;
+	public utilities.MapParser mpsr;
 	
 	/** The countrymap. */
 	public HashMap<String, Country> countrymap;

@@ -59,12 +59,15 @@ public class GameStat implements Serializable {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void save() throws IOException{
+		
+		GameInit snapShot = new GameInit();
+		
 		String saveStatToFile = Config.getProperty("savecontroller");
 		
 		try(FileOutputStream file = new FileOutputStream(saveStatToFile);
 		ObjectOutputStream objectWriter = new ObjectOutputStream(file);) {
 		
-		objectWriter.writeObject(controller);
+		objectWriter.writeObject(snapShot);
 		
 		}
 		
@@ -88,6 +91,7 @@ public class GameStat implements Serializable {
 		GameController controllerObj = (GameController)objectReader.readObject();
 		
 		return controllerObj;
+
 		
 		
 		}

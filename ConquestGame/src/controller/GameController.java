@@ -84,6 +84,7 @@ public class GameController implements Serializable{
 	private static String[][] finalWinnerList;
 	private static Scanner tScan;
 	private static boolean isTest = false;
+	
 
 	public Country getAttackingCountry() {
 		return attackingCountry;
@@ -387,6 +388,12 @@ public class GameController implements Serializable{
 	
 	/** The phase count. */
 	private int phaseCount=0;
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public int getPhaseCount() {
+		return phaseCount;
+	}
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
@@ -395,6 +402,13 @@ public class GameController implements Serializable{
 	 *
 	 * @param ui the new ui
 	 */
+	//Don't use for other purpose.
+	public void setPhaseCount(int phaseCount) {
+		this.phaseCount = phaseCount;
+	}
+
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
 	//Don't use for other purpose.
 	public void setUI(UI ui) {
 		this.ui = ui;
