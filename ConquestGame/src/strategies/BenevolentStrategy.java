@@ -12,13 +12,27 @@ import beans.EventType;
 import beans.Player;
 import gui.PhaseView;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BenevolentStrategy.
+ */
 public class BenevolentStrategy extends Strategy implements Serializable {
+	
+	/** The weakest country. */
 	private Country weakestCountry = null;
 
+	/**
+	 * Instantiates a new benevolent strategy.
+	 *
+	 * @param player the player
+	 */
 	public BenevolentStrategy(Player player) {
 		super(player);
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#reEnforce()
+	 */
 	@Override
 	public void reEnforce() {
 		int newArmies = obtainNewArmies();
@@ -27,12 +41,18 @@ public class BenevolentStrategy extends Strategy implements Serializable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#attack()
+	 */
 	@Override
 	public void attack() {
 		// Benevolent Strategy does not require this phase.
 
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#fortify()
+	 */
 	@Override
 	public void fortify() {
 		
@@ -87,6 +107,9 @@ public class BenevolentStrategy extends Strategy implements Serializable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#placeArmiesForSetup()
+	 */
 	@Override
 	public void placeArmiesForSetup() {
 		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);

@@ -28,10 +28,10 @@ public abstract class Strategy implements Serializable {
 	static final int MIN_NEW_ARMIES = 3;
 
 	/** The controller. */
-	GameController controller = GameController.getInstance();;
+	GameController controller = null;
 
 	/** The map. */
-	static CustomMapGenerator map = CustomMapGenerator.getInstance();;
+	static CustomMapGenerator map = null;
 
 	/** The player. */
 	private Player player = null;
@@ -60,7 +60,7 @@ public abstract class Strategy implements Serializable {
 	 * Distribute armies.
 	 *
 	 * @param list the list of countries with corresponding armies.
-	 * @VisibleForTesting
+	 * 
 	 */
 	public void distributeArmies(Map<Country, Integer> list) {
 		for (Map.Entry<Country, Integer> entry : list.entrySet()) {
@@ -287,8 +287,8 @@ public abstract class Strategy implements Serializable {
 	}
 
 	/**
-	 * Get the weakest or strongest country
-	 * 
+	 * Get the weakest or strongest country.
+	 *
 	 * @param getType         :Determines the type of country in terms of armies;
 	 *                        greater the army stronger the territory
 	 * @param countryToRemove :Removes country if the strongest country is not
@@ -335,8 +335,9 @@ public abstract class Strategy implements Serializable {
 	}
 	
 	/**
-	 * Responsible for returning
-	 * @return
+	 * Responsible for returning.
+	 *
+	 * @return the country
 	 */
 	public Country compareCountries() {
 		List<Country> countryList = player.getPlayerCountries();
@@ -358,10 +359,11 @@ public abstract class Strategy implements Serializable {
 	}
 
 	/**
-	 * sets the map to be used for distributing armies
-	 * 
-	 * @param countryToSet
-	 * @return
+	 * sets the map to be used for distributing armies.
+	 *
+	 * @param countryToSet the country to set
+	 * @param noArmies the no armies
+	 * @return the map
 	 */
 	public Map<Country, Integer> generateArmyCountyMap(Country countryToSet,int noArmies) {
 		Map<Country, Integer> armyCountryMap = new HashMap<Country, Integer>();
@@ -386,9 +388,11 @@ public abstract class Strategy implements Serializable {
 	}
 
 	/**
-	 * @param attacking attacking country
-	 * @param defending defending country
-	 * @return is attacking stronger than defending country
+	 * Checks if is stronger.
+	 *
+	 * @param attacking the attacking
+	 * @param defending the defending
+	 * @return true, if is stronger
 	 */
 	public boolean isStronger(Country attacking, Country defending) {
 		boolean isTrue = false;
@@ -399,8 +403,10 @@ public abstract class Strategy implements Serializable {
 	}
 	
 	/**
-	 * @param rec record of valid country move 
-	 * @return list of valid country move
+	 * Valid country move.
+	 *
+	 * @param rec the rec
+	 * @return the list
 	 */
 	public List<Country> validCountryMove(Country rec){
 		List<Country> countriestoReturn =new ArrayList<Country>();

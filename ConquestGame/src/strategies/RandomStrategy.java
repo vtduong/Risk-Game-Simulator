@@ -12,6 +12,7 @@ import beans.EventType;
 import beans.Player;
 import gui.PhaseView;
 
+// TODO: Auto-generated Javadoc
 /**
  * Implementation of Random Strategy
  * A random computer player strategy that reinforces random a random country,
@@ -21,16 +22,24 @@ import gui.PhaseView;
  *
  */
 public class RandomStrategy extends Strategy implements Serializable {
+	
+	/** The attacking country. */
 	private Country attackingCountry = null;
 
+	/**
+	 * Instantiates a new random strategy.
+	 *
+	 * @param player the player
+	 */
 	public RandomStrategy(Player player) {
 		super(player);
 	}
 	
 	
 	/**
-	 * Method to Choose a random country amoung the list of current players' country 
-	 * @return
+	 * Method to Choose a random country amoung the list of current players' country .
+	 *
+	 * @return the random country
 	 */
 	public Country getRandomCountry() {
 		List<Country> countries = this.getPlayer().getPlayerCountries();
@@ -53,9 +62,10 @@ public class RandomStrategy extends Strategy implements Serializable {
 	}
 
 	/**
-	 * Method to attack a random country a random number of times 
-	 * @param attackingCountry
-	 * @param attackedCountry
+	 * Method to attack a random country a random number of times .
+	 *
+	 * @param attackingCountry the attacking country
+	 * @param attackedCountry the attacked country
 	 */
 	public void randomAttack(Country attackingCountry, Country attackedCountry) {
 		controller.setAttackingCountry(attackingCountry);

@@ -16,16 +16,24 @@ import beans.Player;
 import controller.GameController;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author vanduong
+ * The Class TestSerialization.
  *
+ * @author vanduong
  */
 public class TestSerialization {
+	
+	/** The controller. */
 	private static GameController controller = null;
+	
+	/** The saver. */
 	private GameStat saver = null;
 
 	/**
-	 * @throws java.lang.Exception
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -36,12 +44,17 @@ public class TestSerialization {
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
 	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test.
+	 */
 	@Test
 	public void test() {
 		try {
@@ -62,6 +75,9 @@ public class TestSerialization {
 		
 	}
 	
+	/**
+	 * Test loading.
+	 */
 	@Test
 	public void testLoading() {
 		GameController savedController = null;

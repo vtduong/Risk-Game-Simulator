@@ -43,7 +43,7 @@ List<String> cardsToRemoveList;
 	/**
 	 * Gets the card progress.
 	 *
-	 * @return the card progress
+	 * 
 	 */
 	public void getCardProgress() {
 			player = controller.getCurrentPlayer();

@@ -19,39 +19,82 @@ import beans.Country;
 import beans.Player;
 import gui.UI;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author vanduong
+ * The Class ControllerTest.
  *
+ * @author vanduong
  */
 public class ControllerTest {
 
+	/** The controller. */
 	GameController controller = null;
+
+/** The ui. */
 //	ReEnforcement phase = null;
 	UI ui = null;
+	
+	/** The vn. */
 	Country vn = new Country("Vietnam");
+	
+	/** The indi. */
 	Country indi = new Country("India");
+	
+	/** The usa. */
 	Country usa = new Country("USA");
+	
+	/** The can. */
 	Country can = new Country("Canada");
+	
+	/** The mex. */
 	Country mex = new Country("Mexico");
+	
+	/** The eng. */
 	Country eng = new Country("England");
+	
+	/** The ger. */
 	Country ger = new Country("Germany");
+	
+	/** The france. */
 	Country france = new Country("France");
+	
+	/** The rus. */
 	Country rus	= new Country("Russia");
+	
+	/** The china. */
 	Country china = new Country("China");
+	
+	/** The congo. */
 	Country congo = new Country("Congo");
+	
+	/** The ugan. */
 	Country ugan = new Country("Uganda");
 	
+	/** The america. */
 	Continent america = new Continent("Ameria", 3);
+	
+	/** The europe. */
 	Continent europe = new Continent("Europe", 2);
+	
+	/** The asia. */
 	Continent asia = new Continent("Asia", 3);
+	
+	/** The africa. */
 	Continent africa = new Continent("Africa", 1);
 	
+	/** The gamer 1. */
 	Player gamer1 = null;
+	
+	/** The gamer 2. */
 	Player gamer2 = null;
+	
+	/** The gamer 3. */
 	Player gamer3 = null;
 
 	/**
-	 * @throws java.lang.Exception
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
 	 */
 	@Before
 	public void setUp() throws Exception {
@@ -66,12 +109,17 @@ public class ControllerTest {
 	}
 
 	/**
-	 * @throws java.lang.Exception
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
 	 */
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test randomize country distribution.
+	 */
 	@Test
 	public void testRandomizeCountryDistribution() {
 		List<Player> players = new ArrayList<Player>();
@@ -105,6 +153,12 @@ public class ControllerTest {
 
 	}
 	
+	/**
+	 * Test place initial num armies.
+	 *
+	 * @throws NoSuchMethodException the no such method exception
+	 * @throws SecurityException the security exception
+	 */
 	@Test
 	public void testPlaceInitialNumArmies() throws NoSuchMethodException, SecurityException {
 		gamer1.setArmies(10);
@@ -133,6 +187,9 @@ public class ControllerTest {
 		
 	}
 	
+	/**
+	 * Test main.
+	 */
 	@Test
 	public void testMain() {
 		
