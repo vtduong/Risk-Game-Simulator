@@ -472,20 +472,7 @@ public class Player implements Observable, Serializable{
 		if(this.getStrategyType().toLowerCase().equals("human")) {
 			System.out.println(controller.getCurrentPhase() + " Complete.");
 			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
-			Scanner userOpinion = new Scanner(System.in);
-			System.out.println("Do you want to save progress?");
-			if(userOpinion.next().toLowerCase().equals("y") ||
-					userOpinion.nextLine().toLowerCase().equals("yes")) {
-				
-				GameStat progress = GameStat.getInstance();
-				progress.save();
-				System.out.println("saved....");
 			
-			}
-			
-			else {
-				System.out.println("Alright....Proceed....");
-			}
 		}
 	}
 
