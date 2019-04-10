@@ -172,7 +172,7 @@ public class GameController implements Serializable{
 		
 		
 	/** The scan. */
-	transient Scanner scan = new Scanner(System.in);
+	transient static Scanner scan = new Scanner(System.in);
 	
 	/** The card view. */
 	private CardExchangeView cardView= null;
@@ -287,7 +287,6 @@ public class GameController implements Serializable{
 
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
-<<<<<< van
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
@@ -412,8 +411,6 @@ public class GameController implements Serializable{
 	public UI getUI() {
 		return ui;
 	}
-
-	private CustomMapGenerator customMap = null;
 
 	/** The custom map. */
 	private CustomMapGenerator customMap=null;
