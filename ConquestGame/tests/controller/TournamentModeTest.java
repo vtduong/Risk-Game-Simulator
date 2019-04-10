@@ -65,12 +65,12 @@ public class TournamentModeTest {
 	public void TournamentTest() throws ClassNotFoundException, IOException, MapInvalidException {
 	
 		controller.setTest(true);
-		controller.setMapInput("worldmap,testStrategyMap");
-		controller.setStrategyInput("Cheater,Benevolent");
+		controller.setMapInput("SmallMap,MediumMap");
+		controller.setStrategyInput("Aggressive,Benevolent");
 		controller.setTournamentFlag(true);
 		controller.setTurnCount(10);
 		controller.setGameCount(2);
-		assertNotEquals("DRAW", controller.modeTournament());
+		assertEquals(10, controller.modeTournament().length);
 	}
 	
 }

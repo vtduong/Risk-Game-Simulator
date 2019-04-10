@@ -470,15 +470,11 @@ public class GameController implements Serializable {
 				}
 				// player.setStrategy(new BenevolentStrategy(currentPlayer));
 			}
-			selectStrategy.close();
 		} else {
-			System.out.println("Setting up the strategies for players...");
-			System.out.println("Setting up the strategies for players..."+strategyList.length);
 			System.out.println("Setting up the strategies for players...");
 			for (int i = 0; i < strategyList.length; i++) {
 				Player player = playerList.get(i);
 				currentPlayer = player;
-				//for (String strategyChoice : strategyList) {
 					if (strategyList[i].equalsIgnoreCase("Aggressive")) {
 						player.setStrategyType("Aggressive");
 						player.setStrategy(new AggressiveStrategy(currentPlayer));
@@ -493,8 +489,7 @@ public class GameController implements Serializable {
 						player.setStrategy(new RandomStrategy(currentPlayer));
 					}
 					
-					System.out.println("player"+i +"    "+player.getStrategyType());
-				//}
+					//System.out.println("player"+i +"    "+player.getStrategyType());
 			}
 		}
 	}
@@ -1335,15 +1330,6 @@ public class GameController implements Serializable {
 			System.out.println("*********MAP MENU*********");
 			System.out.println("1. XSmallMap 2. SmallMap 3. MediumMap 4. LargeMap 5. XLargeMap");
 			mapInput = tScan.nextLine();
-			if (mapInput.contains(",")) {
-				mapList = mapInput.split(",");
-			}
-			else {
-				mapList= mapInput.split(" ");
-			}
-			if(mapList.length<1 || mapList.length>5) {
-				System.out.println("ERROR!! Select maps between 1 to 5 only");
-			}
 			System.out.println("Provide 2-4 player's strategies :");
 			System.out.println("*********STRATEGY MENU************");
 			System.out.println("1. Aggressive 2. Benevolent 3. Cheater 4. Random");
@@ -1358,6 +1344,15 @@ public class GameController implements Serializable {
 			if(turnCount<10 || turnCount>50) {
 				System.out.println("ERROR!! Provide number of turns ranging from 10-50 !");
 			}
+		}
+		if (mapInput.contains(",")) {
+			mapList = mapInput.split(",");
+		}
+		else {
+			mapList= mapInput.split(" ");
+		}
+		if(mapList.length<1 || mapList.length>5) {
+			System.out.println("ERROR!! Select maps between 1 to 5 only");
 		}
 		for (int i = 0; i < mapList.length; i++) {
 			try {
