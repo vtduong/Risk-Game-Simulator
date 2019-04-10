@@ -642,24 +642,28 @@ public class GameController implements Serializable{
 			selectStrategy.close();
 		} else {
 			System.out.println("Setting up the strategies for players...");
+			System.out.println("Setting up the strategies for players..."+strategyList.length);
+			System.out.println("Setting up the strategies for players...");
 			for (int i = 0; i < strategyList.length; i++) {
 				Player player = playerList.get(i);
 				currentPlayer = player;
-				for (String strategyChoice : strategyList) {
-					if (strategyChoice.equalsIgnoreCase("Aggressive")) {
+				//for (String strategyChoice : strategyList) {
+					if (strategyList[i].equalsIgnoreCase("Aggressive")) {
 						player.setStrategyType("Aggressive");
 						player.setStrategy(new AggressiveStrategy(currentPlayer));
-					} else if (strategyChoice.equalsIgnoreCase("Benevolent")) {
+					} else if (strategyList[i].equalsIgnoreCase("Benevolent")) {
 						player.setStrategyType("Benevolent");
 						player.setStrategy(new BenevolentStrategy(currentPlayer));
-					} else if (strategyChoice.equalsIgnoreCase("Cheater")) {
+					} else if (strategyList[i].equalsIgnoreCase("Cheater")) {
 						player.setStrategyType("Cheater");
 						player.setStrategy(new CheaterStrategy(currentPlayer));
-					} else if (strategyChoice.equalsIgnoreCase("Random")) {
+					} else if (strategyList[i].equalsIgnoreCase("Random")) {
 						player.setStrategyType("Random");
 						player.setStrategy(new RandomStrategy(currentPlayer));
 					}
-				}
+					
+					System.out.println("player"+i +"    "+player.getStrategyType());
+				//}
 			}
 		}
 	}
@@ -1037,7 +1041,7 @@ public void takeTurns() throws MapInvalidException, IOException {
 						attack();
 					}
 					isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
-					if (isAnyCountryInvaded == true) {
+					if (isAnyCountryInvaded == true && winner==null) {
 						currentPlayer.addCards();
 					}
 
@@ -1050,7 +1054,7 @@ public void takeTurns() throws MapInvalidException, IOException {
 			while (true) {
 				try {
 					this.setCurrentPhase(Phase.FORTIFICATION);
-					if (canFortify()) {
+					if (canFortify() && winner==null) {
 
 						fortify();
 					} else {
@@ -1130,6 +1134,8 @@ public void takeTurns() throws MapInvalidException, IOException {
 				ui.showDialog("THE END!!!");
 				if (!tournamentFlag) {
 					System.exit(0);
+				}else {
+					break;
 				}
 			}
 			currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
@@ -1566,34 +1572,40 @@ public void takeTurns() throws MapInvalidException, IOException {
 	 */
 	public String[][] modeTournament() throws ClassNotFoundException, IOException, MapInvalidException {
 		// GameController controller = GameController.getInstance();
-		System.out.println("Provide 1-5 maps you wish to play on:");
-		System.out.println("*********MAP MENU*********");
-		System.out.println("1. worldmap 2. testStrategyMap 3. nineCountryMAp");
 		if (!isTest) {
+			System.out.println("Provide 1-5 maps you wish to play on:");
+			System.out.println("*********MAP MENU*********");
+			System.out.println("1. XSmallMap 2. SmallMap 3. MediumMap 4. LargeMap 5. XLargeMap");
 			mapInput = tScan.nextLine();
-		}
-		if (mapInput.contains(",")) {
-			mapList = mapInput.split(",");
-		}
-		System.out.println("Provide player's strategies :");
-		System.out.println("*********STRATEGY MENU************");
-		System.out.println("1. Aggressive 2. Benevolent 3. Cheater 4. Random");
-		if (!isTest) {
+			if (mapInput.contains(",")) {
+				mapList = mapInput.split(",");
+			}
+			else {
+				mapList= mapInput.split(" ");
+			}
+			if(mapList.length<1 || mapList.length>5) {
+				System.out.println("ERROR!! Select maps between 1 to 5 only");
+			}
+			System.out.println("Provide 2-4 player's strategies :");
+			System.out.println("*********STRATEGY MENU************");
+			System.out.println("1. Aggressive 2. Benevolent 3. Cheater 4. Random");
 			strategyInput = tScan.nextLine();
-		}
-		System.out.println("Provide number of games on each map you want to play on: ");
-		if (!isTest) {
+			System.out.println("Provide number of games on each map you want to play on. Range from 1-5 games: ");
 			gameCount = tScan.nextInt();
-		}
-		System.out.println("Provide number of turns in each game you want to play for :");
-		if (!isTest) {
+			if(gameCount<1 || gameCount>5 ) {
+				System.out.println("ERROR!! Provide number of games ranging from 1-5 !");
+			}
+			System.out.println("Provide number of turns in each game you want to play for. Range from 10-50 turns: ");
 			turnCount = tScan.nextInt();
+			if(turnCount<10 || turnCount>50) {
+				System.out.println("ERROR!! Provide number of turns ranging from 10-50 !");
+			}
 		}
 		for (int i = 0; i < mapList.length; i++) {
 			try {
 				// controller.loadMapForTournament(mapList[i]);
 				for (int j = 0; j < gameCount; j++) {
-					System.out.println("Map Loaded for the game:" + j + 1 + " is " + mapList[i]);
+					System.out.println("Map Loaded for the game:" + (j+1) + " is " + mapList[i]);
 					controller.loadMapForTournament(mapList[i]);
 					strategyList = new String[5];
 					if (strategyInput.contains(",")) {
@@ -1605,6 +1617,7 @@ public void takeTurns() throws MapInvalidException, IOException {
 					System.out.println("Game" + " " + (j + 1) + " " + "has ended. Going for next game...");
 					if (winner != null) {
 						finalWinnerList[i][j] = controller.getWinner().getStrategyType();
+						winner=null;
 						controller = GameController.getInstance();
 					} else {
 						finalWinnerList[i][j] = "DRAW";
@@ -1623,7 +1636,7 @@ public void takeTurns() throws MapInvalidException, IOException {
 			for (int j = 0; j < gameCount; j++) {
 				System.out.println("Winner of Game" + " " + (j + 1) + " " + "is :" + finalWinnerList[i][j]);
 			}
-			System.out.println("****************************");
+			System.out.println("******************************************");
 		}
 		return finalWinnerList;
 	}
@@ -1697,6 +1710,9 @@ public void takeTurns() throws MapInvalidException, IOException {
 		int i = 0;
 		int counter = 0;
 		while (counter < turnCount) {
+			if(winner!=null) {
+				break;
+			}
 			counter++;
 			i = i % playerList.size();
 			currentPlayer = playerList.get(i);
