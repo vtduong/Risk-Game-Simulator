@@ -385,6 +385,11 @@ public abstract class Strategy implements Serializable {
 		return defendingNeighbours;
 	}
 
+	/**
+	 * @param attacking attacking country
+	 * @param defending defending country
+	 * @return is attacking stronger than defending country
+	 */
 	public boolean isStronger(Country attacking, Country defending) {
 		boolean isTrue = false;
 		if (attacking.getNumArmies() > defending.getNumArmies()) {
@@ -393,6 +398,10 @@ public abstract class Strategy implements Serializable {
 		return isTrue;
 	}
 	
+	/**
+	 * @param rec record of valid country move 
+	 * @return list of valid country move
+	 */
 	public List<Country> validCountryMove(Country rec){
 		List<Country> countriestoReturn =new ArrayList<Country>();
 		List<Country> playerCountries =player.getPlayerCountries();

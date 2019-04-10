@@ -30,6 +30,7 @@ import utilities.UtilTestSuite;
 				DiceRollerTest.class,
 				MapParserTest.class,
 				MapValidatorTest.class,
+				TournamentModeTest.class,
 				MapTest.class})
 public class TestSuite {
 
