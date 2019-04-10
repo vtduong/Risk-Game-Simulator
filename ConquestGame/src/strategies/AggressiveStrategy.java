@@ -12,6 +12,7 @@ import beans.EventType;
 import beans.Player;
 import gui.PhaseView;
 
+// TODO: Auto-generated Javadoc
 /**
  * Represents aggressive strategy in which computer player focuses on attack.
  * 
@@ -19,8 +20,15 @@ import gui.PhaseView;
  *
  */
 public class AggressiveStrategy extends Strategy implements Serializable {
+	
+	/** The attacking country. */
 	private Country attackingCountry = null;
 
+	/**
+	 * Instantiates a new aggressive strategy.
+	 *
+	 * @param player the player
+	 */
 	public AggressiveStrategy(Player player) {
 		super(player);
 	}
@@ -142,6 +150,9 @@ public class AggressiveStrategy extends Strategy implements Serializable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#placeArmiesForSetup()
+	 */
 	@Override
 	public void placeArmiesForSetup() {
 		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);

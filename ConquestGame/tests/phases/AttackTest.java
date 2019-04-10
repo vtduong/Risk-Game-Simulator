@@ -29,6 +29,8 @@ public class AttackTest {
 	
 	/** The controller. */
 	private GameController controller = null;
+	
+	/** The ui. */
 	private UI ui =null;
 	
 	/** The dicer. */

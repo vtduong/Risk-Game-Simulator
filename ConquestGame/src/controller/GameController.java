@@ -39,14 +39,19 @@ import utilities.MapValidator;
  * 
  * @author
  */
-public class GameController implements Serializable {
+public class GameController implements Serializable{
+	
+	/** Unique serial ID for this class, necessary for serialization and deserialization of singleton class. */
+	private static final long serialVersionUID = 1L;
 
 	/** The Constant INPUTFILE. */
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
 	private static GameController controller = null;
-
-	private Country attackingCountry = null;
+	
+	/** The attacking country. */
+	private  Country attackingCountry = null;
+	
 
 	/** Keeps track if this game is a saved game. */
 	private boolean isSavedGame = false;
@@ -65,6 +70,7 @@ public class GameController implements Serializable {
 	/** Map Input files for Tournament Mode */
 	private static String mapInput = null;
 	
+
 	/** Map List generated from mapInput */
 	private static String[] mapList = null;
 	
@@ -83,13 +89,24 @@ public class GameController implements Serializable {
 		return attackingCountry;
 	}
 
+	/**
+	 * Sets the attacking country.
+	 *
+	 * @param attackingCountry the new attacking country
+	 */
 	public void setAttackingCountry(Country attackingCountry) {
 		this.attackingCountry = attackingCountry;
 	}
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the controller.
+	 *
+	 * @param controller the new controller
+	 */
+	//Don't use for other purpose.
+
 	public void setController(GameController controller) {
 		GameController.controller = controller;
 	}
@@ -99,67 +116,114 @@ public class GameController implements Serializable {
 
 	/** The World Domination View. */
 	private WorldDominationView wdView = null;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the world domination view.
+	 *
+	 * @param wd the new world domination view
+	 */
+	//Don't use for other purpose.
 	public void setWorldDominationView(WorldDominationView wd) {
 		wdView = wd;
 	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the world domination view.
+	 *
+	 * @return the world domination view
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public WorldDominationView getWorldDominationView() {
 		return wdView;
 	}
 
+	/** The phase view. */
 	private PhaseView phaseView = null;
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the phase view.
+	 *
+	 * @param pv the new phase view
+	 */
+	//Don't use for other purpose.
 	public void setPhaseView(PhaseView pv) {
 		phaseView = pv;
 	}
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+		
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the phase view.
+	 *
+	 * @return the phase view
+	 */
+	//Don't use for other purpose.
 	public PhaseView getPhaseView() {
 		return phaseView;
 	}
-
-	transient static Scanner scan = new Scanner(System.in);
-	private CardExchangeView cardView = null;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+		
+		
+	/** The scan. */
+	transient Scanner scan = new Scanner(System.in);
+	
+	/** The card view. */
+	private CardExchangeView cardView= null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the card exchange view.
+	 *
+	 * @param cv the new card exchange view
+	 */
+	//Don't use for other purpose.
 	public void setCardExchangeView(CardExchangeView cv) {
 		cardView = cv;
 	}
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the card exchange view.
+	 *
+	 * @return the card exchange view
+	 */
+	//Don't use for other purpose.
 	public CardExchangeView getCardExchangeView() {
 		return cardView;
 	}
 
 	/** The country list. */
 	private static List<Country> countryList = new ArrayList<Country>();
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the country list.
+	 *
+	 * @param cl the new country list
+	 */
+	//Don't use for other purpose.
 	public void setCountryList(List<Country> cl) {
 		countryList = cl;
 	}
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the country list.
+	 *
+	 * @return the country list
+	 */
+	//Don't use for other purpose.
 	public List<Country> getCountryList() {
 		return countryList;
 	}
@@ -167,51 +231,85 @@ public class GameController implements Serializable {
 	/** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the number of players.
+	 *
+	 * @param n the new number of players
+	 */
+	//Don't use for other purpose.
 	public void setNumberOfPlayers(int n) {
 		numberOfPlayers = n;
 	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the number of players.
+	 *
+	 * @return the number of players
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
 
 	/** The continent list by name. */
 	private HashMap<String, Continent> continentListByName = null;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the continent list by name.
+	 *
+	 * @param clbm the clbm
+	 */
+	//Don't use for other purpose.
 	public void setContinentListByName(HashMap<String, Continent> clbm) {
 		continentListByName = clbm;
 	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the continent list by name.
+	 *
+	 * @return the continent list by name
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public HashMap<String, Continent> getContinentListByName() {
 		return continentListByName;
 	}
 
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+<<<<<< van
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the country ownership.
+	 *
+	 * @param co the co
+	 */
+	//Don't use for other purpose.
 	public void setCountryOwnership(Map<Player, ArrayList<Country>> co) {
 		countryOwnership = co;
 	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the country ownership.
+	 *
+	 * @return the country ownership
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public Map<Player, ArrayList<Country>> getCountryOwnership() {
 		return countryOwnership;
 	}
@@ -221,17 +319,28 @@ public class GameController implements Serializable {
 
 	/** The ready for next phase. */
 	private boolean readyForNextPhase = false;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the ready for next phase.
+	 *
+	 * @param rfnp the new ready for next phase
+	 */
+	//Don't use for other purpose.
 	public void setReadyForNextPhase(boolean rfnp) {
 		readyForNextPhase = rfnp;
 	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the ready for next phase.
+	 *
+	 * @return the ready for next phase
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public boolean getReadyForNextPhase() {
 		return readyForNextPhase;
 	}
@@ -241,10 +350,16 @@ public class GameController implements Serializable {
 
 	/** The player list. */
 	private ArrayList<Player> playerList;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the player list.
+	 *
+	 * @param pl the new player list
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public void setPlayerList(ArrayList<Player> pl) {
 		playerList = pl;
 	}
@@ -254,78 +369,130 @@ public class GameController implements Serializable {
 
 	/** The winner. */
 	private Player winner = null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the winner.
+	 *
+	 * @param win the new winner
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public void setWinner(Player win) {
 		winner = win;
 	}
 
 	/** The ui. */
 	private UI ui = null;
-	private int phaseCount = 0;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	/** The phase count. */
+	private int phaseCount=0;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the ui.
+	 *
+	 * @param ui the new ui
+	 */
+	//Don't use for other purpose.
 	public void setUI(UI ui) {
 		this.ui = ui;
 	}
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the ui.
+	 *
+	 * @return the ui
+	 */
+	//Don't use for other purpose.
 	public UI getUI() {
 		return ui;
 	}
 
 	private CustomMapGenerator customMap = null;
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	/** The custom map. */
+	private CustomMapGenerator customMap=null;
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the custom map cenerator.
+	 *
+	 * @param map the new custom map cenerator
+	 */
+	//Don't use for other purpose.
 	public void setCustomMapCenerator(CustomMapGenerator map) {
 		customMap = map;
 	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the custom map generator.
+	 *
+	 * @return the custom map generator
+	 */
+	//Don't use for other purpose.
 
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
 	public CustomMapGenerator getCustomMapGenerator() {
 		return customMap;
 	}
 
 	/** The continent list. */
 	private List<Continent> continentList = null;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the continent list.
+	 *
+	 * @param cl the new continent list
+	 */
+	//Don't use for other purpose.
 	public void setContinentList(List<Continent> cl) {
 		continentList = cl;
 	}
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the continet list.
+	 *
+	 * @return the continet list
+	 */
+	//Don't use for other purpose.
 	public List<Continent> getContinetList() {
 		return continentList;
 	}
-
-	/** Used for game saving and loading */
+	
+	/**  Used for game saving and loading. */
 	private GameStat gameStat = null;
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the game stat.
+	 *
+	 * @param game the new game stat
+	 */
+	//Don't use for other purpose.
 	public void setGameStat(GameStat game) {
 		gameStat = game;
 	}
-
-	// TODO change to private and use reflect.
-	// It should be only used for game saving.
-	// Don't use for other purpose.
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Gets the game stat.
+	 *
+	 * @return the game stat
+	 */
+	//Don't use for other purpose.
 	public GameStat getGameStat() {
 		return gameStat;
 	}
@@ -381,9 +548,10 @@ public class GameController implements Serializable {
 	 * The main method.
 	 *
 	 * @param args the arguments
-	 * @throws IOException            Signals that an I/O exception has occurred.
-	 * @throws MapInvalidException    the map invalid exception
-	 * @throws ClassNotFoundException
+	 * @throws IOException         Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+	 * @throws ClassNotFoundException the class not found exception
+
 	 */
 	/*
 	 * @description :
@@ -436,8 +604,9 @@ public class GameController implements Serializable {
 	}
 
 	/**
-	 * This method is responsible for setting up the strategy for individual Player
-	 * based on user input
+	 * This method is responsible for setting up the strategy for individual Player 
+	 * based on user input.
+
 	 */
 	private void setupStrategy() {
 		Scanner selectStrategy = new Scanner(System.in);
@@ -496,7 +665,7 @@ public class GameController implements Serializable {
 	}
 
 	/**
-	 * player places their armies on their territories in setup phase
+	 * player places their armies on their territories in setup phase.
 	 */
 
 	private void placeArmiesForSetup() {
@@ -530,7 +699,7 @@ public class GameController implements Serializable {
 	}
 
 	/**
-	 * create and register a CardExchange interface as observer to player
+	 * create and register a CardExchange interface as observer to player.
 	 */
 
 	public void createCardExchangeView() {
@@ -603,10 +772,11 @@ public class GameController implements Serializable {
 	/**
 	 * Load map.
 	 *
-	 * @return true, if successful
-	 * @throws MapInvalidException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+
 	 */
 	/*
 	 * @description :
@@ -643,12 +813,14 @@ public class GameController implements Serializable {
 				System.exit(1);
 			}
 		} else if (selectedOption == 4) {
-			// try {
-			isSavedGame = true;
-			gameStat = GameStat.getInstance();
-			GameController controllerObj = gameStat.load();
-			loadStat(controllerObj);
-			controller.takeTurns();
+			//try {
+				this.isSavedGame = true;
+				gameStat = GameStat.getInstance();
+				//GameController controllerObj = gameStat.load();
+				GameController controllerObj = gameStat.load();
+				loadStat(controllerObj);
+				this.takeTurns();
+
 
 //			} catch (ClassNotFoundException e) {
 //				
@@ -677,36 +849,38 @@ public class GameController implements Serializable {
 		countryList.addAll(customMap.countryDefault);
 	}
 
-	/**
-	 * @param controllerObj
-	 */
-	private void loadStat(GameController controllerObj) {
-		controller.setController(controllerObj);
-		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
-		controller.setPlayerList(controllerObj.getPlayerList());
-		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
-		// if saved phase is at the end of fortification, next player gets to play
-		if (controller.getCurrentPhase() == Phase.FORTIFICATION) {
-			List<Player> playerList = controller.getPlayerList();
-			controller.setCurrentPlayer(playerList.get(playerList.indexOf(controller.getCurrentPlayer()) + 1));
-		}
 
-		controller.setWorldDominationView(controllerObj.getWorldDominationView());
-		controller.setPhaseView(controllerObj.getPhaseView());
-		controller.setCardExchangeView(controllerObj.getCardExchangeView());
-		;
-		controller.setCountryList(controllerObj.getCountryList());
-		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
-		controller.setContinentListByName(controllerObj.getContinentListByName());
-		;
-		controller.setCountryOwnership(controllerObj.getCountryOwnership());
-		;
-		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
-		controller.setWinner(controllerObj.getWinner());
-		controller.setUI(controllerObj.getUI());
-		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
-		controller.setContinentList(controllerObj.getContinetList());
-		controller.setGameStat(controllerObj.getGameStat());
+/**
+ * Load stat.
+ *
+ * @param controllerObj the controller obj
+ */
+	private void loadStat(GameController controllerObj) {
+		this.setSavedGame(true);
+		this.setController(controllerObj);
+		this.setPlayerList(controllerObj.getPlayerList());
+		this.setCurrentPlayer(controllerObj.getCurrentPlayer());
+		//if saved phase is at the end of fortification, next player gets to play
+		if(controllerObj.getCurrentPhase() == Phase.FORTIFICATION) {
+			List<Player> playerList = this.getPlayerList();
+			int nextPlayer = (playerList.indexOf(this.getCurrentPlayer()) + 1) % playerList.size();
+			this.setCurrentPlayer(playerList.get(nextPlayer));
+		}
+		this.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
+		this.setWorldDominationView(controllerObj.getWorldDominationView());
+		this.setPhaseView(controllerObj.getPhaseView());
+		this.setCardExchangeView(controllerObj.getCardExchangeView());;
+		this.setCountryList(controllerObj.getCountryList());
+		this.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
+		this.setContinentListByName(controllerObj.getContinentListByName());;
+		this.setCountryOwnership(controllerObj.getCountryOwnership());;
+		this.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
+		this.setWinner(controllerObj.getWinner());
+		this.setUI(controllerObj.getUI());
+		this.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
+		this.setContinentList(controllerObj.getContinetList());
+		this.setGameStat(controllerObj.getGameStat());
+		
 
 		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
 		customMap.setCustomMap(customMapObj.getCustomMap());
@@ -722,6 +896,23 @@ public class GameController implements Serializable {
 		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
 		customMap.setEditMap(customMapObj.getEditMap());
 		customMap.setMapController(customMapObj.getMapController());
+		controller = this;
+		controller = GameController.getInstance();
+		
+		for(Player player : playerList) {
+			if(player.getStrategy() instanceof Human) {
+				player.setStrategy(new Human(player));
+			} else if (player.getStrategy() instanceof AggressiveStrategy) {
+				player.setStrategy(new AggressiveStrategy(player));
+			} else if (player.getStrategy() instanceof BenevolentStrategy) {
+				player.setStrategy(new BenevolentStrategy(player));
+			} else if(player.getStrategy() instanceof CheaterStrategy) {
+				player.setStrategy(new CheaterStrategy(player));
+			} else if(player.getStrategy() instanceof RandomStrategy) {
+				player.setStrategy(new RandomStrategy(player));
+			}
+		}
+		
 
 	}
 
@@ -764,8 +955,15 @@ public class GameController implements Serializable {
 //			System.out.println(winner.getPlayerName()+" "+"WONS THE GAME !!");
 //		}*/
 //	}
+	
+	/**
+ * Take turns.
+ *
+ * @throws MapInvalidException the map invalid exception
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+public void takeTurns() throws MapInvalidException, IOException {
 
-	public void takeTurns() throws MapInvalidException, IOException {
 		int i = 0;
 		if (isSavedGame) {
 			i = playerList.indexOf(this.currentPlayer);
@@ -784,7 +982,10 @@ public class GameController implements Serializable {
 
 		}
 	}
-
+	
+	/**
+	 * Exchange cards.
+	 */
 	private void exchangeCards() {
 		cardView.getCardProgress();
 		if (currentPlayer.getCardsAcquired().size() >= 3 && getCurrentPlayer().getStrategyType().equals("Human")) {
@@ -805,16 +1006,20 @@ public class GameController implements Serializable {
 			currentPlayer.exchangeCards();
 		}
 	}
-
+	
+	/**
+	 * Take phases.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void takePhases() throws IOException {
-		Phase curPhase = controller.getCurrentPhase();
-		if (curPhase == null) {// this is a new game, not a saved game
-			currentPhase = Phase.REENFORCEMENT;
+		Phase curPhase = Phase.REENFORCEMENT;
+		if(isSavedGame) {//this is a saved game, not a new game
+			curPhase = this.getCurrentPhase();
+			this.isSavedGame = false;
 		}
-		if (tournamentFlag) {
-			currentPhase = Phase.REENFORCEMENT;
-		}
-		switch (this.getCurrentPhase().getValue()) {
+		switch(curPhase.getValue()) {
+
 		case 0:
 
 			exchangeCards();
@@ -896,10 +1101,12 @@ public class GameController implements Serializable {
 //	}
 
 	/**
-	 * @throws IOException
-	 * @throws IllegalArgumentException
-	 * 
-	 */
+ * Fortify.
+ *
+ * @throws IllegalArgumentException the illegal argument exception
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+
 	private void fortify() throws IllegalArgumentException, IOException {
 		currentPlayer.fortify();
 		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
@@ -907,9 +1114,11 @@ public class GameController implements Serializable {
 	}
 
 	/**
-	 * @throws IOException
-	 * @throws IllegalArgumentException
-	 * 
+	 * Attack.
+	 *
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+
 	 */
 	private void attack() throws IllegalArgumentException, IOException {
 		do {
@@ -929,8 +1138,10 @@ public class GameController implements Serializable {
 	}
 
 	/**
-	 * @throws IOException
-	 * 
+	 * Re enforce.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+
 	 */
 	private void reEnforce() throws IOException {
 		setCurrentPhase(Phase.REENFORCEMENT);
@@ -940,9 +1151,9 @@ public class GameController implements Serializable {
 	}
 
 	/**
-	 * checks if player can fortify by having at least 1 country with 2 or mor
-	 * armies and at least 2 adj countries
-	 * 
+	 * checks if player can fortify by having at least 1 country with 2 or mor armies and at least 2 adj countries.
+	 *
+
 	 * @return true if player can fortify
 	 */
 	private boolean canFortify() {
@@ -1060,8 +1271,11 @@ public class GameController implements Serializable {
 	}
 
 	/**
+	 * Inits the game.
+	 *
 	 * @throws MapInvalidException Inits the game. @throws
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
+
 	 */
 	public void initGame() throws MapInvalidException, IOException {
 
@@ -1183,9 +1397,8 @@ public class GameController implements Serializable {
 	/**
 	 * Asks GUI to ask user to input number of armies to be distributed to each
 	 * occupied countries.
-	 * 
-	 * @param newArmies
 	 *
+	 * @param newArmies the new armies
 	 * @return the map
 	 */
 	public Map<Country, Integer> distributeArmies(int newArmies) {
@@ -1296,12 +1509,41 @@ public class GameController implements Serializable {
 	}
 
 	/**
-	 * @param continent
-	 * @return
+	 * Gets the continent by name.
+	 *
+	 * @param continent the continent
+	 * @return the continent by name
 	 */
 	public Continent getContinentByName(String continent) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * This method is necessary to make sure the saved and loaded controller are the same instance.
+	 *
+	 * @return the only instance of GameControl
+	 */
+	public Object readResolved() {
+		return controller;
+	}
+
+	/**
+	 * Checks if is saved game.
+	 *
+	 * @return the isSavedGame
+	 */
+	public boolean isSavedGame() {
+		return isSavedGame;
+	}
+
+	/**
+	 * Sets the saved game.
+	 *
+	 * @param isSavedGame the isSavedGame to set
+	 */
+	public void setSavedGame(boolean isSavedGame) {
+		this.isSavedGame = isSavedGame;
 	}
 
 	/**
