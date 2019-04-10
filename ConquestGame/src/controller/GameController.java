@@ -606,63 +606,65 @@ public class GameController implements Serializable{
 
 	 */
 	private void setupStrategy() {
-		Scanner selectStrategy = new Scanner(System.in);
-		if (tournamentFlag == false) {
-			System.out.println("1. Aggressive 2. Human 3. Benevolent 4. Cheater 5. Random");
-			for (int i = 0; i < controller.playerList.size(); i++) {
-				Player player = playerList.get(i);
-				currentPlayer = player;
-				System.out.println("Assign a strategy for" + " " + currentPlayer.getPlayerName() + " " + ":");
-				String choice = selectStrategy.nextLine();
+		try(Scanner selectStrategy = new Scanner(System.in);){
+			if (tournamentFlag == false) {
+				System.out.println("1. Aggressive 2. Human 3. Benevolent 4. Cheater 5. Random");
+				for (int i = 0; i < controller.playerList.size(); i++) {
+					Player player = playerList.get(i);
+					currentPlayer = player;
+					System.out.println("Assign a strategy for" + " " + currentPlayer.getPlayerName() + " " + ":");
+					String choice = selectStrategy.next();
 
-				// Select strategies
-				if (choice.equalsIgnoreCase("Aggressive")) {
-					player.setStrategyType("Aggressive");
-					player.setStrategy(new AggressiveStrategy(currentPlayer));
-				} else if (choice.equalsIgnoreCase("Human")) {
-					player.setStrategyType("Human");
-					player.setStrategy(new Human(currentPlayer));
-				} else if (choice.equalsIgnoreCase("Benevolent")) {
-					player.setStrategyType("Benevolent");
-					player.setStrategy(new BenevolentStrategy(currentPlayer));
-				} else if (choice.equalsIgnoreCase("Cheater")) {
-					player.setStrategyType("Cheater");
-					player.setStrategy(new CheaterStrategy(currentPlayer));
-				} else if (choice.equalsIgnoreCase("Random")) {
-					player.setStrategyType("Random");
-					player.setStrategy(new RandomStrategy(currentPlayer));
-				} else {
-					System.out.println("Invalid input. Select a valid strategy");
-				}
-				// player.setStrategy(new BenevolentStrategy(currentPlayer));
-			}
-			selectStrategy.close();
-		} else {
-			System.out.println("Setting up the strategies for players...");
-			System.out.println("Setting up the strategies for players..."+strategyList.length);
-			System.out.println("Setting up the strategies for players...");
-			for (int i = 0; i < strategyList.length; i++) {
-				Player player = playerList.get(i);
-				currentPlayer = player;
-				//for (String strategyChoice : strategyList) {
-					if (strategyList[i].equalsIgnoreCase("Aggressive")) {
+					// Select strategies
+					if (choice.equalsIgnoreCase("Aggressive")) {
 						player.setStrategyType("Aggressive");
 						player.setStrategy(new AggressiveStrategy(currentPlayer));
-					} else if (strategyList[i].equalsIgnoreCase("Benevolent")) {
+					} else if (choice.equalsIgnoreCase("Human")) {
+						player.setStrategyType("Human");
+						player.setStrategy(new Human(currentPlayer));
+					} else if (choice.equalsIgnoreCase("Benevolent")) {
 						player.setStrategyType("Benevolent");
 						player.setStrategy(new BenevolentStrategy(currentPlayer));
-					} else if (strategyList[i].equalsIgnoreCase("Cheater")) {
+					} else if (choice.equalsIgnoreCase("Cheater")) {
 						player.setStrategyType("Cheater");
 						player.setStrategy(new CheaterStrategy(currentPlayer));
-					} else if (strategyList[i].equalsIgnoreCase("Random")) {
+					} else if (choice.equalsIgnoreCase("Random")) {
 						player.setStrategyType("Random");
 						player.setStrategy(new RandomStrategy(currentPlayer));
+					} else {
+						System.out.println("Invalid input. Select a valid strategy");
 					}
-					
-					System.out.println("player"+i +"    "+player.getStrategyType());
-				//}
+					// player.setStrategy(new BenevolentStrategy(currentPlayer));
+				}
+				//selectStrategy.close();
+			} else {
+				System.out.println("Setting up the strategies for players...");
+				System.out.println("Setting up the strategies for players..."+strategyList.length);
+				System.out.println("Setting up the strategies for players...");
+				for (int i = 0; i < strategyList.length; i++) {
+					Player player = playerList.get(i);
+					currentPlayer = player;
+					//for (String strategyChoice : strategyList) {
+						if (strategyList[i].equalsIgnoreCase("Aggressive")) {
+							player.setStrategyType("Aggressive");
+							player.setStrategy(new AggressiveStrategy(currentPlayer));
+						} else if (strategyList[i].equalsIgnoreCase("Benevolent")) {
+							player.setStrategyType("Benevolent");
+							player.setStrategy(new BenevolentStrategy(currentPlayer));
+						} else if (strategyList[i].equalsIgnoreCase("Cheater")) {
+							player.setStrategyType("Cheater");
+							player.setStrategy(new CheaterStrategy(currentPlayer));
+						} else if (strategyList[i].equalsIgnoreCase("Random")) {
+							player.setStrategyType("Random");
+							player.setStrategy(new RandomStrategy(currentPlayer));
+						}
+						
+						System.out.println("player"+i +"    "+player.getStrategyType());
+					//}
+				}
 			}
 		}
+		
 	}
 
 	/**
