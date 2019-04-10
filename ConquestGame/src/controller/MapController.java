@@ -379,4 +379,9 @@ public class MapController implements Serializable{
 			return false;
 		}
 	}
+	
+	
+	public void reset() {
+		mapCntrl =null;
+	}
 }
