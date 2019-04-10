@@ -39,7 +39,7 @@ public class CustomMapGenerator implements Serializable{
 	//It should be only used for game saving.
 	//Don't use for other purpose.
 	public void setCustomMap(CustomMapGenerator customMap) {
-		CustomMapGenerator.customMap = customMap;
+		this.customMap = customMap;
 	}
 
 

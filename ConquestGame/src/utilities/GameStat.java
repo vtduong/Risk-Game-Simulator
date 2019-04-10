@@ -43,12 +43,15 @@ public class GameStat implements Serializable {
 	 * @throws IOException
 	 */
 	public void save() throws IOException{
+		
+		GameInit snapShot = new GameInit();
+		
 		String saveStatToFile = Config.getProperty("savecontroller");
 		
 		try(FileOutputStream file = new FileOutputStream(saveStatToFile);
 		ObjectOutputStream objectWriter = new ObjectOutputStream(file);) {
 		
-		objectWriter.writeObject(controller);
+		objectWriter.writeObject(snapShot);
 		
 		}
 		
@@ -67,39 +70,40 @@ public class GameStat implements Serializable {
 		try(FileInputStream file = new FileInputStream(loadStatFromFile);
 		ObjectInputStream objectReader = new ObjectInputStream(file);) {
 		
-		GameController controllerObj = (GameController)objectReader.readObject();
-		controller.setController(controllerObj);
-		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
-		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
-		controller.setWorldDominationView(controllerObj.getWorldDominationView());
-		controller.setPhaseView(controllerObj.getPhaseView());
-		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
-		controller.setCountryList(controllerObj.getCountryList());
-		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
-		controller.setContinentListByName(controllerObj.getContinentListByName());;
-		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
-		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
-		controller.setPlayerList(controllerObj.getPlayerList());
-		controller.setWinner(controllerObj.getWinner());
-		controller.setUI(controllerObj.getUI());
-		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
-		controller.setContinentList(controllerObj.getContinetList());
-		controller.setGameStat(controllerObj.getGameStat());
+		GameInit gameInit = (GameInit)objectReader.readObject();
+		controller.setController(gameInit.gc);
+		controller.setCurrentPhase(Phase.getPhase(gameInit.currentPhase.getValue() + 1));
+		controller.setCurrentPlayer(gameInit.currentPlayer);
+		controller.setWorldDominationView(gameInit.wdView);
+		controller.setPhaseView(gameInit.phaseView);
+		controller.setCardExchangeView(gameInit.cardView);;
+		controller.setCountryList(gameInit.countryList);
+		controller.setNumberOfPlayers(gameInit.numberOfPlayers);
+		controller.setContinentListByName(gameInit.continentListByName);;
+		controller.setCountryOwnership(gameInit.countryOwnership);;
+		controller.setReadyForNextPhase(gameInit.readyForNextPhase);
+		controller.setPlayerList(gameInit.playerList);
+		controller.setWinner(gameInit.winner);
+		controller.setUI(gameInit.ui);
+		controller.setCustomMapCenerator(gameInit.cmg);
+		controller.setContinentList(gameInit.continentList);
+		controller.setGameStat(gameInit.gameStat);
 		
-		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
-		customMap.setCustomMap(customMapObj.getCustomMap());
-		customMap.setContinents(customMapObj.getContinents());
-		customMap.setCountries(customMapObj.getCountries());
-		customMap.setRemoveContinents(customMapObj.getRemoveContinents());
-		customMap.setRemoveCountries(customMapObj.getRemoveCountries());
-		customMap.setRemoveAdjacentCountries(customMapObj.getRemoveAdjacentCountries());
-		customMap.setAdjMap(customMapObj.getAdjMap());
-		customMap.setCountryDefault(customMapObj.getCountryDefault());
-		customMap.setContinentmap(customMapObj.getContinentmap());
-		customMap.setCountryMap(customMapObj.getCountryMap());
-		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
-		customMap.setEditMap(customMapObj.getEditMap());
-		customMap.setMapController(customMapObj.getMapController());
+		customMap.setCustomMap(gameInit.cmg);
+		customMap.setContinents(gameInit.continents);
+		customMap.setCountries(gameInit.countries);
+		customMap.setRemoveContinents(gameInit.removeContinents);
+		customMap.setRemoveCountries(gameInit.removeCountries);
+		customMap.setRemoveAdjacentCountries(gameInit.removeAdjacentCountries);
+		customMap.setAdjMap(gameInit.adjMap);
+		customMap.setCountryDefault(gameInit.countryDefault);
+		customMap.setContinentmap(gameInit.continentmap);
+		customMap.setCountryMap(gameInit.countrymap);
+		customMap.setAdjCountryMap(gameInit.adjCountryMap);
+		customMap.setEditMap(gameInit.editMap);
+		customMap.setMapController(gameInit.mc);
+		
+		
 		
 		controller.takeTurns();
 		}

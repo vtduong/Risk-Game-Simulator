@@ -52,6 +52,14 @@ public class GameController implements Serializable{
 	/** Keeps track if this game is a saved game. */
 	private boolean isSavedGame = false;
 	
+	public boolean isSavedGame() {
+		return isSavedGame;
+	}
+
+	public void setSavedGame(boolean isSavedGame) {
+		this.isSavedGame = isSavedGame;
+	}
+
 	public Country getAttackingCountry() {
 		return attackingCountry;
 	}
@@ -248,8 +256,22 @@ public class GameController implements Serializable{
 
 	/** The ui. */
 	private UI ui = null;
-	private int phaseCount=0;
 	
+	private int phaseCount=0;
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public int getPhaseCount() {
+		return phaseCount;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public void setPhaseCount(int phaseCount) {
+		this.phaseCount = phaseCount;
+	}
+
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
 	//Don't use for other purpose.
