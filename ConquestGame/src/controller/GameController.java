@@ -42,6 +42,10 @@ import utilities.MapValidator;
  */
 public class GameController implements Serializable{
 	
+	/**
+	 * Unique serial ID for this class, necessary for serialization and deserialization of singleton class
+	 */
+	private static final long serialVersionUID = 1L;
 	/** The Constant INPUTFILE. */
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
@@ -589,11 +593,12 @@ public class GameController implements Serializable{
 			}
 		} else if (selectedOption == 4) {
 			//try {
-				isSavedGame = true;
+				this.isSavedGame = true;
 				gameStat = GameStat.getInstance();
+				//GameController controllerObj = gameStat.load();
 				GameController controllerObj = gameStat.load();
 				loadStat(controllerObj);
-				controller.takeTurns();
+				this.takeTurns();
 
 //			} catch (ClassNotFoundException e) {
 //				
@@ -627,29 +632,30 @@ public class GameController implements Serializable{
 	 * @param controllerObj
 	 */
 	private void loadStat(GameController controllerObj) {
-		controller.setController(controllerObj);
-		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
-		controller.setPlayerList(controllerObj.getPlayerList());
-		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
+		this.setSavedGame(true);
+		this.setController(controllerObj);
+		this.setPlayerList(controllerObj.getPlayerList());
+		this.setCurrentPlayer(controllerObj.getCurrentPlayer());
 		//if saved phase is at the end of fortification, next player gets to play
-		if(controller.getCurrentPhase() == Phase.FORTIFICATION) {
-			List<Player> playerList = controller.getPlayerList();
-			controller.setCurrentPlayer(playerList.get(playerList.indexOf(controller.getCurrentPlayer())+1));
+		if(controllerObj.getCurrentPhase() == Phase.FORTIFICATION) {
+			List<Player> playerList = this.getPlayerList();
+			int nextPlayer = (playerList.indexOf(this.getCurrentPlayer()) + 1) % playerList.size();
+			this.setCurrentPlayer(playerList.get(nextPlayer));
 		}
-		
-		controller.setWorldDominationView(controllerObj.getWorldDominationView());
-		controller.setPhaseView(controllerObj.getPhaseView());
-		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
-		controller.setCountryList(controllerObj.getCountryList());
-		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
-		controller.setContinentListByName(controllerObj.getContinentListByName());;
-		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
-		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
-		controller.setWinner(controllerObj.getWinner());
-		controller.setUI(controllerObj.getUI());
-		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
-		controller.setContinentList(controllerObj.getContinetList());
-		controller.setGameStat(controllerObj.getGameStat());
+		this.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
+		this.setWorldDominationView(controllerObj.getWorldDominationView());
+		this.setPhaseView(controllerObj.getPhaseView());
+		this.setCardExchangeView(controllerObj.getCardExchangeView());;
+		this.setCountryList(controllerObj.getCountryList());
+		this.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
+		this.setContinentListByName(controllerObj.getContinentListByName());;
+		this.setCountryOwnership(controllerObj.getCountryOwnership());;
+		this.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
+		this.setWinner(controllerObj.getWinner());
+		this.setUI(controllerObj.getUI());
+		this.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
+		this.setContinentList(controllerObj.getContinetList());
+		this.setGameStat(controllerObj.getGameStat());
 		
 		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
 		customMap.setCustomMap(customMapObj.getCustomMap());
@@ -664,7 +670,9 @@ public class GameController implements Serializable{
 		customMap.setCountryMap(customMapObj.getCountryMap());
 		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
 		customMap.setEditMap(customMapObj.getEditMap());
-		customMap.setMapController(customMapObj.getMapController());		
+		customMap.setMapController(customMapObj.getMapController());
+		controller = this;
+		controller = GameController.getInstance();
 		
 	}
 
@@ -751,11 +759,12 @@ public class GameController implements Serializable{
 	}
 	
 	public void takePhases() throws IOException {
-		Phase curPhase = controller.getCurrentPhase();
-		if(curPhase == null) {//this is a new game, not a saved game
-			currentPhase = Phase.REENFORCEMENT;
+		Phase curPhase = Phase.REENFORCEMENT;
+		if(isSavedGame) {//this is a saved game, not a new game
+			curPhase = this.getCurrentPhase();
+			this.isSavedGame = false;
 		}
-		switch(this.getCurrentPhase().getValue()) {
+		switch(curPhase.getValue()) {
 		case 0:
 			
 			exchangeCards();
@@ -1201,6 +1210,28 @@ public class GameController implements Serializable{
 	public Continent getContinentByName(String continent) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * This method is necessary to make sure the saved and loaded controller are the same instance
+	 * @return the only instance of GameControl
+	 */
+	public Object readResolved() {
+		return controller;
+	}
+
+	/**
+	 * @return the isSavedGame
+	 */
+	public boolean isSavedGame() {
+		return isSavedGame;
+	}
+
+	/**
+	 * @param isSavedGame the isSavedGame to set
+	 */
+	public void setSavedGame(boolean isSavedGame) {
+		this.isSavedGame = isSavedGame;
 	}
 
 }

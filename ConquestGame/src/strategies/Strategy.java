@@ -28,10 +28,10 @@ public abstract class Strategy implements Serializable {
 	static final int MIN_NEW_ARMIES = 3;
 
 	/** The controller. */
-	GameController controller = GameController.getInstance();;
+	GameController controller = null;
 
 	/** The map. */
-	static CustomMapGenerator map = CustomMapGenerator.getInstance();;
+	static CustomMapGenerator map = null;
 
 	/** The player. */
 	private Player player = null;
