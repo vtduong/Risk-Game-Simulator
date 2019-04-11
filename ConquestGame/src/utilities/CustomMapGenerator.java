@@ -49,7 +49,7 @@ public class CustomMapGenerator implements Serializable{
 	 */
 	//Don't use for other purpose.
 	public void setCustomMap(CustomMapGenerator customMap) {
-		CustomMapGenerator.customMap = customMap;
+		this.customMap = customMap;
 	}
 
 

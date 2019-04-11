@@ -27,6 +27,7 @@ import strategies.CheaterStrategy;
 import strategies.Human;
 import strategies.RandomStrategy;
 import utilities.CustomMapGenerator;
+import utilities.GameInit;
 import utilities.GameStat;
 import utilities.MapValidator;
 
@@ -84,6 +85,7 @@ public class GameController implements Serializable{
 	private static String[][] finalWinnerList;
 	private static Scanner tScan;
 	private static boolean isTest = false;
+	
 
 	public Country getAttackingCountry() {
 		return attackingCountry;
@@ -387,6 +389,12 @@ public class GameController implements Serializable{
 	
 	/** The phase count. */
 	private int phaseCount=0;
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public int getPhaseCount() {
+		return phaseCount;
+	}
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
@@ -395,6 +403,13 @@ public class GameController implements Serializable{
 	 *
 	 * @param ui the new ui
 	 */
+	//Don't use for other purpose.
+	public void setPhaseCount(int phaseCount) {
+		this.phaseCount = phaseCount;
+	}
+
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
 	//Don't use for other purpose.
 	public void setUI(UI ui) {
 		this.ui = ui;
@@ -815,7 +830,7 @@ public class GameController implements Serializable{
 				this.isSavedGame = true;
 				gameStat = GameStat.getInstance();
 				//GameController controllerObj = gameStat.load();
-				GameController controllerObj = gameStat.load();
+				GameInit controllerObj = gameStat.load();
 				loadStat(controllerObj);
 				this.takeTurns();
 
@@ -853,8 +868,9 @@ public class GameController implements Serializable{
  *
  * @param controllerObj the controller obj
  */
-	private void loadStat(GameController controllerObj) {
+	private void loadStat(GameInit savedObject) {
 		this.setSavedGame(true);
+		GameController controllerObj = savedObject.gc;
 		this.setController(controllerObj);
 		this.setPlayerList(controllerObj.getPlayerList());
 		this.setCurrentPlayer(controllerObj.getCurrentPlayer());

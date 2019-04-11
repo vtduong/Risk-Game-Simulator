@@ -59,12 +59,15 @@ public class GameStat implements Serializable {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void save() throws IOException{
+		
+		GameInit snapShot = new GameInit();
+		
 		String saveStatToFile = Config.getProperty("savecontroller");
 		
 		try(FileOutputStream file = new FileOutputStream(saveStatToFile);
 		ObjectOutputStream objectWriter = new ObjectOutputStream(file);) {
 		
-		objectWriter.writeObject(controller);
+		objectWriter.writeObject(snapShot);
 		
 		}
 		
@@ -79,15 +82,16 @@ public class GameStat implements Serializable {
 	 * @throws ClassNotFoundException ec
 	 * @throws MapInvalidException the map invalid exception
 	 */
-	public GameController load() throws IOException, ClassNotFoundException, MapInvalidException {
+	public GameInit load() throws IOException, ClassNotFoundException, MapInvalidException {
 		String loadStatFromFile = Config.getProperty("loadcontroller");
 		
 		try(FileInputStream file = new FileInputStream(loadStatFromFile);
 		ObjectInputStream objectReader = new ObjectInputStream(file);) {
 		
-		GameController controllerObj = (GameController)objectReader.readObject();
+		GameInit controllerObj = (GameInit)objectReader.readObject();
 		
 		return controllerObj;
+
 		
 		
 		}
