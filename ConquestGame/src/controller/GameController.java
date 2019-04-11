@@ -1664,6 +1664,7 @@ public void takeTurns() throws MapInvalidException, IOException {
 					}
 					controller.createWorldDominationView();
 					controller.createCardExchangeView();
+					ui = new UI();
 					controller.initGame();
 					System.out.println("Game" + " " + (j + 1) + " " + "has ended. Going for next game...");
 					if (winner != null) {
