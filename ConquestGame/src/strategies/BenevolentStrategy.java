@@ -98,7 +98,7 @@ public class BenevolentStrategy extends Strategy implements Serializable {
 			
 			toName = toCountry.getName();
 			fromName =fromCountry.getName();
-			if(toName!=fromName && fromCountry.getNumArmies()-armiesToMove>1) {
+			if(toName!=fromName && fromCountry.getNumArmies()-armiesToMove>1 && validCountryMove(toCountry).contains(fromCountry)) {
 				this.moveArmies(fromName, toName, armiesToMove);
 			}else {
 				System.out.println("You can not move armies.");

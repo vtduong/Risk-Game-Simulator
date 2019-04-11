@@ -180,12 +180,12 @@ public class RandomStrategy extends Strategy implements Serializable {
 				int maxRange = 0;
 				Random rand = new Random();				
 				List<String> adjCountries = fromCountry.getAdjacentCountries();
-				maxRange = adjCountries.size();
+				maxRange = validCountriesToMove.size();
 				
 				int randomToCountry = rand.nextInt((maxRange - minRange) + 1) + minRange;
-				String toCountryName = adjCountries.get(randomToCountry);
-				toCountry = this.getPlayer().getCountryByName(adjCountries.get(randomToCountry));
-				
+				//String toCountryName = adjCountries.get(randomToCountry);
+				toCountry = validCountriesToMove.get(randomToCountry-1);
+				System.out.println("To Countries in Random are: " +toCountry);
 				fromCountry.setNumArmies(fromCountry.getNumArmies() - 1);
 				toCountry.setNumArmies(toCountry.getNumArmies() + 1);
 				break;

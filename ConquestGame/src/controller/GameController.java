@@ -206,7 +206,7 @@ public class GameController implements Serializable{
 	}
 
 	/** The country list. */
-	private static List<Country> countryList = new ArrayList<Country>();
+	public static List<Country> countryList = new ArrayList<Country>();
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
