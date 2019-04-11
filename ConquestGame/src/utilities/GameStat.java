@@ -82,13 +82,13 @@ public class GameStat implements Serializable {
 	 * @throws ClassNotFoundException ec
 	 * @throws MapInvalidException the map invalid exception
 	 */
-	public GameController load() throws IOException, ClassNotFoundException, MapInvalidException {
+	public GameInit load() throws IOException, ClassNotFoundException, MapInvalidException {
 		String loadStatFromFile = Config.getProperty("loadcontroller");
 		
 		try(FileInputStream file = new FileInputStream(loadStatFromFile);
 		ObjectInputStream objectReader = new ObjectInputStream(file);) {
 		
-		GameController controllerObj = (GameController)objectReader.readObject();
+		GameInit controllerObj = (GameInit)objectReader.readObject();
 		
 		return controllerObj;
 
