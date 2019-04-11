@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import beans.Country;
 import beans.EventType;
 import beans.Phase;
 import beans.Player;
+import config.Config;
 import exception.MapInvalidException;
 import gui.CardExchangeView;
 import gui.Observer;
@@ -117,7 +119,7 @@ public class GameController implements Serializable{
 	private Phase currentPhase;
 
 	/** The World Domination View. */
-	private WorldDominationView wdView = null;
+	private static WorldDominationView wdView = null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
@@ -177,7 +179,7 @@ public class GameController implements Serializable{
 	transient static Scanner scan = new Scanner(System.in);
 	
 	/** The card view. */
-	private CardExchangeView cardView= null;
+	private static CardExchangeView cardView= null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
@@ -385,7 +387,7 @@ public class GameController implements Serializable{
 	}
 
 	/** The ui. */
-	private UI ui = null;
+	private static UI ui = null;
 	
 	/** The phase count. */
 	private int phaseCount=0;
@@ -483,7 +485,7 @@ public class GameController implements Serializable{
 	}
 	
 	/**  Used for game saving and loading. */
-	private GameStat gameStat = null;
+	private static GameStat gameStat = null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
@@ -533,7 +535,6 @@ public class GameController implements Serializable{
 	private GameController() {
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
-		ui = new UI();
 		finalWinnerList = new String[10][10];
 		mapList = new String[5];
 		customMap = CustomMapGenerator.getInstance();
@@ -571,6 +572,28 @@ public class GameController implements Serializable{
 	 * @author
 	 */
 	public static void main(String[] args) throws IOException, MapInvalidException, ClassNotFoundException {
+		String loadStatFromFile = Config.getProperty("loadcontroller");
+		File f = new File(loadStatFromFile);
+		if(f.exists() && !f.isDirectory()) { 
+			System.out.println("Do you want to load a game?(Y/N)");
+			Scanner in = new Scanner(System.in);
+			String input = in.next().toLowerCase();
+			if(input.equals("y") || input.equals("yes")){
+				gameStat = GameStat.getInstance();
+				//GameController controllerObj = gameStat.load();
+				GameInit initObj = gameStat.load();
+				controller = initObj.gc;
+				controller.loadStat(controller);
+				controller.createWorldDominationView();
+				controller.createCardExchangeView();
+				ui = new UI();
+				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
+				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+				controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
+				controller.takeTurns();
+			}
+		}
+		//start new game
 		GameController controller = GameController.getInstance();
 		System.out.println("Do you want to play in single mode or in tournament mode ? S/T");
 		char mode = scan.next().charAt(0);
@@ -582,6 +605,9 @@ public class GameController implements Serializable{
 			tournamentFlag = true;
 			controller.modeTournament();
 		}
+		
+		
+		
 	}
 
 	/**
@@ -827,12 +853,7 @@ public class GameController implements Serializable{
 			}
 		} else if (selectedOption == 4) {
 			//try {
-				this.isSavedGame = true;
-				gameStat = GameStat.getInstance();
-				//GameController controllerObj = gameStat.load();
-				GameInit controllerObj = gameStat.load();
-				loadStat(controllerObj);
-				this.takeTurns();
+				
 
 
 //			} catch (ClassNotFoundException e) {
@@ -868,10 +889,10 @@ public class GameController implements Serializable{
  *
  * @param controllerObj the controller obj
  */
-	private void loadStat(GameInit savedObject) {
+	private void loadStat(GameController controllerObj) {
 		this.setSavedGame(true);
-		GameController controllerObj = savedObject.gc;
 		this.setController(controllerObj);
+		this.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
 		this.setPlayerList(controllerObj.getPlayerList());
 		this.setCurrentPlayer(controllerObj.getCurrentPlayer());
 		//if saved phase is at the end of fortification, next player gets to play
@@ -881,22 +902,20 @@ public class GameController implements Serializable{
 			this.setCurrentPlayer(playerList.get(nextPlayer));
 		}
 		this.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
-		this.setWorldDominationView(controllerObj.getWorldDominationView());
+		
 		this.setPhaseView(controllerObj.getPhaseView());
-		this.setCardExchangeView(controllerObj.getCardExchangeView());;
 		this.setCountryList(controllerObj.getCountryList());
 		this.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
-		this.setContinentListByName(controllerObj.getContinentListByName());;
-		this.setCountryOwnership(controllerObj.getCountryOwnership());;
+		this.setContinentListByName(controllerObj.getContinentListByName());
+		this.setCountryOwnership(controllerObj.getCountryOwnership());
 		this.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
 		this.setWinner(controllerObj.getWinner());
-		this.setUI(controllerObj.getUI());
-		this.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
 		this.setContinentList(controllerObj.getContinetList());
 		this.setGameStat(controllerObj.getGameStat());
 		
 
 		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
+		customMap = customMapObj;
 		customMap.setCustomMap(customMapObj.getCustomMap());
 		customMap.setContinents(customMapObj.getContinents());
 		customMap.setCountries(customMapObj.getCountries());
@@ -927,6 +946,10 @@ public class GameController implements Serializable{
 			}
 		}
 		
+		this.setWorldDominationView(controllerObj.getWorldDominationView());
+		this.setCardExchangeView(controllerObj.getCardExchangeView());
+		this.setUI(controllerObj.getUI());
+
 
 	}
 
@@ -1588,6 +1611,7 @@ public void takeTurns() throws MapInvalidException, IOException {
 		controller.loadMap();
 		controller.createWorldDominationView();
 		controller.createCardExchangeView();
+		ui = new UI();
 		controller.initGame();
 	}
 

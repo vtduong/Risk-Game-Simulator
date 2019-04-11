@@ -49,6 +49,7 @@ public class GameInit implements Serializable {
 		this.gameStat = gameController.getGameStat();
 		
 		// Map controller attributes.
+		this.mc = mapController;
 		this.countriesDefault = mapController.countriesDefault;
 		this.continentsDefault = mapController.continentsDefault;
 		this.worldMap = mapController.worldMap;
@@ -56,6 +57,7 @@ public class GameInit implements Serializable {
 		this.countrymap = mapController.countrymap;
 		
 		// custom map generator.
+		this.cmg = customMap;
 		this.continents = customMap.getContinents();
 		this.countries = customMap.getCountries();
 		this.removeContinents = customMap.getRemoveContinents();
