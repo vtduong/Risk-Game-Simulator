@@ -31,15 +31,25 @@ public class CustomMapGenerator implements Serializable{
 	
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the custom map.
+	 *
+	 * @return the custom map
+	 */
 	//Don't use for other purpose.
 	public CustomMapGenerator getCustomMap() {
 		return customMap;
 	}
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the custom map.
+	 *
+	 * @param customMap the new custom map
+	 */
 	//Don't use for other purpose.
 	public void setCustomMap(CustomMapGenerator customMap) {
-		CustomMapGenerator.customMap = customMap;
+		this.customMap = customMap;
 	}
 
 
@@ -51,6 +61,11 @@ public class CustomMapGenerator implements Serializable{
 	private Map<String, Integer> continents = null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the continents.
+	 *
+	 * @return the continents
+	 */
 	//Don't use for other purpose.
 	public Map<String, Integer> getContinents() {
 		return continents;
@@ -58,6 +73,11 @@ public class CustomMapGenerator implements Serializable{
 
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the continents.
+	 *
+	 * @param continents the continents
+	 */
 	//Don't use for other purpose.
 	public void setContinents(Map<String, Integer> continents) {
 		this.continents = continents;
@@ -69,12 +89,22 @@ public class CustomMapGenerator implements Serializable{
 	private ArrayList<String> countries = null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the countries.
+	 *
+	 * @return the countries
+	 */
 	//Don't use for other purpose.
 	public ArrayList<String> getCountries() {
 		return countries;
 	}
 	
 	//It should be only used for game saving.
+	/**
+	 * Sets the countries.
+	 *
+	 * @param countries the new countries
+	 */
 	//Don't use for other purpose.
 	public void setCountries(ArrayList<String> countries) {
 		this.countries = countries;
@@ -86,12 +116,22 @@ public class CustomMapGenerator implements Serializable{
 	private ArrayList<String> removeContinents = null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the removes the continents.
+	 *
+	 * @return the removes the continents
+	 */
 	//Don't use for other purpose.
 	public ArrayList<String> getRemoveContinents() {
 		return removeContinents;
 	}
 	
 	//It should be only used for game saving.
+	/**
+	 * Sets the removes the continents.
+	 *
+	 * @param removeContinents the new removes the continents
+	 */
 	//Don't use for other purpose.
 	public void setRemoveContinents(ArrayList<String> removeContinents) {
 		this.removeContinents = removeContinents;
@@ -103,12 +143,22 @@ public class CustomMapGenerator implements Serializable{
 	private ArrayList<String> removeCountries = null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the removes the countries.
+	 *
+	 * @return the removes the countries
+	 */
 	//Don't use for other purpose.
 	public ArrayList<String> getRemoveCountries() {
 		return removeCountries;
 	}
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the removes the countries.
+	 *
+	 * @param removeCountries the new removes the countries
+	 */
 	//Don't use for other purpose.
 	public void setRemoveCountries(ArrayList<String> removeCountries) {
 		this.removeCountries = removeCountries;
@@ -120,12 +170,22 @@ public class CustomMapGenerator implements Serializable{
 	private ArrayList<String> removeAdjacentCountries = null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the removes the adjacent countries.
+	 *
+	 * @return the removes the adjacent countries
+	 */
 	//Don't use for other purpose.
 	public ArrayList<String> getRemoveAdjacentCountries() {
 		return removeAdjacentCountries;
 	}
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the removes the adjacent countries.
+	 *
+	 * @param removeAdjacentCountries the new removes the adjacent countries
+	 */
 	//Don't use for other purpose.
 	public void setRemoveAdjacentCountries(ArrayList<String> removeAdjacentCountries) {
 		this.removeAdjacentCountries = removeAdjacentCountries;
@@ -137,12 +197,22 @@ public class CustomMapGenerator implements Serializable{
 	private Map<String,List<String>> adjMap =null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the adj map.
+	 *
+	 * @return the adj map
+	 */
 	//Don't use for other purpose.
 	public Map<String, List<String>> getAdjMap() {
 		return adjMap;
 	}
 	
 	//It should be only used for game saving.
+	/**
+	 * Sets the adj map.
+	 *
+	 * @param adjMap the adj map
+	 */
 	//Don't use for other purpose.
 	public void setAdjMap(Map<String, List<String>> adjMap) {
 		this.adjMap = adjMap;
@@ -154,12 +224,22 @@ public class CustomMapGenerator implements Serializable{
 	public List<Country> countryDefault =null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the country default.
+	 *
+	 * @return the country default
+	 */
 	//Don't use for other purpose.
 	public List<Country> getCountryDefault() {
 		return countryDefault;
 	}
 	
 	//It should be only used for game saving.
+	/**
+	 * Sets the country default.
+	 *
+	 * @param countryDefault the new country default
+	 */
 	//Don't use for other purpose.
 	public void setCountryDefault(List<Country> countryDefault) {
 		this.countryDefault = countryDefault;
@@ -171,12 +251,22 @@ public class CustomMapGenerator implements Serializable{
 	private Map<String, Continent> continentmap=null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the continentmap.
+	 *
+	 * @return the continentmap
+	 */
 	//Don't use for other purpose.
 	public Map<String, Continent> getContinentmap() {
 		return continentmap;
 	}
 	
 	//It should be only used for game saving.
+	/**
+	 * Sets the continentmap.
+	 *
+	 * @param continentmap the continentmap
+	 */
 	//Don't use for other purpose.
 	public void setContinentmap(Map<String, Continent> continentmap) {
 		this.continentmap = continentmap;
@@ -188,12 +278,22 @@ public class CustomMapGenerator implements Serializable{
 	private Map<String, Country> countryMap=null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the country map.
+	 *
+	 * @return the country map
+	 */
 	//Don't use for other purpose.
 	public Map<String, Country> getCountryMap() {
 		return countryMap;
 	}
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the country map.
+	 *
+	 * @param countryMap the country map
+	 */
 	//Don't use for other purpose.
 	public void setCountryMap(Map<String, Country> countryMap) {
 		this.countryMap = countryMap;
@@ -205,12 +305,22 @@ public class CustomMapGenerator implements Serializable{
 	private Map<String,List<String>> adjCountryMap = null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the adj country map.
+	 *
+	 * @return the adj country map
+	 */
 	//Don't use for other purpose.
 	public Map<String, List<String>> getAdjCountryMap() {
 		return adjCountryMap;
 	}
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the adj country map.
+	 *
+	 * @param adjCountryMap the adj country map
+	 */
 	//Don't use for other purpose.
 	public void setAdjCountryMap(Map<String, List<String>> adjCountryMap) {
 		this.adjCountryMap = adjCountryMap;
@@ -222,12 +332,22 @@ public class CustomMapGenerator implements Serializable{
 	private static EditMap editMap = null;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the edits the map.
+	 *
+	 * @return the edits the map
+	 */
 	//Don't use for other purpose.
 	public EditMap getEditMap() {
 		return editMap;
 	}
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the edits the map.
+	 *
+	 * @param editMap the new edits the map
+	 */
 	//Don't use for other purpose.
 	public void setEditMap(EditMap editMap) {
 		CustomMapGenerator.editMap = editMap;
@@ -245,12 +365,22 @@ public class CustomMapGenerator implements Serializable{
 	private MapController mapController;
 	
 	//It should be only used for game saving.
+	/**
+	 * Gets the map controller.
+	 *
+	 * @return the map controller
+	 */
 	//Don't use for other purpose.
 	public MapController getMapController() {
 		return mapController;
 	}
 
 	//It should be only used for game saving.
+	/**
+	 * Sets the map controller.
+	 *
+	 * @param mapController the new map controller
+	 */
 	//Don't use for other purpose.
 	public void setMapController(MapController mapController) {
 		this.mapController = mapController;
@@ -588,5 +718,9 @@ public class CustomMapGenerator implements Serializable{
 		}
 		return adjacentCountriesList;
 		
+	}
+	
+	public void reset() {
+		customMap =null;
 	}
 }

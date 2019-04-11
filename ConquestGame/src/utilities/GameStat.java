@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.List;
 
 import beans.Phase;
 import beans.Player;
@@ -13,6 +14,7 @@ import config.Config;
 import controller.GameController;
 import exception.MapInvalidException;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class is used to save or load the status of the game.
  * @author sandeepchowdaryannabathuni
@@ -20,11 +22,19 @@ import exception.MapInvalidException;
  */
 public class GameStat implements Serializable {
 	
+	/** The obj. */
 	private static GameStat obj = null;
+	
+	/** The controller. */
 	private GameController controller = null;
+	
+	/** The custom map. */
 	private CustomMapGenerator customMap = null;
 	
 	
+	/**
+	 * Instantiates a new game stat.
+	 */
 	private GameStat() {
 		controller = GameController.getInstance();
 		customMap = CustomMapGenerator.getInstance();
@@ -32,6 +42,11 @@ public class GameStat implements Serializable {
 		
 	}
 	
+	/**
+	 * Gets the single instance of GameStat.
+	 *
+	 * @return single instance of GameStat
+	 */
 	public static GameStat getInstance() {
 		if(obj == null)
 			obj = new GameStat();
@@ -40,15 +55,19 @@ public class GameStat implements Serializable {
 	
 	/**
 	 * This method is used to save game.
-	 * @throws IOException
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void save() throws IOException{
+		
+		GameInit snapShot = new GameInit();
+		
 		String saveStatToFile = Config.getProperty("savecontroller");
 		
 		try(FileOutputStream file = new FileOutputStream(saveStatToFile);
 		ObjectOutputStream objectWriter = new ObjectOutputStream(file);) {
 		
-		objectWriter.writeObject(controller);
+		objectWriter.writeObject(snapShot);
 		
 		}
 		
@@ -57,53 +76,25 @@ public class GameStat implements Serializable {
 	
 	/**
 	 * This method is used to load the game from the previous checkpoint.
-	 * @throws IOException
+	 *
+	 * @return the game controller
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws ClassNotFoundException ec
-	 * @throws MapInvalidException 
+	 * @throws MapInvalidException the map invalid exception
 	 */
-	public void load() throws IOException, ClassNotFoundException, MapInvalidException {
+	public GameInit load() throws IOException, ClassNotFoundException, MapInvalidException {
 		String loadStatFromFile = Config.getProperty("loadcontroller");
 		
 		try(FileInputStream file = new FileInputStream(loadStatFromFile);
 		ObjectInputStream objectReader = new ObjectInputStream(file);) {
 		
-		GameController controllerObj = (GameController)objectReader.readObject();
-		controller.setController(controllerObj);
-		controller.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
-		controller.setCurrentPlayer(controllerObj.getCurrentPlayer());
-		controller.setWorldDominationView(controllerObj.getWorldDominationView());
-		controller.setPhaseView(controllerObj.getPhaseView());
-		controller.setCardExchangeView(controllerObj.getCardExchangeView());;
-		controller.setCountryList(controllerObj.getCountryList());
-		controller.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
-		controller.setContinentListByName(controllerObj.getContinentListByName());;
-		controller.setCountryOwnership(controllerObj.getCountryOwnership());;
-		controller.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
-		controller.setPlayerList(controllerObj.getPlayerList());
-		controller.setWinner(controllerObj.getWinner());
-		controller.setUI(controllerObj.getUI());
-		controller.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
-		controller.setContinentList(controllerObj.getContinetList());
-		controller.setGameStat(controllerObj.getGameStat());
+		GameInit controllerObj = (GameInit)objectReader.readObject();
 		
-		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
-		customMap.setCustomMap(customMapObj.getCustomMap());
-		customMap.setContinents(customMapObj.getContinents());
-		customMap.setCountries(customMapObj.getCountries());
-		customMap.setRemoveContinents(customMapObj.getRemoveContinents());
-		customMap.setRemoveCountries(customMapObj.getRemoveCountries());
-		customMap.setRemoveAdjacentCountries(customMapObj.getRemoveAdjacentCountries());
-		customMap.setAdjMap(customMapObj.getAdjMap());
-		customMap.setCountryDefault(customMapObj.getCountryDefault());
-		customMap.setContinentmap(customMapObj.getContinentmap());
-		customMap.setCountryMap(customMapObj.getCountryMap());
-		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
-		customMap.setEditMap(customMapObj.getEditMap());
-		customMap.setMapController(customMapObj.getMapController());
+		return controllerObj;
+
 		
-		controller.takeTurns();
+		
 		}
-		
 	}
 	
 //	public static void main(String[] args) throws IOException {

@@ -4,6 +4,7 @@
 package strategies;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,9 @@ import beans.EventType;
 import beans.Player;
 import gui.PhaseView;
 
+// TODO: Auto-generated Javadoc
 /**
+ * Implementation of Cheater Strategy
  * A cheater computer player strategy whose reinforce() method doubles the
  * number of armies on all its countries, whose attack() method automatically
  * conquers all the neighbors of all its countries, and whose fortify() method
@@ -25,66 +28,82 @@ import gui.PhaseView;
  */
 public class CheaterStrategy extends Strategy implements Serializable {
 
-	private Player player = null;
 
+	/**
+	 * Instantiates a new cheater strategy.
+	 *
+	 * @param player the player
+	 */
 	public CheaterStrategy(Player player) {
 		super(player);
-		this.player=player;
 	}
 
+	/* (non-Javadoc)
+	 * Implementation of Reinforce phase for Cheater Strategy  
+	 * @see strategies.Strategy#reEnforce()
+	 */
 	@Override
 	public void reEnforce() {
 		//controller.setCurrentPhase("ReInforce");
-		int newArmies = obtainNewArmies();
-		player.notifyChanges(EventType.PHASE_NOTIFY);
-		Map<Country, Integer> list = controller.distributeArmies(newArmies);
-		this.distributeArmies(list);
-		for(Country rec:player.getPlayerCountries()) {
+		//int newArmies = obtainNewArmies();
+		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
+		//Map<Country, Integer> list = controller.distributeArmies(newArmies);
+		//this.distributeArmies(list);
+		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			rec.setNumArmies(rec.getNumArmies()*2);
 		}
 		//player.notifyChanges(EventType.REENFORCEMENT_NOTIFY);
 		
 	}
 
+	/* (non-Javadoc)
+	 * Implementation of Attack phase for Cheater Strategy
+	 * @see strategies.Strategy#attack()
+	 */
 	@Override
 	public void attack() {
-		// TODO Auto-generated method stub
-		//controller.setCurrentPhase("Attack");
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
 		List<Country> defendingNeighbours = null;
-		for(Country rec:player.getPlayerCountries()) {
+		List<Country> currentCountryPlayerList = this.getPlayer().getPlayerCountries();
+		System.out.println(currentCountryPlayerList.size());
+		for(Country rec:currentCountryPlayerList) {
 			defendingNeighbours = getdefendingNeighbours(rec);
-			if(defendingNeighbours.size() > 1) {
-				break;
+			for(Country recDef :defendingNeighbours) {
+				Player ownerRec = recDef.getOwner();
+				ownerRec.removeCountry(recDef.getName());
+				this.getPlayer().addCountry(recDef.getName(), recDef);
 			}
 		}
-		for(Country temp : defendingNeighbours)	{
-			temp.setOwner(controller.getCurrentPlayer());		
-		}
-		
-		//player.notifyChanges(EventType.ATTACK_NOTIFY);
 	}
 
+	/* (non-Javadoc)
+	 * Implementation of Fortify phase for Cheater Strategy
+	 * @see strategies.Strategy#fortify()
+	 */
 	@Override
 	public void fortify() {
 		// TODO Auto-generated method stub
-		for(Country rec:player.getPlayerCountries()) {
+		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			List<Country> defendingNeighbours = getdefendingNeighbours(rec);
 			if(defendingNeighbours.size()>0) {
 				rec.setNumArmies(rec.getNumArmies()*2);
 			}
 			
 		}
-		player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.FORTIFICATION_NOTIFY);
 	}
 
+	/* (non-Javadoc)
+	 * Initial Set Up phase for Cheater Strategy
+	 * @see strategies.Strategy#placeArmiesForSetup()
+	 */
 	@Override
 	public void placeArmiesForSetup() {
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
 		Random r = new Random();
-		int maxArmies =player.getArmies();
-		for(Country rec:player.getPlayerCountries()) {
+		int maxArmies =this.getPlayer().getArmies() - this.getPlayer().getNumArmiesDispatched();
+		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
 			armyCountryMap.put(rec, temp);
 			maxArmies =maxArmies-temp;

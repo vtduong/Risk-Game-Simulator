@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,12 +10,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-
 import beans.Continent;
 import beans.Country;
 import beans.EventType;
 import beans.Phase;
 import beans.Player;
+import config.Config;
 import exception.MapInvalidException;
 import gui.CardExchangeView;
 import gui.Observer;
@@ -28,6 +29,7 @@ import strategies.CheaterStrategy;
 import strategies.Human;
 import strategies.RandomStrategy;
 import utilities.CustomMapGenerator;
+import utilities.GameInit;
 import utilities.GameStat;
 import utilities.MapValidator;
 
@@ -42,41 +44,90 @@ import utilities.MapValidator;
  */
 public class GameController implements Serializable{
 	
+	/** Unique serial ID for this class, necessary for serialization and deserialization of singleton class. */
+	private static final long serialVersionUID = 1L;
+
 	/** The Constant INPUTFILE. */
 	private final static String INPUTFILE = "src/resources/World.map";
 	/** The controller. */
 	private static GameController controller = null;
 	
+	/** The attacking country. */
 	private  Country attackingCountry = null;
 	
+
 	/** Keeps track if this game is a saved game. */
 	private boolean isSavedGame = false;
+
+	// For single and tournament mode
+
+	/** Check if single mode or Tournament mode */
+	private static boolean tournamentFlag = false;
+
+	/** Game Count for Tournament Mode */
+	private static int gameCount = 0;
 	
+	/** Turn Count for Tournament Mode */
+	private static int turnCount;
+	
+	/** Map Input files for Tournament Mode */
+	private static String mapInput = null;
+	
+
+	/** Map List generated from mapInput */
+	private static String[] mapList = null;
+	
+	/** Strategy Input for Tournament Mode */
+	private static String strategyInput = null;
+	
+	/** Strategy List generated from strategyInput */
+	private static String[] strategyList;
+	
+	/** Tournament Winner Records */
+	private static String[][] finalWinnerList;
+	private static Scanner tScan;
+	private static boolean isTest = false;
+	
+
 	public Country getAttackingCountry() {
 		return attackingCountry;
 	}
 
+	/**
+	 * Sets the attacking country.
+	 *
+	 * @param attackingCountry the new attacking country
+	 */
 	public void setAttackingCountry(Country attackingCountry) {
 		this.attackingCountry = attackingCountry;
 	}
 
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the controller.
+	 *
+	 * @param controller the new controller
+	 */
 	//Don't use for other purpose.
+
 	public void setController(GameController controller) {
 		GameController.controller = controller;
 	}
 
-
 	/** The current phase Info. */
 	private Phase currentPhase;
-	
 
 	/** The World Domination View. */
-	private WorldDominationView wdView = null;
+	private static WorldDominationView wdView = null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the world domination view.
+	 *
+	 * @param wd the new world domination view
+	 */
 	//Don't use for other purpose.
 	public void setWorldDominationView(WorldDominationView wd) {
 		wdView = wd;
@@ -84,18 +135,28 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the world domination view.
+	 *
+	 * @return the world domination view
+	 */
 	//Don't use for other purpose.
+
 	public WorldDominationView getWorldDominationView() {
 		return wdView;
 	}
-	
-	
 
-
+	/** The phase view. */
 	private PhaseView phaseView = null;
+
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the phase view.
+	 *
+	 * @param pv the new phase view
+	 */
 	//Don't use for other purpose.
 	public void setPhaseView(PhaseView pv) {
 		phaseView = pv;
@@ -103,17 +164,30 @@ public class GameController implements Serializable{
 		
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the phase view.
+	 *
+	 * @return the phase view
+	 */
 	//Don't use for other purpose.
 	public PhaseView getPhaseView() {
 		return phaseView;
 	}
 		
 		
-	transient Scanner scan = new Scanner(System.in);
-	private CardExchangeView cardView= null;
+	/** The scan. */
+	transient static Scanner scan = new Scanner(System.in);
+	
+	/** The card view. */
+	private static CardExchangeView cardView= null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the card exchange view.
+	 *
+	 * @param cv the new card exchange view
+	 */
 	//Don't use for other purpose.
 	public void setCardExchangeView(CardExchangeView cv) {
 		cardView = cv;
@@ -121,6 +195,11 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the card exchange view.
+	 *
+	 * @return the card exchange view
+	 */
 	//Don't use for other purpose.
 	public CardExchangeView getCardExchangeView() {
 		return cardView;
@@ -131,6 +210,11 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the country list.
+	 *
+	 * @param cl the new country list
+	 */
 	//Don't use for other purpose.
 	public void setCountryList(List<Country> cl) {
 		countryList = cl;
@@ -138,18 +222,27 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the country list.
+	 *
+	 * @return the country list
+	 */
 	//Don't use for other purpose.
 	public List<Country> getCountryList() {
 		return countryList;
 	}
-	
-	
+
 	/** The number of players. */
 //	HashMap<Player,WorldMap> countryOwnership = new HashMap<Player,WorldMap>();
 	private int numberOfPlayers;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the number of players.
+	 *
+	 * @param n the new number of players
+	 */
 	//Don't use for other purpose.
 	public void setNumberOfPlayers(int n) {
 		numberOfPlayers = n;
@@ -157,16 +250,27 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the number of players.
+	 *
+	 * @return the number of players
+	 */
 	//Don't use for other purpose.
+
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
 	}
-	
+
 	/** The continent list by name. */
 	private HashMap<String, Continent> continentListByName = null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the continent list by name.
+	 *
+	 * @param clbm the clbm
+	 */
 	//Don't use for other purpose.
 	public void setContinentListByName(HashMap<String, Continent> clbm) {
 		continentListByName = clbm;
@@ -174,17 +278,27 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the continent list by name.
+	 *
+	 * @return the continent list by name
+	 */
 	//Don't use for other purpose.
+
 	public HashMap<String, Continent> getContinentListByName() {
 		return continentListByName;
 	}
-	
-	
+
 	/** The country ownership. */
 	Map<Player, ArrayList<Country>> countryOwnership = null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the country ownership.
+	 *
+	 * @param co the co
+	 */
 	//Don't use for other purpose.
 	public void setCountryOwnership(Map<Player, ArrayList<Country>> co) {
 		countryOwnership = co;
@@ -192,12 +306,17 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the country ownership.
+	 *
+	 * @return the country ownership
+	 */
 	//Don't use for other purpose.
+
 	public Map<Player, ArrayList<Country>> getCountryOwnership() {
 		return countryOwnership;
 	}
-	
-	
+
 //	/** The current phase. */
 //	TurnPhase currentPhase = null;
 
@@ -206,6 +325,11 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the ready for next phase.
+	 *
+	 * @param rfnp the new ready for next phase
+	 */
 	//Don't use for other purpose.
 	public void setReadyForNextPhase(boolean rfnp) {
 		readyForNextPhase = rfnp;
@@ -213,7 +337,13 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the ready for next phase.
+	 *
+	 * @return the ready for next phase
+	 */
 	//Don't use for other purpose.
+
 	public boolean getReadyForNextPhase() {
 		return readyForNextPhase;
 	}
@@ -226,11 +356,16 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the player list.
+	 *
+	 * @param pl the new player list
+	 */
 	//Don't use for other purpose.
+
 	public void setPlayerList(ArrayList<Player> pl) {
 		playerList = pl;
 	}
-	
 
 	/** The Constant MIN_ARGS. */
 	private final static int MIN_ARGS = 1;
@@ -240,16 +375,41 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the winner.
+	 *
+	 * @param win the new winner
+	 */
 	//Don't use for other purpose.
+
 	public void setWinner(Player win) {
 		winner = win;
 	}
-	
 
 	/** The ui. */
-	private UI ui = null;
-	private int phaseCount=0;
+	private static UI ui = null;
 	
+	/** The phase count. */
+	private int phaseCount=0;
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	//Don't use for other purpose.
+	public int getPhaseCount() {
+		return phaseCount;
+	}
+	
+	//TODO change to private and use reflect.
+	//It should be only used for game saving.
+	/**
+	 * Sets the ui.
+	 *
+	 * @param ui the new ui
+	 */
+	//Don't use for other purpose.
+	public void setPhaseCount(int phaseCount) {
+		this.phaseCount = phaseCount;
+	}
+
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
 	//Don't use for other purpose.
@@ -259,16 +419,26 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the ui.
+	 *
+	 * @return the ui
+	 */
 	//Don't use for other purpose.
 	public UI getUI() {
 		return ui;
 	}
 
-
+	/** The custom map. */
 	private CustomMapGenerator customMap=null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the custom map cenerator.
+	 *
+	 * @param map the new custom map cenerator
+	 */
 	//Don't use for other purpose.
 	public void setCustomMapCenerator(CustomMapGenerator map) {
 		customMap = map;
@@ -276,16 +446,27 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the custom map generator.
+	 *
+	 * @return the custom map generator
+	 */
 	//Don't use for other purpose.
+
 	public CustomMapGenerator getCustomMapGenerator() {
 		return customMap;
 	}
-	
+
 	/** The continent list. */
 	private List<Continent> continentList = null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the continent list.
+	 *
+	 * @param cl the new continent list
+	 */
 	//Don't use for other purpose.
 	public void setContinentList(List<Continent> cl) {
 		continentList = cl;
@@ -293,16 +474,26 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the continet list.
+	 *
+	 * @return the continet list
+	 */
 	//Don't use for other purpose.
 	public List<Continent> getContinetList() {
 		return continentList;
 	}
 	
-	/** Used for game saving and loading */
-	private GameStat gameStat = null;
+	/**  Used for game saving and loading. */
+	private static GameStat gameStat = null;
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Sets the game stat.
+	 *
+	 * @param game the new game stat
+	 */
 	//Don't use for other purpose.
 	public void setGameStat(GameStat game) {
 		gameStat = game;
@@ -310,11 +501,16 @@ public class GameController implements Serializable{
 	
 	//TODO change to private and use reflect.
 	//It should be only used for game saving.
+	/**
+	 * Gets the game stat.
+	 *
+	 * @return the game stat
+	 */
 	//Don't use for other purpose.
 	public GameStat getGameStat() {
 		return gameStat;
 	}
-	
+
 	/**
 	 * Gets the current phase.
 	 *
@@ -339,10 +535,10 @@ public class GameController implements Serializable{
 	private GameController() {
 		countryOwnership = new HashMap();
 		playerList = new ArrayList<Player>();
-		ui = new UI();
+		finalWinnerList = new String[10][10];
+		mapList = new String[5];
 		customMap = CustomMapGenerator.getInstance();
-		this.currentPhase = Phase.REENFORCEMENT;
-		
+
 	}
 
 	/**
@@ -367,7 +563,8 @@ public class GameController implements Serializable{
 	 * @param args the arguments
 	 * @throws IOException         Signals that an I/O exception has occurred.
 	 * @throws MapInvalidException the map invalid exception
-	 * @throws ClassNotFoundException 
+	 * @throws ClassNotFoundException the class not found exception
+
 	 */
 	/*
 	 * @description :
@@ -375,24 +572,55 @@ public class GameController implements Serializable{
 	 * @author
 	 */
 	public static void main(String[] args) throws IOException, MapInvalidException, ClassNotFoundException {
+		String loadStatFromFile = Config.getProperty("loadcontroller");
+		File f = new File(loadStatFromFile);
+		if(f.exists() && !f.isDirectory()) { 
+			System.out.println("Do you want to load a game?(Y/N)");
+			Scanner in = new Scanner(System.in);
+			String input = in.next().toLowerCase();
+			if(input.equals("y") || input.equals("yes")){
+				gameStat = GameStat.getInstance();
+				//GameController controllerObj = gameStat.load();
+				GameInit initObj = gameStat.load();
+				controller = initObj.gc;
+				controller.loadStat(controller);
+				controller.createWorldDominationView();
+				controller.createCardExchangeView();
+				ui = new UI();
+				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
+				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+				controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
+				controller.takeTurns();
+			}
+		}
+		//start new game
 		GameController controller = GameController.getInstance();
-		controller.loadMap();
-		controller.createWorldDominationView();
-		controller.createCardExchangeView();
-		controller.initGame();
+		System.out.println("Do you want to play in single mode or in tournament mode ? S/T");
+		char mode = scan.next().charAt(0);
+		if (mode == 'S' || mode == 's') {
+			controller.modeSingle();
+		}
+		if (mode == 'T' || mode == 't') {
+			tScan = new Scanner(System.in);
+			tournamentFlag = true;
+			controller.modeTournament();
+		}
+		
+		
+		
 	}
 
 	/**
 	 * Register given observer with all player.
 	 *
-	 * @param ob the ob
+	 * @param ob    the ob
 	 * @param event the event
 	 */
 	public void registerObserver(Observer ob, int event) {
 
 		for (int i = 0; i < numberOfPlayers; i++) {
 			GameController con = GameController.getInstance();
-			System.out.println(con.playerList.size());
+
 			controller.playerList.get(i).attach(ob, event);
 		}
 	}
@@ -412,61 +640,95 @@ public class GameController implements Serializable{
 		}
 
 	}
-	
+
 	/**
 	 * This method is responsible for setting up the strategy for individual Player 
-	 * based on user input
+	 * based on user input.
+
 	 */
 	private void setupStrategy() {
-		System.out.println("1. Aggressive 2. Human 3. Benevolent 4. Cheater 5. Random");
-		for (int i = 0; i < controller.playerList.size(); i++) {
-			Player player = playerList.get(i);
-			currentPlayer = player;
-			System.out.println("Assign a strategy for"+" "+ currentPlayer.getPlayerName()+" "+":");
-			int choice= scan.nextInt();
-			if(choice==1) {
-			player.setStrategyType("Aggressive");
-			player.setStrategy(new AggressiveStrategy(currentPlayer));
-			}else if(choice==2){
-				player.setStrategyType("Human");
-				player.setStrategy(new Human(currentPlayer));
+		Scanner selectStrategy = new Scanner(System.in);
+		if (tournamentFlag == false) {
+			System.out.println("1. Aggressive 2. Human 3. Benevolent 4. Cheater 5. Random");
+			for (int i = 0; i < controller.playerList.size(); i++) {
+				Player player = playerList.get(i);
+				currentPlayer = player;
+				System.out.println("Assign a strategy for" + " " + currentPlayer.getPlayerName() + " " + ":");
+				String choice = selectStrategy.nextLine();
+
+				// Select strategies
+				if (choice.equalsIgnoreCase("Aggressive")) {
+					player.setStrategyType("Aggressive");
+					player.setStrategy(new AggressiveStrategy(currentPlayer));
+				} else if (choice.equalsIgnoreCase("Human")) {
+					player.setStrategyType("Human");
+					player.setStrategy(new Human(currentPlayer));
+				} else if (choice.equalsIgnoreCase("Benevolent")) {
+					player.setStrategyType("Benevolent");
+					player.setStrategy(new BenevolentStrategy(currentPlayer));
+				} else if (choice.equalsIgnoreCase("Cheater")) {
+					player.setStrategyType("Cheater");
+					player.setStrategy(new CheaterStrategy(currentPlayer));
+				} else if (choice.equalsIgnoreCase("Random")) {
+					player.setStrategyType("Random");
+					player.setStrategy(new RandomStrategy(currentPlayer));
+				} else {
+					System.out.println("Invalid input. Select a valid strategy");
+				}
+				// player.setStrategy(new BenevolentStrategy(currentPlayer));
 			}
-			else if(choice==3) {
-				player.setStrategyType("Benevolent");
-				player.setStrategy(new BenevolentStrategy(currentPlayer));
+		} else {
+			System.out.println("Setting up the strategies for players...");
+			for (int i = 0; i < strategyList.length; i++) {
+				Player player = playerList.get(i);
+				currentPlayer = player;
+					if (strategyList[i].equalsIgnoreCase("Aggressive")) {
+						player.setStrategyType("Aggressive");
+						player.setStrategy(new AggressiveStrategy(currentPlayer));
+					} else if (strategyList[i].equalsIgnoreCase("Benevolent")) {
+						player.setStrategyType("Benevolent");
+						player.setStrategy(new BenevolentStrategy(currentPlayer));
+					} else if (strategyList[i].equalsIgnoreCase("Cheater")) {
+						player.setStrategyType("Cheater");
+						player.setStrategy(new CheaterStrategy(currentPlayer));
+					} else if (strategyList[i].equalsIgnoreCase("Random")) {
+						player.setStrategyType("Random");
+						player.setStrategy(new RandomStrategy(currentPlayer));
+					}
+					
+					//System.out.println("player"+i +"    "+player.getStrategyType());
 			}
-			else if(choice==4) {
-				player.setStrategyType("Cheater");
-				player.setStrategy(new CheaterStrategy(currentPlayer));
-			}
-			else if(choice==5) {
-				player.setStrategyType("Random");
-				player.setStrategy(new RandomStrategy(currentPlayer));
-			}
-			else {
-				System.out.println("Invalid input. Select a valid strategy");
-			}
-			//player.setStrategy(new BenevolentStrategy(currentPlayer));
 		}
 	}
-
+		
 	
+
 	/**
-	 * player places their armies on their territories in setup phase
+	 * player places their armies on their territories in setup phase.
 	 */
 
 	private void placeArmiesForSetup() {
 		// each player take turns to place their armies
-		for (int i = 0; i < controller.playerList.size(); i++) {
-			Player player = playerList.get(i);
-			currentPlayer = player;
-			//player.setStrategyType("Benevolent");
-			//player.setStrategy(new AggressiveStrategy(currentPlayer));
-			//player.setStrategy(new BenevolentStrategy(currentPlayer));
-			player.getStrategy().placeArmiesForSetup();
+		if (tournamentFlag == false) {
+			for (int i = 0; i < controller.playerList.size(); i++) {
+				Player player = playerList.get(i);
+				currentPlayer = player;
+				// player.setStrategy(new AggressiveStrategy(currentPlayer));
+				// player.setStrategy(new BenevolentStrategy(currentPlayer));
+				player.getStrategy().placeArmiesForSetup();
+			}
+		} else {
+			int nOPForTournament = strategyList.length;
+			for (int i = 0; i < nOPForTournament; i++) {
+				Player player = playerList.get(i);
+				currentPlayer = player;
+				// player.setStrategyType("Benevolent");
+				// player.setStrategy(new AggressiveStrategy(currentPlayer));
+				// player.setStrategy(new BenevolentStrategy(currentPlayer));
+				player.getStrategy().placeArmiesForSetup();
+			}
 		}
 	}
-
 
 	/**
 	 * create and register a WorldDomination interface as observer to player.
@@ -474,11 +736,11 @@ public class GameController implements Serializable{
 	public void createWorldDominationView() {
 		wdView = WorldDominationView.getInstance();
 	}
-	
+
 	/**
-	 * create and register a CardExchange interface as observer to player
+	 * create and register a CardExchange interface as observer to player.
 	 */
-	
+
 	public void createCardExchangeView() {
 		cardView = new CardExchangeView();
 	}
@@ -549,10 +811,11 @@ public class GameController implements Serializable{
 	/**
 	 * Load map.
 	 *
-	 * @return true, if successful
-	 * @throws MapInvalidException 
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
+	 *
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws MapInvalidException the map invalid exception
+
 	 */
 	/*
 	 * @description :
@@ -590,9 +853,9 @@ public class GameController implements Serializable{
 			}
 		} else if (selectedOption == 4) {
 			//try {
-				isSavedGame = true;
-				gameStat = GameStat.getInstance();
-				gameStat.load();
+				
+
+
 //			} catch (ClassNotFoundException e) {
 //				
 //				System.out.println("Problem while loading game");
@@ -621,6 +884,75 @@ public class GameController implements Serializable{
 	}
 
 
+/**
+ * Load stat.
+ *
+ * @param controllerObj the controller obj
+ */
+	private void loadStat(GameController controllerObj) {
+		this.setSavedGame(true);
+		this.setController(controllerObj);
+		this.setCustomMapCenerator(controllerObj.getCustomMapGenerator());
+		this.setPlayerList(controllerObj.getPlayerList());
+		this.setCurrentPlayer(controllerObj.getCurrentPlayer());
+		//if saved phase is at the end of fortification, next player gets to play
+		if(controllerObj.getCurrentPhase() == Phase.FORTIFICATION) {
+			List<Player> playerList = this.getPlayerList();
+			int nextPlayer = (playerList.indexOf(this.getCurrentPlayer()) + 1) % playerList.size();
+			this.setCurrentPlayer(playerList.get(nextPlayer));
+		}
+		this.setCurrentPhase(Phase.getPhase(controllerObj.getCurrentPhase().getValue() + 1));
+		
+		this.setPhaseView(controllerObj.getPhaseView());
+		this.setCountryList(controllerObj.getCountryList());
+		this.setNumberOfPlayers(controllerObj.getNumberOfPlayers());
+		this.setContinentListByName(controllerObj.getContinentListByName());
+		this.setCountryOwnership(controllerObj.getCountryOwnership());
+		this.setReadyForNextPhase(controllerObj.getReadyForNextPhase());
+		this.setWinner(controllerObj.getWinner());
+		this.setContinentList(controllerObj.getContinetList());
+		this.setGameStat(controllerObj.getGameStat());
+		
+
+		CustomMapGenerator customMapObj = controllerObj.getCustomMapGenerator();
+		customMap = customMapObj;
+		customMap.setCustomMap(customMapObj.getCustomMap());
+		customMap.setContinents(customMapObj.getContinents());
+		customMap.setCountries(customMapObj.getCountries());
+		customMap.setRemoveContinents(customMapObj.getRemoveContinents());
+		customMap.setRemoveCountries(customMapObj.getRemoveCountries());
+		customMap.setRemoveAdjacentCountries(customMapObj.getRemoveAdjacentCountries());
+		customMap.setAdjMap(customMapObj.getAdjMap());
+		customMap.setCountryDefault(customMapObj.getCountryDefault());
+		customMap.setContinentmap(customMapObj.getContinentmap());
+		customMap.setCountryMap(customMapObj.getCountryMap());
+		customMap.setAdjCountryMap(customMapObj.getAdjCountryMap());
+		customMap.setEditMap(customMapObj.getEditMap());
+		customMap.setMapController(customMapObj.getMapController());
+		controller = this;
+		controller = GameController.getInstance();
+		
+		for(Player player : playerList) {
+			if(player.getStrategy() instanceof Human) {
+				player.setStrategy(new Human(player));
+			} else if (player.getStrategy() instanceof AggressiveStrategy) {
+				player.setStrategy(new AggressiveStrategy(player));
+			} else if (player.getStrategy() instanceof BenevolentStrategy) {
+				player.setStrategy(new BenevolentStrategy(player));
+			} else if(player.getStrategy() instanceof CheaterStrategy) {
+				player.setStrategy(new CheaterStrategy(player));
+			} else if(player.getStrategy() instanceof RandomStrategy) {
+				player.setStrategy(new RandomStrategy(player));
+			}
+		}
+		
+		this.setWorldDominationView(controllerObj.getWorldDominationView());
+		this.setCardExchangeView(controllerObj.getCardExchangeView());
+		this.setUI(controllerObj.getUI());
+
+
+	}
+
 //	/**
 //	 * Sets the phase.
 //	 *
@@ -633,7 +965,6 @@ public class GameController implements Serializable{
 //	public void setPhase(TurnPhase turnPhase) {
 //		currentPhase = turnPhase;
 //	}
-
 
 //	/**
 // * Take turns.
@@ -662,9 +993,16 @@ public class GameController implements Serializable{
 //		}*/
 //	}
 	
-	public void takeTurns() throws MapInvalidException, IOException {
+	/**
+ * Take turns.
+ *
+ * @throws MapInvalidException the map invalid exception
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+public void takeTurns() throws MapInvalidException, IOException {
+
 		int i = 0;
-		if(isSavedGame) {
+		if (isSavedGame) {
 			i = playerList.indexOf(this.currentPlayer);
 		}
 		while (winner == null) {
@@ -673,21 +1011,24 @@ public class GameController implements Serializable{
 			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
 			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
 			System.out.println("Countries occupied by Player: " + currentPlayer.getPlayerCountries().size());
-			// if player does not have any country,all of its  phases are skipped.
-			if(currentPlayer.getPlayerCountries().size()>0) {
+			// if player does not have any country,all of its phases are skipped.
+			if (currentPlayer.getPlayerCountries().size() > 0) {
 				takePhases();
 			}
 			i++;
-			
+
 		}
 	}
 	
+	/**
+	 * Exchange cards.
+	 */
 	private void exchangeCards() {
 		cardView.getCardProgress();
 		if (currentPlayer.getCardsAcquired().size() >= 3 && getCurrentPlayer().getStrategyType().equals("Human")) {
 			System.out.println("Do you want to exchange your cards for army reinforcement ? Y/N");
 			char exchangeChoice = scan.next().charAt(0);
-			if (exchangeChoice == 'Y' || exchangeChoice == 'y' ) {
+			if (exchangeChoice == 'Y' || exchangeChoice == 'y') {
 				currentPlayer.exchangeCards();
 				currentPlayer.notifyChanges(EventType.CARDS_EXCHANGE_NOTIFY);
 			}
@@ -698,54 +1039,84 @@ public class GameController implements Serializable{
 					currentPlayer.notifyChanges(EventType.CARDS_EXCHANGE_NOTIFY);
 				}
 			}
-		}else if(currentPlayer.getCardsAcquired().size() >= 5) {
+		} else if (currentPlayer.getCardsAcquired().size() >= 5) {
 			currentPlayer.exchangeCards();
 		}
 	}
 	
+	/**
+	 * Take phases.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void takePhases() throws IOException {
-		
-		switch(this.getCurrentPhase().getValue()) {
+		Phase curPhase = Phase.REENFORCEMENT;
+		if(isSavedGame) {//this is a saved game, not a new game
+			curPhase = this.getCurrentPhase();
+			this.isSavedGame = false;
+		}
+		switch(curPhase.getValue()) {
+
 		case 0:
+
 			exchangeCards();
 			reEnforce();
 		case 1:
-			boolean	isAnyCountryInvaded =false;
+			boolean isAnyCountryInvaded = false;
 			while (true) {
-				
+
 				try {
+					this.setCurrentPhase(Phase.ATTACK);
 					// ask user if wants to make an attack and check if user is able to attack (at
 					// least 2 armies in one country)
 					if (isWar() && canAttack()) {
+
 						attack();
 					}
-					isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
-					if (isAnyCountryInvaded == true) {
-						currentPlayer.addCards();
+					if(currentPlayer.getStrategyType().toLowerCase().equals("human")) {
+						Scanner userOpinion = new Scanner(System.in);
+						System.out.println("Do you want to save progress?");
+						if(userOpinion.next().toLowerCase().equals("y") ||
+								userOpinion.nextLine().toLowerCase().equals("yes")) {
+							
+							GameStat progress = GameStat.getInstance();
+							progress.save();
+							System.out.println("saved....");
+						
+						}
+						
+						else {
+							System.out.println("Alright....Proceed....");
+						}
 					}
 					
+					isAnyCountryInvaded = currentPlayer.isAnyCountryInvaded();
+					if (isAnyCountryInvaded == true && winner==null) {
+						currentPlayer.addCards();
+					}
+
 					break;
 				} catch (IllegalArgumentException e) {
 					ui.handleExceptions(e.getMessage());
 				}
 			}
 		case 2:
-			while(true) {
+			while (true) {
 				try {
-					if(canFortify()) {
+					this.setCurrentPhase(Phase.FORTIFICATION);
+					if (canFortify() && winner==null) {
+
 						fortify();
-					}else {
+					} else {
 						ui.showDialog("The player is not qualified for fortification");
 					}
 					break;
-				}catch(IllegalArgumentException e) {
+				} catch (IllegalArgumentException e) {
 					ui.handleExceptions(e.getMessage());
 				}
 			}
 			break;
 		}
-		//
-		setCurrentPhase(Phase.REENFORCEMENT);
 	}
 //	/**
 //	 * Take phases.
@@ -784,20 +1155,24 @@ public class GameController implements Serializable{
 //	}
 
 	/**
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 * 
-	 */
+ * Fortify.
+ *
+ * @throws IllegalArgumentException the illegal argument exception
+ * @throws IOException Signals that an I/O exception has occurred.
+ */
+
 	private void fortify() throws IllegalArgumentException, IOException {
 		currentPlayer.fortify();
 		currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
-		
+
 	}
 
 	/**
-	 * @throws IOException 
-	 * @throws IllegalArgumentException 
-	 * 
+	 * Attack.
+	 *
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+
 	 */
 	private void attack() throws IllegalArgumentException, IOException {
 		do {
@@ -807,16 +1182,22 @@ public class GameController implements Serializable{
 				winner = currentPlayer;
 				ui.showDialog(currentPlayer.getPlayerName() + " HAS CONQUER THE WORLD!!");
 				ui.showDialog("THE END!!!");
-				System.exit(0);
+				if (!tournamentFlag) {
+					System.exit(0);
+				}else {
+					break;
+				}
 			}
 			currentPlayer.notifyChanges(EventType.PHASE_NOTIFY);
 		} while (canAttack() && keepWar());
-		
+
 	}
 
 	/**
-	 * @throws IOException 
-	 * 
+	 * Re enforce.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+
 	 */
 	private void reEnforce() throws IOException {
 		setCurrentPhase(Phase.REENFORCEMENT);
@@ -826,18 +1207,21 @@ public class GameController implements Serializable{
 	}
 
 	/**
-	 * checks if player can fortify by having at least 1 country with 2 or mor armies and at least 2 adj countries
+	 * checks if player can fortify by having at least 1 country with 2 or mor armies and at least 2 adj countries.
+	 *
+
 	 * @return true if player can fortify
 	 */
 	private boolean canFortify() {
-		//check if there's at least 1 pair of countries adj to each other and one of them has 2 or more armies 
+		// check if there's at least 1 pair of countries adj to each other and one of
+		// them has 2 or more armies
 		List<Country> countries = currentPlayer.getPlayerCountries();
-		for(int i = 0; i < countries.size()-1; i++) {
+		for (int i = 0; i < countries.size() - 1; i++) {
 			Country con = countries.get(i);
 			List<String> adjConNames = con.getAdjacentCountries();
-			for(int j = i+1; j < countries.size(); j++) {
-				if(adjConNames.contains(countries.get(j).getName())) {
-					if(con.getNumArmies() >= 2 || countries.get(j).getNumArmies() >= 2) {
+			for (int j = i + 1; j < countries.size(); j++) {
+				if (adjConNames.contains(countries.get(j).getName())) {
+					if (con.getNumArmies() >= 2 || countries.get(j).getNumArmies() >= 2) {
 						return true;
 					}
 				}
@@ -847,21 +1231,23 @@ public class GameController implements Serializable{
 	}
 
 	/**
-	 * checks if player can attack by having at least 2 armies in one of player's countries and such country is adjacent to another player's countries.
+	 * checks if player can attack by having at least 2 armies in one of player's
+	 * countries and such country is adjacent to another player's countries.
 	 *
 	 * @return true, player can attack
 	 */
 	private boolean canAttack() {
 		List<Country> curPlayerCountries = currentPlayer.getPlayerCountries();
 
-		for(Country country : curPlayerCountries) {
-			if(country.getNumArmies() >= 2) {
-				//check if this country is adjacent to at least a country occupied by another player
+		for (Country country : curPlayerCountries) {
+			if (country.getNumArmies() >= 2) {
+				// check if this country is adjacent to at least a country occupied by another
+				// player
 				List<String> adjCountries = country.getAdjacentCountries();
-				for(String countryName : adjCountries) {
+				for (String countryName : adjCountries) {
 //					Country con = this.getCountryByCountryName(countryName);
 					Country con = customMap.getCountry(countryName);
-					if(!con.getOwner().getPlayerName().equals(currentPlayer.getPlayerName())){
+					if (!con.getOwner().getPlayerName().equals(currentPlayer.getPlayerName())) {
 						return true;
 					}
 				}
@@ -879,15 +1265,25 @@ public class GameController implements Serializable{
 	 */
 	private boolean keepWar() {
 		boolean keepWar = false;
-		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")) {
-			if(getCurrentPlayer().isHasEnemy()) {
-				keepWar =true;
+		if (getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")) {
+			if (getCurrentPlayer().isHasEnemy()) {
+				keepWar = true;
 			}
-		}else {
+		} else if (getCurrentPlayer().getStrategyType().equalsIgnoreCase("Cheater")) {
+			keepWar = false;
+		} else if (getCurrentPlayer().getStrategyType().equalsIgnoreCase("Random")) {
+			Random r = new Random();
+			int temp = r.nextInt((50 - 0) + 1) + 0;
+			if (temp != 0) {
+				keepWar = true;
+			} else {
+				keepWar = false;
+			}
+		} else {
 			keepWar = UI.keepWar();
 		}
 		return keepWar;
-	} 
+	}
 
 	/**
 	 * Request GUI to ask if user wants to go to war.
@@ -896,12 +1292,15 @@ public class GameController implements Serializable{
 	 */
 	private boolean isWar() {
 		boolean isWar = false;
-		if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")) {
-			isWar =true;
-		}else if(getCurrentPlayer().getStrategyType().equalsIgnoreCase("Benevolent")){
-			isWar=false;
-		}
-		else{
+		if (getCurrentPlayer().getStrategyType().equalsIgnoreCase("Aggressive")
+				|| getCurrentPlayer().getStrategyType().equalsIgnoreCase("Random")
+				|| getCurrentPlayer().getStrategyType().equalsIgnoreCase("Cheater")
+
+		) {
+			isWar = true;
+		} else if (getCurrentPlayer().getStrategyType().equalsIgnoreCase("Benevolent")) {
+			isWar = false;
+		} else {
 			isWar = UI.isWar();
 		}
 		return isWar;
@@ -928,59 +1327,101 @@ public class GameController implements Serializable{
 	}
 
 	/**
+	 * Inits the game.
+	 *
 	 * @throws MapInvalidException Inits the game. @throws
-	 * @throws IOException 
+	 * @throws IOException Signals that an I/O exception has occurred.
+
 	 */
 	public void initGame() throws MapInvalidException, IOException {
 
-		//Getting Player Info
-				
-				System.out.println("Please enter the number of players between 2 and 6: ");
-				Scanner inputNumPlayers = new Scanner(System.in);	
-				int numberOfPlayers = inputNumPlayers.nextInt();
-				//if user inputs number of players less than 2 or greater than 6 then exit the game
-				if (!(numberOfPlayers >= 2 && numberOfPlayers <= 6)) {
-					System.exit(0);
-				}
-				int initialArmies = 0;
-				switch(numberOfPlayers) {
-					case 2:
-						initialArmies = 40;
-					break;
-					case 3:
-						initialArmies = 35;
-					break;
-					case 4:
-						initialArmies = 30;
-					break;
-					case 5:
-						initialArmies = 25;
-					break;
-					case 6:
-						initialArmies = 20;
-					break;	
-				}
-				for(int i = 1; i <=numberOfPlayers ; i++) {
-					String playerName = "Player " + i;
-					Player player = new Player(playerName, true, initialArmies);
-					controller.addPlayer(player);
-				}
-				
-				controller.registerObserver(ui, EventType.PHASE_NOTIFY);
-				controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
-				controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
-				
+		// Getting Player Info
+
+		if (tournamentFlag == false) {
+			System.out.println("Please enter the number of players between 2 and 6: ");
+			Scanner inputNumPlayers = new Scanner(System.in);
+			int numberOfPlayers = inputNumPlayers.nextInt();
+			// if user inputs number of players less than 2 or greater than 6 then exit the
+			// game
+			if (!(numberOfPlayers >= 2 && numberOfPlayers <= 6)) {
+				System.exit(0);
+			}
+			int initialArmies = 0;
+			switch (numberOfPlayers) {
+			case 2:
+				initialArmies = 40;
+				break;
+			case 3:
+				initialArmies = 35;
+				break;
+			case 4:
+				initialArmies = 30;
+				break;
+			case 5:
+				initialArmies = 25;
+				break;
+			case 6:
+				initialArmies = 20;
+				break;
+			}
+			for (int i = 1; i <= numberOfPlayers; i++) {
+				String playerName = "Player " + i;
+				Player player = new Player(playerName, true, initialArmies);
+				controller.addPlayer(player);
+			}
+
+			controller.registerObserver(ui, EventType.PHASE_NOTIFY);
+			controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+			controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
+
 //				controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-				
-				
-				System.out.println("evenly distributing countries among players in random fashion...");
-				controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
-				System.out.println("-------- Setup --------");
-				setupStrategy();
-				controller.placeInitialArmies();
-				controller.placeArmiesForSetup();
-				
-				controller.takeTurns();
+
+			System.out.println("evenly distributing countries among players in random fashion...");
+			controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
+			System.out.println("-------- Setup --------");
+			setupStrategy();
+			controller.placeInitialArmies();
+			controller.placeArmiesForSetup();
+
+			controller.takeTurns();
+		} else {
+			int numberOfPlayersForTournament = strategyList.length;
+			System.out.println("Number of Players: " + numberOfPlayersForTournament);
+			int initialArmies = 0;
+			switch (numberOfPlayersForTournament) {
+			case 2:
+				initialArmies = 40;
+				break;
+			case 3:
+				initialArmies = 35;
+				break;
+			case 4:
+				initialArmies = 30;
+				break;
+			}
+			numberOfPlayers = 0;
+			playerList.removeAll(playerList);
+			for (int i = 1; i <= numberOfPlayersForTournament; i++) {
+				String playerName = "Player " + i;
+				Player player = new Player(playerName, true, initialArmies);
+				controller.addPlayer(player);
+			}
+
+			controller.registerObserver(ui, EventType.PHASE_NOTIFY);
+			controller.registerObserver(wdView, EventType.FORTIFICATION_NOTIFY);
+			controller.registerObserver(cardView, EventType.CARDS_EXCHANGE_NOTIFY);
+//					controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
+
+			System.out.println("evenly distributing countries among players in random fashion...");
+			controller.randomizeCountryDistribution(countryList, controller.getPlayerList());
+			System.out.println("-------- Setup --------");
+			controller.setupStrategy();
+			controller.placeInitialArmies();
+			controller.placeArmiesForSetup();
+			// for(int k=0; k < turnCount; k++) {
+			controller.takeTurnsForTournament();
+			// }
+		}
 	}
 
 	/**
@@ -1012,14 +1453,13 @@ public class GameController implements Serializable{
 	/**
 	 * Asks GUI to ask user to input number of armies to be distributed to each
 	 * occupied countries.
-	 * @param newArmies 
 	 *
+	 * @param newArmies the new armies
 	 * @return the map
 	 */
 	public Map<Country, Integer> distributeArmies(int newArmies) {
 		return ui.distributeArmies(currentPlayer.getPlayerCountries(), newArmies);
 	}
-
 
 	/**
 	 * Gets the params for fortification.
@@ -1075,7 +1515,6 @@ public class GameController implements Serializable{
 		return customMap.getCountry(name).getOwner();
 	}
 
-
 	/**
 	 * Calls GUI selectAttackingCountry() method and return the selected country
 	 * name This method gets called inside attack phase only when there are two or
@@ -1125,14 +1564,220 @@ public class GameController implements Serializable{
 		return ui.isAllOutMode();
 	}
 
-
 	/**
-	 * @param continent
-	 * @return
+	 * Gets the continent by name.
+	 *
+	 * @param continent the continent
+	 * @return the continent by name
 	 */
 	public Continent getContinentByName(String continent) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * This method is necessary to make sure the saved and loaded controller are the same instance.
+	 *
+	 * @return the only instance of GameControl
+	 */
+	public Object readResolved() {
+		return controller;
+	}
+
+	/**
+	 * Checks if is saved game.
+	 *
+	 * @return the isSavedGame
+	 */
+	public boolean isSavedGame() {
+		return isSavedGame;
+	}
+
+	/**
+	 * Sets the saved game.
+	 *
+	 * @param isSavedGame the isSavedGame to set
+	 */
+	public void setSavedGame(boolean isSavedGame) {
+		this.isSavedGame = isSavedGame;
+	}
+
+	/**
+	 * @throws ClassNotFoundException invalid class called
+	 * @throws IOException            invalid input
+	 * @throws MapInvalidException    invalid map input
+	 */
+	public void modeSingle() throws ClassNotFoundException, IOException, MapInvalidException {
+		controller.loadMap();
+		controller.createWorldDominationView();
+		controller.createCardExchangeView();
+		ui = new UI();
+		controller.initGame();
+	}
+
+	/**
+	 * @return list of winners of tournament mode
+	 * @throws ClassNotFoundException invalid class called
+	 * @throws IOException            invalid input
+	 * @throws MapInvalidException    invalid map input
+	 */
+	public String[][] modeTournament() throws ClassNotFoundException, IOException, MapInvalidException {
+		// GameController controller = GameController.getInstance();
+		if (!isTest) {
+			System.out.println("Provide 1-5 maps you wish to play on:");
+			System.out.println("*********MAP MENU*********");
+			System.out.println("1. XSmallMap 2. SmallMap 3. MediumMap 4. LargeMap 5. XLargeMap");
+			mapInput = tScan.nextLine();
+			System.out.println("Provide 2-4 player's strategies :");
+			System.out.println("*********STRATEGY MENU************");
+			System.out.println("1. Aggressive 2. Benevolent 3. Cheater 4. Random");
+			strategyInput = tScan.nextLine();
+			System.out.println("Provide number of games on each map you want to play on. Range from 1-5 games: ");
+			gameCount = tScan.nextInt();
+			if(gameCount<1 || gameCount>5 ) {
+				System.out.println("ERROR!! Provide number of games ranging from 1-5 !");
+			}
+			System.out.println("Provide number of turns in each game you want to play for. Range from 10-50 turns: ");
+			turnCount = tScan.nextInt();
+			if(turnCount<10 || turnCount>50) {
+				System.out.println("ERROR!! Provide number of turns ranging from 10-50 !");
+			}
+		}
+		if (mapInput.contains(",")) {
+			mapList = mapInput.split(",");
+		}
+		else {
+			mapList= mapInput.split(" ");
+		}
+		if(mapList.length<1 || mapList.length>5) {
+			System.out.println("ERROR!! Select maps between 1 to 5 only");
+		}
+		for (int i = 0; i < mapList.length; i++) {
+			try {
+				// controller.loadMapForTournament(mapList[i]);
+				for (int j = 0; j < gameCount; j++) {
+					System.out.println("Map Loaded for the game:" + (j+1) + " is " + mapList[i]);
+					controller.loadMapForTournament(mapList[i]);
+					strategyList = new String[5];
+					if (strategyInput.contains(",")) {
+						strategyList = strategyInput.split(",");
+					}
+					controller.createWorldDominationView();
+					controller.createCardExchangeView();
+					controller.initGame();
+					System.out.println("Game" + " " + (j + 1) + " " + "has ended. Going for next game...");
+					if (winner != null) {
+						finalWinnerList[i][j] = controller.getWinner().getStrategyType();
+						winner=null;
+						controller = GameController.getInstance();
+					} else {
+						finalWinnerList[i][j] = "DRAW";
+						controller = GameController.getInstance();
+					}
+				}
+				System.out.println("All games of Map" + " " + (i + 1) + " " + "are completed. Going for next map...");
+			} catch (IOException | MapInvalidException e) {
+				ui.handleExceptions(e.getMessage());
+				System.exit(1);
+			}
+		}
+		System.out.println("**************TOURNAMENT GAME RESULTS**************");
+		for (int i = 0; i < mapList.length; i++) {
+			System.out.println("FOR MAP" + " " + (i + 1) + " " + ":");
+			for (int j = 0; j < gameCount; j++) {
+				System.out.println("Winner of Game" + " " + (j + 1) + " " + "is :" + finalWinnerList[i][j]);
+			}
+			System.out.println("******************************************");
+		}
+		return finalWinnerList;
+	}
+
+	public static boolean isTest() {
+		return isTest;
+	}
+
+	public static void setTest(boolean isTest) {
+		GameController.isTest = isTest;
+	}
+
+	public static String getMapInput() {
+		return mapInput;
+	}
+
+	public static void setMapInput(String mapInput) {
+		GameController.mapInput = mapInput;
+	}
+
+	public static String getStrategyInput() {
+		return strategyInput;
+	}
+
+	public static void setStrategyInput(String strategyInput) {
+		GameController.strategyInput = strategyInput;
+	}
+
+	public static boolean isTournamentFlag() {
+		return tournamentFlag;
+	}
+
+	public static int getGameCount() {
+		return gameCount;
+	}
+
+	public static void setGameCount(int gameCount) {
+		GameController.gameCount = gameCount;
+	}
+
+	public static void setTournamentFlag(boolean tournamentFlag) {
+		GameController.tournamentFlag = tournamentFlag;
+	}
+
+	public static int getTurnCount() {
+		return turnCount;
+	}
+
+	public static void setTurnCount(int turnCount) {
+		GameController.turnCount = turnCount;
+	}
+
+	/**
+	 * @param mapName name of Map passed for Map Load
+	 * @throws IOException         invalid input
+	 * @throws MapInvalidException invalid map input
+	 */
+	public void loadMapForTournament(String mapName) throws IOException, MapInvalidException {
+		customMap.reset();
+		customMap = CustomMapGenerator.getInstance();
+		customMap.LoadMap(mapName);
+		countryList.removeAll(countryList);
+		countryList.addAll(customMap.countryDefault);
+	}
+
+	/**
+	 * @throws IOException         invalid input
+	 * @throws MapInvalidException invalid Map Input
+	 */
+	public void takeTurnsForTournament() throws IOException, MapInvalidException {
+		int i = 0;
+		int counter = 0;
+		while (counter < turnCount) {
+			if(winner!=null) {
+				break;
+			}
+			counter++;
+			i = i % playerList.size();
+			currentPlayer = playerList.get(i);
+			System.out.println("==============" + currentPlayer.getPlayerName() + "'S TURN==================");
+			System.out.println("Turn Number" + counter);
+			System.out.println("Initial Number of Armies: " + currentPlayer.getArmies());
+			System.out.println("Countries occupied by Player: " + currentPlayer.getPlayerCountries().size());
+			// if player does not have any country,all of its phases are skipped.
+			if (currentPlayer.getPlayerCountries().size() > 0) {
+				takePhases();
+			}
+			i++;
+		}
+
 	}
 
 }

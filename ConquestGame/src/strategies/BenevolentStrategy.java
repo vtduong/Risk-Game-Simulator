@@ -12,16 +12,27 @@ import beans.EventType;
 import beans.Player;
 import gui.PhaseView;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BenevolentStrategy.
+ */
 public class BenevolentStrategy extends Strategy implements Serializable {
+	
+	/** The weakest country. */
 	private Country weakestCountry = null;
-	private Player player = null;
 
+	/**
+	 * Instantiates a new benevolent strategy.
+	 *
+	 * @param player the player
+	 */
 	public BenevolentStrategy(Player player) {
 		super(player);
-		this.player =player;
-		// TODO Auto-generated constructor stub
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#reEnforce()
+	 */
 	@Override
 	public void reEnforce() {
 		int newArmies = obtainNewArmies();
@@ -30,18 +41,24 @@ public class BenevolentStrategy extends Strategy implements Serializable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#attack()
+	 */
 	@Override
 	public void attack() {
 		// Benevolent Strategy does not require this phase.
 
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#fortify()
+	 */
 	@Override
 	public void fortify() {
 		
 		PhaseView phaseView = new PhaseView();
 		controller.registerObserver(phaseView, EventType.PHASE_VIEW_NOTIFY);
-		player.notifyChanges(EventType.PHASE_VIEW_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_VIEW_NOTIFY);
 		Country fromCountry = null, toCountry = null;
 		toCountry = compareCountries("weakest", null);
 		String toName = toCountry.getName(), fromName = null;
@@ -50,14 +67,14 @@ public class BenevolentStrategy extends Strategy implements Serializable {
         ArrayList<Country> validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
         HashMap<String,Integer> adjSize = new HashMap<String,Integer> ();
         ArrayList<Country> toRemove =new ArrayList<Country>();
-        while(validCountriestoMove.size()==0 && player.getPlayerCountries().size()>1) {
+        while(validCountriestoMove.size()==0 && this.getPlayer().getPlayerCountries().size()>1) {
         	toRemove.add(toCountry);
         	toCountry = compareCountries("weakest", toRemove);
         	validCountriestoMove = (ArrayList<Country>) validCountryMove(toCountry);
         	if(!adjSize.containsKey(toCountry.getName())) {
         		adjSize.put(toCountry.getName(),validCountriestoMove.size());
         	}
-        	if(adjSize.size()==player.getPlayerCountries().size()) {
+        	if(adjSize.size()==this.getPlayer().getPlayerCountries().size()) {
         		break;
         	}
         
@@ -86,19 +103,22 @@ public class BenevolentStrategy extends Strategy implements Serializable {
 			}else {
 				System.out.println("You can not move armies.");
 			}
-			player.notifyChanges(EventType.FORTIFICATION_NOTIFY);
+			this.getPlayer().notifyChanges(EventType.FORTIFICATION_NOTIFY);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see strategies.Strategy#placeArmiesForSetup()
+	 */
 	@Override
 	public void placeArmiesForSetup() {
-		player.notifyChanges(EventType.PHASE_NOTIFY);
+		this.getPlayer().notifyChanges(EventType.PHASE_NOTIFY);
 		// randomly assign armies to countries.
 	
 		Map<Country,Integer> armyCountryMap =new HashMap<Country,Integer>();
 		Random r = new Random();
-		int maxArmies =player.getArmies();
-		for(Country rec:player.getPlayerCountries()) {
+		int maxArmies =this.getPlayer().getArmies();
+		for(Country rec:this.getPlayer().getPlayerCountries()) {
 			int temp =r.nextInt((maxArmies - 0) + 1) + 0;
 			armyCountryMap.put(rec, temp);
 			maxArmies =maxArmies- temp;

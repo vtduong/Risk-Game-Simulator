@@ -41,6 +41,11 @@ public class Player implements Observable, Serializable{
 	/** The card to remove. */
 	 List<String> cardToRemove;
 	
+	/**
+	 * Sets the card to remove.
+	 *
+	 * @param name the new card to remove
+	 */
 	public void setCardToRemove(String name) {
 		cardToRemove.add(name);
 		//System.out.println("Inside the setCarToRemove" + name);
@@ -81,7 +86,7 @@ public class Player implements Observable, Serializable{
 	/** The observer list. */
 	private List<Observer> obList = null;
 	
-	/** The num armies dispatched (number of armies that has been deployed to countries*/
+	/**  The num armies dispatched (number of armies that has been deployed to countries. */
 	private int numArmiesDispatched = 0;
 	
 	/** The controller. */
@@ -93,14 +98,20 @@ public class Player implements Observable, Serializable{
 	/** The card view. */
 	private static CardExchangeView cardView= new CardExchangeView();
 	
+	/** The strategy. */
 	private Strategy strategy= null;
+	
+	/** The strategy type. */
 	private String strategyType =null;
+	
+	/** The has enemy. */
 	private boolean hasEnemy;
 	
 	
 	
 	/**
-	 * returns player's strategy
+	 * returns player's strategy.
+	 *
 	 * @return the strategy
 	 */
 	public Strategy getStrategy() {
@@ -109,7 +120,8 @@ public class Player implements Observable, Serializable{
 
 
 	/**
-	 * Sets player's strategy
+	 * Sets player's strategy.
+	 *
 	 * @param strategy the strategy to set
 	 */
 	public void setStrategy(Strategy strategy) {
@@ -452,7 +464,7 @@ public class Player implements Observable, Serializable{
 	 * Attack phase.
 	 *
 	 * @throws IllegalArgumentException the illegal argument exception
-	 * @throws IOException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void attack() throws IllegalArgumentException, IOException{
 		this.strategy.attack();
@@ -460,26 +472,15 @@ public class Player implements Observable, Serializable{
 		if(this.getStrategyType().toLowerCase().equals("human")) {
 			System.out.println(controller.getCurrentPhase() + " Complete.");
 			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
-			Scanner userOpinion = new Scanner(System.in);
-			System.out.println("Do you want to save progress?");
-			if(userOpinion.nextLine().toLowerCase().equals("y") ||
-					userOpinion.nextLine().toLowerCase().equals("yes")) {
-				
-				GameStat progress = GameStat.getInstance();
-				progress.save();
-				System.out.println("saved....");
 			
-			}
-			
-			else {
-				System.out.println("Alright....Proceed....");
-			}
 		}
 	}
 
 	
 
 	/**
+	 * Checks if is any country invaded.
+	 *
 	 * @return flag to check if any country invaded or not
 	 */
 	public boolean isAnyCountryInvaded() {
@@ -487,7 +488,7 @@ public class Player implements Observable, Serializable{
 	}
 	
 	/**
-	 * Sets  isCountryInvaded
+	 * Sets  isCountryInvaded.
 	 *
 	 * @param bool the new checks if is country invaded
 	 */
@@ -560,12 +561,17 @@ public class Player implements Observable, Serializable{
 	}
 	
 	/**
-	 * @return list of cards to remove 
+	 * Gets the cards to remove.
+	 *
+	 * @return list of cards to remove
 	 */
 	public List<String> getCardsToRemove() {
 		return cardToRemove;
 	}
 	
+	/**
+	 * Sets the cards to remove.
+	 */
 	public void setCardsToRemove(){
 		
 		System.out.println("You have the following cards :"+ getCardsAcquired());
@@ -584,6 +590,11 @@ public class Player implements Observable, Serializable{
 		}
 	}
 	
+	/**
+	 * Gets the cards to exchange.
+	 *
+	 * @return the cards to exchange
+	 */
 	private List<String> getCardsToExchange() {
 		List<String> toReturn = null;
 		HashMap<String,Integer> cardsPairsCount = new HashMap<String,Integer>();
@@ -614,7 +625,8 @@ public class Player implements Observable, Serializable{
 	 * ReEnforcement phase
 	 * This methods calls 2 other private methods to 1) obtain new armies and 2)
 	 * distribute armies among occupied countries.
-	 * @throws IOException 
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void reEnforce() throws IOException {
 		this.strategy.reEnforce();
@@ -624,7 +636,7 @@ public class Player implements Observable, Serializable{
 			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
 			Scanner userOpinion = new Scanner(System.in);
 			System.out.println("Do you want to save progress?");
-			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+			if(userOpinion.next().toLowerCase().equals("y") ||
 					userOpinion.nextLine().toLowerCase().equals("yes")) {
 				
 				GameStat progress = GameStat.getInstance();
@@ -644,7 +656,7 @@ public class Player implements Observable, Serializable{
 	 * Fortify player's countries in fortification phase.
 	 *
 	 * @throws IllegalArgumentException if 2 countries given are not adjacent or if one of the countries is not owned by player
-	 * @throws IOException 
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void fortify() throws IllegalArgumentException, IOException {
 		
@@ -656,7 +668,7 @@ public class Player implements Observable, Serializable{
 			System.out.println("Current player: " + controller.getCurrentPlayer().getPlayerName());
 			Scanner userOpinion = new Scanner(System.in);
 			System.out.println("Do you want to save progress?");
-			if(userOpinion.nextLine().toLowerCase().equals("y") ||
+			if(userOpinion.next().toLowerCase().equals("y") ||
 					userOpinion.nextLine().toLowerCase().equals("yes")) {
 				
 				GameStat progress = GameStat.getInstance();
@@ -673,21 +685,41 @@ public class Player implements Observable, Serializable{
 	}
 
 
+	/**
+	 * Gets the strategy type.
+	 *
+	 * @return the strategy type
+	 */
 	public String getStrategyType() {
 		return strategyType;
 	}
 
 
+	/**
+	 * Sets the strategy type.
+	 *
+	 * @param strategyType the new strategy type
+	 */
 	public void setStrategyType(String strategyType) {
 		this.strategyType = strategyType;
 	}
 
 
+	/**
+	 * Checks if is checks for enemy.
+	 *
+	 * @return true, if is checks for enemy
+	 */
 	public boolean isHasEnemy() {
 		return hasEnemy;
 	}
 
 
+	/**
+	 * Sets the checks for enemy.
+	 *
+	 * @param hasEnemy the new checks for enemy
+	 */
 	public void setHasEnemy(boolean hasEnemy) {
 		this.hasEnemy = hasEnemy;
 	}

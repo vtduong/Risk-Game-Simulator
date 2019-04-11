@@ -18,8 +18,9 @@ import utilities.MapValidatorTest;
 import utilities.UtilTestSuite;
 
 /**
- * @author vanduong
+ * The Class TestSuite.
  *
+ * @author vanduong
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ControllerTest.class,
@@ -30,6 +31,7 @@ import utilities.UtilTestSuite;
 				DiceRollerTest.class,
 				MapParserTest.class,
 				MapValidatorTest.class,
+				TournamentModeTest.class,
 				MapTest.class})
 public class TestSuite {
 

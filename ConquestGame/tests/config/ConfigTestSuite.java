@@ -8,8 +8,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * @author vanduong
+ * The Class ConfigTestSuite.
  *
+ * @author vanduong
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ConfigTest.class })
