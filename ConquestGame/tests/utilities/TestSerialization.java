@@ -71,7 +71,7 @@ public class TestSerialization {
 			e.printStackTrace();
 		}
 	
-		//assertEquals(Phase.ATTACK, savedController.getCurrentPhase());
+		assertEquals(Phase.ATTACK, savedController.currentPhase);
 		
 	}
 	
@@ -82,12 +82,13 @@ public class TestSerialization {
 	public void testLoading() {
 		GameInit savedController = null;
 		try {
+			saver.save();
 			savedController = saver.load();
 		} catch (ClassNotFoundException | IOException | MapInvalidException e) {
 			e.printStackTrace();
 		}
 		
-		assertEquals("gamer1", controller.getCurrentPlayer().getPlayerName());
+		assertEquals("gamer1", savedController.currentPlayer.getPlayerName());
 	}
 
 }
